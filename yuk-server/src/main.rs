@@ -3,13 +3,17 @@ mod msg_server;
 
 use log::info;
 use msg_handler::MsgHandler;
+use std::{env, net::SocketAddr};
 use tokio::net::TcpListener;
 
 #[tokio::main]
 async fn main() {
     env_logger::init();
 
-    let addr = "127.0.0.1:9009";
+    let addr = env::var("YUK_ADDR")
+        .expect("can't interpret $YUK_ADDR")
+        .parse::<SocketAddr>()
+        .expect("invalid socket address");
     let listener = TcpListener::bind(&addr).await.expect("can't listen");
     info!("listening on: {}", addr);
 
