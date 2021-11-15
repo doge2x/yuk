@@ -1,6 +1,8 @@
-mod server;
+mod msg_handler;
+mod msg_server;
 
 use log::info;
+use msg_handler::MsgHandler;
 use tokio::net::TcpListener;
 
 #[tokio::main]
@@ -11,16 +13,16 @@ async fn main() {
     let listener = TcpListener::bind(&addr).await.expect("can't listen");
     info!("listening on: {}", addr);
 
-    let (mut server, channel) = server::new_server(16);
+    let (mut server, channel) = msg_server::new_server(16);
 
     tokio::spawn(async move {
         server.serve().await;
     });
 
     while let Ok((stream, _)) = listener.accept().await {
-        let mut msg_server = channel.connect(stream).await;
+        let conn = channel.connect(stream).await;
         tokio::spawn(async move {
-            msg_server.serve().await;
+            MsgHandler::new(conn).serve().await;
         });
     }
 }
