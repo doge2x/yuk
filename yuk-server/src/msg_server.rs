@@ -45,7 +45,7 @@ impl MsgServer {
                     info!("connection created: {}", id);
                     self.pool.insert(id, ws_tx);
                 }
-                MsgType::WsMsgReceived { msg } => {
+                MsgType::TextReceived { text: msg } => {
                     for (id, ws_tx) in &mut self.pool {
                         ws_tx
                             .send(Message::text(format!("{{id: {}, msg: {}}}", id, msg)))
@@ -117,24 +117,25 @@ pub struct Connection {
 impl Connection {
     /// Wait for a message from the client, this will also forwards the message to the center.
     /// Connection will be closed when error occurs or the connected socket is closed.
-    pub async fn recv_msg(&mut self) -> Option<Message> {
+    pub async fn recv_msg(&mut self) -> Option<String> {
         match self.ws_rx.next().await {
             Some(Ok(msg)) => {
-                // Forward to the message center.
-                let ty = MsgType::WsMsgReceived { msg: msg.clone() };
-                self.msg_tx.send_msg(Msg { id: self.id, ty }).await;
-                Some(msg)
+                match msg {
+                    // Forward text to the message center.
+                    Message::Text(text) => {
+                        let ty = MsgType::TextReceived { text: text.clone() };
+                        self.msg_tx.send_msg(Msg { id: self.id, ty }).await;
+                        return Some(text);
+                    }
+                    Message::Close(_) => (),
+                    _ => error!("unexpected message type: {}", self.id),
+                }
             }
-            Some(Err(e)) => {
-                log_ws_error(self.id, e);
-                self.close().await;
-                None
-            }
-            None => {
-                self.close().await;
-                None
-            }
-        }
+            Some(Err(e)) => log_ws_error(self.id, e),
+            _ => (),
+        };
+        self.close().await;
+        None
     }
 
     async fn close(&mut self) {
@@ -152,7 +153,7 @@ struct Msg {
 #[derive(Debug)]
 enum MsgType {
     ConnCreated { ws_tx: WsTx },
-    WsMsgReceived { msg: Message },
+    TextReceived { text: String },
     ConnClosed,
 }
 
