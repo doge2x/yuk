@@ -1,3 +1,4 @@
+use crate::msg::WsMsg;
 use anyhow::{anyhow, Result};
 use futures_util::{
     stream::{SplitSink, SplitStream},
@@ -116,15 +117,20 @@ pub struct Connection {
 impl Connection {
     /// Wait for a message from the client, this will also forwards the message to the center.
     /// Connection will be closed when error occurs or the connected socket is closed.
-    pub async fn recv_msg(&mut self) -> Option<String> {
+    pub async fn recv_msg(&mut self) -> Option<WsMsg> {
         while let Some(res) = self.ws_rx.next().await {
             match res {
                 Ok(msg) => {
                     // Handle text message.
                     if let Message::Text(text) = msg {
-                        let ty = MsgType::TextReceived { text: text.clone() };
-                        self.msg_tx.send_msg(Msg { id: self.id, ty }).await;
-                        return Some(text);
+                        match serde_json::from_str::<WsMsg>(&text) {
+                            Ok(ws_msg) => {
+                                let ty = MsgType::TextReceived { text: text.clone() };
+                                self.msg_tx.send_msg(Msg { id: self.id, ty }).await;
+                                return Some(ws_msg);
+                            }
+                            Err(e) => error!("deserialize message ({}): {}", self.id, e),
+                        }
                     }
                 }
                 Err(e) => error!("receive message ({}): {}", self.id, e),
