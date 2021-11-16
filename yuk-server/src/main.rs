@@ -1,3 +1,4 @@
+mod msg;
 mod msg_handler;
 mod msg_server;
 
