@@ -1,7 +1,7 @@
 mod msg_handler;
 mod msg_server;
 
-use log::info;
+use log::{error, info};
 use msg_handler::MsgHandler;
 use std::{env, net::SocketAddr};
 use tokio::net::TcpListener;
@@ -15,7 +15,7 @@ async fn main() {
         .parse::<SocketAddr>()
         .expect("invalid socket address");
     let listener = TcpListener::bind(&addr).await.expect("can't listen");
-    info!("listening on: {}", addr);
+    info!("listen on: {}", addr);
 
     let (mut server, channel) = msg_server::new_server(16);
 
@@ -24,9 +24,13 @@ async fn main() {
     });
 
     while let Ok((stream, _)) = listener.accept().await {
-        let conn = channel.connect(stream).await;
-        tokio::spawn(async move {
-            MsgHandler::new(conn).serve().await;
-        });
+        match channel.connect(stream).await {
+            Ok(conn) => {
+                tokio::spawn(async move {
+                    MsgHandler::new(conn).serve().await;
+                });
+            }
+            Err(e) => error!("{}", e),
+        }
     }
 }
