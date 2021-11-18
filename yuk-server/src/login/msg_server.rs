@@ -1,52 +1,47 @@
-use crate::msg::WsMsg;
-use anyhow::{anyhow, Result};
-use futures_util::{
+use super::{SharedState, State, WsMsg};
+use axum::extract::ws::{Message, WebSocket};
+use futures::{
     stream::{SplitSink, SplitStream},
     SinkExt, StreamExt,
 };
 use log::{error, info};
-use std::{collections::HashMap, net::SocketAddr};
-use tokio::{net::TcpStream, sync::mpsc};
-use tokio_tungstenite::{accept_async, tungstenite::Message, WebSocketStream};
+use sqlx::PgPool;
+use std::{collections::HashMap, net::SocketAddr, sync::Arc};
+use tokio::sync::mpsc;
 
-type WsTx = SplitSink<WebSocketStream<TcpStream>, Message>;
-type WsRx = SplitStream<WebSocketStream<TcpStream>>;
+type WsTx = SplitSink<WebSocket, Message>;
+type WsRx = SplitStream<WebSocket>;
 
-pub fn new_server(buffer: usize) -> (MsgServer, Channel) {
+pub fn msg_server(buffer: usize, pool: Arc<PgPool>) -> (MsgServer, SharedState) {
     let (tx, rx) = mpsc::channel(buffer);
-    let server = MsgServer::new(rx);
-    let channel = Channel::new(MsgSender(tx));
-    (server, channel)
+    let receiver = MsgServer(rx);
+    let state = State {
+        pool,
+        port: Port::new(MsgSender(tx)),
+    };
+    (receiver, SharedState(Arc::new(state)))
 }
 
-/// Central message server which forwards all received messages to each connection.
-pub struct MsgServer {
-    rx: mpsc::Receiver<Msg>,
-    pool: HashMap<SocketAddr, WsTx>,
-}
+pub struct MsgServer(mpsc::Receiver<Msg>);
 
 impl MsgServer {
-    fn new(rx: mpsc::Receiver<Msg>) -> Self {
-        Self {
-            rx,
-            pool: HashMap::new(),
-        }
-    }
-
-    pub async fn serve(&mut self) {
+    pub async fn serve(self) {
         info!("start server");
 
-        while let Some(msg) = self.rx.recv().await {
+        let Self(mut rx) = self;
+        let mut pool = HashMap::new();
+
+        while let Some(msg) = rx.recv().await {
             let Msg { ty, id } = msg;
             match ty {
                 MsgType::ConnCreated { ws_tx } => {
                     info!("connection created ({})", id);
-                    self.pool.insert(id, ws_tx);
+                    pool.insert(id, ws_tx);
                 }
                 MsgType::TextReceived { text: msg } => {
-                    for (id, ws_tx) in &mut self.pool {
+                    for (id, ws_tx) in &mut pool {
                         if let Err(e) = ws_tx
-                            .send(Message::text(format!("{{id: {}, msg: {}}}", id, msg)))
+                            .send(Message::Text(format!("{{id: {}, msg: {}}}", id, msg)))
                             .await
                         {
                             error!("send message ({}): {}", id, e);
@@ -55,7 +50,7 @@ impl MsgServer {
                 }
                 MsgType::ConnClosed => {
                     info!("connection closed ({})", id);
-                    self.pool.remove(&id);
+                    pool.remove(&id);
                 }
             }
         }
@@ -74,33 +69,25 @@ impl MsgSender {
     }
 }
 
-pub struct Channel {
+pub(super) struct Port {
     tx: MsgSender,
 }
 
-impl Channel {
+impl Port {
     fn new(tx: MsgSender) -> Self {
         Self { tx }
     }
 
-    pub async fn connect(&self, stream: TcpStream) -> Result<Connection> {
-        let peer = stream
-            .peer_addr()
-            .map_err(|e| anyhow!("peer address of connected stream: {}", e))?;
-        info!("peer address: {}", peer);
-
-        let (ws_tx, ws_rx) = accept_async(stream)
-            .await
-            .map_err(|e| anyhow!("accept websocket stream ({}): {}", peer, e))?
-            .split();
+    pub async fn connect(&self, addr: SocketAddr, socket: WebSocket) -> anyhow::Result<Connection> {
+        let (ws_tx, ws_rx) = socket.split();
 
         // Announce the creation of this connection
         let ty = MsgType::ConnCreated { ws_tx };
-        self.tx.send_msg(Msg { id: peer, ty }).await;
+        self.tx.send_msg(Msg { id: addr, ty }).await;
 
         // Create a new sender
         Ok(Connection {
-            id: peer,
+            id: addr,
             ws_rx,
             msg_tx: self.tx.clone(),
         })
@@ -108,7 +95,7 @@ impl Channel {
 }
 
 /// A websocket connection.
-pub struct Connection {
+pub(super) struct Connection {
     id: SocketAddr,
     ws_rx: WsRx,
     msg_tx: MsgSender,

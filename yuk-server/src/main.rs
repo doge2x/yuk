@@ -1,44 +1,35 @@
-mod msg;
-mod msg_handler;
-mod msg_server;
+mod login;
 
-use log::{error, info};
-use msg_handler::MsgHandler;
+use axum::{routing::get, AddExtensionLayer, Router};
 use sqlx::PgPool;
 use std::{env, net::SocketAddr, sync::Arc};
-use tokio::net::TcpListener;
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
     dotenv::dotenv().ok();
     env_logger::init();
 
-    let pool = Arc::new(PgPool::connect(&env::var("DATABASE_URL")?).await?);
+    // Collect env.
+    let addr = env::var("YUK_ADDR")?.parse::<SocketAddr>()?;
+    let db_url = env::var("DATABASE_URL")?;
 
-    let addr = env::var("YUK_ADDR")
-        .expect("can't interpret $YUK_ADDR")
-        .parse::<SocketAddr>()
-        .expect("invalid socket address");
-    let listener = TcpListener::bind(&addr).await.expect("can't listen");
-    info!("listen on: {}", addr);
+    // Connect to SQL server.
+    let pool = Arc::new(PgPool::connect(&db_url).await?);
 
-    let (mut server, channel) = msg_server::new_server(16);
-
+    // Init center message server.
+    let (receiver, login_state) = login::msg_server(128, pool.clone());
     tokio::spawn(async move {
-        server.serve().await;
+        receiver.serve().await;
     });
 
-    while let Ok((stream, _)) = listener.accept().await {
-        match channel.connect(stream).await {
-            Ok(conn) => {
-                let mut handler = MsgHandler::new(conn, pool.clone());
-                tokio::spawn(async move {
-                    handler.serve().await;
-                });
-            }
-            Err(e) => error!("{}", e),
-        }
-    }
+    let app = Router::new()
+        .route("/login", get(login::login))
+        .layer(AddExtensionLayer::new(login_state));
+
+    // Start server.
+    axum::Server::bind(&addr)
+        .serve(app.into_make_service_with_connect_info::<SocketAddr, _>())
+        .await?;
 
     Ok(())
 }

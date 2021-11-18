@@ -29,7 +29,7 @@ const connections = new Map();
 
 function newWs(id: number): Promise<WebSocket> {
   return new Promise((resolve, _) => {
-    const ws = new WebSocket(YUK_ADDR);
+    const ws = new WebSocket(`ws://${YUK_ADDR}/login`);
     // ws.onmessage = (e) => console.log(e.data);
     ws.onclose = () => console.log(`#${id} closed, ${connections.size} left`);
     ws.onopen = (_) => resolve(ws);

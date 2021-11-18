@@ -6,8 +6,8 @@ license = "MIT OR Apache-2.0"
 
 [dependencies]
 tokio = { version = "1.13", features = ["full"] }
-futures-util = "0.3"
-tokio-tungstenite = "0.16"
+futures = "0.3"
+# TODO: use tracing instead of log
 log = "0.4"
 env_logger = "0.9"
 anyhow = "1.0"
@@ -19,3 +19,4 @@ sqlx = { version = "0.5", features = [
     "json",
 ] }
 dotenv = "0.15"
+axum = { version = "0.3", features = ["ws"] }
