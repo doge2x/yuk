@@ -24,7 +24,7 @@ async fn main() -> anyhow::Result<()> {
 
     let app = Router::new()
         .route("/login", get(login::login))
-        .layer(AddExtensionLayer::new(login_state));
+        .layer(AddExtensionLayer::new(Arc::new(login_state)));
 
     // Start server.
     axum::Server::bind(&addr)
