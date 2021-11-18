@@ -4,12 +4,16 @@ mod msg_server;
 
 use log::{error, info};
 use msg_handler::MsgHandler;
-use std::{env, net::SocketAddr};
+use sqlx::PgPool;
+use std::{env, net::SocketAddr, sync::Arc};
 use tokio::net::TcpListener;
 
 #[tokio::main]
-async fn main() {
+async fn main() -> anyhow::Result<()> {
+    dotenv::dotenv().ok();
     env_logger::init();
+
+    let pool = Arc::new(PgPool::connect(&env::var("DATABASE_URL")?).await?);
 
     let addr = env::var("YUK_ADDR")
         .expect("can't interpret $YUK_ADDR")
@@ -27,11 +31,14 @@ async fn main() {
     while let Ok((stream, _)) = listener.accept().await {
         match channel.connect(stream).await {
             Ok(conn) => {
+                let mut handler = MsgHandler::new(conn, pool.clone());
                 tokio::spawn(async move {
-                    MsgHandler::new(conn).serve().await;
+                    handler.serve().await;
                 });
             }
             Err(e) => error!("{}", e),
         }
     }
+
+    Ok(())
 }

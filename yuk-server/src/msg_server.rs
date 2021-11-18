@@ -115,6 +115,10 @@ pub struct Connection {
 }
 
 impl Connection {
+    pub fn id(&self) -> &SocketAddr {
+        &self.id
+    }
+
     /// Wait for a message from the client, this will also forwards the message to the center.
     /// Connection will be closed when error occurs or the connected socket is closed.
     pub async fn recv_msg(&mut self) -> Option<WsMsg> {

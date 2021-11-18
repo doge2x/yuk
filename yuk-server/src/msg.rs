@@ -12,6 +12,6 @@ pub struct WsMsg {
 #[derive(Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Answer {
-    pub problem_id: usize,
+    pub problem_id: i64,
     pub result: Value,
 }
