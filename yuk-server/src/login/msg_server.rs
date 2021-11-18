@@ -1,4 +1,4 @@
-use super::{SharedState, State, WsMsg};
+use super::{State, WsMsg};
 use axum::extract::ws::{Message, WebSocket};
 use futures::{
     stream::{SplitSink, SplitStream},
@@ -12,14 +12,14 @@ use tokio::sync::mpsc;
 type WsTx = SplitSink<WebSocket, Message>;
 type WsRx = SplitStream<WebSocket>;
 
-pub fn msg_server(buffer: usize, pool: Arc<PgPool>) -> (MsgServer, SharedState) {
+pub fn msg_server(buffer: usize, pool: Arc<PgPool>) -> (MsgServer, State) {
     let (tx, rx) = mpsc::channel(buffer);
     let receiver = MsgServer(rx);
     let state = State {
         pool,
         port: Port::new(MsgSender(tx)),
     };
-    (receiver, SharedState(Arc::new(state)))
+    (receiver, state)
 }
 
 pub struct MsgServer(mpsc::Receiver<Msg>);
