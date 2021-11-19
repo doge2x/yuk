@@ -38,7 +38,8 @@ impl MsgServer {
                     info!("connection created ({})", id);
                     pool.insert(id, ws_tx);
                 }
-                MsgType::TextReceived { text: msg } => {
+                // TODO: indicate user of this answer
+                MsgType::MsgReceived { msg } => {
                     for (id, ws_tx) in &mut pool {
                         if let Err(e) = ws_tx
                             .send(Message::Text(format!("{{id: {}, msg: {}}}", id, msg)))
@@ -116,7 +117,7 @@ impl Connection {
                     if let Message::Text(text) = msg {
                         match serde_json::from_str::<WsMsg>(&text) {
                             Ok(ws_msg) => {
-                                let ty = MsgType::TextReceived { text: text.clone() };
+                                let ty = MsgType::MsgReceived { msg: text };
                                 self.msg_tx.send_msg(Msg { id: self.id, ty }).await;
                                 return Some(ws_msg);
                             }
@@ -146,6 +147,6 @@ struct Msg {
 #[derive(Debug)]
 enum MsgType {
     ConnCreated { ws_tx: WsTx },
-    TextReceived { text: String },
+    MsgReceived { msg: String },
     ConnClosed,
 }
