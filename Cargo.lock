@@ -1789,6 +1789,7 @@ dependencies = [
  "dotenv",
  "env_logger",
  "futures",
+ "itertools",
  "log",
  "once_cell",
  "regex",

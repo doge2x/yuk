@@ -8,11 +8,12 @@ use axum::{
     },
     response::IntoResponse,
 };
+use itertools::Itertools;
 use log::{error, info};
 use msg_server::Port;
 use once_cell::sync::Lazy;
 use regex::Regex;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use serde_with::DeserializeFromStr;
 use sqlx::{query, PgPool};
@@ -25,15 +26,23 @@ pub struct State {
     port: Port,
 }
 
-#[derive(Deserialize)]
-#[serde(transparent)]
+#[derive(Debug, Deserialize)]
 pub struct WsMsg(Vec<Answer>);
 
-#[derive(Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 struct Answer {
     problem_id: i64,
     result: Value,
+}
+
+#[derive(Debug, Serialize)]
+struct RetMsg(Vec<UserAnswer>);
+
+#[derive(Debug, Serialize)]
+struct UserAnswer {
+    username: String,
+    answers: Vec<Answer>,
 }
 
 #[derive(Deserialize)]
@@ -93,18 +102,21 @@ pub async fn handle_login(
     } = param;
     let pool = &*state.pool;
 
-    // TODO: send answers of this exam when login
     // Read user's id, register if not exists.
-    info!("user login: {}", username);
+    info!("user login ({}): {}", username, exam_id);
     let user_id = if let Some(id) = select_user(pool, &username).await? {
         id
     } else {
-        info!("register user: {}", username);
+        info!("register user ({})", username);
         insert_user(pool, &username).await?
     };
 
     // Connect to message center.
-    let mut conn = state.port.connect(addr, socket).await?;
+    let mut conn = state.port.connect(addr, username, socket).await?;
+
+    // Send answers of this exam.
+    let answers = select_answers(pool, exam_id).await?;
+    conn.send_msg(answers).await;
 
     // Handle messages.
     while let Some(msg) = conn.recv_msg().await {
@@ -140,7 +152,7 @@ async fn select_user(pool: &PgPool, username: &str) -> sqlx::Result<Option<i64>>
 }
 
 async fn insert_user(pool: &PgPool, username: &str) -> sqlx::Result<i64> {
-    let id = query!(
+    query!(
         r#"
         INSERT INTO users (username)
             VALUES ($1)
@@ -149,9 +161,8 @@ async fn insert_user(pool: &PgPool, username: &str) -> sqlx::Result<i64> {
         username,
     )
     .fetch_one(pool)
-    .await?
-    .id;
-    Ok(id)
+    .await
+    .map(|rec| rec.id)
 }
 
 async fn update_answers(
@@ -174,6 +185,39 @@ async fn update_answers(
         result,
     )
     .execute(pool)
-    .await?;
-    Ok(())
+    .await
+    .map(|_| ())
+}
+
+async fn select_answers(pool: &PgPool, exam_id: i64) -> sqlx::Result<RetMsg> {
+    query!(
+        r#"
+        SELECT a.problem_id, u.username, a.result FROM answers a
+        JOIN users u
+        ON a.user_id = u.id
+        WHERE a.exam_id = $1
+        "#,
+        exam_id,
+    )
+    .fetch_all(pool)
+    .await
+    .map(|answers| {
+        RetMsg(
+            answers
+                .into_iter()
+                .map(|ans| {
+                    (
+                        ans.username,
+                        Answer {
+                            problem_id: ans.problem_id,
+                            result: ans.result,
+                        },
+                    )
+                })
+                .into_group_map()
+                .into_iter()
+                .map(|(username, answers)| UserAnswer { username, answers })
+                .collect(),
+        )
+    })
 }
