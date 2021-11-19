@@ -26,11 +26,8 @@ pub struct State {
 }
 
 #[derive(Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct WsMsg {
-    exam_id: String,
-    answers: Vec<Answer>,
-}
+#[serde(transparent)]
+pub struct WsMsg(Vec<Answer>);
 
 #[derive(Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -39,10 +36,10 @@ struct Answer {
     result: Value,
 }
 
-// TODO: require exam_id
 #[derive(Deserialize)]
 pub struct Param {
     username: Username,
+    exam_id: i64,
 }
 
 #[derive(DeserializeFromStr)]
@@ -92,9 +89,11 @@ pub async fn handle_login(
 ) -> anyhow::Result<()> {
     let Param {
         username: Username(username),
+        exam_id,
     } = param;
     let pool = &*state.pool;
 
+    // TODO: send answers of this exam when login
     // Read user's id, register if not exists.
     info!("user login: {}", username);
     let user_id = if let Some(id) = select_user(pool, &username).await? {
@@ -109,7 +108,7 @@ pub async fn handle_login(
 
     // Handle messages.
     while let Some(msg) = conn.recv_msg().await {
-        if let Err(e) = handle_msg(pool, user_id, msg).await {
+        if let Err(e) = handle_msg(pool, user_id, exam_id, msg).await {
             error!("handle message ({}): {}", conn.id(), e);
         }
     }
@@ -117,10 +116,11 @@ pub async fn handle_login(
     Ok(())
 }
 
-async fn handle_msg(pool: &PgPool, user_id: i64, msg: WsMsg) -> anyhow::Result<()> {
-    for ans in msg.answers {
+async fn handle_msg(pool: &PgPool, user_id: i64, exam_id: i64, msg: WsMsg) -> anyhow::Result<()> {
+    let WsMsg(msg) = msg;
+    for ans in msg {
         // Update answers.
-        update_answers(pool, &msg.exam_id, ans.problem_id, user_id, ans.result).await?;
+        update_answers(pool, user_id, exam_id, ans.problem_id, ans.result).await?;
     }
     Ok(())
 }
@@ -142,8 +142,8 @@ async fn select_user(pool: &PgPool, username: &str) -> sqlx::Result<Option<i64>>
 async fn insert_user(pool: &PgPool, username: &str) -> sqlx::Result<i64> {
     let id = query!(
         r#"
-        INSERT INTO users
-            VALUES (DEFAULT, $1)
+        INSERT INTO users (username)
+            VALUES ($1)
         RETURNING id
         "#,
         username,
@@ -156,25 +156,22 @@ async fn insert_user(pool: &PgPool, username: &str) -> sqlx::Result<i64> {
 
 async fn update_answers(
     pool: &PgPool,
-    exam_id: &str,
-    problem_id: i64,
     user_id: i64,
-    answers: Value,
+    exam_id: i64,
+    problem_id: i64,
+    result: Value,
 ) -> sqlx::Result<()> {
     query!(
         r#"
-        UPDATE answers
-        SET
-            answers = $1
-        WHERE
-            exam_id = $2
-            AND problem_id = $3
-            AND user_id = $4
+        INSERT INTO answers (exam_id, problem_id, user_id, result)
+            VALUES ($1, $2, $3, $4)
+        ON CONFLICT ON CONSTRAINT answer_unique DO UPDATE
+            SET result = $4
         "#,
-        answers,
         exam_id,
         problem_id,
         user_id,
+        result,
     )
     .execute(pool)
     .await?;
