@@ -1,4 +1,4 @@
-use super::{State, WsMsg};
+use super::{RetMsg, State, WsMsg};
 use axum::extract::ws::{Message, WebSocket};
 use futures::{
     stream::{SplitSink, SplitStream},
@@ -28,30 +28,52 @@ impl MsgServer {
     pub async fn serve(self) {
         info!("start server");
 
+        struct Conn {
+            ws_tx: WsTx,
+            username: String,
+        }
+
         let Self(mut rx) = self;
         let mut pool = HashMap::new();
 
         while let Some(msg) = rx.recv().await {
             let Msg { ty, id } = msg;
             match ty {
-                MsgType::ConnCreated { ws_tx } => {
+                MsgType::ConnCreated { ws_tx, username } => {
                     info!("connection created ({})", id);
-                    pool.insert(id, ws_tx);
+                    pool.insert(id, Conn { ws_tx, username });
                 }
-                // TODO: indicate user of this answer
                 MsgType::MsgReceived { msg } => {
-                    for (id, ws_tx) in &mut pool {
-                        if let Err(e) = ws_tx
-                            .send(Message::Text(format!("{{id: {}, msg: {}}}", id, msg)))
+                    for (id, conn) in &mut pool {
+                        if let Err(e) = conn
+                            .ws_tx
+                            .send(Message::Text(format!(
+                                r#"[{{"username":"{}","answers":{}}}]"#,
+                                conn.username, msg
+                            )))
                             .await
                         {
                             error!("send message ({}): {}", id, e);
                         }
                     }
                 }
+                MsgType::MsgReturn { ret_msg } => match serde_json::to_string(&ret_msg) {
+                    Ok(msg) => {
+                        if let Err(e) = pool
+                            .get_mut(&id)
+                            .unwrap()
+                            .ws_tx
+                            .send(Message::Text(msg))
+                            .await
+                        {
+                            error!("send message ({}): {}", id, e)
+                        }
+                    }
+                    Err(e) => error!("serialize message ({}): {}", id, e),
+                },
                 MsgType::ConnClosed => {
                     info!("connection closed ({})", id);
-                    pool.remove(&id);
+                    pool.remove(&id).unwrap();
                 }
             }
         }
@@ -79,11 +101,16 @@ impl Port {
         Self { tx }
     }
 
-    pub async fn connect(&self, addr: SocketAddr, socket: WebSocket) -> anyhow::Result<Connection> {
+    pub async fn connect(
+        &self,
+        addr: SocketAddr,
+        username: String,
+        socket: WebSocket,
+    ) -> anyhow::Result<Connection> {
         let (ws_tx, ws_rx) = socket.split();
 
         // Announce the creation of this connection
-        let ty = MsgType::ConnCreated { ws_tx };
+        let ty = MsgType::ConnCreated { ws_tx, username };
         self.tx.send_msg(Msg { id: addr, ty }).await;
 
         // Create a new sender
@@ -105,6 +132,11 @@ pub(super) struct Connection {
 impl Connection {
     pub fn id(&self) -> &SocketAddr {
         &self.id
+    }
+
+    pub async fn send_msg(&mut self, ret_msg: RetMsg) {
+        let ty = MsgType::MsgReturn { ret_msg };
+        self.msg_tx.send_msg(Msg { id: self.id, ty }).await;
     }
 
     /// Wait for a message from the client, this will also forwards the message to the center.
@@ -146,7 +178,8 @@ struct Msg {
 
 #[derive(Debug)]
 enum MsgType {
-    ConnCreated { ws_tx: WsTx },
+    ConnCreated { ws_tx: WsTx, username: String },
     MsgReceived { msg: String },
+    MsgReturn { ret_msg: RetMsg },
     ConnClosed,
 }
