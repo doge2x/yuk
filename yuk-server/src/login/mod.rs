@@ -30,7 +30,6 @@ pub struct State {
 pub struct WsMsg(Vec<Answer>);
 
 #[derive(Debug, Deserialize, Serialize)]
-#[serde(rename_all = "camelCase")]
 struct Answer {
     problem_id: i64,
     result: Value,
