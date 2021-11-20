@@ -1,0 +1,19 @@
+{
+  "fmt": {
+    "files": {
+      "exclude": ["target", "dist"]
+    }
+  },
+  "lint": {
+    "files": {
+      "exclude": ["target", "dist"]
+    }
+  },
+  "compilerOptions": {
+    "lib": [
+      "deno.window",
+      "dom",
+      "es6"
+    ]
+  }
+}
