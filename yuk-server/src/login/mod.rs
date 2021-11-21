@@ -26,10 +26,10 @@ pub struct State {
     port: Port,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Clone, Deserialize)]
 pub struct WsMsg(Vec<Answer>);
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 struct Answer {
     problem_id: i64,
     result: Value,
@@ -57,7 +57,7 @@ impl FromStr for Username {
     type Err = anyhow::Error;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        static RE: Lazy<Regex> = Lazy::new(|| Regex::new(r"[[:alpha:]][[:word:]]+").unwrap());
+        static RE: Lazy<Regex> = Lazy::new(|| Regex::new(r"[_a-zA-Z]\w+").unwrap());
 
         if s.is_empty() {
             bail!("name is empty")
