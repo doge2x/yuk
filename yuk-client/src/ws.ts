@@ -1,4 +1,4 @@
-import { MsgReceive, MsgSend } from "./msg.ts";
+import { MsgReceive, MsgSend } from "./types.ts";
 
 export class Connection {
   ws: WebSocket;
@@ -7,7 +7,7 @@ export class Connection {
     this.ws = ws;
   }
 
-  static new(addr: string): Promise<Connection> {
+  static connect(addr: string): Promise<Connection> {
     return new Promise((resolve, reject) => {
       const ws = new WebSocket(addr);
       ws.onerror = (e) => reject(e);

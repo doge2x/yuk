@@ -1,5 +1,5 @@
 export function injectLoginButton(onClick: () => void) {
-  document.querySelectorAll("div.header-title").forEach((header) => {
+  document.querySelectorAll(".header-title").forEach((header) => {
     const button = document.createElement("a");
     button.href = "javascript:void(0);";
     button.onclick = onClick;
