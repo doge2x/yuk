@@ -34,46 +34,49 @@ impl MsgServer {
         }
 
         let Self(mut rx) = self;
-        let mut pool = HashMap::new();
+        // Map: exam id => <Map: connection address => connection>
+        let mut connections: HashMap<i64, HashMap<SocketAddr, Conn>> = HashMap::new();
 
         while let Some(msg) = rx.recv().await {
-            let Msg { ty, id } = msg;
+            let Msg { ty, addr, exam_id } = msg;
             match ty {
                 MsgType::ConnCreated { ws_tx, username } => {
-                    info!("connection created ({})", id);
-                    pool.insert(id, Conn { ws_tx, username });
+                    info!("connection created ({})", addr);
+                    let conn = Conn { ws_tx, username };
+                    connections.entry(exam_id).or_default().insert(addr, conn);
                 }
-                MsgType::MsgReceived { msg } => {
-                    for (id, conn) in &mut pool {
-                        if let Err(e) = conn
-                            .ws_tx
-                            .send(Message::Text(format!(
-                                r#"[{{"username":"{}","answers":{}}}]"#,
-                                conn.username, msg
-                            )))
-                            .await
-                        {
+                // Broadcast answers to all connections of the exam;
+                MsgType::MsgBroadcast { msg } => {
+                    let exam = connections.get_mut(&exam_id).unwrap();
+                    let username = &exam.get(&addr).unwrap().username;
+                    let msg = format!(r#"[{{"username":"{}","answers":{}}}]"#, username, msg);
+                    for (id, conn) in exam {
+                        if let Err(e) = conn.ws_tx.send(Message::Text(msg.clone())).await {
                             error!("send message ({}): {}", id, e);
                         }
                     }
                 }
+                // Return a message to the connection.
                 MsgType::MsgReturn { ret_msg } => match serde_json::to_string(&ret_msg) {
                     Ok(msg) => {
-                        if let Err(e) = pool
-                            .get_mut(&id)
+                        let conn = connections
+                            .get_mut(&exam_id)
                             .unwrap()
-                            .ws_tx
-                            .send(Message::Text(msg))
-                            .await
-                        {
-                            error!("send message ({}): {}", id, e)
+                            .get_mut(&addr)
+                            .unwrap();
+                        if let Err(e) = conn.ws_tx.send(Message::Text(msg)).await {
+                            error!("send message ({}): {}", addr, e)
                         }
                     }
-                    Err(e) => error!("serialize message ({}): {}", id, e),
+                    Err(e) => error!("serialize message ({}): {}", addr, e),
                 },
                 MsgType::ConnClosed => {
-                    info!("connection closed ({})", id);
-                    pool.remove(&id).unwrap();
+                    info!("connection closed ({})", addr);
+                    connections
+                        .get_mut(&exam_id)
+                        .unwrap()
+                        .remove(&addr)
+                        .unwrap();
                 }
             }
         }
@@ -104,6 +107,7 @@ impl Port {
     pub async fn connect(
         &self,
         addr: SocketAddr,
+        exam_id: i64,
         username: String,
         socket: WebSocket,
     ) -> anyhow::Result<Connection> {
@@ -111,35 +115,38 @@ impl Port {
 
         // Announce the creation of this connection
         let ty = MsgType::ConnCreated { ws_tx, username };
-        self.tx.send_msg(Msg { id: addr, ty }).await;
-
-        // Create a new sender
-        Ok(Connection {
-            id: addr,
+        let conn = Connection {
+            addr,
+            exam_id,
             ws_rx,
             msg_tx: self.tx.clone(),
-        })
+        };
+        self.tx.send_msg(conn.msg(ty)).await;
+
+        // Create a new sender
+        Ok(conn)
     }
 }
 
 /// A websocket connection.
 pub(super) struct Connection {
-    id: SocketAddr,
+    addr: SocketAddr,
+    exam_id: i64,
     ws_rx: WsRx,
     msg_tx: MsgSender,
 }
 
 impl Connection {
     pub fn id(&self) -> &SocketAddr {
-        &self.id
+        &self.addr
     }
 
     pub async fn send_msg(&mut self, ret_msg: RetMsg) {
         let ty = MsgType::MsgReturn { ret_msg };
-        self.msg_tx.send_msg(Msg { id: self.id, ty }).await;
+        self.msg_tx.send_msg(self.msg(ty)).await;
     }
 
-    /// Wait for a message from the client, this will also forwards the message to the center.
+    /// Wait for a message from the client, this will also broadcast the message to others.
     /// Connection will be closed when error occurs or the connected socket is closed.
     pub async fn recv_msg(&mut self) -> Option<WsMsg> {
         while let Some(res) = self.ws_rx.next().await {
@@ -149,15 +156,15 @@ impl Connection {
                     if let Message::Text(text) = msg {
                         match serde_json::from_str::<WsMsg>(&text) {
                             Ok(ws_msg) => {
-                                let ty = MsgType::MsgReceived { msg: text };
-                                self.msg_tx.send_msg(Msg { id: self.id, ty }).await;
+                                let ty = MsgType::MsgBroadcast { msg: text };
+                                self.msg_tx.send_msg(self.msg(ty)).await;
                                 return Some(ws_msg);
                             }
-                            Err(e) => error!("deserialize message ({}): {}", self.id, e),
+                            Err(e) => error!("deserialize message ({}): {}", self.addr, e),
                         }
                     }
                 }
-                Err(e) => error!("receive message ({}): {}", self.id, e),
+                Err(e) => error!("receive message ({}): {}", self.addr, e),
             }
         }
         self.close().await;
@@ -166,20 +173,29 @@ impl Connection {
 
     async fn close(&mut self) {
         let ty = MsgType::ConnClosed;
-        self.msg_tx.send_msg(Msg { id: self.id, ty }).await;
+        self.msg_tx.send_msg(self.msg(ty)).await;
+    }
+
+    fn msg(&self, ty: MsgType) -> Msg {
+        Msg {
+            addr: self.addr,
+            exam_id: self.exam_id,
+            ty,
+        }
     }
 }
 
 #[derive(Debug)]
 struct Msg {
-    id: SocketAddr,
+    addr: SocketAddr,
+    exam_id: i64,
     ty: MsgType,
 }
 
 #[derive(Debug)]
 enum MsgType {
     ConnCreated { ws_tx: WsTx, username: String },
-    MsgReceived { msg: String },
+    MsgBroadcast { msg: String },
     MsgReturn { ret_msg: RetMsg },
     ConnClosed,
 }

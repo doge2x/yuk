@@ -20,7 +20,8 @@ function randomId(): number {
 const EXAM_ID = randomId();
 
 interface Answer {
-  problemId: number;
+  // deno-lint-ignore camelcase
+  problem_id: number;
   // deno-lint-ignore no-explicit-any
   result: any;
 }
@@ -38,7 +39,7 @@ class WsMsg {
     const answers = [];
     for (const [k, v] of this.inner.entries()) {
       answers.push({
-        problemId: k,
+        problem_id: k,
         result: v,
       });
     }
