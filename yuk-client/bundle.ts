@@ -22,7 +22,7 @@ esbuild
     entryPoints: [input],
     banner: { js: banner },
     bundle: true,
-    outfile: `${outputDir}/${pkg.name}.js`,
+    outfile: `${outputDir}/${pkg.name}.user.js`,
   });
 
 await esbuild
@@ -31,7 +31,7 @@ await esbuild
     banner: { js: banner },
     minify: true,
     bundle: true,
-    outfile: `${outputDir}/${pkg.name}.min.js`,
+    outfile: `${outputDir}/${pkg.name}.min.user.js`,
   });
 
 esbuild.stop();
