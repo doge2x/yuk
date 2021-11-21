@@ -49,7 +49,13 @@ impl MsgServer {
                 MsgType::MsgBroadcast { msg } => {
                     let exam = connections.get_mut(&exam_id).unwrap();
                     let username = &exam.get(&addr).unwrap().username;
-                    let msg = format!(r#"[{{"username":"{}","answers":{}}}]"#, username, msg);
+                    let msg = {
+                        format!(
+                            r#"[{{"username":"{}","answers":{}}}]"#,
+                            username,
+                            serde_json::to_string(&msg.0).unwrap()
+                        )
+                    };
                     for (id, conn) in exam {
                         if let Err(e) = conn.ws_tx.send(Message::Text(msg.clone())).await {
                             error!("send message ({}): {}", id, e);
@@ -57,19 +63,17 @@ impl MsgServer {
                     }
                 }
                 // Return a message to the connection.
-                MsgType::MsgReturn { ret_msg } => match serde_json::to_string(&ret_msg) {
-                    Ok(msg) => {
-                        let conn = connections
-                            .get_mut(&exam_id)
-                            .unwrap()
-                            .get_mut(&addr)
-                            .unwrap();
-                        if let Err(e) = conn.ws_tx.send(Message::Text(msg)).await {
-                            error!("send message ({}): {}", addr, e)
-                        }
+                MsgType::MsgReturn { ret_msg } => {
+                    let conn = connections
+                        .get_mut(&exam_id)
+                        .unwrap()
+                        .get_mut(&addr)
+                        .unwrap();
+                    let msg = Message::Text(serde_json::to_string(&ret_msg).unwrap());
+                    if let Err(e) = conn.ws_tx.send(msg).await {
+                        error!("send message ({}): {}", addr, e)
                     }
-                    Err(e) => error!("serialize message ({}): {}", addr, e),
-                },
+                }
                 MsgType::ConnClosed => {
                     info!("connection closed ({})", addr);
                     connections
@@ -156,7 +160,9 @@ impl Connection {
                     if let Message::Text(text) = msg {
                         match serde_json::from_str::<WsMsg>(&text) {
                             Ok(ws_msg) => {
-                                let ty = MsgType::MsgBroadcast { msg: text };
+                                let ty = MsgType::MsgBroadcast {
+                                    msg: ws_msg.clone(),
+                                };
                                 self.msg_tx.send_msg(self.msg(ty)).await;
                                 return Some(ws_msg);
                             }
@@ -195,7 +201,7 @@ struct Msg {
 #[derive(Debug)]
 enum MsgType {
     ConnCreated { ws_tx: WsTx, username: String },
-    MsgBroadcast { msg: String },
+    MsgBroadcast { msg: WsMsg },
     MsgReturn { ret_msg: RetMsg },
     ConnClosed,
 }

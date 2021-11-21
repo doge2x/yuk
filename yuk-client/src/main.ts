@@ -1,6 +1,8 @@
-import { listenXhrOnLoad } from "./xhr.js";
-import { getOpt } from "./utils.ts";
+import { listenXhrOnLoad } from "./xhr.ts";
+import { GMOpt } from "./utils.ts";
 import { injectLoginButton } from "./inject.ts";
+import { Connection } from "./ws.ts";
+import { Answer } from "./msg.ts";
 
 type Exam = {
   id: number;
@@ -20,14 +22,7 @@ type Paper = {
   };
 };
 
-type Answer = {
-  // deno-lint-ignore camelcase
-  problem_id: number;
-  // deno-lint-ignore no-explicit-any
-  result: any;
-};
-
-type PostAnswer = {
+export type PostAnswer = {
   results: Answer[];
 };
 
@@ -51,23 +46,49 @@ function getExam(): Promise<Exam> {
   });
 }
 
+let LOGIN = false;
+
+const USERNAME_OPT = new GMOpt(
+  "username",
+  "用户名",
+  "由字母、数字、下划线组成",
+  (val) => {
+    return val.length > 0 && val.length < 32 && /^[_a-zA-Z]\w+$/.test(val);
+  },
+);
+const SERVER_ADDR_OPT = new GMOpt(
+  "server_addr",
+  "服务器地址",
+  "例如：localhost:9009",
+);
+
 getExam().then((exam) => {
   injectLoginButton(() => {
-    // TODO: login here
-    const username = getOpt("username", "用户名", "由字母、数字、下划线组成", (val) => {
-      return val.length > 0 && val.length < 32;
-    });
-    console.log(username, exam.id, exam.paper.data.title);
+    if (LOGIN) {
+      // TODO: hide answers
+    } else {
+      const username = USERNAME_OPT.getOrSet();
+      const serverAddr = SERVER_ADDR_OPT.getOrSet();
+      console.log(username, serverAddr, exam.id, exam.paper.data.title);
 
-    listenXhrOnLoad(function (data) {
-      const url = new URL(this.responseURL);
-      if (url.pathname === "/exam_room/answer_problem") {
-        const answer: PostAnswer = JSON.parse(data);
-        answer.results.forEach((ans) => {
-          console.log(ans.problem_id, ans.result);
-        });
-      }
-      return false;
-    });
+      Connection.new(
+        `ws://${serverAddr}/login?username=${username}&exam_id=${exam.id}`,
+      )
+        .then((conn) => {
+          LOGIN = true;
+          conn.onmessage = (answers) =>
+            answers.forEach((ans) =>
+              console.log(ans.username, JSON.stringify(ans.answers))
+            );
+          listenXhrOnLoad(function (data) {
+            const url = new URL(this.responseURL);
+            if (url.pathname === "/exam_room/answer_problem") {
+              const answer: PostAnswer = JSON.parse(data);
+              conn.send(answer.results);
+            }
+            return false;
+          });
+        }).catch((e) => self.alert(`与服务器通信时发生错误：${e}`));
+    }
   });
 });

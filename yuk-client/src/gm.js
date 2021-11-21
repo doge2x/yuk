@@ -1,11 +1,15 @@
-export default {
-  /**
-   * @type {function(string, any): any}
-   */
-  getValue: GM_getValue,
+/**
+ * @param {string} name
+ * @returns {string | null}
+ */
+export function getValue(name) {
+  return GM_getValue(name, null);
+}
 
-  /**
-   * @type {function(string, any)}
-   */
-  setValue: GM_setValue,
-};
+/**
+ * @param {string} name
+ * @param {string} val
+ */
+export function setValue(name, val) {
+  GM_setValue(name, val);
+}

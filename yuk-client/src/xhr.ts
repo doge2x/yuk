@@ -1,7 +1,7 @@
-/**
- * @param {function(this: XMLHttpRequest, any): boolean} callback
- */
-export function listenXhrOnLoad(callback) {
+export function listenXhrOnLoad(
+  // deno-lint-ignore no-explicit-any
+  callback: (this: XMLHttpRequest, data: any) => boolean,
+) {
   ((xhrSend) => {
     XMLHttpRequest.prototype.send = function (body) {
       this.addEventListener("load", () => {
@@ -9,7 +9,7 @@ export function listenXhrOnLoad(callback) {
           XMLHttpRequest.prototype.send = xhrSend;
         }
       });
-      xhrSend.apply(this, arguments);
+      xhrSend.call(this, body);
     };
   })(XMLHttpRequest.prototype.send);
 }
