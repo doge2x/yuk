@@ -111,7 +111,7 @@ pub async fn handle_login(
     };
 
     // Connect to message center.
-    let mut conn = state.port.connect(addr, username, socket).await?;
+    let mut conn = state.port.connect(addr, exam_id, username, socket).await?;
 
     // Send answers of this exam.
     let answers = select_answers(pool, exam_id).await?;
