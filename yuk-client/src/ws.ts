@@ -20,10 +20,11 @@ export class Connection {
     this.ws.addEventListener("message", (e) => handler(JSON.parse(e.data)));
   }
 
-  send(msg: MsgSend) {
+  async send(msg: MsgSend): Promise<void> {
     if (this.ws.readyState === WebSocket.CLOSED) {
       throw new Error("服务器已关闭");
     }
     this.ws.send(JSON.stringify(msg));
+    return Promise.resolve();
   }
 }
