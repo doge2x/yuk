@@ -1,4 +1,3 @@
-import { timers } from "jquery";
 import { MsgReceive, MsgSend } from "./types";
 
 export class Connection {
@@ -17,10 +16,8 @@ export class Connection {
     });
   }
 
-  set onmessage(handler: (msg: MsgReceive) => void) {
-    this.ws.onmessage = (e) => {
-      handler(JSON.parse(e.data));
-    };
+  listen(handler: (msg: MsgReceive) => void) {
+    this.ws.addEventListener("message", (e) => handler(JSON.parse(e.data)));
   }
 
   send(msg: MsgSend) {
