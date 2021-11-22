@@ -1,3 +1,4 @@
+import { timers } from "jquery";
 import { MsgReceive, MsgSend } from "./types";
 
 export class Connection {
@@ -23,6 +24,9 @@ export class Connection {
   }
 
   send(msg: MsgSend) {
+    if (this.ws.readyState === WebSocket.CLOSED) {
+      throw new Error("服务器已关闭");
+    }
     this.ws.send(JSON.stringify(msg));
   }
 }
