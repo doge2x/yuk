@@ -24,6 +24,12 @@ export type Paper = {
   };
 };
 
+export type CacheResults = {
+  data: {
+    results: Answer[];
+  };
+};
+
 export type Problem = {
   problem_id: number;
   Options?: ChoiceOption[];
