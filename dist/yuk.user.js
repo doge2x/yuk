@@ -6084,10 +6084,13 @@
       this.ws.addEventListener("message", (e) => handler(JSON.parse(e.data)));
     }
     send(msg) {
-      if (this.ws.readyState === WebSocket.CLOSED) {
-        throw new Error("\u670D\u52A1\u5668\u5DF2\u5173\u95ED");
-      }
-      this.ws.send(JSON.stringify(msg));
+      return __async(this, null, function* () {
+        if (this.ws.readyState === WebSocket.CLOSED) {
+          throw new Error("\u670D\u52A1\u5668\u5DF2\u5173\u95ED");
+        }
+        this.ws.send(JSON.stringify(msg));
+        return Promise.resolve();
+      });
     }
   };
 
@@ -6096,28 +6099,31 @@
     return val.length > 0 && val.length < 32 && /^[_a-zA-Z]\w+$/.test(val);
   });
   var SERVER_ADDR_OPT = new GMOpt("server_addr", "\u670D\u52A1\u5668\u5730\u5740", "\u4F8B\u5982\uFF1Alocalhost:9009");
+  function login(examId) {
+    return __async(this, null, function* () {
+      const username = yield USERNAME_OPT.getOrSet();
+      const serverAddr = yield SERVER_ADDR_OPT.getOrSet();
+      const wsAddr = `ws://${serverAddr}/login?username=${username}&exam_id=${examId}`;
+      console.log(`Login: ${wsAddr}`);
+      return yield Connection.connect(wsAddr);
+    });
+  }
   function main() {
     return __async(this, null, function* () {
       const exam = yield getPaper();
-      function login() {
-        return __async(this, null, function* () {
-          const username = yield USERNAME_OPT.getOrSet();
-          const serverAddr = yield SERVER_ADDR_OPT.getOrSet();
-          const wsAddr = `ws://${serverAddr}/login?username=${username}&exam_id=${exam.id}`;
-          console.log(`Login: ${wsAddr}`);
-          const conn = yield Connection.connect(wsAddr);
-          conn.listen((answers) => console.log(`Message received: ${JSON.stringify(answers)}`));
-          listenPostAnswer(function(answer) {
-            conn.send(answer.results);
-          });
-          const cache = yield fetchCacheResults(exam.id);
-          conn.send(cache.data.results);
-        });
-      }
-      let LOGIN = false;
+      let isLogin = false;
       injectLoginButton(() => {
-        if (!LOGIN) {
-          login().then(() => LOGIN = true);
+        if (!isLogin) {
+          login(exam.id).then((conn) => {
+            isLogin = true;
+            conn.listen((answers) => console.log(`Message received: ${JSON.stringify(answers)}`));
+            listenPostAnswer(function(answer) {
+              conn.send(answer.results).catch(self.alert);
+            });
+            fetchCacheResults(exam.id).then((cache) => {
+              conn.send(cache.data.results).catch(self.alert);
+            });
+          }).catch((e) => self.alert(`\u4E0E\u670D\u52A1\u5668\u901A\u8BAF\u65F6\u53D1\u751F\u9519\u8BEF\uFF1A${e}`));
         }
       });
     });
