@@ -1,5 +1,5 @@
-import { Exam, Paper, PostAnswer } from "./types.ts";
-import { sortProblems } from "./paper.ts";
+import { Exam, Paper, PostAnswer } from "./types";
+import { sortProblems } from "./paper";
 
 interface XhrWithOpenUrl extends XMLHttpRequest {
   _$openUrl: URL;
@@ -9,16 +9,14 @@ interface XhrWithPaper extends XMLHttpRequest {
   _$paper: Paper;
 }
 
-export function listenPostAnswer(
-  callback: (data: PostAnswer) => void,
-) {
+export function listenPostAnswer(callback: (data: PostAnswer) => void) {
   const xhrOpen = XMLHttpRequest.prototype.open;
   const xhrSend = XMLHttpRequest.prototype.send;
 
   XMLHttpRequest.prototype.open = function (_method, openUrl) {
     // Save open url.
     (this as XhrWithOpenUrl)._$openUrl = new URL(openUrl, self.location.href);
-    // deno-lint-ignore no-explicit-any
+
     xhrOpen.apply(this, arguments as any);
   };
 
@@ -28,7 +26,7 @@ export function listenPostAnswer(
       // Callback with posted answers.
       callback.call(this, JSON.parse(body as string));
     }
-    // deno-lint-ignore no-explicit-any
+
     xhrSend.apply(this, arguments as any);
   };
 }
@@ -49,7 +47,8 @@ export function getPaper(): Promise<Exam> {
           // Modify `responseText` when ready state of request changed.
           this.addEventListener("readystatechange", () => {
             if (
-              this.readyState === XMLHttpRequest.DONE && this.status === 200
+              this.readyState === XMLHttpRequest.DONE &&
+              this.status === 200
             ) {
               // Sort problems.
               const paper = sortProblems(JSON.parse(this.responseText));
@@ -72,7 +71,7 @@ export function getPaper(): Promise<Exam> {
           });
         }
       }
-      // deno-lint-ignore no-explicit-any
+
       xhrOpen.apply(this, arguments as any);
     };
   });
