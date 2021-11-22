@@ -1,4 +1,4 @@
-import * as GM from "./gm.js";
+import * as GM from "./gm";
 
 type CheckFn = (val: string) => boolean;
 
@@ -28,7 +28,7 @@ export class GMOpt {
 function requirePrompt(
   show: string,
   hint: string,
-  check?: (val: string) => boolean,
+  check?: (val: string) => boolean
 ): string {
   let val = self.prompt(`请输入${show}（${hint}）`);
   while (true) {

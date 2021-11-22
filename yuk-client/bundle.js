@@ -1,7 +1,5 @@
-import { dirname, esbuild } from "./devDeps.ts";
-import pkg from "./package.ts";
-
-const { __dirname } = dirname(import.meta);
+const esbuild = require("esbuild");
+const pkg = require("./package.json");
 
 const banner = `\
 // ==UserScript==
@@ -14,7 +12,7 @@ const banner = `\
 // ==/UserScript==
 `;
 
-const input = __dirname + "/src/main.ts";
+const input = __dirname + "/src/index.ts";
 const outputDir = __dirname + "/../dist";
 
 esbuild
@@ -22,16 +20,18 @@ esbuild
     entryPoints: [input],
     banner: { js: banner },
     bundle: true,
+    legalComments: "none",
     outfile: `${outputDir}/${pkg.name}.user.js`,
-  });
+  })
+  .catch(() => process.exit());
 
-await esbuild
+esbuild
   .build({
     entryPoints: [input],
     banner: { js: banner },
     minify: true,
     bundle: true,
+    legalComments: "none",
     outfile: `${outputDir}/${pkg.name}.min.user.js`,
-  });
-
-esbuild.stop();
+  })
+  .catch(() => process.exit());

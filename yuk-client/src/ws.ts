@@ -1,4 +1,4 @@
-import { MsgReceive, MsgSend } from "./types.ts";
+import { MsgReceive, MsgSend } from "./types";
 
 export class Connection {
   ws: WebSocket;

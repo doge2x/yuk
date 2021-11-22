@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "esModuleInterop": true,
+    "target": "ES6",
+    "noEmit": true,
+    "strict": true
+  }
+}

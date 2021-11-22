@@ -20,17 +20,17 @@ function randomId(): number {
 const EXAM_ID = randomId();
 
 interface Answer {
-  // deno-lint-ignore camelcase
+  
   problem_id: number;
-  // deno-lint-ignore no-explicit-any
+  
   result: any;
 }
 
 class WsMsg {
-  // deno-lint-ignore no-explicit-any
+  
   inner: Map<number, any> = new Map();
 
-  // deno-lint-ignore no-explicit-any
+  
   update(problemId: number, result: any) {
     this.inner.set(problemId, result);
   }
