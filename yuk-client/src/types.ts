@@ -1,7 +1,5 @@
 export type Answer = {
-  // deno-lint-ignore camelcase
   problem_id: number;
-  // deno-lint-ignore no-explicit-any
   result: any;
 };
 
@@ -22,15 +20,43 @@ export type Exam = {
 export type Paper = {
   data: {
     title: string;
-    problems: [
-      {
-        problem_id: number;
-        // deno-lint-ignore no-explicit-any
-        Options: [any];
-      },
-    ];
+    problems: Problem[];
   };
 };
+
+export type Problem = {
+  problem_id: number;
+  Options?: ChoiceOption[];
+  ProblemType: ProblemType;
+};
+
+export enum ProblemType {
+  // 单选题
+  SingleChoice = 1,
+  // 多选题
+  MultipleChoice = 2,
+  // 投票题
+  Polling = 3,
+  // 填空题
+  FillBlack = 4,
+  // 主观题
+  ShortAnswer = 5,
+  // 判断题
+  Judgement = 6,
+}
+
+export type ChoiceOption = {
+  key: string;
+  value: string;
+};
+
+export function isChoice(ty: ProblemType): boolean {
+  return (
+    ty === ProblemType.SingleChoice ||
+    ty === ProblemType.MultipleChoice ||
+    ty === ProblemType.Polling
+  );
+}
 
 export type PostAnswer = {
   results: Answer[];
