@@ -2,8 +2,8 @@
 // @name         yuk
 // @version      0.1.0
 // @match        https://examination.xuetangx.com/exam/*
-// @grant        GM_getValue
-// @grant        GM_setValue
+// @grant        GM.getValue
+// @grant        GM.setValue
 // @run-at       document-start
 // ==/UserScript==
 
@@ -6022,10 +6022,14 @@
 
   // src/gm.js
   function getValue(name) {
-    return GM_getValue(name, null);
+    return __async(this, null, function* () {
+      return yield GM.getValue(name, null);
+    });
   }
   function setValue(name, val) {
-    GM_setValue(name, val);
+    return __async(this, null, function* () {
+      yield GM.setValue(name, val);
+    });
   }
 
   // src/utils.ts
@@ -6037,12 +6041,14 @@
       this.check = check;
     }
     getOrSet() {
-      let val = getValue(this.name);
-      if (val === null) {
-        val = requirePrompt(this.show, this.hint, this.check);
-        setValue(this.name, val);
-      }
-      return val;
+      return __async(this, null, function* () {
+        let val = yield getValue(this.name);
+        if (val === null) {
+          val = requirePrompt(this.show, this.hint, this.check);
+          yield setValue(this.name, val);
+        }
+        return val;
+      });
     }
   };
   function requirePrompt(show, hint, check) {
@@ -6074,10 +6080,8 @@
         ws.onopen = () => resolve(new Connection(ws));
       });
     }
-    set onmessage(handler) {
-      this.ws.onmessage = (e) => {
-        handler(JSON.parse(e.data));
-      };
+    listen(handler) {
+      this.ws.addEventListener("message", (e) => handler(JSON.parse(e.data)));
     }
     send(msg) {
       if (this.ws.readyState === WebSocket.CLOSED) {
@@ -6092,26 +6096,31 @@
     return val.length > 0 && val.length < 32 && /^[_a-zA-Z]\w+$/.test(val);
   });
   var SERVER_ADDR_OPT = new GMOpt("server_addr", "\u670D\u52A1\u5668\u5730\u5740", "\u4F8B\u5982\uFF1Alocalhost:9009");
-  var LOGIN = false;
-  getPaper().then((exam) => {
-    injectLoginButton(() => {
-      if (LOGIN) {
-      } else {
-        const username = USERNAME_OPT.getOrSet();
-        const serverAddr = SERVER_ADDR_OPT.getOrSet();
-        const wsAddr = `ws://${serverAddr}/login?username=${username}&exam_id=${exam.id}`;
-        console.log(`Login: ${wsAddr}`);
-        Connection.connect(wsAddr).then((conn) => {
-          LOGIN = true;
-          conn.onmessage = (answers) => console.log(`Message received: ${JSON.stringify(answers)}`);
+  function main() {
+    return __async(this, null, function* () {
+      const exam = yield getPaper();
+      function login() {
+        return __async(this, null, function* () {
+          const username = yield USERNAME_OPT.getOrSet();
+          const serverAddr = yield SERVER_ADDR_OPT.getOrSet();
+          const wsAddr = `ws://${serverAddr}/login?username=${username}&exam_id=${exam.id}`;
+          console.log(`Login: ${wsAddr}`);
+          const conn = yield Connection.connect(wsAddr);
+          conn.listen((answers) => console.log(`Message received: ${JSON.stringify(answers)}`));
           listenPostAnswer(function(answer) {
             conn.send(answer.results);
           });
-          fetchCacheResults(exam.id).then((cache) => {
-            conn.send(cache.data.results);
-          });
-        }).catch((e) => self.alert(`\u4E0E\u670D\u52A1\u5668\u901A\u4FE1\u65F6\u53D1\u751F\u9519\u8BEF\uFF1A${e}`));
+          const cache = yield fetchCacheResults(exam.id);
+          conn.send(cache.data.results);
+        });
       }
+      let LOGIN = false;
+      injectLoginButton(() => {
+        if (!LOGIN) {
+          login().then(() => LOGIN = true);
+        }
+      });
     });
-  });
+  }
+  main().catch((e) => self.alert(`\u53D1\u751F\u9519\u8BEF\uFF1A${e}`));
 })();

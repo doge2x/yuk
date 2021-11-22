@@ -1,15 +1,16 @@
 /**
  * @param {string} name
- * @returns {string | null}
+ * @returns {Promise<string | null>}
  */
-export function getValue(name) {
-  return GM_getValue(name, null);
+export async function getValue(name) {
+  return await GM.getValue(name, null);
 }
 
 /**
  * @param {string} name
  * @param {string} val
+ * @returns {Promise<void>}
  */
-export function setValue(name, val) {
-  GM_setValue(name, val);
+export async function setValue(name, val) {
+  await GM.setValue(name, val);
 }

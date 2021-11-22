@@ -15,11 +15,11 @@ export class GMOpt {
     this.check = check;
   }
 
-  getOrSet(): string {
-    let val = GM.getValue(this.name);
+  async getOrSet(): Promise<string> {
+    let val = await GM.getValue(this.name);
     if (val === null) {
       val = requirePrompt(this.show, this.hint, this.check);
-      GM.setValue(this.name, val);
+      await GM.setValue(this.name, val);
     }
     return val;
   }
