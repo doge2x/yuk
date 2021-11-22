@@ -1,4 +1,4 @@
-import { Exam, Paper, PostAnswer } from "./types";
+import { CacheResults, Exam, Paper, PostAnswer } from "./types";
 import { sortProblems } from "./paper";
 
 interface XhrWithOpenUrl extends XMLHttpRequest {
@@ -75,4 +75,9 @@ export function getPaper(): Promise<Exam> {
       xhrOpen.apply(this, arguments as any);
     };
   });
+}
+
+export async function fetchCacheResults(examId: number): Promise<CacheResults> {
+  const rsp = await fetch(`/exam_room/cache_results?exam_id=${examId}`);
+  return await rsp.json();
 }

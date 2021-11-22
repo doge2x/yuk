@@ -29,6 +29,26 @@
   var __toModule = (module) => {
     return __reExport(__markAsModule(__defProp(module != null ? __create(__getProtoOf(module)) : {}, "default", module && module.__esModule && "default" in module ? { get: () => module.default, enumerable: true } : { value: module, enumerable: true })), module);
   };
+  var __async = (__this, __arguments, generator) => {
+    return new Promise((resolve, reject) => {
+      var fulfilled = (value) => {
+        try {
+          step(generator.next(value));
+        } catch (e) {
+          reject(e);
+        }
+      };
+      var rejected = (value) => {
+        try {
+          step(generator.throw(value));
+        } catch (e) {
+          reject(e);
+        }
+      };
+      var step = (x) => x.done ? resolve(x.value) : Promise.resolve(x.value).then(fulfilled, rejected);
+      step((generator = generator.apply(__this, __arguments)).next());
+    });
+  };
 
   // node_modules/jquery/dist/jquery.js
   var require_jquery = __commonJS({
@@ -5993,6 +6013,12 @@
       };
     });
   }
+  function fetchCacheResults(examId) {
+    return __async(this, null, function* () {
+      const rsp = yield fetch(`/exam_room/cache_results?exam_id=${examId}`);
+      return yield rsp.json();
+    });
+  }
 
   // src/gm.js
   function getValue(name) {
@@ -6054,16 +6080,19 @@
       };
     }
     send(msg) {
+      if (this.ws.readyState === WebSocket.CLOSED) {
+        throw new Error("\u670D\u52A1\u5668\u5DF2\u5173\u95ED");
+      }
       this.ws.send(JSON.stringify(msg));
     }
   };
 
   // src/index.ts
-  var LOGIN = false;
   var USERNAME_OPT = new GMOpt("username", "\u7528\u6237\u540D", "\u7531\u5B57\u6BCD\u3001\u6570\u5B57\u3001\u4E0B\u5212\u7EBF\u7EC4\u6210", (val) => {
     return val.length > 0 && val.length < 32 && /^[_a-zA-Z]\w+$/.test(val);
   });
   var SERVER_ADDR_OPT = new GMOpt("server_addr", "\u670D\u52A1\u5668\u5730\u5740", "\u4F8B\u5982\uFF1Alocalhost:9009");
+  var LOGIN = false;
   getPaper().then((exam) => {
     injectLoginButton(() => {
       if (LOGIN) {
@@ -6074,9 +6103,12 @@
         console.log(`Login: ${wsAddr}`);
         Connection.connect(wsAddr).then((conn) => {
           LOGIN = true;
-          conn.onmessage = (answers) => answers.forEach((ans) => console.log(ans.username, JSON.stringify(ans.answers)));
+          conn.onmessage = (answers) => console.log(`Message received: ${JSON.stringify(answers)}`);
           listenPostAnswer(function(answer) {
             conn.send(answer.results);
+          });
+          fetchCacheResults(exam.id).then((cache) => {
+            conn.send(cache.data.results);
           });
         }).catch((e) => self.alert(`\u4E0E\u670D\u52A1\u5668\u901A\u4FE1\u65F6\u53D1\u751F\u9519\u8BEF\uFF1A${e}`));
       }
