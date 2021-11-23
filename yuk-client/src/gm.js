@@ -1,9 +1,9 @@
 /**
  * @param {string} name
- * @returns {Promise<string | null>}
+ * @returns {Promise<string | undefined>}
  */
 export async function getValue(name) {
-  return await GM.getValue(name, null);
+  return await GM.getValue(name);
 }
 
 /**
