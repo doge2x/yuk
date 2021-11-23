@@ -6023,7 +6023,7 @@
   // src/gm.js
   function getValue(name) {
     return __async(this, null, function* () {
-      return yield GM.getValue(name, null);
+      return yield GM.getValue(name);
     });
   }
   function setValue(name, val) {
@@ -6034,37 +6034,115 @@
 
   // src/utils.ts
   var GMOpt = class {
-    constructor(name, show, hint, check) {
-      this.name = name;
-      this.show = show;
-      this.hint = hint;
-      this.check = check;
+    constructor(args) {
+      this.name = args.name;
+      this.show = args.show;
+      this.hint = args.hint;
+      this.check = args.check;
+    }
+    get() {
+      return __async(this, null, function* () {
+        return yield getValue(this.name);
+      });
     }
     getOrSet() {
       return __async(this, null, function* () {
+        return (yield this.get()) || (yield this.reset());
+      });
+    }
+    reset() {
+      return __async(this, null, function* () {
         let val = yield getValue(this.name);
-        if (val === null) {
-          val = requirePrompt(this.show, this.hint, this.check);
-          yield setValue(this.name, val);
-        }
+        val = this.requirePrompt(val);
+        yield setValue(this.name, val);
         return val;
       });
     }
-  };
-  function requirePrompt(show, hint, check) {
-    let val = self.prompt(`\u8BF7\u8F93\u5165${show}\uFF08${hint}\uFF09`);
-    while (true) {
-      if (val !== null && (check === void 0 || check(val))) {
-        return val;
+    requirePrompt(defaultVal) {
+      const hintShow = this.hint === void 0 ? "" : `(${this.hint})`;
+      const defaultValShow = defaultVal === void 0 ? "" : `[\u9ED8\u8BA4\u503C: ${defaultVal}]`;
+      let val = self.prompt(`\u8BF7\u8F93\u5165${this.show}${hintShow}${defaultValShow}`);
+      while (true) {
+        if (val === null && defaultVal !== void 0) {
+          return defaultVal;
+        } else if (val !== null && (this.check === void 0 || this.check(val))) {
+          return val;
+        }
+        val = self.prompt(`\u65E0\u6548\u7684${this.show}\uFF0C\u8BF7\u91CD\u65B0\u8F93\u5165`);
       }
-      val = self.prompt(`\u65E0\u6548\u7684${show}\uFF0C\u8BF7\u91CD\u65B0\u8F93\u5165`);
     }
-  }
+  };
 
   // src/inject.ts
   var import_jquery = __toModule(require_jquery());
-  function injectLoginButton(onClick) {
-    (0, import_jquery.default)(".header-title").wrapInner((0, import_jquery.default)(`<a href="javascript:void(0);"></a>`).on("click", onClick));
+  var YUK_INJECT = "__yuk_inject";
+  var VOID_LINK = `<a
+  href="javascript:void(0);"
+/>`;
+  var PROBLEM_CARD = `<div
+  style="
+    position: absolute;
+    top: 0;
+    left: 100%;
+    margin-left: 3.5rem;
+
+    height: 95%;
+    width: 20rem; 
+    padding: .5rem;
+    overflow: scroll;
+
+    opacity: .5;
+    border-style: dashed;
+  "
+/>`;
+  function toggleVis() {
+    (0, import_jquery.default)(`.${YUK_INJECT}`).toggle();
+  }
+  function headerSpan(name) {
+    return (0, import_jquery.default)(`<span />`).text(`${name}: `).addClass(YUK_INJECT).css("margin-left", ".5rem");
+  }
+  var MainUI = class {
+    constructor(paper) {
+      const examMainBody = (0, import_jquery.default)(".exam-main--body");
+      examMainBody.css("transform", "translateX(-5rem)");
+      const problems = new Map();
+      examMainBody.children(".subject-item").each(function(index) {
+        (0, import_jquery.default)(this).css("overflow", "visible");
+        const problemCard = (0, import_jquery.default)(PROBLEM_CARD).addClass(YUK_INJECT).appendTo(this);
+        problems.set(paper.data.problems[index].problem_id, problemCard);
+      });
+      this.problemCards = problems;
+      this.answers = new Map();
+    }
+    updateAnswer(answers) {
+      answers.forEach((userAns) => {
+        userAns.answers.forEach((ans) => {
+          let userResult = this.answers.get(ans.problem_id);
+          if (userResult === void 0) {
+            userResult = new Map();
+            this.answers.set(ans.problem_id, userResult);
+          }
+          userResult.set(userAns.username, ans.result);
+        });
+      });
+      this.answers.forEach((userResult, problemId) => {
+        const card = this.problemCards.get(problemId);
+        if (card !== void 0) {
+          card.empty();
+          userResult.forEach((result, username) => {
+            card.append(`<p>${username}: ${result}</p>`);
+          });
+        }
+      });
+    }
+  };
+  function initUI(args) {
+    const headerTitle = (0, import_jquery.default)(".header-title");
+    headerTitle.wrapInner((0, import_jquery.default)(VOID_LINK).on("click", toggleVis));
+    headerTitle.append(headerSpan("\u767B\u9646\u72B6\u6001").append(args.login.call((0, import_jquery.default)(VOID_LINK))));
+    headerTitle.append(headerSpan("\u7528\u6237\u540D").append(args.username.call((0, import_jquery.default)(VOID_LINK))));
+    headerTitle.append(headerSpan("\u670D\u52A1\u5668").append(args.server.call((0, import_jquery.default)(VOID_LINK))));
+    toggleVis();
   }
 
   // src/ws.ts
@@ -6095,35 +6173,74 @@
   };
 
   // src/index.ts
-  var USERNAME_OPT = new GMOpt("username", "\u7528\u6237\u540D", "\u7531\u5B57\u6BCD\u3001\u6570\u5B57\u3001\u4E0B\u5212\u7EBF\u7EC4\u6210", (val) => {
-    return val.length > 0 && val.length < 32 && /^[_a-zA-Z]\w+$/.test(val);
+  var USERNAME_OPT = new GMOpt({
+    name: "username",
+    show: "\u7528\u6237\u540D",
+    hint: "\u5B57\u6BCD\u3001\u6570\u5B57\u3001\u4E0B\u5212\u7EBF",
+    check(val) {
+      return val.length > 0 && val.length < 32 && /^[_a-zA-Z]\w+$/.test(val);
+    }
   });
-  var SERVER_ADDR_OPT = new GMOpt("server_addr", "\u670D\u52A1\u5668\u5730\u5740", "\u4F8B\u5982\uFF1Alocalhost:9009");
-  function login(examId) {
-    return __async(this, null, function* () {
-      const username = yield USERNAME_OPT.getOrSet();
-      const serverAddr = yield SERVER_ADDR_OPT.getOrSet();
-      const wsAddr = `ws://${serverAddr}/login?username=${username}&exam_id=${examId}`;
-      console.log(`Login: ${wsAddr}`);
-      return yield Connection.connect(wsAddr);
-    });
-  }
+  var SERVER_ADDR_OPT = new GMOpt({
+    name: "server_addr",
+    show: "\u670D\u52A1\u5668\u5730\u5740",
+    check(val) {
+      return val.length > 0;
+    }
+  });
   function main() {
     return __async(this, null, function* () {
       const exam = yield getPaper();
-      let isLogin = false;
-      injectLoginButton(() => {
-        if (!isLogin) {
-          login(exam.id).then((conn) => {
-            isLogin = true;
-            conn.listen((answers) => console.log(`Message received: ${JSON.stringify(answers)}`));
-            listenPostAnswer(function(answer) {
-              conn.send(answer.results).catch(self.alert);
-            });
-            fetchCacheResults(exam.id).then((cache) => {
-              conn.send(cache.data.results).catch(self.alert);
-            });
-          }).catch((e) => self.alert(`\u4E0E\u670D\u52A1\u5668\u901A\u8BAF\u65F6\u53D1\u751F\u9519\u8BEF\uFF1A${e}`));
+      function login() {
+        return __async(this, null, function* () {
+          const username = yield USERNAME_OPT.getOrSet();
+          const serverAddr = yield SERVER_ADDR_OPT.getOrSet();
+          const wsAddr = `ws://${serverAddr}/login?username=${username}&exam_id=${exam.id}`;
+          console.log(`Login: ${wsAddr}`);
+          return yield Connection.connect(wsAddr);
+        });
+      }
+      function listenConn(conn) {
+        const ui = new MainUI(exam.paper);
+        return new Promise((resolve, reject) => {
+          conn.listen((answers) => ui.updateAnswer(answers));
+          listenPostAnswer(function(answer) {
+            conn.send(answer.results).catch(reject);
+          });
+          fetchCacheResults(exam.id).then((cache) => {
+            conn.send(cache.data.results).catch(reject);
+          });
+          resolve();
+        });
+      }
+      initUI({
+        login() {
+          let ifLogin = false;
+          return this.css("color", "red").text("\u672A\u767B\u9646").on("click", () => {
+            if (!ifLogin) {
+              login().then((conn) => {
+                ifLogin = true;
+                this.text("\u5DF2\u767B\u9646").css("color", "green");
+                return listenConn(conn);
+              }).catch((e) => self.alert(`\u4E0E\u670D\u52A1\u5668\u901A\u8BAF\u65F6\u53D1\u751F\u9519\u8BEF\uFF1A${e}`));
+            }
+          });
+        },
+        username() {
+          USERNAME_OPT.get().then((val) => {
+            this.text(val || "<\u672A\u8BBE\u7F6E>");
+          });
+          return this.css("text-decoration", "underline").on("click", () => {
+            USERNAME_OPT.reset().then((val) => this.text(val));
+          });
+        },
+        server() {
+          SERVER_ADDR_OPT.get().then((val) => {
+            this.text(val || "<\u672A\u8BBE\u7F6E>");
+          });
+          return this.css("text-decoration", "underline").on("click", () => {
+            SERVER_ADDR_OPT.reset().then((val) => this.text(val));
+          });
         }
       });
     });
