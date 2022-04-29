@@ -72,20 +72,15 @@ impl FromStr for Username {
 }
 
 pub async fn login(
-    addr: ConnectInfo<SocketAddr>,
+    ConnectInfo(addr): ConnectInfo<SocketAddr>,
     ws: WebSocketUpgrade,
-    param: Query<Param>,
-    state: Extension<Arc<State>>,
+    Query(param): Query<Param>,
+    Extension(state): Extension<Arc<State>>,
 ) -> impl IntoResponse {
-    let ConnectInfo(addr) = addr;
-    let Query(param) = param;
-    let Extension(state) = state;
-
     ws.on_upgrade(move |socket| async move {
-        handle_login(state, addr, param, socket).await.map_err(|e| {
-            error!("handle login ({}): {}", addr, e);
-            e
-        })
+        if let Some(e) = handle_login(state, addr, param, socket).await.err() {
+            error!("handle login ({}): {}", addr, e)
+        }
     })
 }
 

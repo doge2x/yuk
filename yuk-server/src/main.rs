@@ -1,6 +1,6 @@
 mod login;
 
-use axum::{routing::get, AddExtensionLayer, Router};
+use axum::{routing::get, Extension, Router};
 use sqlx::PgPool;
 use std::{env, net::SocketAddr, sync::Arc};
 
@@ -24,11 +24,11 @@ async fn main() -> anyhow::Result<()> {
 
     let app = Router::new()
         .route("/login", get(login::login))
-        .layer(AddExtensionLayer::new(Arc::new(login_state)));
+        .layer(Extension(Arc::new(login_state)));
 
     // Start server.
     axum::Server::bind(&addr)
-        .serve(app.into_make_service_with_connect_info::<SocketAddr, _>())
+        .serve(app.into_make_service_with_connect_info::<SocketAddr>())
         .await?;
 
     Ok(())
