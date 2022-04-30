@@ -1,9 +1,18 @@
 {
   "compilerOptions": {
     "allowJs": true,
-    "esModuleInterop": true,
     "target": "ES6",
+    "strict": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
     "noEmit": true,
-    "strict": true
-  }
+    "esModuleInterop": true
+  },
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS"
+    }
+  },
+  "include": ["webpack.config.ts", "src/*"]
 }
