@@ -1,23 +1,21 @@
 export type Answer = {
   problem_id: number;
-  result: Result;
+  result: any;
 };
-
-export type Result = any;
 
 export type UserAnswer = {
   username: string;
   answers: Answer[];
 };
 
+export type PostAnswer = {
+  exam_id: string;
+  results: Answer[];
+};
+
 export type MsgSend = Answer[];
 
 export type MsgReceive = UserAnswer[];
-
-export type Exam = {
-  id: number;
-  paper: Paper;
-};
 
 export type Paper = {
   data: {
@@ -39,19 +37,35 @@ export type Problem = {
 };
 
 export enum ProblemType {
-  // 单选题
+  /**
+   * 单选题
+   */
   SingleChoice = 1,
-  // 多选题
+  /**
+   * 多选题
+   */
   MultipleChoice = 2,
-  // 投票题
+  /**
+   * 投票题
+   */
   Polling = 3,
-  // 填空题
-  FillBlack = 4,
-  // 主观题
+  /**
+   * 填空题
+   */
+  FillBlank = 4,
+  /**
+   * 主观题
+   */
   ShortAnswer = 5,
-  // 判断题
+  /**
+   * 判断题
+   */
   Judgement = 6,
 }
+
+export type ChoiceResult = string[];
+
+export type BlankResult = { [key: string]: string };
 
 export type ChoiceOption = {
   key: string;
@@ -65,7 +79,3 @@ export function isChoice(ty: ProblemType): boolean {
     ty === ProblemType.Polling
   );
 }
-
-export type PostAnswer = {
-  results: Answer[];
-};
