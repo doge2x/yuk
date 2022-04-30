@@ -1,87 +1,94 @@
-import { fetchCacheResults, getPaper, listenPostAnswer } from "./xhr";
-import { GMOpt } from "./utils";
-import { initUI, MainUI } from "./inject";
-import { Connection } from "./ws";
+import { Client } from "./client";
+import { hookXHR, newURL } from "./xhr";
+import {
+  PostAnswer,
+  Paper,
+  isChoice,
+  ChoiceOption,
+  CacheResults,
+} from "./types";
+import { SERVER, UI, USERNAME } from "./ui";
 
-const USERNAME_OPT = new GMOpt({
-  name: "username",
-  show: "用户名",
-  hint: "字母、数字、下划线",
-  check(val) {
-    return val.length > 0 && val.length < 32 && /^[_a-zA-Z]\w+$/.test(val);
-  },
-});
-const SERVER_ADDR_OPT = new GMOpt({
-  name: "server_addr",
-  show: "服务器地址",
-  check(val) {
-    return val.length > 0;
-  },
-});
-
-async function main() {
-  const exam = await getPaper();
-
-  async function login(): Promise<Connection> {
-    const username = await USERNAME_OPT.getOrSet();
-    const serverAddr = await SERVER_ADDR_OPT.getOrSet();
-    const wsAddr = `ws://${serverAddr}/login?username=${username}&exam_id=${exam.id}`;
-    console.log(`Login: ${wsAddr}`);
-    // Connected to the server.
-    return await Connection.connect(wsAddr);
-  }
-
-  function listenConn(conn: Connection): Promise<void> {
-    const ui = new MainUI(exam.paper);
-    return new Promise((resolve, reject) => {
-      // Handle received messages.
-      conn.listen((answers) => ui.updateAnswer(answers));
-      // Send posted answers.
-      listenPostAnswer(function (answer) {
-        conn.send(answer.results).catch(reject);
+export function sortPaper(paper: Paper): Paper {
+  paper.data.problems.sort((a, b) => a.problem_id - b.problem_id);
+  paper.data.problems.forEach((problem) => {
+    if (isChoice(problem.ProblemType)) {
+      (problem.Options as ChoiceOption[]).sort((a, b) => {
+        return a.key < b.key ? -1 : 1;
       });
-      // Send cache results.
-      fetchCacheResults(exam.id).then((cache) => {
-        conn.send(cache.data.results).catch(reject);
-      });
-      resolve();
-    });
-  }
+    }
+  });
+  return paper;
+}
 
-  initUI({
-    login() {
-      let ifLogin = false;
-      return this.css("color", "red")
-        .text("未登陆")
-        .on("click", () => {
-          if (!ifLogin) {
-            login()
-              .then((conn) => {
-                ifLogin = true;
-                this.text("已登陆").css("color", "green");
-                return listenConn(conn);
-              })
-              .catch((e) => self.alert(`与服务器通讯时发生错误：${e}`));
+async function login(
+  server: string,
+  username: string
+): Promise<{ client: Client; examId: string; paper: Paper }> {
+  return hookXHR(function (url) {
+    return new Promise((ok) => {
+      if (url.pathname === "/exam_room/show_paper") {
+        this.addEventListener("readystatechange", () => {
+          if (this.readyState == XMLHttpRequest.DONE) {
+            // Sort problems.
+            const text = JSON.stringify(
+              sortPaper(JSON.parse(this.responseText))
+            );
+            // Modify response text.
+            Object.defineProperties(this, {
+              responseText: {
+                get() {
+                  return text;
+                },
+              },
+            });
           }
         });
-    },
-    username() {
-      USERNAME_OPT.get().then((val) => {
-        this.text(val || "<未设置>");
-      });
-      return this.css("text-decoration", "underline").on("click", () => {
-        USERNAME_OPT.reset().then((val) => this.text(val));
-      });
-    },
-    server() {
-      SERVER_ADDR_OPT.get().then((val) => {
-        this.text(val || "<未设置>");
-      });
-      return this.css("text-decoration", "underline").on("click", () => {
-        SERVER_ADDR_OPT.reset().then((val) => this.text(val));
-      });
-    },
+        this.addEventListener("load", () => {
+          // Login to server.
+          const examId = url.searchParams.get("exam_id")!;
+          ok(
+            Client.login(server, username, examId).then((client) => ({
+              client: client,
+              examId: examId,
+              paper: JSON.parse(this.responseText),
+            }))
+          );
+        });
+      }
+    });
   });
 }
 
-main().catch((e) => self.alert(`发生错误：${e}`));
+async function main() {
+  const username = await USERNAME.getValue();
+  const server = await SERVER.getValue();
+  const { client, examId, paper } = await login(server, username);
+  // Initialize UI.
+  const ui = new UI(paper);
+  console.log(paper);
+  // Receive answers and update UI.
+  client.onmessage((msg) => {
+    console.log(msg);
+    msg.forEach((ans) => {
+      ui.updateAnswer(ans);
+    });
+    ui.updateUI();
+  });
+  // Upload cached results.
+  const cacheResults: CacheResults = await fetch(
+    newURL("/exam_room/cache_results", { exam_id: examId }).toString()
+  ).then((res) => res.json());
+  client.send(cacheResults.data.results);
+  // Upload answers.
+  await hookXHR(function (url, body) {
+    return new Promise<void>(async () => {
+      if (url.pathname === "/exam_room/answer_problem") {
+        const data: PostAnswer = JSON.parse(await body);
+        client.send(data.results);
+      }
+    });
+  });
+}
+
+main().catch(console.error);

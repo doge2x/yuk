@@ -1,16 +1,18 @@
-/**
- * @param {string} name
- * @returns {Promise<string | undefined>}
- */
-export async function getValue(name) {
-  return await GM.getValue(name);
-}
+export default {
+  /**
+   * @param {string} key
+   * @returns {Promise<any>}
+   */
+  async getValue(key) {
+    return await GM.getValue(key);
+  },
 
-/**
- * @param {string} name
- * @param {string} val
- * @returns {Promise<void>}
- */
-export async function setValue(name, val) {
-  await GM.setValue(name, val);
-}
+  /**
+   * @param {string} key
+   * @param {any} val
+   * @returns {Promise<void>}
+   */
+  async setValue(key, val) {
+    return await GM.setValue(key, val);
+  },
+};
