@@ -48,7 +48,7 @@ async function login(
           // Login to server.
           const examId = url.searchParams.get("exam_id")!;
           ok(
-            Client.login(server, username, examId).then((client) => ({
+            Client.login(server, username, parseInt(examId)).then((client) => ({
               client: client,
               examId: examId,
               paper: JSON.parse(this.responseText),
@@ -70,22 +70,21 @@ async function main() {
   // Receive answers and update UI.
   client.onmessage((msg) => {
     console.log(msg);
-    msg.forEach((ans) => {
-      ui.updateAnswer(ans);
-    });
+    msg.forEach((res) => ui.updateAnswer(res));
     ui.updateUI();
   });
   // Upload cached results.
   const cacheResults: CacheResults = await fetch(
     newURL("/exam_room/cache_results", { exam_id: examId }).toString()
   ).then((res) => res.json());
-  client.send(cacheResults.data.results);
+  await client.answerProblem(cacheResults.data.results);
   // Upload answers.
-  await hookXHR(function (url, body) {
-    return new Promise<void>(async () => {
+  await hookXHR(async (url, body) => {
+    return new Promise(async () => {
       if (url.pathname === "/exam_room/answer_problem") {
         const data: PostAnswer = JSON.parse(await body);
-        client.send(data.results);
+        console.log(data);
+        await client.answerProblem(data.results);
       }
     });
   });

@@ -3,11 +3,11 @@ import {
   Problem,
   ProblemType,
   ChoiceResult,
-  UserAnswer,
   BlankResult,
+  UserResult,
 } from "./types";
 import style from "./style.module.css";
-import GM from "./gm.js";
+import GM from "./gm";
 
 class Map2<K, V> extends Map<K, V> {
   private def: () => V;
@@ -214,10 +214,8 @@ export class UI {
     this.problems = problems;
   }
 
-  updateAnswer({ username, answers }: UserAnswer) {
-    answers.forEach(({ problem_id, result }) => {
-      this.problems.get(problem_id)?.updateResult(username, result);
-    });
+  updateAnswer({ username, problem_id, result }: UserResult) {
+    this.problems.get(problem_id)?.updateResult(username, result);
   }
 
   updateUI() {

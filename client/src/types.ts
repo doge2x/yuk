@@ -1,21 +1,18 @@
-export type Answer = {
+export type Result = {
   problem_id: number;
   result: any;
 };
 
-export type UserAnswer = {
+export type UserResult = {
   username: string;
-  answers: Answer[];
+  problem_id: number;
+  result: any;
 };
 
 export type PostAnswer = {
   exam_id: string;
-  results: Answer[];
+  results: Result[];
 };
-
-export type MsgSend = Answer[];
-
-export type MsgReceive = UserAnswer[];
 
 export type Paper = {
   data: {
@@ -26,7 +23,7 @@ export type Paper = {
 
 export type CacheResults = {
   data: {
-    results: Answer[];
+    results: Result[];
   };
 };
 

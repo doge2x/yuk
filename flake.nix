@@ -19,14 +19,13 @@
         devShell = pkgs.mkShell
           {
             buildInputs = with pkgs; [
+              nodejs
+              yarn
+              openssl.dev
               (rust-bin.stable.latest.default.override {
+                # For rust-analyzer
                 extensions = [ "rust-src" ];
               })
-              openssl.dev
-              sqlx-cli
-            ];
-            nativeBuildInputs = with pkgs; [
-              pkg-config
             ];
           };
       }
