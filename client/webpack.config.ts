@@ -10,6 +10,7 @@ const banner = `\
 // @match        https://examination.xuetangx.com/exam/*
 // @grant        GM.getValue
 // @grant        GM.setValue
+// @grant        GM.xmlHttpRequest
 // @run-at       document-start
 // ==/UserScript==
 `;
@@ -19,20 +20,13 @@ function newConfig(
   minimize?: boolean
 ): webpack.Configuration {
   return {
-    entry: path.resolve(__dirname, "./src/index.ts"),
+    entry: path.resolve(__dirname, "src/index.ts"),
     mode: "none",
     module: {
       rules: [
         {
           test: /\.tsx?$/,
-          use: {
-            loader: "ts-loader",
-            options: {
-              compilerOptions: {
-                noEmit: false,
-              },
-            },
-          },
+          use: "ts-loader",
         },
         {
           test: /\.css$/,
@@ -57,7 +51,7 @@ function newConfig(
       ],
     },
     resolve: {
-      extensions: [".tsx", ".ts"],
+      extensions: [".js", ".jsx", ".tsx", ".ts"],
     },
     optimization: {
       minimize: minimize ?? false,
@@ -79,7 +73,7 @@ function newConfig(
       }),
     ],
     output: {
-      path: path.resolve(__dirname, "../dist"),
+      path: path.resolve(__dirname, "dist"),
       filename: filename,
     },
   };
