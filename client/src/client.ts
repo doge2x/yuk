@@ -1,6 +1,6 @@
 import { Answer, UserAnswer } from "./types";
 import { JSONRPCClient } from "json-rpc-2.0";
-// import GM from "./gm";
+import GM from "./gm";
 
 export class Client {
   // Use http request, since we can use non-secure connections
@@ -23,21 +23,24 @@ export class Client {
     examId: number
   ): Promise<Client> {
     const client = new JSONRPCClient(async (req) => {
-      await fetch(server, {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify(req),
-      }).then((response) => {
-        if (response.status === 200) {
-          // Use client.receive when you received a JSON-RPC response.
-          return response
-            .json()
-            .then((jsonRPCResponse) => client.receive(jsonRPCResponse));
-        } else if (req.id !== undefined) {
-          return Promise.reject(new Error(response.statusText));
-        }
+      await new Promise<void>(async (ok, err) => {
+        await GM.xhr({
+          url: server,
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          data: JSON.stringify(req),
+          onload: (resp) => {
+            if (resp.status === 200) {
+              client.receive(JSON.parse(resp.responseText!));
+              ok();
+            } else {
+              err(new Error(resp.statusText));
+            }
+          },
+          onerror: (resp) => err(resp.statusText),
+        });
       });
     });
     return new Client(client, username, examId);

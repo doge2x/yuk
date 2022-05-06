@@ -21,6 +21,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var json_rpc_2_0__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
 /* harmony import */ var json_rpc_2_0__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(json_rpc_2_0__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gm__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(8);
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -31,7 +32,7 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
     });
 };
 
-// import GM from "./gm";
+
 class Client {
     constructor(client, username, examId) {
         this.onmsg = [];
@@ -43,23 +44,26 @@ class Client {
     static login(server, username, examId) {
         return __awaiter(this, void 0, void 0, function* () {
             const client = new json_rpc_2_0__WEBPACK_IMPORTED_MODULE_0__.JSONRPCClient((req) => __awaiter(this, void 0, void 0, function* () {
-                yield fetch(server, {
-                    method: "POST",
-                    headers: {
-                        "content-type": "application/json",
-                    },
-                    body: JSON.stringify(req),
-                }).then((response) => {
-                    if (response.status === 200) {
-                        // Use client.receive when you received a JSON-RPC response.
-                        return response
-                            .json()
-                            .then((jsonRPCResponse) => client.receive(jsonRPCResponse));
-                    }
-                    else if (req.id !== undefined) {
-                        return Promise.reject(new Error(response.statusText));
-                    }
-                });
+                yield new Promise((ok, err) => __awaiter(this, void 0, void 0, function* () {
+                    yield _gm__WEBPACK_IMPORTED_MODULE_1__["default"].xhr({
+                        url: server,
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        data: JSON.stringify(req),
+                        onload: (resp) => {
+                            if (resp.status === 200) {
+                                client.receive(JSON.parse(resp.responseText));
+                                ok();
+                            }
+                            else {
+                                err(new Error(resp.statusText));
+                            }
+                        },
+                        onerror: (resp) => err(resp.statusText),
+                    });
+                }));
             }));
             return new Client(client, username, examId);
         });
@@ -771,6 +775,89 @@ exports.JSONRPCServerAndClient = JSONRPCServerAndClient;
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/**
+ * @typedef {object} XHRDetail
+ * @property {string} url
+ * @property {string} [method]
+ * @property {string} [user]
+ * @property {string} [password]
+ * @property {string} [overrideMimeType]
+ * @property {{[k:string]:string}} [headers]
+ * @property {string} [responseType]
+ * @property {number} [timeout]
+ * @property {string|FormData|Blob} [data]
+ * @property {boolean} [binary]
+ * @property {any} [context]
+ * @property {boolean} [anonymous]
+ * @property {XHRCallback} [onabort]
+ * @property {XHRCallback} [onerror]
+ * @property {XHRCallback} [onload]
+ * @property {XHRCallback} [onloadend]
+ * @property {XHRCallback} [onloadstart]
+ * @property {XHRCallback} [onprogress]
+ * @property {XHRCallback} [onreadystatechange]
+ * @property {XHRCallback} [ontimeout]
+ */
+
+/**
+ * @callback XHRCallback
+ * @param {XHRResponse} resp
+ * @returns {void}
+ */
+
+/**
+ * @typedef {object} XHRResponse
+ * @property {number} status
+ * @property {string} statusText
+ * @property {number} readyState
+ * @property {string} responseHeaders
+ * @property {string|Blob|ArrayBuffer|Document|object|null} response
+ * @property {string|undefined} responseText
+ * @property {string} finalUrl
+ * @property {any} context
+ */
+
+/**
+ * @typedef {object} XHRControl
+ * @property {() => void} abort
+ */
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  /**
+   * @param {string} key
+   * @returns {Promise<any>}
+   */
+  async getValue(key) {
+    return await GM.getValue(key);
+  },
+
+  /**
+   * @param {string} key
+   * @param {any} val
+   * @returns {Promise<void>}
+   */
+  async setValue(key, val) {
+    return await GM.setValue(key, val);
+  },
+
+  /**
+   * @param {XHRDetail} details
+   * @returns {Promise<XHRControl>}
+   */
+  async xhr(details) {
+    return await GM.xmlHttpRequest(details);
+  },
+});
+
+
+/***/ }),
+/* 9 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "hookXHR": () => (/* binding */ hookXHR),
 /* harmony export */   "newURL": () => (/* binding */ newURL)
 /* harmony export */ });
@@ -816,7 +903,7 @@ function hookXHR(cb) {
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -859,7 +946,7 @@ function isChoice(ty) {
 
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -868,9 +955,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "UI": () => (/* binding */ UI),
 /* harmony export */   "USERNAME": () => (/* binding */ USERNAME)
 /* harmony export */ });
-/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
-/* harmony import */ var _style_module_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(11);
-/* harmony import */ var _gm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(21);
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
+/* harmony import */ var _style_module_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(12);
+/* harmony import */ var _gm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(8);
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -1063,26 +1150,26 @@ class UI {
 
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(12);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(13);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(14);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(14);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(15);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(15);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(16);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(16);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(17);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(17);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(18);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _node_modules_teamsupercell_typings_for_css_modules_loader_src_index_js_ruleSet_1_rules_1_use_1_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_1_use_2_style_module_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(18);
+/* harmony import */ var _node_modules_teamsupercell_typings_for_css_modules_loader_src_index_js_ruleSet_1_rules_1_use_1_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_1_use_2_style_module_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(19);
 
       
       
@@ -1113,7 +1200,7 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ ((module) => {
 
 
@@ -1222,7 +1309,7 @@ module.exports = function (list, options) {
 };
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ ((module) => {
 
 
@@ -1297,7 +1384,7 @@ function domAPI(options) {
 module.exports = domAPI;
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ ((module) => {
 
 
@@ -1341,7 +1428,7 @@ function insertBySelector(insert, style) {
 module.exports = insertBySelector;
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 
@@ -1358,7 +1445,7 @@ function setAttributesWithoutAttributes(styleElement) {
 module.exports = setAttributesWithoutAttributes;
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ ((module) => {
 
 
@@ -1374,7 +1461,7 @@ function insertStyleElement(options) {
 module.exports = insertStyleElement;
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ ((module) => {
 
 
@@ -1395,16 +1482,16 @@ function styleTagTransform(css, styleElement) {
 module.exports = styleTagTransform;
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(19);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(20);
 /* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(20);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(21);
 /* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
 // Imports
 
@@ -1421,7 +1508,7 @@ ___CSS_LOADER_EXPORT___.locals = {
 
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ ((module) => {
 
 
@@ -1431,7 +1518,7 @@ module.exports = function (i) {
 };
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ ((module) => {
 
 
@@ -1537,89 +1624,6 @@ module.exports = function (cssWithMappingToString) {
   return list;
 };
 
-/***/ }),
-/* 21 */
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/**
- * @typedef {object} XHRDetail
- * @property {string} url
- * @property {string} [method]
- * @property {string} [user]
- * @property {string} [password]
- * @property {string} [overrideMimeType]
- * @property {{[k:string]:string}} [headers]
- * @property {string} [responseType]
- * @property {number} [timeout]
- * @property {string|FormData|Blob} [data]
- * @property {boolean} [binary]
- * @property {any} [context]
- * @property {boolean} [anonymous]
- * @property {XHRCallback} [onabort]
- * @property {XHRCallback} [onerror]
- * @property {XHRCallback} [onload]
- * @property {XHRCallback} [onloadend]
- * @property {XHRCallback} [onloadstart]
- * @property {XHRCallback} [onprogress]
- * @property {XHRCallback} [onreadystatechange]
- * @property {XHRCallback} [ontimeout]
- */
-
-/**
- * @callback XHRCallback
- * @param {XHRResponse} resp
- * @returns {void}
- */
-
-/**
- * @typedef {object} XHRResponse
- * @property {number} status
- * @property {string} statusText
- * @property {number} readyState
- * @property {string} responseHeaders
- * @property {string|Blob|ArrayBuffer|Document|object|null} response
- * @property {string|undefined} responseText
- * @property {string} finalUrl
- * @property {any} context
- */
-
-/**
- * @typedef {object} XHRControl
- * @property {() => void} abort
- */
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  /**
-   * @param {string} key
-   * @returns {Promise<any>}
-   */
-  async getValue(key) {
-    return await GM.getValue(key);
-  },
-
-  /**
-   * @param {string} key
-   * @param {any} val
-   * @returns {Promise<void>}
-   */
-  async setValue(key, val) {
-    return await GM.setValue(key, val);
-  },
-
-  /**
-   * @param {XHRDetail} details
-   * @returns {Promise<XHRControl>}
-   */
-  async xhr(details) {
-    return await GM.xmlHttpRequest(details);
-  },
-});
-
-
 /***/ })
 /******/ 	]);
 /************************************************************************/
@@ -1697,9 +1701,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "sortPaper": () => (/* binding */ sortPaper)
 /* harmony export */ });
 /* harmony import */ var _client__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-/* harmony import */ var _xhr__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(8);
-/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(9);
-/* harmony import */ var _ui__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(10);
+/* harmony import */ var _xhr__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(9);
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(10);
+/* harmony import */ var _ui__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(11);
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
