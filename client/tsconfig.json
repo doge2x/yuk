@@ -14,5 +14,5 @@
       "module": "CommonJS"
     }
   },
-  "include": ["webpack.config.ts", "src/*"]
+  "include": ["types.d.ts", "webpack.config.ts", "src/*"]
 }
