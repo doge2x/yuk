@@ -7,14 +7,14 @@ use serde_json::Value as Json;
 struct Answer {
     username: String,
     exam_id: i64,
-    problem_id: i32,
+    problem_id: i64,
     result: String,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct UserAnswer {
     pub username: String,
-    pub problem_id: i32,
+    pub problem_id: i64,
     pub result: Json,
 }
 
