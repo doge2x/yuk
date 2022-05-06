@@ -1717,20 +1717,22 @@ function login(server, username) {
         return (0,_xhr__WEBPACK_IMPORTED_MODULE_1__.hookXHR)(function (url) {
             return new Promise((ok) => {
                 if (url.pathname === "/exam_room/show_paper") {
-                    this.addEventListener("readystatechange", () => {
-                        if (this.readyState == XMLHttpRequest.DONE) {
-                            // Sort problems.
-                            const text = JSON.stringify(sortPaper(JSON.parse(this.responseText)));
-                            // Modify response text.
-                            Object.defineProperties(this, {
-                                responseText: {
-                                    get() {
-                                        return text;
-                                    },
-                                },
-                            });
-                        }
-                    });
+                    // this.addEventListener("readystatechange", () => {
+                    //   if (this.readyState == XMLHttpRequest.DONE) {
+                    //     // Sort problems.
+                    //     const text = JSON.stringify(
+                    //       sortPaper(JSON.parse(this.responseText))
+                    //     );
+                    //     // Modify response text.
+                    //     Object.defineProperties(this, {
+                    //       responseText: {
+                    //         get() {
+                    //           return text;
+                    //         },
+                    //       },
+                    //     });
+                    //   }
+                    // });
                     this.addEventListener("load", () => {
                         // Login to server.
                         const examId = url.searchParams.get("exam_id");

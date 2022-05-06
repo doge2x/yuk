@@ -4,7 +4,7 @@ import {
   ProblemType,
   ChoiceResult,
   BlankResult,
-  UserResult,
+  UserAnswer,
 } from "./types";
 import style from "./style.module.css";
 import GM from "./gm";
@@ -214,7 +214,7 @@ export class UI {
     this.problems = problems;
   }
 
-  updateAnswer({ username, problem_id, result }: UserResult) {
+  updateAnswer({ username, problem_id, result }: UserAnswer) {
     this.problems.get(problem_id)?.updateResult(username, result);
   }
 

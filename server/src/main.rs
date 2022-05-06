@@ -1,5 +1,3 @@
-mod entity;
-mod migration;
 mod server;
 
 use jsonrpsee::{
@@ -8,40 +6,38 @@ use jsonrpsee::{
     proc_macros::rpc,
 };
 use log::info;
-use migration::Migrator;
-use sea_orm::{prelude::*, Database};
-use sea_schema::migration::prelude::*;
-use server::{Server, UserResult};
-use std::{env, net::SocketAddr};
-use tokio::sync::RwLock;
+use mongodb::Client;
+use serde_json::Value as Json;
+use server::{Server, UserAnswer};
+use std::{env, net::SocketAddr, time::Duration};
 
 #[rpc(server)]
 trait YukRpc {
     #[method(name = "login")]
-    async fn login(&self, username: String, exam_id: i32) -> RpcResult<String>;
+    async fn login(&self, username: String, exam_id: i32, dur: Option<u64>) -> RpcResult<String>;
     #[method(name = "answer_problem")]
     async fn answer_problem(
         &self,
         token: String,
         problem_id: i32,
         result: Json,
-    ) -> RpcResult<Vec<UserResult>>;
+    ) -> RpcResult<Vec<UserAnswer>>;
 }
 
 struct YukServer {
-    server: RwLock<Server>,
+    server: Server,
 }
 
 #[async_trait]
 impl YukRpcServer for YukServer {
-    async fn login(&self, username: String, exam_id: i32) -> RpcResult<String> {
-        Ok(self
+    async fn login(&self, username: String, exam_id: i32, dur: Option<u64>) -> RpcResult<String> {
+        info!("login: {}, {}", username, exam_id);
+        let token = self
             .server
-            .write()
-            .await
-            .login(username, exam_id)
+            .login(username, exam_id, Duration::from_secs(dur.unwrap_or(3600)))
             .await?
-            .to_string())
+            .to_string();
+        Ok(token)
     }
 
     async fn answer_problem(
@@ -49,11 +45,11 @@ impl YukRpcServer for YukServer {
         token: String,
         problem_id: i32,
         result: Json,
-    ) -> RpcResult<Vec<UserResult>> {
-        let mut server = self.server.write().await;
+    ) -> RpcResult<Vec<UserAnswer>> {
+        info!("answer_problem: {}, {}", token, problem_id);
         let token = token.parse()?;
-        server.update_answer(token, problem_id, result).await?;
-        Ok(server.fetch_answers(token).await?)
+        self.server.update_answer(token, problem_id, result).await?;
+        Ok(self.server.fetch_answers(token).await?)
     }
 }
 
@@ -65,12 +61,10 @@ async fn main() -> anyhow::Result<()> {
     let addr = env::var("YUK_ADDR")
         .expect("YUK_ADDR must be set")
         .parse::<SocketAddr>()?;
-    let db_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
+    let db_uri = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
 
     // Migrate database.
-    info!("apply migrations");
-    let db = Database::connect(db_url).await?;
-    Migrator::up(&db, None).await?;
+    let db = Client::with_uri_str(db_uri).await?.database("yuk");
 
     // Start server.
     info!("start server at: {}", addr);
@@ -78,7 +72,7 @@ async fn main() -> anyhow::Result<()> {
     server
         .start(
             YukServer {
-                server: RwLock::new(Server::new(db)),
+                server: Server::new(db),
             }
             .into_rpc(),
         )
