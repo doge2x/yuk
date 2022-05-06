@@ -1,4 +1,4 @@
-import { Result, UserResult } from "./types";
+import { Answer, UserAnswer } from "./types";
 import { JSONRPCClient } from "json-rpc-2.0";
 // import GM from "./gm";
 
@@ -7,7 +7,7 @@ export class Client {
   // via GM.xmlhttprequest.
   private token: string;
   private client: JSONRPCClient;
-  private onmsg: ((msg: UserResult[]) => void)[] = [];
+  private onmsg: ((msg: UserAnswer[]) => void)[] = [];
 
   private constructor(token: string, client: JSONRPCClient) {
     this.token = token;
@@ -57,10 +57,10 @@ export class Client {
     return new Client(token, rpcClient);
   }
 
-  async answerProblem(results: Result[]) {
+  async answerProblem(results: Answer[]) {
     // TODO: update many
     for (const { problem_id, result } of results) {
-      const rcev: UserResult[] = await this.client.request("answer_problem", [
+      const rcev: UserAnswer[] = await this.client.request("answer_problem", [
         this.token,
         problem_id,
         result,
@@ -69,7 +69,7 @@ export class Client {
     }
   }
 
-  onmessage(cb: (msg: UserResult[]) => void) {
+  onmessage(cb: (msg: UserAnswer[]) => void) {
     this.onmsg.push(cb);
   }
 }
