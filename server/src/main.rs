@@ -7,20 +7,16 @@ use jsonrpsee::{
 };
 use log::info;
 use mongodb::Client;
-use serde_json::Value as Json;
 use server::{Server, UserAnswer};
-use std::{env, net::SocketAddr, time::Duration};
+use std::{env, net::SocketAddr};
 
 #[rpc(server)]
 trait YukRpc {
-    #[method(name = "login")]
-    async fn login(&self, username: String, exam_id: i32, dur: Option<u64>) -> RpcResult<String>;
     #[method(name = "answer_problem")]
     async fn answer_problem(
         &self,
-        token: String,
-        problem_id: i32,
-        result: Json,
+        exam_id: i64,
+        answers: Vec<UserAnswer>,
     ) -> RpcResult<Vec<UserAnswer>>;
 }
 
@@ -30,26 +26,15 @@ struct YukServer {
 
 #[async_trait]
 impl YukRpcServer for YukServer {
-    async fn login(&self, username: String, exam_id: i32, dur: Option<u64>) -> RpcResult<String> {
-        info!("login: {}, {}", username, exam_id);
-        let token = self
-            .server
-            .login(username, exam_id, Duration::from_secs(dur.unwrap_or(3600)))
-            .await?
-            .to_string();
-        Ok(token)
-    }
-
     async fn answer_problem(
         &self,
-        token: String,
-        problem_id: i32,
-        result: Json,
+        exam_id: i64,
+        answers: Vec<UserAnswer>,
     ) -> RpcResult<Vec<UserAnswer>> {
-        info!("answer_problem: {}, {}", token, problem_id);
-        let token = token.parse()?;
-        self.server.update_answer(token, problem_id, result).await?;
-        Ok(self.server.fetch_answers(token).await?)
+        for ans in answers {
+            self.server.update_answer(exam_id, ans).await?;
+        }
+        Ok(self.server.fetch_answers(exam_id).await?)
     }
 }
 

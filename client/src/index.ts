@@ -28,22 +28,22 @@ async function login(
   return hookXHR(function (url) {
     return new Promise((ok) => {
       if (url.pathname === "/exam_room/show_paper") {
-        // this.addEventListener("readystatechange", () => {
-        //   if (this.readyState == XMLHttpRequest.DONE) {
-        //     // Sort problems.
-        //     const text = JSON.stringify(
-        //       sortPaper(JSON.parse(this.responseText))
-        //     );
-        //     // Modify response text.
-        //     Object.defineProperties(this, {
-        //       responseText: {
-        //         get() {
-        //           return text;
-        //         },
-        //       },
-        //     });
-        //   }
-        // });
+        this.addEventListener("readystatechange", () => {
+          if (this.readyState == XMLHttpRequest.DONE) {
+            // Sort problems.
+            const text = JSON.stringify(
+              sortPaper(JSON.parse(this.responseText))
+            );
+            // Modify response text.
+            Object.defineProperties(this, {
+              responseText: {
+                get() {
+                  return text;
+                },
+              },
+            });
+          }
+        });
         this.addEventListener("load", () => {
           // Login to server.
           const examId = url.searchParams.get("exam_id")!;
@@ -60,16 +60,14 @@ async function login(
   });
 }
 
-async function main() {
+async function main(): Promise<void> {
   const username = await USERNAME.getValue();
   const server = await SERVER.getValue();
   const { client, examId, paper } = await login(server, username);
   // Initialize UI.
   const ui = new UI(paper);
-  console.log(paper);
   // Receive answers and update UI.
   client.onmessage((msg) => {
-    console.log(msg);
     msg.forEach((res) => ui.updateAnswer(res));
     ui.updateUI();
   });
@@ -79,15 +77,20 @@ async function main() {
   ).then((res) => res.json());
   await client.answerProblem(cacheResults.data.results);
   // Upload answers.
-  await hookXHR(async (url, body) => {
-    return new Promise(async () => {
-      if (url.pathname === "/exam_room/answer_problem") {
-        const data: PostAnswer = JSON.parse(await body);
-        console.log(data);
-        await client.answerProblem(data.results);
-      }
-    });
+  return new Promise(async (_, err) => {
+    hookXHR(async (url, body) => {
+      return new Promise(async () => {
+        if (url.pathname === "/exam_room/answer_problem") {
+          const data: PostAnswer = JSON.parse(await body);
+          await client.answerProblem(data.results);
+        }
+      });
+    }).catch(err);
+    client.watch(DEV_MODE ? 1 : 10 * 1000).catch(err);
   });
 }
 
+if (DEV_MODE) {
+  console.warn("IN DEV_MODE");
+}
 main().catch(console.error);
