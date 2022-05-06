@@ -1782,11 +1782,13 @@ function main() {
                     }
                 }));
             })).catch(err);
-            client.watch( false ? 0 : 10 * 1000).catch(err);
+            client.watch( true ? 1 : 0).catch(err);
         }));
     });
 }
-if (false) {}
+if (true) {
+    console.warn("IN DEV_MODE");
+}
 main().catch(console.error);
 
 })();

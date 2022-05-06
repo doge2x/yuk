@@ -1,50 +1,14 @@
-use anyhow::anyhow;
 use futures::prelude::*;
-use mongodb::{
-    bson::{doc, oid::ObjectId, DateTime},
-    options::UpdateOptions,
-    Collection, Database,
-};
+use mongodb::{bson::doc, options::UpdateOptions, Collection, Database};
 use serde::{Deserialize, Serialize};
 use serde_json::Value as Json;
-use std::{
-    fmt::{self, Display},
-    str::FromStr,
-    time::{Duration, SystemTime},
-};
-
-#[derive(Debug, Deserialize, Serialize)]
-struct Session {
-    username: String,
-    exam_id: i32,
-    expire_time: DateTime,
-}
 
 #[derive(Debug, Deserialize, Serialize)]
 struct Answer {
-    exam_id: i32,
     username: String,
+    exam_id: i64,
     problem_id: i32,
     result: String,
-}
-
-#[derive(Clone, Copy)]
-pub struct UserToken(ObjectId);
-
-impl Display for UserToken {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{}", self.0.to_hex())
-    }
-}
-
-impl FromStr for UserToken {
-    type Err = anyhow::Error;
-
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
-        ObjectId::parse_str(s)
-            .map(Self)
-            .map_err(|_| anyhow!("invalid token"))
-    }
 }
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -55,70 +19,25 @@ pub struct UserAnswer {
 }
 
 pub struct Server {
-    sessions: Collection<Session>,
     answers: Collection<Answer>,
 }
 
 impl Server {
     pub fn new(db: Database) -> Self {
         Self {
-            sessions: db.collection("sessions"),
             answers: db.collection("answers"),
         }
     }
 
-    pub async fn login(
-        &self,
-        username: String,
-        exam_id: i32,
-        dur: Duration,
-    ) -> anyhow::Result<UserToken> {
-        self.sessions
-            .delete_many(
-                doc! {
-                    "username": &username,
-                    "expire_time": {
-                        "$lt": DateTime::from_system_time(SystemTime::now()),
-                    },
-                },
-                None,
-            )
-            .await?;
-        let id = self
-            .sessions
-            .insert_one(
-                Session {
-                    username,
-                    exam_id,
-                    expire_time: DateTime::from_system_time(SystemTime::now() + dur),
-                },
-                None,
-            )
-            .await?
-            .inserted_id
-            .as_object_id()
-            .expect("not ObjectId");
-        Ok(UserToken(id))
-    }
-
     pub async fn update_answer(
         &self,
-        token: UserToken,
-        problem_id: i32,
-        result: Json,
+        exam_id: i64,
+        UserAnswer {
+            username,
+            problem_id,
+            result,
+        }: UserAnswer,
     ) -> anyhow::Result<()> {
-        let Session {
-            username, exam_id, ..
-        } = self
-            .sessions
-            .find_one(
-                doc! {
-                    "_id": token.0,
-                },
-                None,
-            )
-            .await?
-            .ok_or_else(|| anyhow!("invalid token"))?;
         self.answers
             .update_one(
                 doc! {
@@ -137,17 +56,7 @@ impl Server {
         Ok(())
     }
 
-    pub async fn fetch_answers(&self, token: UserToken) -> anyhow::Result<Vec<UserAnswer>> {
-        let Session { exam_id, .. } = self
-            .sessions
-            .find_one(
-                doc! {
-                    "_id": token.0,
-                },
-                None,
-            )
-            .await?
-            .ok_or_else(|| anyhow!("invalid token"))?;
+    pub async fn fetch_answers(&self, exam_id: i64) -> anyhow::Result<Vec<UserAnswer>> {
         Ok(self
             .answers
             .find(

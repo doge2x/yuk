@@ -17,8 +17,11 @@ const banner = `\
 
 function newConfig(
   filename: string,
-  minimize?: boolean
+  minimize?: boolean,
+  devMode?: boolean
 ): webpack.Configuration {
+  minimize = minimize ?? false;
+  devMode = devMode ?? false;
   return {
     entry: path.resolve(__dirname, "src/index.ts"),
     mode: "none",
@@ -54,7 +57,7 @@ function newConfig(
       extensions: [".js", ".jsx", ".tsx", ".ts"],
     },
     optimization: {
-      minimize: minimize ?? false,
+      minimize: minimize,
       minimizer: [
         new TerserPlugin({
           terserOptions: {
@@ -71,6 +74,9 @@ function newConfig(
         raw: true,
         entryOnly: true,
       }),
+      new webpack.DefinePlugin({
+        DEV_MODE: devMode,
+      }),
     ],
     output: {
       path: path.resolve(__dirname, "dist"),
@@ -79,4 +85,8 @@ function newConfig(
   };
 }
 
-export default [newConfig("yuk.user.js"), newConfig("yuk.min.user.js", true)];
+export default [
+  newConfig("yuk.user.js", false),
+  newConfig("yuk.min.user.js", true),
+  newConfig("yuk.dev.user.js", false, true),
+];
