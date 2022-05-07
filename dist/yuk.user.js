@@ -22,6 +22,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var json_rpc_2_0__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
 /* harmony import */ var json_rpc_2_0__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(json_rpc_2_0__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _gm__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(8);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(9);
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(10);
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -33,39 +35,43 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 };
 
 
+
+
 class Client {
-    constructor(client, username, examId) {
+    constructor(client, examId) {
         this.onmsg = [];
         this.queue = new Map();
         this.client = client;
-        this.username = username;
         this.examId = examId;
     }
-    static login(server, username, examId) {
+    static login(examId) {
         return __awaiter(this, void 0, void 0, function* () {
             const client = new json_rpc_2_0__WEBPACK_IMPORTED_MODULE_0__.JSONRPCClient((req) => __awaiter(this, void 0, void 0, function* () {
-                yield new Promise((ok, err) => __awaiter(this, void 0, void 0, function* () {
-                    yield _gm__WEBPACK_IMPORTED_MODULE_1__["default"].xhr({
-                        url: server,
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        data: JSON.stringify(req),
-                        onload: (resp) => {
-                            if (resp.status === 200) {
-                                client.receive(JSON.parse(resp.responseText));
-                                ok();
-                            }
-                            else {
-                                err(new Error(resp.statusText));
-                            }
-                        },
-                        onerror: (resp) => err(resp.statusText),
-                    });
-                }));
+                const url = _config__WEBPACK_IMPORTED_MODULE_3__.SERVER.value;
+                if (url !== undefined) {
+                    yield new Promise((ok, err) => __awaiter(this, void 0, void 0, function* () {
+                        yield _gm__WEBPACK_IMPORTED_MODULE_1__["default"].xhr({
+                            url: url,
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            data: JSON.stringify(req),
+                            onload: (resp) => {
+                                if (resp.status === 200) {
+                                    client.receive(JSON.parse(resp.responseText));
+                                    ok();
+                                }
+                                else {
+                                    err(new Error(resp.statusText));
+                                }
+                            },
+                            onerror: (resp) => err(resp.statusText),
+                        });
+                    }));
+                }
             }));
-            return new Client(client, username, examId);
+            return new Client(client, examId);
         });
     }
     watch(ms) {
@@ -82,22 +88,26 @@ class Client {
     }
     sendQueue() {
         return __awaiter(this, void 0, void 0, function* () {
-            if (this.queue.size <= 0) {
+            if (this.queue.size <= 0 ||
+                _config__WEBPACK_IMPORTED_MODULE_3__.USERNAME.value === undefined ||
+                _config__WEBPACK_IMPORTED_MODULE_3__.SERVER.value === undefined) {
                 return;
             }
             let answers = [];
             for (const { problem_id, result } of this.queue.values()) {
                 answers.push({
-                    username: this.username,
+                    username: _config__WEBPACK_IMPORTED_MODULE_3__.USERNAME.value,
                     problem_id: problem_id,
                     result: result,
                 });
             }
             this.queue.clear();
+            (0,_utils__WEBPACK_IMPORTED_MODULE_2__.devLog)("send answers", answers);
             const rcev = yield this.client.request("answer_problem", [
                 this.examId,
                 answers,
             ]);
+            (0,_utils__WEBPACK_IMPORTED_MODULE_2__.devLog)("receive answers", rcev);
             this.onmsg.forEach((cb) => cb(rcev));
         });
     }
@@ -858,6 +868,76 @@ __webpack_require__.r(__webpack_exports__);
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "devLog": () => (/* binding */ devLog)
+/* harmony export */ });
+function devLog(msg, ...params) {
+    if (false) {}
+}
+
+
+/***/ }),
+/* 10 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "SERVER": () => (/* binding */ SERVER),
+/* harmony export */   "USERNAME": () => (/* binding */ USERNAME)
+/* harmony export */ });
+/* harmony import */ var _gm__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(9);
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
+class GMEntry {
+    constructor(name, validator) {
+        this.name = name;
+        this.validator = validator !== null && validator !== void 0 ? validator : (() => true);
+        _gm__WEBPACK_IMPORTED_MODULE_0__["default"].getValue(this.name)
+            .then((val) => (this.value = val))
+            .catch((e) => (0,_utils__WEBPACK_IMPORTED_MODULE_1__.devLog)(e));
+    }
+    updateValue() {
+        return __awaiter(this, void 0, void 0, function* () {
+            let val = yield _gm__WEBPACK_IMPORTED_MODULE_0__["default"].getValue(this.name);
+            let newVal;
+            while (true) {
+                if (val !== undefined) {
+                    newVal = prompt(`Value of "${this.name}" is "${val}"`);
+                }
+                else {
+                    newVal = prompt(`Input "${this.name}"`);
+                }
+                newVal = newVal === "" ? null : newVal;
+                if (newVal === null || this.validator(newVal)) {
+                    break;
+                }
+            }
+            if (newVal !== null) {
+                yield _gm__WEBPACK_IMPORTED_MODULE_0__["default"].setValue(this.name, newVal);
+                this.value = newVal;
+            }
+        });
+    }
+}
+const USERNAME = new GMEntry("username", (val) => /[_\w][_\w\d]*/.test(val));
+const SERVER = new GMEntry("server");
+
+
+/***/ }),
+/* 11 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "hookXHR": () => (/* binding */ hookXHR),
 /* harmony export */   "newURL": () => (/* binding */ newURL)
 /* harmony export */ });
@@ -903,7 +983,7 @@ function hookXHR(cb) {
 
 
 /***/ }),
-/* 10 */
+/* 12 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -946,27 +1026,16 @@ function isChoice(ty) {
 
 
 /***/ }),
-/* 11 */
+/* 13 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "SERVER": () => (/* binding */ SERVER),
-/* harmony export */   "UI": () => (/* binding */ UI),
-/* harmony export */   "USERNAME": () => (/* binding */ USERNAME)
+/* harmony export */   "UI": () => (/* binding */ UI)
 /* harmony export */ });
-/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
-/* harmony import */ var _style_module_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(12);
-/* harmony import */ var _gm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(8);
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(12);
+/* harmony import */ var _style_module_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(14);
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(10);
 
 
 
@@ -1075,45 +1144,6 @@ class ProblemCard {
         }
     }
 }
-class GMEntry {
-    constructor(name, validator) {
-        this.name = name;
-        this.validator = validator !== null && validator !== void 0 ? validator : (() => true);
-    }
-    getValue() {
-        var _a;
-        return __awaiter(this, void 0, void 0, function* () {
-            return (_a = (yield _gm__WEBPACK_IMPORTED_MODULE_2__["default"].getValue(this.name))) !== null && _a !== void 0 ? _a : (yield this.updateValue());
-        });
-    }
-    updateValue() {
-        return __awaiter(this, void 0, void 0, function* () {
-            let val = yield _gm__WEBPACK_IMPORTED_MODULE_2__["default"].getValue(this.name);
-            let newVal = null;
-            while (true) {
-                if (newVal === null || newVal === "") {
-                    if (val !== undefined) {
-                        newVal = prompt(`Value of "${this.name}" is "${val}"`);
-                        // Do not need to update.
-                        if (newVal === null || newVal === "") {
-                            return val;
-                        }
-                    }
-                    else {
-                        newVal = prompt(`Input "${this.name}"`);
-                    }
-                }
-                else if (!this.validator(newVal)) {
-                    newVal = prompt(`Invalid value, input "${this.name}" again`);
-                }
-                else {
-                    yield _gm__WEBPACK_IMPORTED_MODULE_2__["default"].setValue(this.name, newVal);
-                    return newVal;
-                }
-            }
-        });
-    }
-}
 function createButtonText(text, onClick) {
     const ele = document.createElement("span");
     ele.classList.add(_style_module_css__WEBPACK_IMPORTED_MODULE_1__["default"].buttonText);
@@ -1121,14 +1151,12 @@ function createButtonText(text, onClick) {
     ele.addEventListener("click", onClick);
     return ele;
 }
-const USERNAME = new GMEntry("username", (val) => /[_\w][_\w\d]+/.test(val));
-const SERVER = new GMEntry("server");
 class UI {
     constructor(paper) {
         // Header.
         const header = document.querySelector(".header-title");
-        header.appendChild(createButtonText("U", () => USERNAME.updateValue()));
-        header.appendChild(createButtonText("S", () => SERVER.updateValue()));
+        header.appendChild(createButtonText("U", () => _config__WEBPACK_IMPORTED_MODULE_2__.USERNAME.updateValue()));
+        header.appendChild(createButtonText("S", () => _config__WEBPACK_IMPORTED_MODULE_2__.SERVER.updateValue()));
         // Problem cards.
         const problems = new Map();
         document
@@ -1150,26 +1178,26 @@ class UI {
 
 
 /***/ }),
-/* 12 */
+/* 14 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(15);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(14);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(16);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(15);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(17);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(16);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(18);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(17);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(19);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(18);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(20);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _node_modules_teamsupercell_typings_for_css_modules_loader_src_index_js_ruleSet_1_rules_1_use_1_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_1_use_2_style_module_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(19);
+/* harmony import */ var _node_modules_teamsupercell_typings_for_css_modules_loader_src_index_js_ruleSet_1_rules_1_use_1_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_1_use_2_style_module_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(21);
 
       
       
@@ -1200,7 +1228,7 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 
 /***/ }),
-/* 13 */
+/* 15 */
 /***/ ((module) => {
 
 
@@ -1309,7 +1337,7 @@ module.exports = function (list, options) {
 };
 
 /***/ }),
-/* 14 */
+/* 16 */
 /***/ ((module) => {
 
 
@@ -1384,7 +1412,7 @@ function domAPI(options) {
 module.exports = domAPI;
 
 /***/ }),
-/* 15 */
+/* 17 */
 /***/ ((module) => {
 
 
@@ -1428,7 +1456,7 @@ function insertBySelector(insert, style) {
 module.exports = insertBySelector;
 
 /***/ }),
-/* 16 */
+/* 18 */
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 
@@ -1445,7 +1473,7 @@ function setAttributesWithoutAttributes(styleElement) {
 module.exports = setAttributesWithoutAttributes;
 
 /***/ }),
-/* 17 */
+/* 19 */
 /***/ ((module) => {
 
 
@@ -1461,7 +1489,7 @@ function insertStyleElement(options) {
 module.exports = insertStyleElement;
 
 /***/ }),
-/* 18 */
+/* 20 */
 /***/ ((module) => {
 
 
@@ -1482,16 +1510,16 @@ function styleTagTransform(css, styleElement) {
 module.exports = styleTagTransform;
 
 /***/ }),
-/* 19 */
+/* 21 */
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(20);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
 /* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(21);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(23);
 /* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
 // Imports
 
@@ -1508,7 +1536,7 @@ ___CSS_LOADER_EXPORT___.locals = {
 
 
 /***/ }),
-/* 20 */
+/* 22 */
 /***/ ((module) => {
 
 
@@ -1518,7 +1546,7 @@ module.exports = function (i) {
 };
 
 /***/ }),
-/* 21 */
+/* 23 */
 /***/ ((module) => {
 
 
@@ -1701,9 +1729,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "sortPaper": () => (/* binding */ sortPaper)
 /* harmony export */ });
 /* harmony import */ var _client__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-/* harmony import */ var _xhr__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(9);
-/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(10);
-/* harmony import */ var _ui__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(11);
+/* harmony import */ var _xhr__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(11);
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(12);
+/* harmony import */ var _ui__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(13);
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -1728,7 +1756,7 @@ function sortPaper(paper) {
     });
     return paper;
 }
-function login(server, username) {
+function login() {
     return __awaiter(this, void 0, void 0, function* () {
         return (0,_xhr__WEBPACK_IMPORTED_MODULE_1__.hookXHR)(function (url) {
             return new Promise((ok) => {
@@ -1750,7 +1778,7 @@ function login(server, username) {
                     this.addEventListener("load", () => {
                         // Login to server.
                         const examId = url.searchParams.get("exam_id");
-                        ok(_client__WEBPACK_IMPORTED_MODULE_0__.Client.login(server, username, parseInt(examId)).then((client) => ({
+                        ok(_client__WEBPACK_IMPORTED_MODULE_0__.Client.login(parseInt(examId)).then((client) => ({
                             client: client,
                             examId: examId,
                             paper: JSON.parse(this.responseText),
@@ -1763,9 +1791,7 @@ function login(server, username) {
 }
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
-        const username = yield _ui__WEBPACK_IMPORTED_MODULE_3__.USERNAME.getValue();
-        const server = yield _ui__WEBPACK_IMPORTED_MODULE_3__.SERVER.getValue();
-        const { client, examId, paper } = yield login(server, username);
+        const { client, examId, paper } = yield login();
         // Initialize UI.
         const ui = new _ui__WEBPACK_IMPORTED_MODULE_3__.UI(paper);
         // Receive answers and update UI.
