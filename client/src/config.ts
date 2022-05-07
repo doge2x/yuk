@@ -3,12 +3,18 @@ import { devLog } from "./utils";
 
 class GMEntry {
   private name: string;
-  value?: string;
   private validator: (val: string) => boolean;
+  private onupdate: (val: string) => void;
+  value?: string;
 
-  constructor(name: string, validator?: (val: string) => boolean) {
+  constructor(
+    name: string,
+    validator?: (val: string) => boolean,
+    onupdate?: (val: string) => void
+  ) {
     this.name = name;
     this.validator = validator ?? (() => true);
+    this.onupdate = onupdate ?? (() => undefined);
     GM.getValue(this.name)
       .then((val) => (this.value = val))
       .catch((e) => devLog(e));
@@ -29,14 +35,27 @@ class GMEntry {
       }
     }
     if (newVal !== null) {
-      await GM.setValue(this.name, newVal);
+      this.onupdate(newVal);
       this.value = newVal;
+      await GM.setValue(this.name, newVal);
     }
   }
 }
 
-export const USERNAME = new GMEntry("username", (val) =>
-  /[_\w][_\w\d]*/.test(val)
+class Token {
+  value?: string;
+}
+
+export const USERNAME = new GMEntry(
+  "username",
+  (val) => /[_\w][_\w\d]*/.test(val),
+  () => (TOKEN.value = undefined)
 );
 
-export const SERVER = new GMEntry("server");
+export const SERVER = new GMEntry(
+  "server",
+  undefined,
+  () => (TOKEN.value = undefined)
+);
+
+export const TOKEN = new Token();

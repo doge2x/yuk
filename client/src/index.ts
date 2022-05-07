@@ -48,13 +48,11 @@ async function login(): Promise<{
         this.addEventListener("load", () => {
           // Login to server.
           const examId = url.searchParams.get("exam_id")!;
-          ok(
-            Client.login(parseInt(examId)).then((client) => ({
-              client: client,
-              examId: examId,
-              paper: JSON.parse(this.responseText),
-            }))
-          );
+          ok({
+            client: new Client(parseInt(examId)),
+            examId: examId,
+            paper: JSON.parse(this.responseText),
+          });
         });
       }
     });

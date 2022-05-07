@@ -7,16 +7,19 @@ use jsonrpsee::{
 };
 use log::info;
 use mongodb::{bson::doc, Client};
-use server::{Server, UserAnswer};
+use server::{PostAnswer, Server, UserAnswer};
 use std::{env, net::SocketAddr};
 
 #[rpc(server)]
 trait YukRpc {
+    #[method(name = "login")]
+    async fn login(&self, username: String, exam_id: i64) -> RpcResult<String>;
+
     #[method(name = "answer_problem")]
     async fn answer_problem(
         &self,
-        exam_id: i64,
-        answers: Vec<UserAnswer>,
+        token: String,
+        answers: Vec<PostAnswer>,
     ) -> RpcResult<Vec<UserAnswer>>;
 }
 
@@ -26,13 +29,17 @@ struct YukServer {
 
 #[async_trait]
 impl YukRpcServer for YukServer {
+    async fn login(&self, username: String, exam_id: i64) -> RpcResult<String> {
+        Ok(self.server.login(username, exam_id).await?.to_string())
+    }
+
     async fn answer_problem(
         &self,
-        exam_id: i64,
-        answers: Vec<UserAnswer>,
+        token: String,
+        answers: Vec<PostAnswer>,
     ) -> RpcResult<Vec<UserAnswer>> {
-        self.server.update_answer(exam_id, answers).await?;
-        Ok(self.server.fetch_answers(exam_id).await?)
+        let (exam_id, last_post) = self.server.update_answer(token.parse()?, answers).await?;
+        Ok(self.server.fetch_answers(exam_id, last_post).await?)
     }
 }
 
