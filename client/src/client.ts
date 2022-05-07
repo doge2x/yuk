@@ -1,49 +1,48 @@
 import { Answer, UserAnswer } from "./types";
 import { JSONRPCClient } from "json-rpc-2.0";
 import GM from "./gm";
+import { devLog } from "./utils";
+import { SERVER, USERNAME } from "./config";
 
 export class Client {
   // Use http request, since we can use non-secure connections
   // via GM.xmlhttprequest.
   private client: JSONRPCClient;
-  private username: string;
   private examId: number;
   private onmsg: ((msg: UserAnswer[]) => void)[] = [];
   private queue: Map<number, Answer> = new Map();
 
-  private constructor(client: JSONRPCClient, username: string, examId: number) {
+  private constructor(client: JSONRPCClient, examId: number) {
     this.client = client;
-    this.username = username;
     this.examId = examId;
   }
 
-  static async login(
-    server: string,
-    username: string,
-    examId: number
-  ): Promise<Client> {
+  static async login(examId: number): Promise<Client> {
     const client = new JSONRPCClient(async (req) => {
-      await new Promise<void>(async (ok, err) => {
-        await GM.xhr({
-          url: server,
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          data: JSON.stringify(req),
-          onload: (resp) => {
-            if (resp.status === 200) {
-              client.receive(JSON.parse(resp.responseText!));
-              ok();
-            } else {
-              err(new Error(resp.statusText));
-            }
-          },
-          onerror: (resp) => err(resp.statusText),
+      const url = SERVER.value;
+      if (url !== undefined) {
+        await new Promise<void>(async (ok, err) => {
+          await GM.xhr({
+            url: url,
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            data: JSON.stringify(req),
+            onload: (resp) => {
+              if (resp.status === 200) {
+                client.receive(JSON.parse(resp.responseText!));
+                ok();
+              } else {
+                err(new Error(resp.statusText));
+              }
+            },
+            onerror: (resp) => err(resp.statusText),
+          });
         });
-      });
+      }
     });
-    return new Client(client, username, examId);
+    return new Client(client, examId);
   }
 
   async watch(ms: number) {
@@ -58,22 +57,28 @@ export class Client {
   }
 
   private async sendQueue() {
-    if (this.queue.size <= 0) {
+    if (
+      this.queue.size <= 0 ||
+      USERNAME.value === undefined ||
+      SERVER.value === undefined
+    ) {
       return;
     }
     let answers: UserAnswer[] = [];
     for (const { problem_id, result } of this.queue.values()) {
       answers.push({
-        username: this.username,
+        username: USERNAME.value,
         problem_id: problem_id,
         result: result,
       });
     }
     this.queue.clear();
+    devLog("send answers", answers);
     const rcev = await this.client.request("answer_problem", [
       this.examId,
       answers,
     ]);
+    devLog("receive answers", rcev);
     this.onmsg.forEach((cb) => cb(rcev));
   }
 

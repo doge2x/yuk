@@ -7,7 +7,7 @@ import {
   ChoiceOption,
   CacheResults,
 } from "./types";
-import { SERVER, UI, USERNAME } from "./ui";
+import { UI } from "./ui";
 
 export function sortPaper(paper: Paper): Paper {
   paper.data.problems.sort((a, b) => a.problem_id - b.problem_id);
@@ -21,10 +21,11 @@ export function sortPaper(paper: Paper): Paper {
   return paper;
 }
 
-async function login(
-  server: string,
-  username: string
-): Promise<{ client: Client; examId: string; paper: Paper }> {
+async function login(): Promise<{
+  client: Client;
+  examId: string;
+  paper: Paper;
+}> {
   return hookXHR(function (url) {
     return new Promise((ok) => {
       if (url.pathname === "/exam_room/show_paper") {
@@ -48,7 +49,7 @@ async function login(
           // Login to server.
           const examId = url.searchParams.get("exam_id")!;
           ok(
-            Client.login(server, username, parseInt(examId)).then((client) => ({
+            Client.login(parseInt(examId)).then((client) => ({
               client: client,
               examId: examId,
               paper: JSON.parse(this.responseText),
@@ -61,9 +62,7 @@ async function login(
 }
 
 async function main(): Promise<void> {
-  const username = await USERNAME.getValue();
-  const server = await SERVER.getValue();
-  const { client, examId, paper } = await login(server, username);
+  const { client, examId, paper } = await login();
   // Initialize UI.
   const ui = new UI(paper);
   // Receive answers and update UI.
