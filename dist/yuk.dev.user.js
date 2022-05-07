@@ -38,41 +38,36 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 
 class Client {
-    constructor(client, examId) {
+    constructor(examId) {
         this.onmsg = [];
         this.queue = new Map();
+        const client = new json_rpc_2_0__WEBPACK_IMPORTED_MODULE_0__.JSONRPCClient((req) => __awaiter(this, void 0, void 0, function* () {
+            const url = _config__WEBPACK_IMPORTED_MODULE_3__.SERVER.value;
+            if (url !== undefined) {
+                yield new Promise((ok, err) => __awaiter(this, void 0, void 0, function* () {
+                    yield _gm__WEBPACK_IMPORTED_MODULE_1__["default"].xhr({
+                        url: url,
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        data: JSON.stringify(req),
+                        onload: (resp) => {
+                            if (resp.status === 200) {
+                                client.receive(JSON.parse(resp.responseText));
+                                ok();
+                            }
+                            else {
+                                err(new Error(resp.statusText));
+                            }
+                        },
+                        onerror: (resp) => err(resp.statusText),
+                    });
+                }));
+            }
+        }));
         this.client = client;
         this.examId = examId;
-    }
-    static login(examId) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const client = new json_rpc_2_0__WEBPACK_IMPORTED_MODULE_0__.JSONRPCClient((req) => __awaiter(this, void 0, void 0, function* () {
-                const url = _config__WEBPACK_IMPORTED_MODULE_3__.SERVER.value;
-                if (url !== undefined) {
-                    yield new Promise((ok, err) => __awaiter(this, void 0, void 0, function* () {
-                        yield _gm__WEBPACK_IMPORTED_MODULE_1__["default"].xhr({
-                            url: url,
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                            },
-                            data: JSON.stringify(req),
-                            onload: (resp) => {
-                                if (resp.status === 200) {
-                                    client.receive(JSON.parse(resp.responseText));
-                                    ok();
-                                }
-                                else {
-                                    err(new Error(resp.statusText));
-                                }
-                            },
-                            onerror: (resp) => err(resp.statusText),
-                        });
-                    }));
-                }
-            }));
-            return new Client(client, examId);
-        });
     }
     watch(ms) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -88,28 +83,41 @@ class Client {
     }
     sendQueue() {
         return __awaiter(this, void 0, void 0, function* () {
-            if (this.queue.size <= 0 ||
-                _config__WEBPACK_IMPORTED_MODULE_3__.USERNAME.value === undefined ||
+            const username = _config__WEBPACK_IMPORTED_MODULE_3__.USERNAME.value;
+            if (this.queue.size < 1 ||
+                username === undefined ||
                 _config__WEBPACK_IMPORTED_MODULE_3__.SERVER.value === undefined) {
                 return;
             }
             let answers = [];
             for (const { problem_id, result } of this.queue.values()) {
                 answers.push({
-                    username: _config__WEBPACK_IMPORTED_MODULE_3__.USERNAME.value,
+                    username: username,
                     problem_id: problem_id,
                     result: result,
                 });
             }
             this.queue.clear();
+            if (_config__WEBPACK_IMPORTED_MODULE_3__.TOKEN.value === undefined) {
+                (0,_utils__WEBPACK_IMPORTED_MODULE_2__.devLog)(`login to server: ${username}, ${this.examId}`);
+                const token = yield this.client.request("login", [
+                    _config__WEBPACK_IMPORTED_MODULE_3__.USERNAME.value,
+                    this.examId,
+                ]);
+                (0,_utils__WEBPACK_IMPORTED_MODULE_2__.devLog)("got token", token);
+                _config__WEBPACK_IMPORTED_MODULE_3__.TOKEN.value = token;
+            }
             (0,_utils__WEBPACK_IMPORTED_MODULE_2__.devLog)("send answers", answers);
             const rcev = yield this.client.request("answer_problem", [
-                this.examId,
+                _config__WEBPACK_IMPORTED_MODULE_3__.TOKEN.value,
                 answers,
             ]);
-            (0,_utils__WEBPACK_IMPORTED_MODULE_2__.devLog)("receive answers", rcev);
-            this.onmsg.forEach((cb) => cb(rcev));
+            this.pushMsg(rcev);
         });
+    }
+    pushMsg(answers) {
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.devLog)("receive answers", answers);
+        this.onmsg.forEach((cb) => cb(answers));
     }
     answerProblem(answers) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -884,6 +892,7 @@ function devLog(msg, ...params) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "SERVER": () => (/* binding */ SERVER),
+/* harmony export */   "TOKEN": () => (/* binding */ TOKEN),
 /* harmony export */   "USERNAME": () => (/* binding */ USERNAME)
 /* harmony export */ });
 /* harmony import */ var _gm__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
@@ -900,9 +909,10 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 
 class GMEntry {
-    constructor(name, validator) {
+    constructor(name, validator, onupdate) {
         this.name = name;
         this.validator = validator !== null && validator !== void 0 ? validator : (() => true);
+        this.onupdate = onupdate !== null && onupdate !== void 0 ? onupdate : (() => undefined);
         _gm__WEBPACK_IMPORTED_MODULE_0__["default"].getValue(this.name)
             .then((val) => (this.value = val))
             .catch((e) => (0,_utils__WEBPACK_IMPORTED_MODULE_1__.devLog)(e));
@@ -924,14 +934,18 @@ class GMEntry {
                 }
             }
             if (newVal !== null) {
-                yield _gm__WEBPACK_IMPORTED_MODULE_0__["default"].setValue(this.name, newVal);
+                this.onupdate(newVal);
                 this.value = newVal;
+                yield _gm__WEBPACK_IMPORTED_MODULE_0__["default"].setValue(this.name, newVal);
             }
         });
     }
 }
-const USERNAME = new GMEntry("username", (val) => /[_\w][_\w\d]*/.test(val));
-const SERVER = new GMEntry("server");
+class Token {
+}
+const USERNAME = new GMEntry("username", (val) => /[_\w][_\w\d]*/.test(val), () => (TOKEN.value = undefined));
+const SERVER = new GMEntry("server", undefined, () => (TOKEN.value = undefined));
+const TOKEN = new Token();
 
 
 /***/ }),
@@ -1780,11 +1794,11 @@ function login() {
                     this.addEventListener("load", () => {
                         // Login to server.
                         const examId = url.searchParams.get("exam_id");
-                        ok(_client__WEBPACK_IMPORTED_MODULE_0__.Client.login(parseInt(examId)).then((client) => ({
-                            client: client,
+                        ok({
+                            client: new _client__WEBPACK_IMPORTED_MODULE_0__.Client(parseInt(examId)),
                             examId: examId,
                             paper: JSON.parse(this.responseText),
-                        })));
+                        });
                     });
                 }
             });
