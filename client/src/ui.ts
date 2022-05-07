@@ -7,7 +7,7 @@ import {
   UserAnswer,
 } from "./types";
 import style from "./style.module.css";
-import GM from "./gm";
+import { SERVER, USERNAME } from "./config";
 
 class Map2<K, V> extends Map<K, V> {
   private def: () => V;
@@ -145,43 +145,6 @@ class ProblemCard {
   }
 }
 
-class GMEntry {
-  name: string;
-  validator: (val: string) => boolean;
-
-  constructor(name: string, validator?: (val: string) => boolean) {
-    this.name = name;
-    this.validator = validator ?? (() => true);
-  }
-
-  async getValue(): Promise<string> {
-    return (await GM.getValue(this.name)) ?? (await this.updateValue());
-  }
-
-  async updateValue(): Promise<string> {
-    let val = await GM.getValue(this.name);
-    let newVal = null;
-    while (true) {
-      if (newVal === null || newVal === "") {
-        if (val !== undefined) {
-          newVal = prompt(`Value of "${this.name}" is "${val}"`);
-          // Do not need to update.
-          if (newVal === null || newVal === "") {
-            return val;
-          }
-        } else {
-          newVal = prompt(`Input "${this.name}"`);
-        }
-      } else if (!this.validator(newVal)) {
-        newVal = prompt(`Invalid value, input "${this.name}" again`);
-      } else {
-        await GM.setValue(this.name, newVal);
-        return newVal;
-      }
-    }
-  }
-}
-
 function createButtonText(text: string, onClick: () => void): Element {
   const ele = document.createElement("span");
   ele.classList.add(style.buttonText);
@@ -189,11 +152,6 @@ function createButtonText(text: string, onClick: () => void): Element {
   ele.addEventListener("click", onClick);
   return ele;
 }
-
-export const USERNAME = new GMEntry("username", (val) =>
-  /[_\w][_\w\d]+/.test(val)
-);
-export const SERVER = new GMEntry("server");
 
 export class UI {
   private problems: Map<number, ProblemCard>;
