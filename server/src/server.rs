@@ -1,5 +1,5 @@
 use futures::prelude::*;
-use mongodb::{bson::doc, options::UpdateOptions, Collection, Database};
+use mongodb::{bson::doc, Collection, Database};
 use serde::{Deserialize, Serialize};
 use serde_json::Value as Json;
 
@@ -19,6 +19,7 @@ pub struct UserAnswer {
 }
 
 pub struct Server {
+    db: Database,
     answers: Collection<Answer>,
 }
 
@@ -26,33 +27,43 @@ impl Server {
     pub fn new(db: Database) -> Self {
         Self {
             answers: db.collection("answers"),
+            db,
         }
     }
 
+    // FIXME: [bulk_update](https://jira.mongodb.org/browse/RUST-531)
     pub async fn update_answer(
         &self,
         exam_id: i64,
-        UserAnswer {
-            username,
-            problem_id,
-            result,
-        }: UserAnswer,
+        answers: Vec<UserAnswer>,
     ) -> anyhow::Result<()> {
-        self.answers
-            .update_one(
+        let updates = answers.into_iter().map(
+            |UserAnswer {
+                 username,
+                 problem_id,
+                 result,
+             }| {
                 doc! {
-                    "exam_id": exam_id,
-                    "username": username,
-                    "problem_id": problem_id,
-                },
-                doc! {
-                    "$set": {
-                        "result": serde_json::to_string(&result)?,
+                    "q": {
+                        "exam_id": exam_id,
+                        "username": username,
+                        "problem_id": problem_id,
                     },
-                },
-                UpdateOptions::builder().upsert(true).build(),
-            )
-            .await?;
+                    "u": {
+                        "$set": {
+                            "result": serde_json::to_string(&result).unwrap_or_else(|_| unreachable!()),
+                        },
+                    },
+                    "upsert": true,
+                    "multi": false,
+                }
+            },
+        ).collect::<Vec<_>>();
+        let command = doc! {
+            "update": self.answers.name(),
+            "updates": updates,
+        };
+        self.db.run_command(command, None).await?;
         Ok(())
     }
 

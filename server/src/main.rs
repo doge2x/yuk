@@ -6,7 +6,7 @@ use jsonrpsee::{
     proc_macros::rpc,
 };
 use log::info;
-use mongodb::Client;
+use mongodb::{bson::doc, Client};
 use server::{Server, UserAnswer};
 use std::{env, net::SocketAddr};
 
@@ -31,9 +31,7 @@ impl YukRpcServer for YukServer {
         exam_id: i64,
         answers: Vec<UserAnswer>,
     ) -> RpcResult<Vec<UserAnswer>> {
-        for ans in answers {
-            self.server.update_answer(exam_id, ans).await?;
-        }
+        self.server.update_answer(exam_id, answers).await?;
         Ok(self.server.fetch_answers(exam_id).await?)
     }
 }
@@ -48,8 +46,10 @@ async fn main() -> anyhow::Result<()> {
         .parse::<SocketAddr>()?;
     let db_uri = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
 
-    // Migrate database.
+    // Connect database.
+    info!("connect to database: {}", db_uri);
     let db = Client::with_uri_str(db_uri).await?.database("yuk");
+    db.run_command(doc! { "ping": 1 }, None).await?;
 
     // Start server.
     info!("start server at: {}", addr);
