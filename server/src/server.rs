@@ -13,7 +13,8 @@ use std::{fmt::Display, str::FromStr};
 
 #[derive(Debug, Deserialize, Serialize)]
 struct Session {
-    _id: ObjectId,
+    #[serde(rename = "_id")]
+    id: ObjectId,
     username: String,
     exam_id: i64,
     last_post: DateTime,
@@ -77,7 +78,7 @@ impl Server {
 
     pub async fn login(&self, username: String, exam_id: i64) -> anyhow::Result<UserToken> {
         info!("login: {}, {}", username, exam_id);
-        let Session { _id, .. } = self
+        let Session { id, .. } = self
             .sessions
             .find_one_and_update(
                 doc! {
@@ -92,7 +93,7 @@ impl Server {
             )
             .await?
             .expect("no return document");
-        Ok(UserToken(_id))
+        Ok(UserToken(id))
     }
 
     pub async fn update_answer(
@@ -102,7 +103,7 @@ impl Server {
     ) -> anyhow::Result<(i64, DateTime)> {
         let new_post = DateTime::now();
         let Session {
-            _id: session_id,
+            id: session_id,
             exam_id,
             last_post,
             ..
