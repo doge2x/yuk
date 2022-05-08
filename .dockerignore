@@ -1,9 +1,0 @@
-# Git
-.git
-# Rust
-**/target
-# Nodejs
-**/node_modules
-# Direnv
-.direnv
-.envrc

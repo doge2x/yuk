@@ -9,6 +9,10 @@ use log::info;
 use mongodb::{bson::doc, Client};
 use server::{PostAnswer, Server, UserAnswer};
 use std::{env, net::SocketAddr};
+use tokio::signal::{
+    ctrl_c,
+    unix::{signal, SignalKind},
+};
 
 #[rpc(server)]
 trait YukRpc {
@@ -45,7 +49,7 @@ impl YukRpcServer for YukServer {
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
-    env_logger::init();
+    env_logger::Builder::from_env(env_logger::Env::default().default_filter_or("info")).init();
 
     // Collect env.
     let addr = env::var("YUK_ADDR")
@@ -61,15 +65,24 @@ async fn main() -> anyhow::Result<()> {
     // Start server.
     info!("start server at: {}", addr);
     let server = HttpServerBuilder::new().build(addr).await.unwrap();
-    server
+    let handler = server
         .start(
             YukServer {
                 server: Server::new(db),
             }
             .into_rpc(),
         )
-        .unwrap()
-        .await;
+        .unwrap();
+
+    let mut sig_int = signal(SignalKind::interrupt()).unwrap();
+    let mut sig_term = signal(SignalKind::terminate()).unwrap();
+    tokio::select! {
+        _ = sig_int.recv() => info!("receive SININT"),
+        _ = sig_term.recv() => info!("receive SIGTERM"),
+        _ = ctrl_c() => info!("receive CTRL_C"),
+    }
+    info!("shutdown server");
+    handler.stop().unwrap();
 
     Ok(())
 }
