@@ -1,5 +1,5 @@
 import { Client } from "./client";
-import { hookXHR, newURL } from "./xhr";
+import { hookXHR } from "./xhr";
 import {
   PostAnswer,
   Paper,
@@ -8,6 +8,8 @@ import {
   CacheResults,
 } from "./types";
 import { UI } from "./ui";
+import { devLog, newURL } from "./utils";
+import { EXAM_ID } from "./context";
 
 export function sortPaper(paper: Paper): Paper {
   paper.data.problems.sort((a, b) => a.problem_id - b.problem_id);
@@ -21,14 +23,39 @@ export function sortPaper(paper: Paper): Paper {
   return paper;
 }
 
-async function login(): Promise<{
-  client: Client;
-  examId: string;
-  paper: Paper;
-}> {
-  return hookXHR(function (url) {
-    return new Promise((ok) => {
-      if (url.pathname === "/exam_room/show_paper") {
+function removeVisibilityListener() {
+  document.addEventListener(
+    "visibilitychange",
+    (e) => {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+    },
+    true
+  );
+  window.addEventListener(
+    "visibilitychange",
+    (e) => {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+    },
+    true
+  );
+}
+
+async function main(): Promise<void> {
+  const toDataURL = HTMLCanvasElement.prototype.toDataURL;
+  HTMLCanvasElement.prototype.toDataURL = function (
+    type?: string,
+    quality?: any
+  ) {
+    console.log(type, quality, this.height, this.width);
+    return toDataURL.call(this, type, quality);
+  };
+  removeVisibilityListener();
+  const client = new Client();
+  hookXHR(function (url) {
+    switch (url.pathname) {
+      case "/exam_room/show_paper":
         this.addEventListener("readystatechange", () => {
           if (this.readyState == XMLHttpRequest.DONE) {
             // Sort problems.
@@ -47,44 +74,48 @@ async function login(): Promise<{
         });
         this.addEventListener("load", () => {
           // Login to server.
-          const examId = url.searchParams.get("exam_id")!;
-          ok({
-            client: new Client(parseInt(examId)),
-            examId: examId,
-            paper: JSON.parse(this.responseText),
+          const ui = new UI(JSON.parse(this.responseText));
+          // Receive answers and update UI.
+          client.onmessage((msg) => {
+            msg.forEach((res) => ui.updateAnswer(res));
+            ui.updateUI();
           });
+          (async () => {
+            // Fetch cached results.
+            EXAM_ID.value = parseInt(url.searchParams.get("exam_id")!);
+            const cacheResults: CacheResults = await fetch(
+              newURL("/exam_room/cache_results", {
+                exam_id: EXAM_ID.value.toString(),
+              }).toString()
+            ).then((res) => res.json());
+            client.answerProblem(cacheResults.data.results);
+          })().catch(devLog);
         });
-      }
-    });
-  });
-}
-
-async function main(): Promise<void> {
-  const { client, examId, paper } = await login();
-  // Initialize UI.
-  const ui = new UI(paper);
-  // Receive answers and update UI.
-  client.onmessage((msg) => {
-    msg.forEach((res) => ui.updateAnswer(res));
-    ui.updateUI();
-  });
-  // Upload cached results.
-  const cacheResults: CacheResults = await fetch(
-    newURL("/exam_room/cache_results", { exam_id: examId }).toString()
-  ).then((res) => res.json());
-  await client.answerProblem(cacheResults.data.results);
-  // Upload answers.
-  return new Promise(async (_, err) => {
-    hookXHR(async (url, body) => {
-      return new Promise(async () => {
-        if (url.pathname === "/exam_room/answer_problem") {
-          const data: PostAnswer = JSON.parse(await body);
-          await client.answerProblem(data.results);
+        return true;
+      case "/exam_room/answer_problem":
+        return async (body) => {
+          // Upload answers.
+          if (typeof body === "string") {
+            const data: PostAnswer = JSON.parse(body);
+            client.answerProblem(data.results ?? []).catch(devLog);
+          }
+          return body;
+        };
+      default:
+        if (url.hostname === "upload-z1.qiniup.com") {
+          // Fake screenshot.
+          return async (body) => {
+            if (body instanceof FormData && body.get("file") instanceof File) {
+              console.log(body.get("file"));
+            }
+            return body;
+          };
+        } else {
+          return true;
         }
-      });
-    }).catch(err);
-    client.watch(DEV_MODE ? 1 : 10 * 1000).catch(err);
+    }
   });
+  await client.watch(DEV_MODE ? 1 : 1e4);
 }
 
 if (DEV_MODE) {

@@ -7,6 +7,8 @@
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "outDir": "dist",
+    "jsx": "react",
+    "reactNamespace": "Recks",
     "esModuleInterop": true
   },
   "ts-node": {
@@ -14,5 +16,5 @@
       "module": "CommonJS"
     }
   },
-  "include": ["types.d.ts", "webpack.config.ts", "src/*"]
+  "include": ["global.d.ts", "webpack.config.ts", "src/*"]
 }

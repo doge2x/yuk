@@ -2,20 +2,19 @@ import { Answer, UserAnswer } from "./types";
 import { JSONRPCClient } from "json-rpc-2.0";
 import GM from "./gm";
 import { devLog } from "./utils";
-import { SERVER, USERNAME, TOKEN } from "./config";
+import { SERVER, USERNAME, TOKEN, EXAM_ID } from "./context";
 
 export class Client {
   // Use http request, since we can use non-secure connections
   // via GM.xmlhttprequest.
   private client: JSONRPCClient;
-  private examId: number;
   private onmsg: ((msg: UserAnswer[]) => void)[] = [];
   private queue: Map<number, Answer> = new Map();
 
-  constructor(examId: number) {
+  constructor() {
     const client = new JSONRPCClient(async (req) => {
       const url = SERVER.value;
-      if (url !== undefined) {
+      if (url !== null) {
         await new Promise<void>(async (ok, err) => {
           await GM.xhr({
             url: url,
@@ -38,10 +37,9 @@ export class Client {
       }
     });
     this.client = client;
-    this.examId = examId;
   }
 
-  async watch(ms: number) {
+  async watch(ms: number): Promise<void> {
     return new Promise((_, err) => {
       const timer = setInterval(() => {
         this.sendQueue().catch((e) => {
@@ -53,43 +51,33 @@ export class Client {
   }
 
   private async sendQueue() {
-    const username = USERNAME.value;
     if (
       this.queue.size < 1 ||
-      username === undefined ||
-      SERVER.value === undefined
+      USERNAME.value === null ||
+      SERVER.value === null ||
+      EXAM_ID.value === null
     ) {
       return;
     }
-    let answers: UserAnswer[] = [];
-    for (const { problem_id, result } of this.queue.values()) {
-      answers.push({
-        username: username,
-        problem_id: problem_id,
-        result: result,
-      });
-    }
+    let answers = [...this.queue.values()];
     this.queue.clear();
-    if (TOKEN.value === undefined) {
-      devLog(`login to server: ${username}, ${this.examId}`);
-      const token = await this.client.request("login", [
+    if (TOKEN.value === null) {
+      devLog(`login to server: ${USERNAME.value}, ${EXAM_ID.value}`);
+      const token: string = await this.client.request("login", [
         USERNAME.value,
-        this.examId,
+        EXAM_ID.value,
       ]);
       devLog("got token", token);
       TOKEN.value = token;
     }
-    devLog("send answers", answers);
-    const rcev = await this.client.request("answer_problem", [
-      TOKEN.value,
-      answers,
-    ]);
-    this.pushMsg(rcev);
+    this.postAnswers(TOKEN.value, answers);
   }
 
-  private pushMsg(answers: UserAnswer[]) {
-    devLog("receive answers", answers);
-    this.onmsg.forEach((cb) => cb(answers));
+  private async postAnswers(token: string, answers: Answer[]) {
+    devLog("send answers", answers);
+    const rcev = await this.client.request("answer_problem", [token, answers]);
+    devLog("receive answers", rcev);
+    this.onmsg.forEach((cb) => cb(rcev));
   }
 
   async answerProblem(answers: Answer[]) {

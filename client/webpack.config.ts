@@ -23,7 +23,7 @@ function newConfig(
   minimize = minimize ?? false;
   devMode = devMode ?? false;
   return {
-    entry: path.resolve(__dirname, "src/index.ts"),
+    entry: path.resolve(__dirname, "src/index"),
     mode: "none",
     module: {
       rules: [
@@ -32,9 +32,8 @@ function newConfig(
           use: "ts-loader",
         },
         {
-          test: /\.css$/,
+          test: /\.mod\.css$/,
           use: [
-            "style-loader",
             {
               loader: "@teamsupercell/typings-for-css-modules-loader",
               options: {
@@ -44,9 +43,7 @@ function newConfig(
             {
               loader: "css-loader",
               options: {
-                modules: {
-                  localIdentName: "__yuk_[hash:base64]",
-                },
+                modules: true,
               },
             },
           ],

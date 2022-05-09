@@ -1,0 +1,94 @@
+import { Paper, UserAnswer } from "./types";
+import styleCss from "./style.mod.css";
+import { devLog, openWin } from "./utils";
+import { ProblemCard } from "./card";
+import Recks from "./recks";
+import { SERVER, USERNAME } from "./context";
+const style = styleCss.locals;
+
+export class UI {
+  private problems: Map<number, ProblemCard>;
+
+  constructor(paper: Paper) {
+    // Header.
+    document.head.append(<style>{styleCss.toString()}</style>);
+    const header = document.body.querySelector(".header-title") as HTMLElement;
+    header.classList.add(style.clickable);
+    header.addEventListener("click", () => {
+      const win = openWin("Settings", { height: 200, width: 200 });
+
+      function SettingsEntry(props: {
+        name: string;
+        title: string;
+        pattern?: string;
+        size?: number;
+        value?: string;
+      }) {
+        return (
+          <div classList={[style.settingsEntry]}>
+            <label htmlFor={props.name}>{props.title}</label>
+            <input
+              type="text"
+              required={true}
+              name={props.name}
+              title={props.title}
+              pattern={props.pattern}
+              size={props.size}
+              value={props.value}
+            />
+          </div>
+        );
+      }
+
+      win.document.body.append(
+        <form
+          onsubmit={() => false}
+          on-submit={function () {
+            const form = new FormData(this);
+            USERNAME.setValue(form.get("username") as any).catch(devLog);
+            SERVER.setValue(form.get("server") as any).catch(devLog);
+            for (const v of form) {
+              console.log(v);
+            }
+          }}
+          classList={[style.mainBody, style.settings]}
+        >
+          <SettingsEntry
+            name="username"
+            title="用户名"
+            pattern={"[_a-z][_a-z0-9]*"}
+            size={10}
+            value={USERNAME.value ?? undefined}
+          />
+          <SettingsEntry
+            name="server"
+            title="服务器地址"
+            pattern={".*"}
+            size={15}
+            value={SERVER.value ?? undefined}
+          />
+          <div classList={[style.settingsSubmit]}>
+            <input type="submit" value="提交" size={10} />
+          </div>
+        </form>
+      );
+    });
+    // Problem cards.
+    const problems = new Map();
+    document.body
+      .querySelectorAll(".exam-main--body div .subject-item")
+      .forEach((subjectItem, idx) => {
+        const prob = paper.data.problems[idx];
+        problems.set(prob.problem_id, new ProblemCard(prob, subjectItem));
+      });
+    this.problems = problems;
+  }
+
+  updateAnswer({ username, problem_id, result }: UserAnswer) {
+    this.problems.get(problem_id)?.updateResult(username, result);
+  }
+
+  updateUI() {
+    this.problems.forEach((card) => card.updateUI());
+  }
+}
