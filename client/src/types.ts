@@ -11,7 +11,7 @@ export type UserAnswer = {
 
 export type PostAnswer = {
   exam_id: string;
-  results: Answer[];
+  results?: Answer[];
 };
 
 export type Paper = {
@@ -63,6 +63,18 @@ export enum ProblemType {
 export type ChoiceResult = string[];
 
 export type BlankResult = { [key: string]: string };
+
+export type AttachedFile = {
+  fileName: string;
+  fileSize: string;
+  fileUrl: string;
+  fileType: string;
+};
+
+export type ShortAnswerResult = {
+  content: string;
+  attachments?: { filelist?: AttachedFile[] };
+};
 
 export type ChoiceOption = {
   key: string;

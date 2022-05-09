@@ -23,7 +23,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var json_rpc_2_0__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(json_rpc_2_0__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _gm__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(8);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(9);
-/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(10);
+/* harmony import */ var _context__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(14);
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -38,12 +38,12 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 
 class Client {
-    constructor(examId) {
+    constructor() {
         this.onmsg = [];
         this.queue = new Map();
         const client = new json_rpc_2_0__WEBPACK_IMPORTED_MODULE_0__.JSONRPCClient((req) => __awaiter(this, void 0, void 0, function* () {
-            const url = _config__WEBPACK_IMPORTED_MODULE_3__.SERVER.value;
-            if (url !== undefined) {
+            const url = _context__WEBPACK_IMPORTED_MODULE_3__.SERVER.value;
+            if (url !== null) {
                 yield new Promise((ok, err) => __awaiter(this, void 0, void 0, function* () {
                     yield _gm__WEBPACK_IMPORTED_MODULE_1__["default"].xhr({
                         url: url,
@@ -67,7 +67,6 @@ class Client {
             }
         }));
         this.client = client;
-        this.examId = examId;
     }
     watch(ms) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -83,41 +82,33 @@ class Client {
     }
     sendQueue() {
         return __awaiter(this, void 0, void 0, function* () {
-            const username = _config__WEBPACK_IMPORTED_MODULE_3__.USERNAME.value;
             if (this.queue.size < 1 ||
-                username === undefined ||
-                _config__WEBPACK_IMPORTED_MODULE_3__.SERVER.value === undefined) {
+                _context__WEBPACK_IMPORTED_MODULE_3__.USERNAME.value === null ||
+                _context__WEBPACK_IMPORTED_MODULE_3__.SERVER.value === null ||
+                _context__WEBPACK_IMPORTED_MODULE_3__.EXAM_ID.value === null) {
                 return;
             }
-            let answers = [];
-            for (const { problem_id, result } of this.queue.values()) {
-                answers.push({
-                    username: username,
-                    problem_id: problem_id,
-                    result: result,
-                });
-            }
+            let answers = [...this.queue.values()];
             this.queue.clear();
-            if (_config__WEBPACK_IMPORTED_MODULE_3__.TOKEN.value === undefined) {
-                (0,_utils__WEBPACK_IMPORTED_MODULE_2__.devLog)(`login to server: ${username}, ${this.examId}`);
+            if (_context__WEBPACK_IMPORTED_MODULE_3__.TOKEN.value === null) {
+                (0,_utils__WEBPACK_IMPORTED_MODULE_2__.devLog)(`login to server: ${_context__WEBPACK_IMPORTED_MODULE_3__.USERNAME.value}, ${_context__WEBPACK_IMPORTED_MODULE_3__.EXAM_ID.value}`);
                 const token = yield this.client.request("login", [
-                    _config__WEBPACK_IMPORTED_MODULE_3__.USERNAME.value,
-                    this.examId,
+                    _context__WEBPACK_IMPORTED_MODULE_3__.USERNAME.value,
+                    _context__WEBPACK_IMPORTED_MODULE_3__.EXAM_ID.value,
                 ]);
                 (0,_utils__WEBPACK_IMPORTED_MODULE_2__.devLog)("got token", token);
-                _config__WEBPACK_IMPORTED_MODULE_3__.TOKEN.value = token;
+                _context__WEBPACK_IMPORTED_MODULE_3__.TOKEN.value = token;
             }
-            (0,_utils__WEBPACK_IMPORTED_MODULE_2__.devLog)("send answers", answers);
-            const rcev = yield this.client.request("answer_problem", [
-                _config__WEBPACK_IMPORTED_MODULE_3__.TOKEN.value,
-                answers,
-            ]);
-            this.pushMsg(rcev);
+            this.postAnswers(_context__WEBPACK_IMPORTED_MODULE_3__.TOKEN.value, answers);
         });
     }
-    pushMsg(answers) {
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.devLog)("receive answers", answers);
-        this.onmsg.forEach((cb) => cb(answers));
+    postAnswers(token, answers) {
+        return __awaiter(this, void 0, void 0, function* () {
+            (0,_utils__WEBPACK_IMPORTED_MODULE_2__.devLog)("send answers", answers);
+            const rcev = yield this.client.request("answer_problem", [token, answers]);
+            (0,_utils__WEBPACK_IMPORTED_MODULE_2__.devLog)("receive answers", rcev);
+            this.onmsg.forEach((cb) => cb(rcev));
+        });
     }
     answerProblem(answers) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -876,185 +867,21 @@ __webpack_require__.r(__webpack_exports__);
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "devLog": () => (/* binding */ devLog)
+/* harmony export */   "Map2": () => (/* binding */ Map2),
+/* harmony export */   "devLog": () => (/* binding */ devLog),
+/* harmony export */   "newURL": () => (/* binding */ newURL),
+/* harmony export */   "openWin": () => (/* binding */ openWin),
+/* harmony export */   "percent": () => (/* binding */ percent)
 /* harmony export */ });
+/* harmony import */ var _style_mod_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
+/* harmony import */ var _recks__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(13);
+
+
 function devLog(msg, ...params) {
     if (true) {
         console.log(msg, ...params);
     }
 }
-
-
-/***/ }),
-/* 10 */
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "SERVER": () => (/* binding */ SERVER),
-/* harmony export */   "TOKEN": () => (/* binding */ TOKEN),
-/* harmony export */   "USERNAME": () => (/* binding */ USERNAME)
-/* harmony export */ });
-/* harmony import */ var _gm__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(9);
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-
-
-class GMEntry {
-    constructor(name, validator, onupdate) {
-        this.name = name;
-        this.validator = validator !== null && validator !== void 0 ? validator : (() => true);
-        this.onupdate = onupdate !== null && onupdate !== void 0 ? onupdate : (() => undefined);
-        _gm__WEBPACK_IMPORTED_MODULE_0__["default"].getValue(this.name)
-            .then((val) => (this.value = val))
-            .catch((e) => (0,_utils__WEBPACK_IMPORTED_MODULE_1__.devLog)(e));
-    }
-    updateValue() {
-        return __awaiter(this, void 0, void 0, function* () {
-            let val = yield _gm__WEBPACK_IMPORTED_MODULE_0__["default"].getValue(this.name);
-            let newVal;
-            while (true) {
-                if (val !== undefined) {
-                    newVal = prompt(`Value of "${this.name}" is "${val}"`);
-                }
-                else {
-                    newVal = prompt(`Input "${this.name}"`);
-                }
-                newVal = newVal === "" ? null : newVal;
-                if (newVal === null || this.validator(newVal)) {
-                    break;
-                }
-            }
-            if (newVal !== null) {
-                this.onupdate(newVal);
-                this.value = newVal;
-                yield _gm__WEBPACK_IMPORTED_MODULE_0__["default"].setValue(this.name, newVal);
-            }
-        });
-    }
-}
-class Token {
-}
-const USERNAME = new GMEntry("username", (val) => /[_\w][_\w\d]*/.test(val), () => (TOKEN.value = undefined));
-const SERVER = new GMEntry("server", undefined, () => (TOKEN.value = undefined));
-const TOKEN = new Token();
-
-
-/***/ }),
-/* 11 */
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "hookXHR": () => (/* binding */ hookXHR),
-/* harmony export */   "newURL": () => (/* binding */ newURL)
-/* harmony export */ });
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-function newURL(url, params) {
-    const url2 = new URL(url, self.location.origin);
-    for (const [k, v] of Object.entries(params !== null && params !== void 0 ? params : {})) {
-        url2.searchParams.set(k, v);
-    }
-    return url2;
-}
-function hookXHR(cb) {
-    return __awaiter(this, void 0, void 0, function* () {
-        return new Promise((ok, err) => {
-            const open = XMLHttpRequest.prototype.open;
-            XMLHttpRequest.prototype.open = function (_method, url) {
-                cb.call(this, newURL(url), new Promise((ok) => {
-                    const send = this.send;
-                    this.send = function (data) {
-                        ok(data);
-                        send.apply(this, arguments);
-                        this.send = send;
-                    };
-                }))
-                    .then((val) => {
-                    ok(val);
-                    XMLHttpRequest.prototype.open = open;
-                })
-                    .catch(err);
-                open.apply(this, arguments);
-            };
-        });
-    });
-}
-
-
-/***/ }),
-/* 12 */
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "ProblemType": () => (/* binding */ ProblemType),
-/* harmony export */   "isChoice": () => (/* binding */ isChoice)
-/* harmony export */ });
-var ProblemType;
-(function (ProblemType) {
-    /**
-     * 单选题
-     */
-    ProblemType[ProblemType["SingleChoice"] = 1] = "SingleChoice";
-    /**
-     * 多选题
-     */
-    ProblemType[ProblemType["MultipleChoice"] = 2] = "MultipleChoice";
-    /**
-     * 投票题
-     */
-    ProblemType[ProblemType["Polling"] = 3] = "Polling";
-    /**
-     * 填空题
-     */
-    ProblemType[ProblemType["FillBlank"] = 4] = "FillBlank";
-    /**
-     * 主观题
-     */
-    ProblemType[ProblemType["ShortAnswer"] = 5] = "ShortAnswer";
-    /**
-     * 判断题
-     */
-    ProblemType[ProblemType["Judgement"] = 6] = "Judgement";
-})(ProblemType || (ProblemType = {}));
-function isChoice(ty) {
-    return (ty === ProblemType.SingleChoice ||
-        ty === ProblemType.MultipleChoice ||
-        ty === ProblemType.Polling);
-}
-
-
-/***/ }),
-/* 13 */
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "UI": () => (/* binding */ UI)
-/* harmony export */ });
-/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(12);
-/* harmony import */ var _style_module_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(14);
-/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(10);
-
-
-
 class Map2 extends Map {
     constructor(def) {
         super();
@@ -1068,491 +895,71 @@ class Map2 extends Map {
 function percent(n) {
     return `${Math.floor(n * 100)}%`;
 }
-class Tooltip {
-    constructor(ele) {
-        const tooltip = document.createElement("div");
-        tooltip.classList.add(_style_module_css__WEBPACK_IMPORTED_MODULE_1__["default"].tooltip);
-        ele.after(tooltip);
-        this.tooltip = tooltip;
-        const show = () => this.tooltip.setAttribute("data-show", "");
-        const hide = () => this.tooltip.removeAttribute("data-show");
-        ele.addEventListener("mouseover", show);
-        ele.addEventListener("mouseout", hide);
-        this.toggle(true);
-    }
-    toggle(enabled) {
-        this.tooltip.style.visibility = enabled ? "" : "hidden";
-    }
-    set content(val) {
-        this.tooltip.textContent = val;
-    }
+function openWin(title, opt) {
+    opt = opt !== null && opt !== void 0 ? opt : {};
+    const win = window.open(undefined, undefined, Object.entries({
+        location: "no",
+        height: opt.height,
+        width: opt.width,
+        left: opt.left,
+        top: opt.top,
+        resizable: "yes",
+        menubar: "no",
+        scrollbars: "yes",
+        status: "no",
+        titlebar: "no",
+        toolbar: "no",
+    })
+        .map(([k, v]) => `${k}=${v}`)
+        .join(","));
+    win.document.head.append(_recks__WEBPACK_IMPORTED_MODULE_1__["default"].createElement(_recks__WEBPACK_IMPORTED_MODULE_1__["default"].Fragment, null,
+        _recks__WEBPACK_IMPORTED_MODULE_1__["default"].createElement("title", null, title),
+        _recks__WEBPACK_IMPORTED_MODULE_1__["default"].createElement("style", null, _style_mod_css__WEBPACK_IMPORTED_MODULE_0__["default"].toString())));
+    return win;
 }
-class ProblemCard {
-    constructor(problem, subjectItem) {
-        /**
-         * Username => Result
-         */
-        this.results = new Map();
-        const type = problem.ProblemType;
-        const options = new Map();
-        switch (type) {
-            case _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.SingleChoice:
-            case _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.MultipleChoice:
-            case _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.Polling:
-            case _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.Judgement:
-                subjectItem
-                    .querySelectorAll(".item-body div ul li")
-                    .forEach((li, idx) => {
-                    options.set(problem.Options[idx].key, new Tooltip(li));
-                });
-                break;
-            case _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.FillBlank:
-                subjectItem
-                    .querySelectorAll(".item-body div span input")
-                    .forEach((span, idx) => {
-                    options.set(`${idx + 1}`, new Tooltip(span));
-                });
-                break;
-        }
-        this.type = type;
-        this.options = options;
+function newURL(url, params) {
+    const url2 = new URL(url, self.location.origin);
+    for (const [k, v] of Object.entries(params !== null && params !== void 0 ? params : {})) {
+        url2.searchParams.set(k, v);
     }
-    updateResult(username, result) {
-        this.results.set(username, result);
-    }
-    updateUI() {
-        // Reset tooltip of options.
-        this.options.forEach((opt) => (opt.content = ""));
-        switch (this.type) {
-            // Tooltip show how many users have selected the option.
-            case _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.SingleChoice:
-            case _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.MultipleChoice:
-            case _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.Polling:
-            case _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.Judgement:
-                const optCounter = new Map2(() => 0);
-                this.results.forEach((res) => {
-                    res.forEach((key) => {
-                        optCounter.setWith(key, (n) => n + 1);
-                    });
-                });
-                optCounter.forEach((num, key) => {
-                    this.options.get(key).content = `[${percent(num / this.results.size)}]`;
-                });
-                break;
-            // Tooltip show the most popular answers.
-            case _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.FillBlank:
-                const ansCounter = new Map2(() => new Map2(() => 0));
-                this.results.forEach((res) => {
-                    Object.entries(res).forEach(([key, text]) => {
-                        ansCounter.setWith(key, (counter) => {
-                            counter.setWith(text, (n) => n + 1);
-                            return counter;
-                        });
-                    });
-                });
-                ansCounter.forEach((counter, key) => {
-                    const [text, num] = [...counter.entries()]
-                        .sort(([_1, a], [_2, b]) => a - b)
-                        .pop();
-                    this.options.get(key).content = `[${percent(num / this.results.size)}] ${text}`;
-                });
-                break;
-        }
-    }
-}
-function createButtonText(text, onClick) {
-    const ele = document.createElement("span");
-    ele.classList.add(_style_module_css__WEBPACK_IMPORTED_MODULE_1__["default"].buttonText);
-    ele.textContent = text;
-    ele.addEventListener("click", onClick);
-    return ele;
-}
-class UI {
-    constructor(paper) {
-        // Header.
-        const header = document.querySelector(".header-title");
-        header.appendChild(createButtonText("U", () => _config__WEBPACK_IMPORTED_MODULE_2__.USERNAME.updateValue()));
-        header.appendChild(createButtonText("S", () => _config__WEBPACK_IMPORTED_MODULE_2__.SERVER.updateValue()));
-        // Problem cards.
-        const problems = new Map();
-        document
-            .querySelectorAll(".exam-main--body div .subject-item")
-            .forEach((subjectItem, idx) => {
-            const prob = paper.data.problems[idx];
-            problems.set(prob.problem_id, new ProblemCard(prob, subjectItem));
-        });
-        this.problems = problems;
-    }
-    updateAnswer({ username, problem_id, result }) {
-        var _a;
-        (_a = this.problems.get(problem_id)) === null || _a === void 0 ? void 0 : _a.updateResult(username, result);
-    }
-    updateUI() {
-        this.problems.forEach((card) => card.updateUI());
-    }
+    return url2;
 }
 
 
 /***/ }),
-/* 14 */
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(15);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(16);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(17);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(18);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(19);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(20);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _node_modules_teamsupercell_typings_for_css_modules_loader_src_index_js_ruleSet_1_rules_1_use_1_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_1_use_2_style_module_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(21);
-
-      
-      
-      
-      
-      
-      
-      
-      
-      
-
-var options = {};
-
-options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
-options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
-
-      options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
-    
-options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
-options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
-
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_teamsupercell_typings_for_css_modules_loader_src_index_js_ruleSet_1_rules_1_use_1_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_1_use_2_style_module_css__WEBPACK_IMPORTED_MODULE_6__["default"], options);
-
-
-
-
-       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_teamsupercell_typings_for_css_modules_loader_src_index_js_ruleSet_1_rules_1_use_1_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_1_use_2_style_module_css__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_teamsupercell_typings_for_css_modules_loader_src_index_js_ruleSet_1_rules_1_use_1_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_1_use_2_style_module_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_teamsupercell_typings_for_css_modules_loader_src_index_js_ruleSet_1_rules_1_use_1_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_1_use_2_style_module_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
-
-
-/***/ }),
-/* 15 */
-/***/ ((module) => {
-
-
-
-var stylesInDOM = [];
-
-function getIndexByIdentifier(identifier) {
-  var result = -1;
-
-  for (var i = 0; i < stylesInDOM.length; i++) {
-    if (stylesInDOM[i].identifier === identifier) {
-      result = i;
-      break;
-    }
-  }
-
-  return result;
-}
-
-function modulesToDom(list, options) {
-  var idCountMap = {};
-  var identifiers = [];
-
-  for (var i = 0; i < list.length; i++) {
-    var item = list[i];
-    var id = options.base ? item[0] + options.base : item[0];
-    var count = idCountMap[id] || 0;
-    var identifier = "".concat(id, " ").concat(count);
-    idCountMap[id] = count + 1;
-    var indexByIdentifier = getIndexByIdentifier(identifier);
-    var obj = {
-      css: item[1],
-      media: item[2],
-      sourceMap: item[3],
-      supports: item[4],
-      layer: item[5]
-    };
-
-    if (indexByIdentifier !== -1) {
-      stylesInDOM[indexByIdentifier].references++;
-      stylesInDOM[indexByIdentifier].updater(obj);
-    } else {
-      var updater = addElementStyle(obj, options);
-      options.byIndex = i;
-      stylesInDOM.splice(i, 0, {
-        identifier: identifier,
-        updater: updater,
-        references: 1
-      });
-    }
-
-    identifiers.push(identifier);
-  }
-
-  return identifiers;
-}
-
-function addElementStyle(obj, options) {
-  var api = options.domAPI(options);
-  api.update(obj);
-
-  var updater = function updater(newObj) {
-    if (newObj) {
-      if (newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap && newObj.supports === obj.supports && newObj.layer === obj.layer) {
-        return;
-      }
-
-      api.update(obj = newObj);
-    } else {
-      api.remove();
-    }
-  };
-
-  return updater;
-}
-
-module.exports = function (list, options) {
-  options = options || {};
-  list = list || [];
-  var lastIdentifiers = modulesToDom(list, options);
-  return function update(newList) {
-    newList = newList || [];
-
-    for (var i = 0; i < lastIdentifiers.length; i++) {
-      var identifier = lastIdentifiers[i];
-      var index = getIndexByIdentifier(identifier);
-      stylesInDOM[index].references--;
-    }
-
-    var newLastIdentifiers = modulesToDom(newList, options);
-
-    for (var _i = 0; _i < lastIdentifiers.length; _i++) {
-      var _identifier = lastIdentifiers[_i];
-
-      var _index = getIndexByIdentifier(_identifier);
-
-      if (stylesInDOM[_index].references === 0) {
-        stylesInDOM[_index].updater();
-
-        stylesInDOM.splice(_index, 1);
-      }
-    }
-
-    lastIdentifiers = newLastIdentifiers;
-  };
-};
-
-/***/ }),
-/* 16 */
-/***/ ((module) => {
-
-
-
-/* istanbul ignore next  */
-function apply(styleElement, options, obj) {
-  var css = "";
-
-  if (obj.supports) {
-    css += "@supports (".concat(obj.supports, ") {");
-  }
-
-  if (obj.media) {
-    css += "@media ".concat(obj.media, " {");
-  }
-
-  var needLayer = typeof obj.layer !== "undefined";
-
-  if (needLayer) {
-    css += "@layer".concat(obj.layer.length > 0 ? " ".concat(obj.layer) : "", " {");
-  }
-
-  css += obj.css;
-
-  if (needLayer) {
-    css += "}";
-  }
-
-  if (obj.media) {
-    css += "}";
-  }
-
-  if (obj.supports) {
-    css += "}";
-  }
-
-  var sourceMap = obj.sourceMap;
-
-  if (sourceMap && typeof btoa !== "undefined") {
-    css += "\n/*# sourceMappingURL=data:application/json;base64,".concat(btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))), " */");
-  } // For old IE
-
-  /* istanbul ignore if  */
-
-
-  options.styleTagTransform(css, styleElement, options.options);
-}
-
-function removeStyleElement(styleElement) {
-  // istanbul ignore if
-  if (styleElement.parentNode === null) {
-    return false;
-  }
-
-  styleElement.parentNode.removeChild(styleElement);
-}
-/* istanbul ignore next  */
-
-
-function domAPI(options) {
-  var styleElement = options.insertStyleElement(options);
-  return {
-    update: function update(obj) {
-      apply(styleElement, options, obj);
-    },
-    remove: function remove() {
-      removeStyleElement(styleElement);
-    }
-  };
-}
-
-module.exports = domAPI;
-
-/***/ }),
-/* 17 */
-/***/ ((module) => {
-
-
-
-var memo = {};
-/* istanbul ignore next  */
-
-function getTarget(target) {
-  if (typeof memo[target] === "undefined") {
-    var styleTarget = document.querySelector(target); // Special case to return head of iframe instead of iframe itself
-
-    if (window.HTMLIFrameElement && styleTarget instanceof window.HTMLIFrameElement) {
-      try {
-        // This will throw an exception if access to iframe is blocked
-        // due to cross-origin restrictions
-        styleTarget = styleTarget.contentDocument.head;
-      } catch (e) {
-        // istanbul ignore next
-        styleTarget = null;
-      }
-    }
-
-    memo[target] = styleTarget;
-  }
-
-  return memo[target];
-}
-/* istanbul ignore next  */
-
-
-function insertBySelector(insert, style) {
-  var target = getTarget(insert);
-
-  if (!target) {
-    throw new Error("Couldn't find a style target. This probably means that the value for the 'insert' parameter is invalid.");
-  }
-
-  target.appendChild(style);
-}
-
-module.exports = insertBySelector;
-
-/***/ }),
-/* 18 */
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-
-
-/* istanbul ignore next  */
-function setAttributesWithoutAttributes(styleElement) {
-  var nonce =  true ? __webpack_require__.nc : 0;
-
-  if (nonce) {
-    styleElement.setAttribute("nonce", nonce);
-  }
-}
-
-module.exports = setAttributesWithoutAttributes;
-
-/***/ }),
-/* 19 */
-/***/ ((module) => {
-
-
-
-/* istanbul ignore next  */
-function insertStyleElement(options) {
-  var element = document.createElement("style");
-  options.setAttributes(element, options.attributes);
-  options.insert(element, options.options);
-  return element;
-}
-
-module.exports = insertStyleElement;
-
-/***/ }),
-/* 20 */
-/***/ ((module) => {
-
-
-
-/* istanbul ignore next  */
-function styleTagTransform(css, styleElement) {
-  if (styleElement.styleSheet) {
-    styleElement.styleSheet.cssText = css;
-  } else {
-    while (styleElement.firstChild) {
-      styleElement.removeChild(styleElement.firstChild);
-    }
-
-    styleElement.appendChild(document.createTextNode(css));
-  }
-}
-
-module.exports = styleTagTransform;
-
-/***/ }),
-/* 21 */
+/* 10 */
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(11);
 /* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(23);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(12);
 /* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
 // Imports
 
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".__yuk_xrCwn7VvvG6kgp7rEzuu {\n  position: absolute;\n  visibility: hidden;\n  display: block;\n  z-index: 1;\n  color: rgba(0, 0, 0, 0.15);\n  background-color: white;\n  padding: 0.1rem;\n  border-radius: 0.3rem;\n  font-weight: bold;\n  font-size: 0.3rem;\n  left: 0;\n  bottom: 0;\n}\n\n.__yuk_xrCwn7VvvG6kgp7rEzuu[data-show] {\n  visibility: visible;\n}\n\n.__yuk_Pe8cc3UkSAB5IgoDkaOw {\n  cursor: pointer;\n  margin-left: 0.25rem;\n  text-decoration: underline;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".K7vQwtugDxkOfU77fg4J {\n  font-size: 0.5rem;\n  opacity: 0.5;\n}\n\n.C2I4DvlMSfimZfl_xPn0 p {\n  margin: 0;\n}\n\n.C2I4DvlMSfimZfl_xPn0 ul {\n  margin: 0;\n  padding-left: 1.5rem;\n}\n\n.C2I4DvlMSfimZfl_xPn0 .Njk3jLX2FgrdznVCqYh5 {\n  font-weight: bold;\n}\n\n.C2I4DvlMSfimZfl_xPn0 .yZIu6SlfivGi6blasrPS {\n  border-style: groove;\n  border-width: thin;\n  margin: 0.2rem;\n  padding: 0.2rem;\n}\n\n.mcfTbD5P0GwQwMJOmYD5 {\n  cursor: pointer;\n}\n\n.ogPrX91zgEreh2bN9mhh {\n  display: flex;\n  max-width: 15rem;\n  flex-direction: column;\n}\n\n.ogPrX91zgEreh2bN9mhh .jVC6DpTyv93BozsU0r_Q {\n  display: flex;\n  flex-direction: row;\n  margin-bottom: 0.5rem;\n  justify-content: space-between;\n}\n\n.ogPrX91zgEreh2bN9mhh .jVC6DpTyv93BozsU0r_Q label {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n}\n\n.ogPrX91zgEreh2bN9mhh .jVC6DpTyv93BozsU0r_Q input {\n  text-align: right;\n}\n\n.ogPrX91zgEreh2bN9mhh .TGZ9H1pYsrQDZ5TLZZXX {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-end;\n}\n\n.ogPrX91zgEreh2bN9mhh .TGZ9H1pYsrQDZ5TLZZXX input {\n  cursor: pointer;\n}\n", ""]);
 // Exports
 ___CSS_LOADER_EXPORT___.locals = {
-	"tooltip": "__yuk_xrCwn7VvvG6kgp7rEzuu",
-	"buttonText": "__yuk_Pe8cc3UkSAB5IgoDkaOw"
+	"mainBody": "K7vQwtugDxkOfU77fg4J",
+	"answerDetail": "C2I4DvlMSfimZfl_xPn0",
+	"title": "Njk3jLX2FgrdznVCqYh5",
+	"shorAnswer": "yZIu6SlfivGi6blasrPS",
+	"clickable": "mcfTbD5P0GwQwMJOmYD5",
+	"settings": "ogPrX91zgEreh2bN9mhh",
+	"settingsEntry": "jVC6DpTyv93BozsU0r_Q",
+	"settingsSubmit": "TGZ9H1pYsrQDZ5TLZZXX"
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
 
 /***/ }),
-/* 22 */
+/* 11 */
 /***/ ((module) => {
 
 
@@ -1562,7 +969,7 @@ module.exports = function (i) {
 };
 
 /***/ }),
-/* 23 */
+/* 12 */
 /***/ ((module) => {
 
 
@@ -1668,6 +1075,498 @@ module.exports = function (cssWithMappingToString) {
   return list;
 };
 
+/***/ }),
+/* 13 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+function addChildren(parent, children) {
+    for (const child of children) {
+        if (child instanceof Node) {
+            parent.appendChild(child);
+        }
+        else {
+            parent.appendChild(document.createTextNode(String(child)));
+        }
+    }
+}
+function setCSSProps(ele, style) {
+    for (const [name, value] of Object.entries(style)) {
+        if (name.startsWith("-")) {
+            ele.style.setProperty(name, value);
+        }
+        else {
+            ele.style[name] = value;
+        }
+    }
+}
+function flattenChildren(children) {
+    let flatten = [];
+    for (const ele of children) {
+        if (Array.isArray(ele)) {
+            flatten = flatten.concat(ele);
+        }
+        else {
+            flatten.push(ele);
+        }
+    }
+    return flatten;
+}
+const Recks = {
+    createElement(t, props, ...children) {
+        let flatten = flattenChildren(children);
+        if (typeof t === "function") {
+            return t(Object.assign(Object.assign({}, props), { children: flatten }));
+        }
+        else {
+            const ele = document.createElement(t);
+            addChildren(ele, flatten);
+            for (const [name, value] of Object.entries(props !== null && props !== void 0 ? props : {})) {
+                switch (name) {
+                    case "classList":
+                        ele.classList.add(...value);
+                        break;
+                    case "style":
+                        setCSSProps(ele, value);
+                        break;
+                    case "dangerouslySetInnerHTML":
+                        ele.innerHTML = value.__html;
+                        break;
+                    default:
+                        if (name.startsWith("on-")) {
+                            ele.addEventListener(name.slice(3), value);
+                        }
+                        else if (name in ele) {
+                            ele[name] = value;
+                        }
+                }
+            }
+            return ele;
+        }
+    },
+    Fragment(props) {
+        let frag = document.createDocumentFragment();
+        if (Array.isArray(props.children)) {
+            addChildren(frag, props.children);
+        }
+        return frag;
+    },
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Recks);
+
+
+/***/ }),
+/* 14 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "EXAM_ID": () => (/* binding */ EXAM_ID),
+/* harmony export */   "SERVER": () => (/* binding */ SERVER),
+/* harmony export */   "TOKEN": () => (/* binding */ TOKEN),
+/* harmony export */   "USERNAME": () => (/* binding */ USERNAME)
+/* harmony export */ });
+/* harmony import */ var _gm__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(9);
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
+class GMEntry {
+    constructor(name, onupdate) {
+        this.name = name;
+        this._value = new Optional(onupdate);
+        _gm__WEBPACK_IMPORTED_MODULE_0__["default"].getValue(this.name)
+            .then((val) => (this._value.value = val !== null && val !== void 0 ? val : null))
+            .catch((e) => (0,_utils__WEBPACK_IMPORTED_MODULE_1__.devLog)(e));
+    }
+    get value() {
+        return this._value.value;
+    }
+    setValue(newVal) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield _gm__WEBPACK_IMPORTED_MODULE_0__["default"].setValue(this.name, newVal);
+            this._value.value = newVal;
+        });
+    }
+}
+class Optional {
+    constructor(onupdate) {
+        this._value = null;
+        this.onupdate = onupdate !== null && onupdate !== void 0 ? onupdate : (() => undefined);
+    }
+    get value() {
+        return this._value;
+    }
+    set value(newVal) {
+        this.onupdate(newVal);
+        this._value = newVal;
+    }
+}
+const USERNAME = new GMEntry("username", () => (TOKEN.value = null));
+const SERVER = new GMEntry("server", () => (TOKEN.value = null));
+const TOKEN = new Optional();
+const EXAM_ID = new Optional();
+
+
+/***/ }),
+/* 15 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "hookXHR": () => (/* binding */ hookXHR)
+/* harmony export */ });
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
+
+function hookXHR(cb) {
+    const open = XMLHttpRequest.prototype.open;
+    XMLHttpRequest.prototype.open = function (_method, url) {
+        const onSend = cb.call(this, (0,_utils__WEBPACK_IMPORTED_MODULE_0__.newURL)(url));
+        if (onSend === false) {
+            // Dont send request.
+            this.send = () => undefined;
+        }
+        else if (typeof onSend === "function") {
+            // Modify post data.
+            const send = this.send;
+            this.send = function (data) {
+                onSend(data)
+                    .then((data) => {
+                    send.call(this, data);
+                    this.send = send;
+                })
+                    .catch(_utils__WEBPACK_IMPORTED_MODULE_0__.devLog);
+            };
+        }
+        open.apply(this, arguments);
+    };
+}
+
+
+/***/ }),
+/* 16 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ProblemType": () => (/* binding */ ProblemType),
+/* harmony export */   "isChoice": () => (/* binding */ isChoice)
+/* harmony export */ });
+var ProblemType;
+(function (ProblemType) {
+    /**
+     * 单选题
+     */
+    ProblemType[ProblemType["SingleChoice"] = 1] = "SingleChoice";
+    /**
+     * 多选题
+     */
+    ProblemType[ProblemType["MultipleChoice"] = 2] = "MultipleChoice";
+    /**
+     * 投票题
+     */
+    ProblemType[ProblemType["Polling"] = 3] = "Polling";
+    /**
+     * 填空题
+     */
+    ProblemType[ProblemType["FillBlank"] = 4] = "FillBlank";
+    /**
+     * 主观题
+     */
+    ProblemType[ProblemType["ShortAnswer"] = 5] = "ShortAnswer";
+    /**
+     * 判断题
+     */
+    ProblemType[ProblemType["Judgement"] = 6] = "Judgement";
+})(ProblemType || (ProblemType = {}));
+function isChoice(ty) {
+    return (ty === ProblemType.SingleChoice ||
+        ty === ProblemType.MultipleChoice ||
+        ty === ProblemType.Polling);
+}
+
+
+/***/ }),
+/* 17 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "UI": () => (/* binding */ UI)
+/* harmony export */ });
+/* harmony import */ var _style_mod_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(9);
+/* harmony import */ var _card__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(18);
+/* harmony import */ var _recks__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(13);
+/* harmony import */ var _context__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(14);
+
+
+
+
+
+const style = _style_mod_css__WEBPACK_IMPORTED_MODULE_0__["default"].locals;
+class UI {
+    constructor(paper) {
+        // Header.
+        document.head.append(_recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("style", null, _style_mod_css__WEBPACK_IMPORTED_MODULE_0__["default"].toString()));
+        const header = document.body.querySelector(".header-title");
+        header.classList.add(style.clickable);
+        header.addEventListener("click", () => {
+            var _a, _b;
+            const win = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.openWin)("Settings", { height: 200, width: 200 });
+            function SettingsEntry(props) {
+                return (_recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("div", { classList: [style.settingsEntry] },
+                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("label", { htmlFor: props.name }, props.title),
+                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("input", { type: "text", required: true, name: props.name, title: props.title, pattern: props.pattern, size: props.size, value: props.value })));
+            }
+            win.document.body.append(_recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("form", { onsubmit: () => false, "on-submit": function () {
+                    const form = new FormData(this);
+                    _context__WEBPACK_IMPORTED_MODULE_4__.USERNAME.setValue(form.get("username")).catch(_utils__WEBPACK_IMPORTED_MODULE_1__.devLog);
+                    _context__WEBPACK_IMPORTED_MODULE_4__.SERVER.setValue(form.get("server")).catch(_utils__WEBPACK_IMPORTED_MODULE_1__.devLog);
+                    for (const v of form) {
+                        console.log(v);
+                    }
+                }, classList: [style.mainBody, style.settings] },
+                _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(SettingsEntry, { name: "username", title: "\u7528\u6237\u540D", pattern: "[_a-z][_a-z0-9]*", size: 10, value: (_a = _context__WEBPACK_IMPORTED_MODULE_4__.USERNAME.value) !== null && _a !== void 0 ? _a : undefined }),
+                _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(SettingsEntry, { name: "server", title: "\u670D\u52A1\u5668\u5730\u5740", pattern: ".*", size: 15, value: (_b = _context__WEBPACK_IMPORTED_MODULE_4__.SERVER.value) !== null && _b !== void 0 ? _b : undefined }),
+                _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("div", { classList: [style.settingsSubmit] },
+                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("input", { type: "submit", value: "\u63D0\u4EA4", size: 10 }))));
+        });
+        // Problem cards.
+        const problems = new Map();
+        document.body
+            .querySelectorAll(".exam-main--body div .subject-item")
+            .forEach((subjectItem, idx) => {
+            const prob = paper.data.problems[idx];
+            problems.set(prob.problem_id, new _card__WEBPACK_IMPORTED_MODULE_2__.ProblemCard(prob, subjectItem));
+        });
+        this.problems = problems;
+    }
+    updateAnswer({ username, problem_id, result }) {
+        var _a;
+        (_a = this.problems.get(problem_id)) === null || _a === void 0 ? void 0 : _a.updateResult(username, result);
+    }
+    updateUI() {
+        this.problems.forEach((card) => card.updateUI());
+    }
+}
+
+
+/***/ }),
+/* 18 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ProblemCard": () => (/* binding */ ProblemCard)
+/* harmony export */ });
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(16);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(9);
+/* harmony import */ var _style_mod_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(10);
+/* harmony import */ var _recks__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(13);
+
+
+
+
+const style = _style_mod_css__WEBPACK_IMPORTED_MODULE_2__["default"].locals;
+class Tooltip {
+    constructor(ele) {
+        if (ele instanceof HTMLElement) {
+            this.ele = ele;
+        }
+        else {
+            throw new Error("not a html element");
+        }
+    }
+    get content() {
+        return this.ele.title;
+    }
+    set content(val) {
+        this.ele.title = val;
+    }
+}
+function percent(n) {
+    return `${Math.floor(n * 100)}%`;
+}
+class ProblemCard {
+    constructor(problem, subjectItem) {
+        /**
+         * Username => Result
+         */
+        this.results = new Map();
+        const type = problem.ProblemType;
+        const options = new Map();
+        const itemTypeStatus = subjectItem.querySelector(".item-type .status");
+        itemTypeStatus.classList.add(style.clickable);
+        itemTypeStatus.addEventListener("click", () => this.showAll(itemTypeStatus.getBoundingClientRect()));
+        // Init UI.
+        switch (type) {
+            case _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.SingleChoice:
+            case _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.MultipleChoice:
+            case _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.Polling:
+            case _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.Judgement:
+                subjectItem
+                    .querySelectorAll(".item-body .checkboxInput, .item-body .radioInput")
+                    .forEach((ele, idx) => {
+                    options.set(problem.Options[idx].key, new Tooltip(ele));
+                });
+                break;
+            case _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.FillBlank:
+                subjectItem
+                    .querySelectorAll(".item-body .blank-item-dynamic")
+                    .forEach((ele, idx) => {
+                    options.set(`${idx + 1}`, new Tooltip(ele));
+                });
+                break;
+        }
+        this.type = type;
+        this.options = options;
+    }
+    showAll({ left, top }) {
+        const win = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.openWin)("Answer Details", {
+            height: 150,
+            width: 200,
+            left: left,
+            top: top,
+        });
+        const mainBody = _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("div", { classList: [style.mainBody, style.answerDetail] });
+        win.document.body.append(mainBody);
+        function Text(props) {
+            return (_recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("p", { className: props.title === true ? style.title : "" }, props.children));
+        }
+        function UList(props) {
+            return (_recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("ul", null, Array.isArray(props.children)
+                ? props.children.map((ele) => _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("li", null, ele))
+                : props.children));
+        }
+        switch (this.type) {
+            case _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.SingleChoice:
+            case _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.MultipleChoice:
+            case _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.Polling:
+            case _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.Judgement:
+                // Choice
+                //   - User1
+                //   - User2
+                const choiceToUsers = new _utils__WEBPACK_IMPORTED_MODULE_1__.Map2(() => []);
+                this.results.forEach((res, username) => {
+                    res.forEach((choice) => {
+                        choiceToUsers.setWith(choice, (users) => {
+                            users.push(username);
+                            return users;
+                        });
+                    });
+                });
+                [...choiceToUsers.entries()]
+                    .sort(([a], [b]) => (a < b ? -1 : 1))
+                    .forEach(([choice, users]) => {
+                    mainBody.append(_recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("div", null,
+                        _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(Text, { title: true }, choice),
+                        _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(UList, null, users.sort().map((user) => (_recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(Text, null, user))))));
+                });
+                break;
+            case _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.FillBlank:
+                // #Blank
+                //   - result1
+                //     - user1
+                //     - user2
+                const blankToResToUsers = new _utils__WEBPACK_IMPORTED_MODULE_1__.Map2(() => new _utils__WEBPACK_IMPORTED_MODULE_1__.Map2(() => []));
+                this.results.forEach((res, username) => {
+                    Object.entries(res).forEach(([key, ans]) => {
+                        blankToResToUsers.setWith(key, (val) => {
+                            val.setWith(ans, (users) => {
+                                users.push(username);
+                                return users;
+                            });
+                            return val;
+                        });
+                    });
+                });
+                [...blankToResToUsers.entries()]
+                    .sort(([a], [b]) => (a < b ? -1 : 1))
+                    .forEach(([blank, resToUsers]) => {
+                    mainBody.append(_recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("div", null,
+                        _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(Text, { title: true }, `#${blank}`),
+                        _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(UList, null, [...resToUsers]
+                            .sort(([a], [b]) => (a < b ? -1 : 1))
+                            .map(([res, users]) => (_recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(_recks__WEBPACK_IMPORTED_MODULE_3__["default"].Fragment, null,
+                            _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(Text, null, res),
+                            _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(UList, null, users.sort().map((user) => (_recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(Text, null, user))))))))));
+                });
+                break;
+            case _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.ShortAnswer:
+                // - User1
+                //   <content>
+                //   - File1
+                //   - File2
+                mainBody.append(_recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(UList, null, [...this.results.entries()]
+                    .sort(([a], [b]) => (a < b ? -1 : 1))
+                    .map(([username, res]) => {
+                    var _a, _b;
+                    return (_recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(_recks__WEBPACK_IMPORTED_MODULE_3__["default"].Fragment, null,
+                        _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(Text, { title: true }, username),
+                        _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("div", null,
+                            _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("div", { className: style.shorAnswer, dangerouslySetInnerHTML: { __html: res.content } }),
+                            _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(UList, null, ((_b = (_a = res.attachments) === null || _a === void 0 ? void 0 : _a.filelist) !== null && _b !== void 0 ? _b : []).map((atta) => (_recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("a", { href: atta.fileUrl }, atta.fileName)))))));
+                })));
+                break;
+        }
+    }
+    updateResult(username, result) {
+        this.results.set(username, result);
+    }
+    updateUI() {
+        // Reset tooltip of options.
+        this.options.forEach((opt) => (opt.content = ""));
+        switch (this.type) {
+            // Tooltip show how many users have selected the option.
+            case _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.SingleChoice:
+            case _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.MultipleChoice:
+            case _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.Polling:
+            case _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.Judgement:
+                const optCounter = new _utils__WEBPACK_IMPORTED_MODULE_1__.Map2(() => 0);
+                this.results.forEach((res) => {
+                    res.forEach((key) => {
+                        optCounter.setWith(key, (n) => n + 1);
+                    });
+                });
+                optCounter.forEach((num, key) => {
+                    this.options.get(key).content = `${percent(num / this.results.size)}`;
+                });
+                break;
+            // Tooltip show the most popular answers.
+            case _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.FillBlank:
+                const ansCounter = new _utils__WEBPACK_IMPORTED_MODULE_1__.Map2(() => new _utils__WEBPACK_IMPORTED_MODULE_1__.Map2(() => 0));
+                this.results.forEach((res) => {
+                    Object.entries(res).forEach(([key, text]) => {
+                        ansCounter.setWith(key, (counter) => {
+                            counter.setWith(text, (n) => n + 1);
+                            return counter;
+                        });
+                    });
+                });
+                ansCounter.forEach((counter, key) => {
+                    const [text, num] = [...counter.entries()]
+                        .sort(([_1, a], [_2, b]) => a - b)
+                        .pop();
+                    this.options.get(key).content = `(${percent(num / this.results.size)}) ${text}`;
+                });
+                break;
+        }
+    }
+}
+
+
 /***/ })
 /******/ 	]);
 /************************************************************************/
@@ -1745,9 +1644,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "sortPaper": () => (/* binding */ sortPaper)
 /* harmony export */ });
 /* harmony import */ var _client__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-/* harmony import */ var _xhr__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(11);
-/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(12);
-/* harmony import */ var _ui__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(13);
+/* harmony import */ var _xhr__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(15);
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(16);
+/* harmony import */ var _ui__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(17);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(9);
+/* harmony import */ var _context__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(14);
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -1757,6 +1658,8 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+
+
 
 
 
@@ -1772,11 +1675,28 @@ function sortPaper(paper) {
     });
     return paper;
 }
-function login() {
+function removeVisibilityListener() {
+    document.addEventListener("visibilitychange", (e) => {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+    }, true);
+    window.addEventListener("visibilitychange", (e) => {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+    }, true);
+}
+function main() {
     return __awaiter(this, void 0, void 0, function* () {
-        return (0,_xhr__WEBPACK_IMPORTED_MODULE_1__.hookXHR)(function (url) {
-            return new Promise((ok) => {
-                if (url.pathname === "/exam_room/show_paper") {
+        const toDataURL = HTMLCanvasElement.prototype.toDataURL;
+        HTMLCanvasElement.prototype.toDataURL = function (type, quality) {
+            console.log(type, quality, this.height, this.width);
+            return toDataURL.call(this, type, quality);
+        };
+        removeVisibilityListener();
+        const client = new _client__WEBPACK_IMPORTED_MODULE_0__.Client();
+        (0,_xhr__WEBPACK_IMPORTED_MODULE_1__.hookXHR)(function (url) {
+            switch (url.pathname) {
+                case "/exam_room/show_paper":
                     this.addEventListener("readystatechange", () => {
                         if (this.readyState == XMLHttpRequest.DONE) {
                             // Sort problems.
@@ -1793,43 +1713,48 @@ function login() {
                     });
                     this.addEventListener("load", () => {
                         // Login to server.
-                        const examId = url.searchParams.get("exam_id");
-                        ok({
-                            client: new _client__WEBPACK_IMPORTED_MODULE_0__.Client(parseInt(examId)),
-                            examId: examId,
-                            paper: JSON.parse(this.responseText),
+                        const ui = new _ui__WEBPACK_IMPORTED_MODULE_3__.UI(JSON.parse(this.responseText));
+                        // Receive answers and update UI.
+                        client.onmessage((msg) => {
+                            msg.forEach((res) => ui.updateAnswer(res));
+                            ui.updateUI();
                         });
+                        (() => __awaiter(this, void 0, void 0, function* () {
+                            // Fetch cached results.
+                            _context__WEBPACK_IMPORTED_MODULE_5__.EXAM_ID.value = parseInt(url.searchParams.get("exam_id"));
+                            const cacheResults = yield fetch((0,_utils__WEBPACK_IMPORTED_MODULE_4__.newURL)("/exam_room/cache_results", {
+                                exam_id: _context__WEBPACK_IMPORTED_MODULE_5__.EXAM_ID.value.toString(),
+                            }).toString()).then((res) => res.json());
+                            client.answerProblem(cacheResults.data.results);
+                        }))().catch(_utils__WEBPACK_IMPORTED_MODULE_4__.devLog);
                     });
-                }
-            });
-        });
-    });
-}
-function main() {
-    return __awaiter(this, void 0, void 0, function* () {
-        const { client, examId, paper } = yield login();
-        // Initialize UI.
-        const ui = new _ui__WEBPACK_IMPORTED_MODULE_3__.UI(paper);
-        // Receive answers and update UI.
-        client.onmessage((msg) => {
-            msg.forEach((res) => ui.updateAnswer(res));
-            ui.updateUI();
-        });
-        // Upload cached results.
-        const cacheResults = yield fetch((0,_xhr__WEBPACK_IMPORTED_MODULE_1__.newURL)("/exam_room/cache_results", { exam_id: examId }).toString()).then((res) => res.json());
-        yield client.answerProblem(cacheResults.data.results);
-        // Upload answers.
-        return new Promise((_, err) => __awaiter(this, void 0, void 0, function* () {
-            (0,_xhr__WEBPACK_IMPORTED_MODULE_1__.hookXHR)((url, body) => __awaiter(this, void 0, void 0, function* () {
-                return new Promise(() => __awaiter(this, void 0, void 0, function* () {
-                    if (url.pathname === "/exam_room/answer_problem") {
-                        const data = JSON.parse(yield body);
-                        yield client.answerProblem(data.results);
+                    return true;
+                case "/exam_room/answer_problem":
+                    return (body) => __awaiter(this, void 0, void 0, function* () {
+                        var _a;
+                        // Upload answers.
+                        if (typeof body === "string") {
+                            const data = JSON.parse(body);
+                            client.answerProblem((_a = data.results) !== null && _a !== void 0 ? _a : []).catch(_utils__WEBPACK_IMPORTED_MODULE_4__.devLog);
+                        }
+                        return body;
+                    });
+                default:
+                    if (url.hostname === "upload-z1.qiniup.com") {
+                        // Fake screenshot.
+                        return (body) => __awaiter(this, void 0, void 0, function* () {
+                            if (body instanceof FormData && body.get("file") instanceof File) {
+                                console.log(body.get("file"));
+                            }
+                            return body;
+                        });
                     }
-                }));
-            })).catch(err);
-            client.watch( true ? 1 : 0).catch(err);
-        }));
+                    else {
+                        return true;
+                    }
+            }
+        });
+        yield client.watch( true ? 1 : 0);
     });
 }
 if (true) {
