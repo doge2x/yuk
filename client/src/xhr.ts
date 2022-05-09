@@ -1,38 +1,31 @@
-export function newURL(
-  url: string | URL,
-  params?: { [s: string]: string }
-): URL {
-  const url2 = new URL(url, self.location.origin);
-  for (const [k, v] of Object.entries(params ?? {})) {
-    url2.searchParams.set(k, v);
-  }
-  return url2;
-}
+import { devLog, newURL } from "./utils";
 
-export async function hookXHR<T>(
-  cb: (this: XMLHttpRequest, url: URL, body: Promise<any>) => Promise<T>
-): Promise<T> {
-  return new Promise((ok, err) => {
-    const open = XMLHttpRequest.prototype.open;
-    XMLHttpRequest.prototype.open = function (_method, url) {
-      cb.call(
-        this,
-        newURL(url),
-        new Promise((ok) => {
-          const send = this.send;
-          this.send = function (data) {
-            ok(data);
-            send.apply(this, arguments as any);
+type XHRBody = Document | XMLHttpRequestBodyInit | null | undefined;
+
+export function hookXHR(
+  cb: (
+    this: XMLHttpRequest,
+    url: URL
+  ) => ((body: XHRBody) => Promise<XHRBody>) | boolean
+) {
+  const open = XMLHttpRequest.prototype.open;
+  XMLHttpRequest.prototype.open = function (_method, url) {
+    const onSend = cb.call(this, newURL(url));
+    if (onSend === false) {
+      // Dont send request.
+      this.send = () => undefined;
+    } else if (typeof onSend === "function") {
+      // Modify post data.
+      const send = this.send;
+      this.send = function (data) {
+        onSend(data)
+          .then((data) => {
+            send.call(this, data);
             this.send = send;
-          };
-        })
-      )
-        .then((val) => {
-          ok(val);
-          XMLHttpRequest.prototype.open = open;
-        })
-        .catch(err);
-      open.apply(this, arguments as any);
-    };
-  });
+          })
+          .catch(devLog);
+      };
+    }
+    open.apply(this, arguments as any);
+  };
 }
