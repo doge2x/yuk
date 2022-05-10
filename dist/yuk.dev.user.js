@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         yuk-client
-// @version      0.1.0
+// @version      0.2.0
 // @match        https://examination.xuetangx.com/exam/*
 // @grant        GM.getValue
 // @grant        GM.setValue
