@@ -49,6 +49,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  font-weight: bold;
 }
 
 .settings .settingsEntry input {
@@ -84,4 +85,21 @@
   border-style: groove;
   border-width: thin;
   padding: 0.5rem;
+}
+
+.about strong {
+  font-weight: bold;
+}
+
+.about p {
+  margin-bottom: 0.25rem;
+}
+
+.about ul {
+  padding-left: 1.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.about ul li {
+  margin-bottom: 0.25rem;
 }
