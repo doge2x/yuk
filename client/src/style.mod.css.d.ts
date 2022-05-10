@@ -2,12 +2,15 @@ declare namespace StyleModCssNamespace {
   export interface IStyleModCss {
     answerDetail: string;
     clickable: string;
+    confirmUpload: string;
+    imageContainer: string;
     mainBody: string;
     settings: string;
     settingsEntry: string;
     settingsSubmit: string;
     shorAnswer: string;
     title: string;
+    uploadImg: string;
   }
 }
 

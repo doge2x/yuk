@@ -1,10 +1,9 @@
 import { Paper, UserAnswer } from "./types";
-import styleCss from "./style.mod.css";
+import { locals as style, default as styleCss } from "./style.mod.css";
 import { devLog, openWin } from "./utils";
 import { ProblemCard } from "./card";
 import Recks from "./recks";
 import { SERVER, USERNAME } from "./context";
-const style = styleCss.locals;
 
 export class UI {
   private problems: Map<number, ProblemCard>;
@@ -15,7 +14,7 @@ export class UI {
     const header = document.body.querySelector(".header-title") as HTMLElement;
     header.classList.add(style.clickable);
     header.addEventListener("click", () => {
-      const win = openWin("Settings", { height: 200, width: 200 });
+      const win = openWin("设置", { height: 150, width: 200 });
 
       function SettingsEntry(props: {
         name: string;
@@ -41,36 +40,46 @@ export class UI {
       }
 
       win.document.body.append(
-        <form
-          onsubmit={() => false}
-          on-submit={function () {
-            const form = new FormData(this);
-            USERNAME.setValue(form.get("username") as any).catch(devLog);
-            SERVER.setValue(form.get("server") as any).catch(devLog);
-            for (const v of form) {
-              console.log(v);
-            }
-          }}
-          classList={[style.mainBody, style.settings]}
-        >
-          <SettingsEntry
-            name="username"
-            title="用户名"
-            pattern={"[_a-z][_a-z0-9]*"}
-            size={10}
-            value={USERNAME.value ?? undefined}
-          />
-          <SettingsEntry
-            name="server"
-            title="服务器地址"
-            pattern={".*"}
-            size={15}
-            value={SERVER.value ?? undefined}
-          />
-          <div classList={[style.settingsSubmit]}>
-            <input type="submit" value="提交" size={10} />
+        <div classList={[style.mainBody, style.settings]}>
+          <form
+            onsubmit={() => false}
+            on-submit={function () {
+              const form = new FormData(this);
+              USERNAME.setValue(form.get("username") as any).catch(devLog);
+              SERVER.setValue(form.get("server") as any).catch(devLog);
+              for (const v of form) {
+                console.log(v);
+              }
+              win.close();
+            }}
+          >
+            <SettingsEntry
+              name="username"
+              title="用户名"
+              pattern={"[_a-z][_a-z0-9]*"}
+              size={10}
+              value={USERNAME.value ?? undefined}
+            />
+            <SettingsEntry
+              name="server"
+              title="服务器地址"
+              pattern={".*"}
+              size={15}
+              value={SERVER.value ?? undefined}
+            />
+            <div classList={[style.settingsSubmit]}>
+              <input type="submit" value="提交" size={10} />
+            </div>
+          </form>
+          <div>
+            <p>{"功能特性："}</p>
+            <ul>
+              <li>{"同步答案"}</li>
+              <li>{"阻止提交异常状态"}</li>
+              <li>{"阻止上传截图"}</li>
+            </ul>
           </div>
-        </form>
+        </div>
       );
     });
     // Problem cards.

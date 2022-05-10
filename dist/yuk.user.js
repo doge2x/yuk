@@ -9,12 +9,12 @@
 // ==/UserScript==
 
 /******/ (() => { // webpackBootstrap
-/******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ([
 /* 0 */,
 /* 1 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Client": () => (/* binding */ Client)
@@ -127,6 +127,7 @@ class Client {
 /* 2 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
+"use strict";
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -149,6 +150,7 @@ __exportStar(__webpack_require__(7), exports);
 /* 3 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
+"use strict";
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -346,6 +348,7 @@ var isDefinedAndNonNull = function (value) {
 /* 4 */
 /***/ ((__unused_webpack_module, exports) => {
 
+"use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.createJSONRPCErrorResponse = exports.JSONRPCErrorCode = exports.isJSONRPCResponses = exports.isJSONRPCResponse = exports.isJSONRPCRequests = exports.isJSONRPCRequest = exports.isJSONRPCID = exports.JSONRPC = void 0;
@@ -401,6 +404,7 @@ exports.createJSONRPCErrorResponse = createJSONRPCErrorResponse;
 /* 5 */
 /***/ ((__unused_webpack_module, exports) => {
 
+"use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.DefaultErrorCode = void 0;
@@ -411,6 +415,7 @@ exports.DefaultErrorCode = 0;
 /* 6 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
+"use strict";
 
 var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
@@ -669,6 +674,7 @@ var mapResponse = function (request, response) {
 /* 7 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
+"use strict";
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -782,6 +788,7 @@ exports.JSONRPCServerAndClient = JSONRPCServerAndClient;
 /* 8 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -865,6 +872,7 @@ __webpack_require__.r(__webpack_exports__);
 /* 9 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Map2": () => (/* binding */ Map2),
@@ -874,6 +882,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "percent": () => (/* binding */ percent)
 /* harmony export */ });
 /* harmony import */ var _style_mod_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
+/* harmony import */ var _style_mod_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_style_mod_css__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _recks__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(13);
 
 
@@ -910,9 +919,10 @@ function openWin(title, opt) {
     })
         .map(([k, v]) => `${k}=${v}`)
         .join(","));
+    window.addEventListener("unload", () => win.close());
     win.document.head.append(_recks__WEBPACK_IMPORTED_MODULE_1__["default"].createElement(_recks__WEBPACK_IMPORTED_MODULE_1__["default"].Fragment, null,
         _recks__WEBPACK_IMPORTED_MODULE_1__["default"].createElement("title", null, title),
-        _recks__WEBPACK_IMPORTED_MODULE_1__["default"].createElement("style", null, _style_mod_css__WEBPACK_IMPORTED_MODULE_0__["default"].toString())));
+        _recks__WEBPACK_IMPORTED_MODULE_1__["default"].createElement("style", null, _style_mod_css__WEBPACK_IMPORTED_MODULE_0___default().toString())));
     return win;
 }
 function newURL(url, params) {
@@ -926,22 +936,14 @@ function newURL(url, params) {
 
 /***/ }),
 /* 10 */
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(11);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(12);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
 // Imports
-
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+var ___CSS_LOADER_API_NO_SOURCEMAP_IMPORT___ = __webpack_require__(11);
+var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(12);
+var ___CSS_LOADER_EXPORT___ = ___CSS_LOADER_API_IMPORT___(___CSS_LOADER_API_NO_SOURCEMAP_IMPORT___);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".K7vQwtugDxkOfU77fg4J {\n  font-size: 0.5rem;\n  opacity: 0.5;\n}\n\n.C2I4DvlMSfimZfl_xPn0 p {\n  margin: 0;\n}\n\n.C2I4DvlMSfimZfl_xPn0 ul {\n  margin: 0;\n  padding-left: 1.5rem;\n}\n\n.C2I4DvlMSfimZfl_xPn0 .Njk3jLX2FgrdznVCqYh5 {\n  font-weight: bold;\n}\n\n.C2I4DvlMSfimZfl_xPn0 .yZIu6SlfivGi6blasrPS {\n  border-style: groove;\n  border-width: thin;\n  margin: 0.2rem;\n  padding: 0.2rem;\n}\n\n.mcfTbD5P0GwQwMJOmYD5 {\n  cursor: pointer;\n}\n\n.ogPrX91zgEreh2bN9mhh {\n  display: flex;\n  max-width: 15rem;\n  flex-direction: column;\n}\n\n.ogPrX91zgEreh2bN9mhh .jVC6DpTyv93BozsU0r_Q {\n  display: flex;\n  flex-direction: row;\n  margin-bottom: 0.5rem;\n  justify-content: space-between;\n}\n\n.ogPrX91zgEreh2bN9mhh .jVC6DpTyv93BozsU0r_Q label {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n}\n\n.ogPrX91zgEreh2bN9mhh .jVC6DpTyv93BozsU0r_Q input {\n  text-align: right;\n}\n\n.ogPrX91zgEreh2bN9mhh .TGZ9H1pYsrQDZ5TLZZXX {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-end;\n}\n\n.ogPrX91zgEreh2bN9mhh .TGZ9H1pYsrQDZ5TLZZXX input {\n  cursor: pointer;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".K7vQwtugDxkOfU77fg4J {\n  font-size: 0.5rem;\n  opacity: 0.5;\n}\n\n.C2I4DvlMSfimZfl_xPn0 p {\n  margin: 0;\n}\n\n.C2I4DvlMSfimZfl_xPn0 ul {\n  margin: 0;\n  padding-left: 1.5rem;\n}\n\n.C2I4DvlMSfimZfl_xPn0 img {\n  height: auto;\n  width: 80%;\n}\n\n.C2I4DvlMSfimZfl_xPn0 .Njk3jLX2FgrdznVCqYh5 {\n  font-weight: bold;\n}\n\n.C2I4DvlMSfimZfl_xPn0 .yZIu6SlfivGi6blasrPS {\n  border-style: groove;\n  border-width: thin;\n  margin: 0.2rem;\n  padding: 0.2rem;\n}\n\n.mcfTbD5P0GwQwMJOmYD5 {\n  cursor: pointer;\n}\n\n.ogPrX91zgEreh2bN9mhh {\n  display: flex;\n  max-width: 15rem;\n  flex-direction: column;\n}\n\n.ogPrX91zgEreh2bN9mhh .jVC6DpTyv93BozsU0r_Q {\n  display: flex;\n  flex-direction: row;\n  margin-bottom: 0.5rem;\n  justify-content: space-between;\n}\n\n.ogPrX91zgEreh2bN9mhh .jVC6DpTyv93BozsU0r_Q label {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n}\n\n.ogPrX91zgEreh2bN9mhh .jVC6DpTyv93BozsU0r_Q input {\n  text-align: right;\n}\n\n.ogPrX91zgEreh2bN9mhh .TGZ9H1pYsrQDZ5TLZZXX {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-end;\n}\n\n.ogPrX91zgEreh2bN9mhh .TGZ9H1pYsrQDZ5TLZZXX input {\n  cursor: pointer;\n}\n\n.Gu11L3zStV2T8FRx34Gu {\n  display: flex;\n  flex-direction: column;\n}\n\n.Gu11L3zStV2T8FRx34Gu img {\n  width: 100%;\n  height: auto;\n}\n\n.Gu11L3zStV2T8FRx34Gu .tw3KNVkLhuhtS7HuVpZm {\n  cursor: pointer;\n  margin-bottom: 0.5rem;\n}\n\n.Gu11L3zStV2T8FRx34Gu .pvyAMUVLQ5TZqHUQGRaz {\n  border-style: groove;\n  border-width: thin;\n  padding: 0.5rem;\n}\n", ""]);
 // Exports
 ___CSS_LOADER_EXPORT___.locals = {
 	"mainBody": "K7vQwtugDxkOfU77fg4J",
@@ -951,15 +953,19 @@ ___CSS_LOADER_EXPORT___.locals = {
 	"clickable": "mcfTbD5P0GwQwMJOmYD5",
 	"settings": "ogPrX91zgEreh2bN9mhh",
 	"settingsEntry": "jVC6DpTyv93BozsU0r_Q",
-	"settingsSubmit": "TGZ9H1pYsrQDZ5TLZZXX"
+	"settingsSubmit": "TGZ9H1pYsrQDZ5TLZZXX",
+	"uploadImg": "Gu11L3zStV2T8FRx34Gu",
+	"confirmUpload": "tw3KNVkLhuhtS7HuVpZm",
+	"imageContainer": "pvyAMUVLQ5TZqHUQGRaz"
 };
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+module.exports = ___CSS_LOADER_EXPORT___;
 
 
 /***/ }),
 /* 11 */
 /***/ ((module) => {
 
+"use strict";
 
 
 module.exports = function (i) {
@@ -970,6 +976,7 @@ module.exports = function (i) {
 /* 12 */
 /***/ ((module) => {
 
+"use strict";
 
 
 /*
@@ -1077,6 +1084,7 @@ module.exports = function (cssWithMappingToString) {
 /* 13 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -1160,6 +1168,7 @@ const Recks = {
 /* 14 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "EXAM_ID": () => (/* binding */ EXAM_ID),
@@ -1221,6 +1230,7 @@ const EXAM_ID = new Optional();
 /* 15 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "hookXHR": () => (/* binding */ hookXHR)
@@ -1231,22 +1241,22 @@ function hookXHR(cb) {
     const open = XMLHttpRequest.prototype.open;
     XMLHttpRequest.prototype.open = function (_method, url) {
         const onSend = cb.call(this, (0,_utils__WEBPACK_IMPORTED_MODULE_0__.newURL)(url));
-        if (onSend === false) {
-            // Dont send request.
-            this.send = () => undefined;
-        }
-        else if (typeof onSend === "function") {
-            // Modify post data.
-            const send = this.send;
-            this.send = function (data) {
+        // Modify post data.
+        const send = this.send;
+        this.send = function (data) {
+            if (onSend !== undefined) {
                 onSend(data)
                     .then((data) => {
                     send.call(this, data);
                     this.send = send;
                 })
                     .catch(_utils__WEBPACK_IMPORTED_MODULE_0__.devLog);
-            };
-        }
+            }
+            else {
+                send.call(this, data);
+                this.send = send;
+            }
+        };
         open.apply(this, arguments);
     };
 }
@@ -1256,6 +1266,7 @@ function hookXHR(cb) {
 /* 16 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ProblemType": () => (/* binding */ ProblemType),
@@ -1299,11 +1310,13 @@ function isChoice(ty) {
 /* 17 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "UI": () => (/* binding */ UI)
 /* harmony export */ });
 /* harmony import */ var _style_mod_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
+/* harmony import */ var _style_mod_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_style_mod_css__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(9);
 /* harmony import */ var _card__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(18);
 /* harmony import */ var _recks__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(13);
@@ -1313,33 +1326,40 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const style = _style_mod_css__WEBPACK_IMPORTED_MODULE_0__["default"].locals;
 class UI {
     constructor(paper) {
         // Header.
-        document.head.append(_recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("style", null, _style_mod_css__WEBPACK_IMPORTED_MODULE_0__["default"].toString()));
+        document.head.append(_recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("style", null, _style_mod_css__WEBPACK_IMPORTED_MODULE_0___default().toString()));
         const header = document.body.querySelector(".header-title");
-        header.classList.add(style.clickable);
+        header.classList.add(_style_mod_css__WEBPACK_IMPORTED_MODULE_0__.locals.clickable);
         header.addEventListener("click", () => {
             var _a, _b;
-            const win = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.openWin)("Settings", { height: 200, width: 200 });
+            const win = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.openWin)("设置", { height: 150, width: 200 });
             function SettingsEntry(props) {
-                return (_recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("div", { classList: [style.settingsEntry] },
+                return (_recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("div", { classList: [_style_mod_css__WEBPACK_IMPORTED_MODULE_0__.locals.settingsEntry] },
                     _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("label", { htmlFor: props.name }, props.title),
                     _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("input", { type: "text", required: true, name: props.name, title: props.title, pattern: props.pattern, size: props.size, value: props.value })));
             }
-            win.document.body.append(_recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("form", { onsubmit: () => false, "on-submit": function () {
-                    const form = new FormData(this);
-                    _context__WEBPACK_IMPORTED_MODULE_4__.USERNAME.setValue(form.get("username")).catch(_utils__WEBPACK_IMPORTED_MODULE_1__.devLog);
-                    _context__WEBPACK_IMPORTED_MODULE_4__.SERVER.setValue(form.get("server")).catch(_utils__WEBPACK_IMPORTED_MODULE_1__.devLog);
-                    for (const v of form) {
-                        console.log(v);
-                    }
-                }, classList: [style.mainBody, style.settings] },
-                _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(SettingsEntry, { name: "username", title: "\u7528\u6237\u540D", pattern: "[_a-z][_a-z0-9]*", size: 10, value: (_a = _context__WEBPACK_IMPORTED_MODULE_4__.USERNAME.value) !== null && _a !== void 0 ? _a : undefined }),
-                _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(SettingsEntry, { name: "server", title: "\u670D\u52A1\u5668\u5730\u5740", pattern: ".*", size: 15, value: (_b = _context__WEBPACK_IMPORTED_MODULE_4__.SERVER.value) !== null && _b !== void 0 ? _b : undefined }),
-                _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("div", { classList: [style.settingsSubmit] },
-                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("input", { type: "submit", value: "\u63D0\u4EA4", size: 10 }))));
+            win.document.body.append(_recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("div", { classList: [_style_mod_css__WEBPACK_IMPORTED_MODULE_0__.locals.mainBody, _style_mod_css__WEBPACK_IMPORTED_MODULE_0__.locals.settings] },
+                _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("form", { onsubmit: () => false, "on-submit": function () {
+                        const form = new FormData(this);
+                        _context__WEBPACK_IMPORTED_MODULE_4__.USERNAME.setValue(form.get("username")).catch(_utils__WEBPACK_IMPORTED_MODULE_1__.devLog);
+                        _context__WEBPACK_IMPORTED_MODULE_4__.SERVER.setValue(form.get("server")).catch(_utils__WEBPACK_IMPORTED_MODULE_1__.devLog);
+                        for (const v of form) {
+                            console.log(v);
+                        }
+                        win.close();
+                    } },
+                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(SettingsEntry, { name: "username", title: "\u7528\u6237\u540D", pattern: "[_a-z][_a-z0-9]*", size: 10, value: (_a = _context__WEBPACK_IMPORTED_MODULE_4__.USERNAME.value) !== null && _a !== void 0 ? _a : undefined }),
+                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(SettingsEntry, { name: "server", title: "\u670D\u52A1\u5668\u5730\u5740", pattern: ".*", size: 15, value: (_b = _context__WEBPACK_IMPORTED_MODULE_4__.SERVER.value) !== null && _b !== void 0 ? _b : undefined }),
+                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("div", { classList: [_style_mod_css__WEBPACK_IMPORTED_MODULE_0__.locals.settingsSubmit] },
+                        _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("input", { type: "submit", value: "\u63D0\u4EA4", size: 10 }))),
+                _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("div", null,
+                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("p", null, "功能特性："),
+                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("ul", null,
+                        _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("li", null, "同步答案"),
+                        _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("li", null, "阻止提交异常状态"),
+                        _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("li", null, "阻止上传截图")))));
         });
         // Problem cards.
         const problems = new Map();
@@ -1365,6 +1385,7 @@ class UI {
 /* 18 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ProblemCard": () => (/* binding */ ProblemCard)
@@ -1372,12 +1393,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(16);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(9);
 /* harmony import */ var _style_mod_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(10);
+/* harmony import */ var _style_mod_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_style_mod_css__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _recks__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(13);
 
 
 
 
-const style = _style_mod_css__WEBPACK_IMPORTED_MODULE_2__["default"].locals;
 class Tooltip {
     constructor(ele) {
         if (ele instanceof HTMLElement) {
@@ -1405,9 +1426,9 @@ class ProblemCard {
         this.results = new Map();
         const type = problem.ProblemType;
         const options = new Map();
-        const itemTypeStatus = subjectItem.querySelector(".item-type .status");
-        itemTypeStatus.classList.add(style.clickable);
-        itemTypeStatus.addEventListener("click", () => this.showAll(itemTypeStatus.getBoundingClientRect()));
+        const itemType = subjectItem.querySelector(".item-type");
+        itemType.classList.add(_style_mod_css__WEBPACK_IMPORTED_MODULE_2__.locals.clickable);
+        itemType.addEventListener("click", () => this.showAll(itemType.getBoundingClientRect()));
         // Init UI.
         switch (type) {
             case _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.SingleChoice:
@@ -1432,16 +1453,16 @@ class ProblemCard {
         this.options = options;
     }
     showAll({ left, top }) {
-        const win = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.openWin)("Answer Details", {
+        const win = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.openWin)("详细答案", {
             height: 150,
             width: 200,
             left: left,
             top: top,
         });
-        const mainBody = _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("div", { classList: [style.mainBody, style.answerDetail] });
+        const mainBody = _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("div", { classList: [_style_mod_css__WEBPACK_IMPORTED_MODULE_2__.locals.mainBody, _style_mod_css__WEBPACK_IMPORTED_MODULE_2__.locals.answerDetail] });
         win.document.body.append(mainBody);
         function Text(props) {
-            return (_recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("p", { className: props.title === true ? style.title : "" }, props.children));
+            return (_recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("p", { className: props.title === true ? _style_mod_css__WEBPACK_IMPORTED_MODULE_2__.locals.title : "" }, props.children));
         }
         function UList(props) {
             return (_recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("ul", null, Array.isArray(props.children)
@@ -1514,7 +1535,7 @@ class ProblemCard {
                     return (_recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(_recks__WEBPACK_IMPORTED_MODULE_3__["default"].Fragment, null,
                         _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(Text, { title: true }, username),
                         _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("div", null,
-                            _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("div", { className: style.shorAnswer, dangerouslySetInnerHTML: { __html: res.content } }),
+                            _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("div", { className: _style_mod_css__WEBPACK_IMPORTED_MODULE_2__.locals.shorAnswer, dangerouslySetInnerHTML: { __html: res.content } }),
                             _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(UList, null, ((_b = (_a = res.attachments) === null || _a === void 0 ? void 0 : _a.filelist) !== null && _b !== void 0 ? _b : []).map((atta) => (_recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("a", { href: atta.fileUrl }, atta.fileName)))))));
                 })));
                 break;
@@ -1635,8 +1656,9 @@ class ProblemCard {
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
+// This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "sortPaper": () => (/* binding */ sortPaper)
@@ -1647,6 +1669,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ui__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(17);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(9);
 /* harmony import */ var _context__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(14);
+/* harmony import */ var _recks__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(13);
+/* harmony import */ var _style_mod_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(10);
+/* harmony import */ var _style_mod_css__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_style_mod_css__WEBPACK_IMPORTED_MODULE_7__);
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -1656,6 +1681,8 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+
+
 
 
 
@@ -1685,12 +1712,7 @@ function removeVisibilityListener() {
 }
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
-        const toDataURL = HTMLCanvasElement.prototype.toDataURL;
-        HTMLCanvasElement.prototype.toDataURL = function (type, quality) {
-            console.log(type, quality, this.height, this.width);
-            return toDataURL.call(this, type, quality);
-        };
-        removeVisibilityListener();
+        // removeVisibilityListener();
         const client = new _client__WEBPACK_IMPORTED_MODULE_0__.Client();
         (0,_xhr__WEBPACK_IMPORTED_MODULE_1__.hookXHR)(function (url) {
             switch (url.pathname) {
@@ -1726,29 +1748,57 @@ function main() {
                             client.answerProblem(cacheResults.data.results);
                         }))().catch(_utils__WEBPACK_IMPORTED_MODULE_4__.devLog);
                     });
-                    return true;
+                    break;
                 case "/exam_room/answer_problem":
                     return (body) => __awaiter(this, void 0, void 0, function* () {
                         var _a;
                         // Upload answers.
                         if (typeof body === "string") {
                             const data = JSON.parse(body);
+                            // Dont report abnormal behavior.
+                            if ("action" in data) {
+                                switch (data.action) {
+                                    // 离开页面
+                                    case 12:
+                                    // 返回页面
+                                    case 16:
+                                    // 上传桌面截屏
+                                    // case 17:
+                                    // 取消共享窗口
+                                    case 19:
+                                        return new Promise(() => undefined);
+                                }
+                            }
                             client.answerProblem((_a = data.results) !== null && _a !== void 0 ? _a : []).catch(_utils__WEBPACK_IMPORTED_MODULE_4__.devLog);
                         }
                         return body;
                     });
                 default:
                     if (url.hostname === "upload-z1.qiniup.com") {
-                        // Fake screenshot.
+                        // Prevent upload screenshot.
                         return (body) => __awaiter(this, void 0, void 0, function* () {
                             if (body instanceof FormData && body.get("file") instanceof File) {
-                                console.log(body.get("file"));
+                                return new Promise((ok) => {
+                                    const f = new FileReader();
+                                    f.onload = () => {
+                                        const win = (0,_utils__WEBPACK_IMPORTED_MODULE_4__.openWin)("上传图片", {
+                                            width: 300,
+                                            height: 200,
+                                        });
+                                        win.document.body.append(_recks__WEBPACK_IMPORTED_MODULE_6__["default"].createElement("div", { classList: [_style_mod_css__WEBPACK_IMPORTED_MODULE_7__.locals.uploadImg, _style_mod_css__WEBPACK_IMPORTED_MODULE_7__.locals.mainBody] },
+                                            _recks__WEBPACK_IMPORTED_MODULE_6__["default"].createElement("div", null,
+                                                _recks__WEBPACK_IMPORTED_MODULE_6__["default"].createElement("button", { "on-click": () => {
+                                                        ok(body);
+                                                        win.close();
+                                                    }, classList: [_style_mod_css__WEBPACK_IMPORTED_MODULE_7__.locals.confirmUpload], type: "button" }, "确认上传")),
+                                            _recks__WEBPACK_IMPORTED_MODULE_6__["default"].createElement("div", { classList: [_style_mod_css__WEBPACK_IMPORTED_MODULE_7__.locals.imageContainer] },
+                                                _recks__WEBPACK_IMPORTED_MODULE_6__["default"].createElement("img", { src: f.result }))));
+                                    };
+                                    f.readAsDataURL(body.get("file"));
+                                });
                             }
                             return body;
                         });
-                    }
-                    else {
-                        return true;
                     }
             }
         });
