@@ -48,19 +48,19 @@
 export default {
   /**
    * @param {string} key
-   * @returns {Promise<any>}
+   * @returns {any}
    */
-  async getValue(key) {
-    return await GM.getValue(key);
+  getValue(key) {
+    return GM_getValue(key);
   },
 
   /**
    * @param {string} key
    * @param {any} val
-   * @returns {Promise<void>}
+   * @returns {void}
    */
-  async setValue(key, val) {
-    return await GM.setValue(key, val);
+  setValue(key, val) {
+    return GM_setValue(key, val);
   },
 
   /**
