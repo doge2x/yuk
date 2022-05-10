@@ -53,6 +53,7 @@ export function openWin(
       .map(([k, v]) => `${k}=${v}`)
       .join(",")
   )!;
+  window.addEventListener("unload", () => win.close());
   win.document.head.append(
     <Recks.Fragment>
       <title>{title}</title>

@@ -6,9 +6,8 @@ import {
   ShortAnswerResult,
 } from "./types";
 import { Map2, openWin } from "./utils";
-import styleCss from "./style.mod.css";
+import { locals as style } from "./style.mod.css";
 import Recks from "./recks";
-const style = styleCss.locals;
 
 class Tooltip {
   private ele: HTMLElement;
@@ -49,12 +48,10 @@ export class ProblemCard {
     const type = problem.ProblemType;
     const options = new Map();
 
-    const itemTypeStatus = subjectItem.querySelector(
-      ".item-type .status"
-    ) as HTMLElement;
-    itemTypeStatus.classList.add(style.clickable);
-    itemTypeStatus.addEventListener("click", () =>
-      this.showAll(itemTypeStatus.getBoundingClientRect())
+    const itemType = subjectItem.querySelector(".item-type") as HTMLElement;
+    itemType.classList.add(style.clickable);
+    itemType.addEventListener("click", () =>
+      this.showAll(itemType.getBoundingClientRect())
     );
 
     // Init UI.
@@ -83,7 +80,7 @@ export class ProblemCard {
   }
 
   showAll({ left, top }: { left?: number; top?: number }) {
-    const win = openWin("Answer Details", {
+    const win = openWin("详细答案", {
       height: 150,
       width: 200,
       left: left,

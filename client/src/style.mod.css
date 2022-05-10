@@ -12,6 +12,11 @@
   padding-left: 1.5rem;
 }
 
+.answerDetail img {
+  height: auto;
+  width: 80%;
+}
+
 .answerDetail .title {
   font-weight: bold;
 }
@@ -58,4 +63,25 @@
 
 .settings .settingsSubmit input {
   cursor: pointer;
+}
+
+.uploadImg {
+  display: flex;
+  flex-direction: column;
+}
+
+.uploadImg img {
+  width: 100%;
+  height: auto;
+}
+
+.uploadImg .confirmUpload {
+  cursor: pointer;
+  margin-bottom: 0.5rem;
+}
+
+.uploadImg .imageContainer {
+  border-style: groove;
+  border-width: thin;
+  padding: 0.5rem;
 }
