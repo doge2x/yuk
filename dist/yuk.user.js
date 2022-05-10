@@ -2,9 +2,9 @@
 // @name         yuk-client
 // @version      0.2.0
 // @match        https://examination.xuetangx.com/exam/*
-// @grant        GM.getValue
-// @grant        GM.setValue
 // @grant        GM.xmlHttpRequest
+// @grant        GM_getValue
+// @grant        GM_setValue
 // @run-at       document-start
 // ==/UserScript==
 
@@ -74,6 +74,7 @@ class Client {
                 const timer = setInterval(() => {
                     this.sendQueue().catch((e) => {
                         clearInterval(timer);
+                        alert("与服务器通信异常");
                         err(e);
                     });
                 }, ms);
@@ -843,19 +844,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   /**
    * @param {string} key
-   * @returns {Promise<any>}
+   * @returns {any}
    */
-  async getValue(key) {
-    return await GM.getValue(key);
+  getValue(key) {
+    return GM_getValue(key);
   },
 
   /**
    * @param {string} key
    * @param {any} val
-   * @returns {Promise<void>}
+   * @returns {void}
    */
-  async setValue(key, val) {
-    return await GM.setValue(key, val);
+  setValue(key, val) {
+    return GM_setValue(key, val);
   },
 
   /**
@@ -1132,6 +1133,9 @@ const Recks = {
             const ele = document.createElement(t);
             addChildren(ele, flatten);
             for (const [name, value] of Object.entries(props !== null && props !== void 0 ? props : {})) {
+                if (value === undefined) {
+                    continue;
+                }
                 switch (name) {
                     case "classList":
                         ele.classList.add(...value);
@@ -1173,44 +1177,36 @@ const Recks = {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "EXAM_ID": () => (/* binding */ EXAM_ID),
+/* harmony export */   "NO_LEAVE_CHECK": () => (/* binding */ NO_LEAVE_CHECK),
 /* harmony export */   "SERVER": () => (/* binding */ SERVER),
+/* harmony export */   "SORT_PROBLEMS": () => (/* binding */ SORT_PROBLEMS),
 /* harmony export */   "TOKEN": () => (/* binding */ TOKEN),
 /* harmony export */   "USERNAME": () => (/* binding */ USERNAME)
 /* harmony export */ });
 /* harmony import */ var _gm__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(9);
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-
 
 class GMEntry {
-    constructor(name, onupdate) {
+    constructor(name, init, onupdate) {
         this.name = name;
-        this._value = new Optional(onupdate);
-        _gm__WEBPACK_IMPORTED_MODULE_0__["default"].getValue(this.name)
-            .then((val) => (this._value.value = val !== null && val !== void 0 ? val : null))
-            .catch((e) => (0,_utils__WEBPACK_IMPORTED_MODULE_1__.devLog)(e));
+        let val = _gm__WEBPACK_IMPORTED_MODULE_0__["default"].getValue(name);
+        if (val === undefined && init !== undefined) {
+            _gm__WEBPACK_IMPORTED_MODULE_0__["default"].setValue(name, init);
+            val = init;
+        }
+        this._value = new Optional(val, onupdate);
     }
     get value() {
         return this._value.value;
     }
-    setValue(newVal) {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield _gm__WEBPACK_IMPORTED_MODULE_0__["default"].setValue(this.name, newVal);
-            this._value.value = newVal;
-        });
+    set value(newVal) {
+        _gm__WEBPACK_IMPORTED_MODULE_0__["default"].setValue(this.name, newVal);
+        this._value.value = newVal;
     }
 }
 class Optional {
-    constructor(onupdate) {
+    constructor(init, onupdate) {
         this._value = null;
+        this._value = init !== null && init !== void 0 ? init : null;
         this.onupdate = onupdate !== null && onupdate !== void 0 ? onupdate : (() => undefined);
     }
     get value() {
@@ -1221,10 +1217,12 @@ class Optional {
         this._value = newVal;
     }
 }
-const USERNAME = new GMEntry("username", () => (TOKEN.value = null));
-const SERVER = new GMEntry("server", () => (TOKEN.value = null));
+const USERNAME = new GMEntry("username", undefined, () => (TOKEN.value = null));
+const SERVER = new GMEntry("server", undefined, () => (TOKEN.value = null));
 const TOKEN = new Optional();
 const EXAM_ID = new Optional();
+const SORT_PROBLEMS = new GMEntry("sort_problems", true);
+const NO_LEAVE_CHECK = new GMEntry("no_leave_check", true);
 
 
 /***/ }),
@@ -1337,22 +1335,24 @@ class UI {
             var _a, _b;
             const win = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.openWin)("设置", { height: 150, width: 200 });
             function SettingsEntry(props) {
+                var _a;
                 return (_recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("div", { classList: [_style_mod_css__WEBPACK_IMPORTED_MODULE_0__.locals.settingsEntry] },
                     _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("label", { htmlFor: props.name }, props.title),
-                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("input", { type: "text", required: true, name: props.name, title: props.title, pattern: props.pattern, size: props.size, value: props.value })));
+                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("input", { name: props.name, title: props.title, size: props.size, type: (_a = props.type) !== null && _a !== void 0 ? _a : "text", required: props.required === true, pattern: props.pattern, value: props.value, checked: props.checked })));
             }
             win.document.body.append(_recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("div", { classList: [_style_mod_css__WEBPACK_IMPORTED_MODULE_0__.locals.mainBody, _style_mod_css__WEBPACK_IMPORTED_MODULE_0__.locals.settings] },
                 _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("form", { onsubmit: () => false, "on-submit": function () {
                         const form = new FormData(this);
-                        _context__WEBPACK_IMPORTED_MODULE_4__.USERNAME.setValue(form.get("username")).catch(_utils__WEBPACK_IMPORTED_MODULE_1__.devLog);
-                        _context__WEBPACK_IMPORTED_MODULE_4__.SERVER.setValue(form.get("server")).catch(_utils__WEBPACK_IMPORTED_MODULE_1__.devLog);
-                        for (const v of form) {
-                            console.log(v);
-                        }
+                        _context__WEBPACK_IMPORTED_MODULE_4__.USERNAME.value = form.get("username");
+                        _context__WEBPACK_IMPORTED_MODULE_4__.SERVER.value = form.get("server");
+                        _context__WEBPACK_IMPORTED_MODULE_4__.NO_LEAVE_CHECK.value = form.get("no_leave_check") === "on";
+                        _context__WEBPACK_IMPORTED_MODULE_4__.SORT_PROBLEMS.value = form.get("sort_problems") === "on";
                         win.close();
                     } },
                     _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(SettingsEntry, { name: "username", title: "\u7528\u6237\u540D", pattern: "[_a-z][_a-z0-9]*", size: 10, value: (_a = _context__WEBPACK_IMPORTED_MODULE_4__.USERNAME.value) !== null && _a !== void 0 ? _a : undefined }),
                     _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(SettingsEntry, { name: "server", title: "\u670D\u52A1\u5668\u5730\u5740", pattern: ".*", size: 15, value: (_b = _context__WEBPACK_IMPORTED_MODULE_4__.SERVER.value) !== null && _b !== void 0 ? _b : undefined }),
+                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(SettingsEntry, { name: "no_leave_check", title: "\u53D6\u6D88\u5207\u5C4F\u68C0\u6D4B", checked: _context__WEBPACK_IMPORTED_MODULE_4__.NO_LEAVE_CHECK.value === true, type: "checkbox" }),
+                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(SettingsEntry, { name: "sort_problems", title: "\u6392\u5E8F\u9898\u76EE", checked: _context__WEBPACK_IMPORTED_MODULE_4__.SORT_PROBLEMS.value === true, type: "checkbox" }),
                     _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("div", { classList: [_style_mod_css__WEBPACK_IMPORTED_MODULE_0__.locals.settingsSubmit] },
                         _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("input", { type: "submit", value: "\u63D0\u4EA4", size: 10 }))),
                 _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("div", { classList: [_style_mod_css__WEBPACK_IMPORTED_MODULE_0__.locals.about] },
@@ -1720,7 +1720,9 @@ function removeVisibilityListener() {
 }
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
-        // removeVisibilityListener();
+        if (_context__WEBPACK_IMPORTED_MODULE_5__.NO_LEAVE_CHECK.value === true) {
+            removeVisibilityListener();
+        }
         const client = new _client__WEBPACK_IMPORTED_MODULE_0__.Client();
         (0,_xhr__WEBPACK_IMPORTED_MODULE_1__.hookXHR)(function (url) {
             switch (url.pathname) {
@@ -1728,15 +1730,17 @@ function main() {
                     this.addEventListener("readystatechange", () => {
                         if (this.readyState == XMLHttpRequest.DONE) {
                             // Sort problems.
-                            const text = JSON.stringify(sortPaper(JSON.parse(this.responseText)));
-                            // Modify response text.
-                            Object.defineProperties(this, {
-                                responseText: {
-                                    get() {
-                                        return text;
+                            if (_context__WEBPACK_IMPORTED_MODULE_5__.SORT_PROBLEMS.value === true) {
+                                const text = JSON.stringify(sortPaper(JSON.parse(this.responseText)));
+                                // Modify response text.
+                                Object.defineProperties(this, {
+                                    responseText: {
+                                        get() {
+                                            return text;
+                                        },
                                     },
-                                },
-                            });
+                                });
+                            }
                         }
                     });
                     this.addEventListener("load", () => {

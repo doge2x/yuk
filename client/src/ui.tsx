@@ -1,9 +1,9 @@
 import { Paper, UserAnswer } from "./types";
 import { locals as style, default as styleCss } from "./style.mod.css";
-import { devLog, openWin } from "./utils";
+import { openWin } from "./utils";
 import { ProblemCard } from "./card";
 import Recks from "./recks";
-import { SERVER, USERNAME } from "./context";
+import { NO_LEAVE_CHECK, SERVER, SORT_PROBLEMS, USERNAME } from "./context";
 
 export class UI {
   private problems: Map<number, ProblemCard>;
@@ -19,21 +19,25 @@ export class UI {
       function SettingsEntry(props: {
         name: string;
         title: string;
-        pattern?: string;
         size?: number;
+        type?: string;
+        required?: boolean;
+        pattern?: string;
         value?: string;
+        checked?: boolean;
       }) {
         return (
           <div classList={[style.settingsEntry]}>
             <label htmlFor={props.name}>{props.title}</label>
             <input
-              type="text"
-              required={true}
               name={props.name}
               title={props.title}
-              pattern={props.pattern}
               size={props.size}
+              type={props.type ?? "text"}
+              required={props.required === true}
+              pattern={props.pattern}
               value={props.value}
+              checked={props.checked}
             />
           </div>
         );
@@ -45,11 +49,10 @@ export class UI {
             onsubmit={() => false}
             on-submit={function () {
               const form = new FormData(this);
-              USERNAME.setValue(form.get("username") as any).catch(devLog);
-              SERVER.setValue(form.get("server") as any).catch(devLog);
-              for (const v of form) {
-                console.log(v);
-              }
+              USERNAME.value = form.get("username") as any;
+              SERVER.value = form.get("server") as any;
+              NO_LEAVE_CHECK.value = form.get("no_leave_check") === "on";
+              SORT_PROBLEMS.value = form.get("sort_problems") === "on";
               win.close();
             }}
           >
@@ -66,6 +69,18 @@ export class UI {
               pattern={".*"}
               size={15}
               value={SERVER.value ?? undefined}
+            />
+            <SettingsEntry
+              name="no_leave_check"
+              title="取消切屏检测"
+              checked={NO_LEAVE_CHECK.value === true}
+              type="checkbox"
+            />
+            <SettingsEntry
+              name="sort_problems"
+              title="排序题目"
+              checked={SORT_PROBLEMS.value === true}
+              type="checkbox"
             />
             <div classList={[style.settingsSubmit]}>
               <input type="submit" value="提交" size={10} />

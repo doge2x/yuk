@@ -1,15 +1,9 @@
 import { Client } from "./client";
 import { hookXHR } from "./xhr";
-import {
-  PostAnswer,
-  Paper,
-  isChoice,
-  ChoiceOption,
-  CacheResults,
-} from "./types";
+import { Paper, isChoice, ChoiceOption, CacheResults } from "./types";
 import { UI } from "./ui";
 import { devLog, newURL, openWin } from "./utils";
-import { EXAM_ID } from "./context";
+import { EXAM_ID, NO_LEAVE_CHECK, SORT_PROBLEMS } from "./context";
 import Recks from "./recks";
 import { locals as style } from "./style.mod.css";
 
@@ -45,7 +39,9 @@ function removeVisibilityListener() {
 }
 
 async function main(): Promise<void> {
-  // removeVisibilityListener();
+  if (NO_LEAVE_CHECK.value === true) {
+    removeVisibilityListener();
+  }
   const client = new Client();
   hookXHR(function (url) {
     switch (url.pathname) {
@@ -53,17 +49,19 @@ async function main(): Promise<void> {
         this.addEventListener("readystatechange", () => {
           if (this.readyState == XMLHttpRequest.DONE) {
             // Sort problems.
-            const text = JSON.stringify(
-              sortPaper(JSON.parse(this.responseText))
-            );
-            // Modify response text.
-            Object.defineProperties(this, {
-              responseText: {
-                get() {
-                  return text;
+            if (SORT_PROBLEMS.value === true) {
+              const text = JSON.stringify(
+                sortPaper(JSON.parse(this.responseText))
+              );
+              // Modify response text.
+              Object.defineProperties(this, {
+                responseText: {
+                  get() {
+                    return text;
+                  },
                 },
-              },
-            });
+              });
+            }
           }
         });
         this.addEventListener("load", () => {

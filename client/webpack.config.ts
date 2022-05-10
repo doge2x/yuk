@@ -8,9 +8,9 @@ const banner = `\
 // @name         ${pkg.name}
 // @version      ${pkg.version}
 // @match        https://examination.xuetangx.com/exam/*
-// @grant        GM.getValue
-// @grant        GM.setValue
 // @grant        GM.xmlHttpRequest
+// @grant        GM_getValue
+// @grant        GM_setValue
 // @run-at       document-start
 // ==/UserScript==
 `;
