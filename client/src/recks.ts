@@ -85,6 +85,9 @@ const Recks = {
       const ele = document.createElement(t);
       addChildren(ele, flatten);
       for (const [name, value] of Object.entries(props ?? {})) {
+        if (value === undefined) {
+          continue;
+        }
         switch (name) {
           case "classList":
             ele.classList.add(...value);

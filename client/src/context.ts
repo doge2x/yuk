@@ -1,24 +1,25 @@
 import GM from "./gm";
-import { devLog } from "./utils";
 
-class GMEntry {
+class GMEntry<T> {
   private name: string;
-  private _value: Optional<string>;
+  private _value: Optional<T>;
 
-  constructor(name: string, onupdate?: (val: string | null) => void) {
+  constructor(name: string, init?: T, onupdate?: (val: T | null) => void) {
     this.name = name;
-    this._value = new Optional(onupdate as any);
-    GM.getValue(this.name)
-      .then((val) => (this._value.value = val ?? null))
-      .catch((e) => devLog(e));
+    let val = GM.getValue(name);
+    if (val === undefined && init !== undefined) {
+      GM.setValue(name, init);
+      val = init;
+    }
+    this._value = new Optional(val, onupdate);
   }
 
-  get value(): string | null {
+  get value(): T | null {
     return this._value.value;
   }
 
-  async setValue(newVal: string | null) {
-    await GM.setValue(this.name, newVal);
+  set value(newVal: T | null) {
+    GM.setValue(this.name, newVal);
     this._value.value = newVal;
   }
 }
@@ -27,7 +28,8 @@ class Optional<T> {
   private _value: T | null = null;
   private onupdate: (newVal: T | null) => void;
 
-  constructor(onupdate?: (newVal: T | null) => void) {
+  constructor(init?: T, onupdate?: (newVal: T | null) => void) {
+    this._value = init ?? null;
     this.onupdate = onupdate ?? (() => undefined);
   }
 
@@ -41,10 +43,22 @@ class Optional<T> {
   }
 }
 
-export const USERNAME = new GMEntry("username", () => (TOKEN.value = null));
+export const USERNAME = new GMEntry<string>(
+  "username",
+  undefined,
+  () => (TOKEN.value = null)
+);
 
-export const SERVER = new GMEntry("server", () => (TOKEN.value = null));
+export const SERVER = new GMEntry<string>(
+  "server",
+  undefined,
+  () => (TOKEN.value = null)
+);
 
 export const TOKEN = new Optional<string>();
 
 export const EXAM_ID = new Optional<number>();
+
+export const SORT_PROBLEMS = new GMEntry<boolean>("sort_problems", true);
+
+export const NO_LEAVE_CHECK = new GMEntry<boolean>("no_leave_check", true);

@@ -44,6 +44,7 @@ export class Client {
       const timer = setInterval(() => {
         this.sendQueue().catch((e) => {
           clearInterval(timer);
+          alert("与服务器通信异常");
           err(e);
         });
       }, ms);
