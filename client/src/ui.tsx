@@ -71,12 +71,23 @@ export class UI {
               <input type="submit" value="提交" size={10} />
             </div>
           </form>
-          <div>
-            <p>{"功能特性："}</p>
+          <div classList={[style.about]}>
+            <p>
+              <strong>{"功能特性："}</strong>
+            </p>
             <ul>
-              <li>{"同步答案"}</li>
-              <li>{"阻止提交异常状态"}</li>
-              <li>{"阻止上传截图"}</li>
+              <li>
+                <strong>{"同步答案："}</strong>
+                {"点击题目显示详细答案，在选项/填空处悬停鼠标显示简略答案"}
+              </li>
+              <li>
+                <strong>{"阻止上传截图："}</strong>
+                {"仅当用户确认时，才会上传截图"}
+              </li>
+              <li>
+                <strong>{"阻止提交异常状态："}</strong>
+                {"即使页面显示异常状态也不会被提交到服务器"}
+              </li>
             </ul>
           </div>
         </div>
