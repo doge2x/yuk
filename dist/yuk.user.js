@@ -943,7 +943,7 @@ var ___CSS_LOADER_API_NO_SOURCEMAP_IMPORT___ = __webpack_require__(11);
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(12);
 var ___CSS_LOADER_EXPORT___ = ___CSS_LOADER_API_IMPORT___(___CSS_LOADER_API_NO_SOURCEMAP_IMPORT___);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".K7vQwtugDxkOfU77fg4J {\n  font-size: 0.5rem;\n  opacity: 0.5;\n}\n\n.C2I4DvlMSfimZfl_xPn0 p {\n  margin: 0;\n}\n\n.C2I4DvlMSfimZfl_xPn0 ul {\n  margin: 0;\n  padding-left: 1.5rem;\n}\n\n.C2I4DvlMSfimZfl_xPn0 img {\n  height: auto;\n  width: 80%;\n}\n\n.C2I4DvlMSfimZfl_xPn0 .Njk3jLX2FgrdznVCqYh5 {\n  font-weight: bold;\n}\n\n.C2I4DvlMSfimZfl_xPn0 .yZIu6SlfivGi6blasrPS {\n  border-style: groove;\n  border-width: thin;\n  margin: 0.2rem;\n  padding: 0.2rem;\n}\n\n.mcfTbD5P0GwQwMJOmYD5 {\n  cursor: pointer;\n}\n\n.ogPrX91zgEreh2bN9mhh {\n  display: flex;\n  max-width: 15rem;\n  flex-direction: column;\n}\n\n.ogPrX91zgEreh2bN9mhh .jVC6DpTyv93BozsU0r_Q {\n  display: flex;\n  flex-direction: row;\n  margin-bottom: 0.5rem;\n  justify-content: space-between;\n}\n\n.ogPrX91zgEreh2bN9mhh .jVC6DpTyv93BozsU0r_Q label {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n}\n\n.ogPrX91zgEreh2bN9mhh .jVC6DpTyv93BozsU0r_Q input {\n  text-align: right;\n}\n\n.ogPrX91zgEreh2bN9mhh .TGZ9H1pYsrQDZ5TLZZXX {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-end;\n}\n\n.ogPrX91zgEreh2bN9mhh .TGZ9H1pYsrQDZ5TLZZXX input {\n  cursor: pointer;\n}\n\n.Gu11L3zStV2T8FRx34Gu {\n  display: flex;\n  flex-direction: column;\n}\n\n.Gu11L3zStV2T8FRx34Gu img {\n  width: 100%;\n  height: auto;\n}\n\n.Gu11L3zStV2T8FRx34Gu .tw3KNVkLhuhtS7HuVpZm {\n  cursor: pointer;\n  margin-bottom: 0.5rem;\n}\n\n.Gu11L3zStV2T8FRx34Gu .pvyAMUVLQ5TZqHUQGRaz {\n  border-style: groove;\n  border-width: thin;\n  padding: 0.5rem;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".K7vQwtugDxkOfU77fg4J {\n  font-size: 0.5rem;\n  opacity: 0.5;\n}\n\n.C2I4DvlMSfimZfl_xPn0 p {\n  margin: 0;\n}\n\n.C2I4DvlMSfimZfl_xPn0 ul {\n  margin: 0;\n  padding-left: 1.5rem;\n}\n\n.C2I4DvlMSfimZfl_xPn0 img {\n  height: auto;\n  width: 80%;\n}\n\n.C2I4DvlMSfimZfl_xPn0 .Njk3jLX2FgrdznVCqYh5 {\n  font-weight: bold;\n}\n\n.C2I4DvlMSfimZfl_xPn0 .yZIu6SlfivGi6blasrPS {\n  border-style: groove;\n  border-width: thin;\n  margin: 0.2rem;\n  padding: 0.2rem;\n}\n\n.mcfTbD5P0GwQwMJOmYD5 {\n  cursor: pointer;\n}\n\n.ogPrX91zgEreh2bN9mhh {\n  display: flex;\n  max-width: 15rem;\n  flex-direction: column;\n}\n\n.ogPrX91zgEreh2bN9mhh .jVC6DpTyv93BozsU0r_Q {\n  display: flex;\n  flex-direction: row;\n  margin-bottom: 0.5rem;\n  justify-content: space-between;\n}\n\n.ogPrX91zgEreh2bN9mhh .jVC6DpTyv93BozsU0r_Q label {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  font-weight: bold;\n}\n\n.ogPrX91zgEreh2bN9mhh .jVC6DpTyv93BozsU0r_Q input {\n  text-align: right;\n}\n\n.ogPrX91zgEreh2bN9mhh .TGZ9H1pYsrQDZ5TLZZXX {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-end;\n}\n\n.ogPrX91zgEreh2bN9mhh .TGZ9H1pYsrQDZ5TLZZXX input {\n  cursor: pointer;\n}\n\n.Gu11L3zStV2T8FRx34Gu {\n  display: flex;\n  flex-direction: column;\n}\n\n.Gu11L3zStV2T8FRx34Gu img {\n  width: 100%;\n  height: auto;\n}\n\n.Gu11L3zStV2T8FRx34Gu .tw3KNVkLhuhtS7HuVpZm {\n  cursor: pointer;\n  margin-bottom: 0.5rem;\n}\n\n.Gu11L3zStV2T8FRx34Gu .pvyAMUVLQ5TZqHUQGRaz {\n  border-style: groove;\n  border-width: thin;\n  padding: 0.5rem;\n}\n\n.qN5pz3Z5naDIp60s9Di8 strong {\n  font-weight: bold;\n}\n\n.qN5pz3Z5naDIp60s9Di8 p {\n  margin-bottom: 0.25rem;\n}\n\n.qN5pz3Z5naDIp60s9Di8 ul {\n  padding-left: 1.5rem;\n  margin-bottom: 0.25rem;\n}\n\n.qN5pz3Z5naDIp60s9Di8 ul li {\n  margin-bottom: 0.25rem;\n}\n", ""]);
 // Exports
 ___CSS_LOADER_EXPORT___.locals = {
 	"mainBody": "K7vQwtugDxkOfU77fg4J",
@@ -956,7 +956,8 @@ ___CSS_LOADER_EXPORT___.locals = {
 	"settingsSubmit": "TGZ9H1pYsrQDZ5TLZZXX",
 	"uploadImg": "Gu11L3zStV2T8FRx34Gu",
 	"confirmUpload": "tw3KNVkLhuhtS7HuVpZm",
-	"imageContainer": "pvyAMUVLQ5TZqHUQGRaz"
+	"imageContainer": "pvyAMUVLQ5TZqHUQGRaz",
+	"about": "qN5pz3Z5naDIp60s9Di8"
 };
 module.exports = ___CSS_LOADER_EXPORT___;
 
@@ -1354,12 +1355,19 @@ class UI {
                     _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(SettingsEntry, { name: "server", title: "\u670D\u52A1\u5668\u5730\u5740", pattern: ".*", size: 15, value: (_b = _context__WEBPACK_IMPORTED_MODULE_4__.SERVER.value) !== null && _b !== void 0 ? _b : undefined }),
                     _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("div", { classList: [_style_mod_css__WEBPACK_IMPORTED_MODULE_0__.locals.settingsSubmit] },
                         _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("input", { type: "submit", value: "\u63D0\u4EA4", size: 10 }))),
-                _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("div", null,
-                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("p", null, "功能特性："),
+                _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("div", { classList: [_style_mod_css__WEBPACK_IMPORTED_MODULE_0__.locals.about] },
+                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("p", null,
+                        _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("strong", null, "功能特性：")),
                     _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("ul", null,
-                        _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("li", null, "同步答案"),
-                        _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("li", null, "阻止提交异常状态"),
-                        _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("li", null, "阻止上传截图")))));
+                        _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("li", null,
+                            _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("strong", null, "同步答案："),
+                            "点击题目显示详细答案，在选项/填空处悬停鼠标显示简略答案"),
+                        _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("li", null,
+                            _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("strong", null, "阻止上传截图："),
+                            "仅当用户确认时，才会上传截图"),
+                        _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("li", null,
+                            _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("strong", null, "阻止提交异常状态："),
+                            "即使页面显示异常状态也不会被提交到服务器")))));
         });
         // Problem cards.
         const problems = new Map();
