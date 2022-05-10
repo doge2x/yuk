@@ -8,8 +8,10 @@ import {
   CacheResults,
 } from "./types";
 import { UI } from "./ui";
-import { devLog, newURL } from "./utils";
+import { devLog, newURL, openWin } from "./utils";
 import { EXAM_ID } from "./context";
+import Recks from "./recks";
+import { locals as style } from "./style.mod.css";
 
 export function sortPaper(paper: Paper): Paper {
   paper.data.problems.sort((a, b) => a.problem_id - b.problem_id);
@@ -43,15 +45,7 @@ function removeVisibilityListener() {
 }
 
 async function main(): Promise<void> {
-  const toDataURL = HTMLCanvasElement.prototype.toDataURL;
-  HTMLCanvasElement.prototype.toDataURL = function (
-    type?: string,
-    quality?: any
-  ) {
-    console.log(type, quality, this.height, this.width);
-    return toDataURL.call(this, type, quality);
-  };
-  removeVisibilityListener();
+  // removeVisibilityListener();
   const client = new Client();
   hookXHR(function (url) {
     switch (url.pathname) {
@@ -91,27 +85,67 @@ async function main(): Promise<void> {
             client.answerProblem(cacheResults.data.results);
           })().catch(devLog);
         });
-        return true;
+        break;
       case "/exam_room/answer_problem":
         return async (body) => {
           // Upload answers.
           if (typeof body === "string") {
-            const data: PostAnswer = JSON.parse(body);
+            const data = JSON.parse(body);
+            // Dont report abnormal behavior.
+            if ("action" in data) {
+              switch (data.action) {
+                // 离开页面
+                case 12:
+                // 返回页面
+                case 16:
+                // 上传桌面截屏
+                // case 17:
+                // 取消共享窗口
+                case 19:
+                  return new Promise(() => undefined);
+              }
+            }
             client.answerProblem(data.results ?? []).catch(devLog);
           }
           return body;
         };
       default:
         if (url.hostname === "upload-z1.qiniup.com") {
-          // Fake screenshot.
+          // Prevent upload screenshot.
           return async (body) => {
             if (body instanceof FormData && body.get("file") instanceof File) {
-              console.log(body.get("file"));
+              return new Promise((ok) => {
+                const f = new FileReader();
+                f.onload = () => {
+                  const win = openWin("上传图片", {
+                    width: 300,
+                    height: 200,
+                  });
+                  win.document.body.append(
+                    <div classList={[style.uploadImg, style.mainBody]}>
+                      <div>
+                        <button
+                          on-click={() => {
+                            ok(body);
+                            win.close();
+                          }}
+                          classList={[style.confirmUpload]}
+                          type="button"
+                        >
+                          {"确认上传"}
+                        </button>
+                      </div>
+                      <div classList={[style.imageContainer]}>
+                        <img src={f.result as any} />
+                      </div>
+                    </div>
+                  );
+                };
+                f.readAsDataURL(body.get("file") as File);
+              });
             }
             return body;
           };
-        } else {
-          return true;
         }
     }
   });

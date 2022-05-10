@@ -4,6 +4,7 @@
     "target": "ES6",
     "strict": true,
     "allowSyntheticDefaultImports": true,
+    "module": "ES6",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "outDir": "dist",

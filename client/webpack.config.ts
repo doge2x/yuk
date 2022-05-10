@@ -43,6 +43,7 @@ function newConfig(
             {
               loader: "css-loader",
               options: {
+                esModule: false,
                 modules: true,
               },
             },
