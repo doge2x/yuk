@@ -3,6 +3,7 @@ declare namespace StyleModCssNamespace {
     about: string;
     answerDetail: string;
     clickable: string;
+    confirmBUtton: string;
     confirmUpload: string;
     imageContainer: string;
     mainBody: string;

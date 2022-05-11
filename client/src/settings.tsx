@@ -86,7 +86,7 @@ export function showSettings() {
           type="checkbox"
         />
         <div classList={[style.submitTip]}>
-          <p>{"*更改设置后请刷新页面"}</p>
+          <i>{"*更改设置后请刷新页面"}</i>
         </div>
         <div classList={[style.settingsSubmit]}>
           <input type="submit" value="提交" size={10} />

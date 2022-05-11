@@ -28,6 +28,7 @@
   padding: 0.2rem;
   min-height: fit-content;
   min-width: fit-content;
+  max-width: 35rem;
 }
 
 .clickable {
@@ -59,7 +60,7 @@
 .settings .settingsSubmit {
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: end;
 }
 
 .settings .settingsSubmit input {
@@ -69,8 +70,8 @@
 .settings .submitTip {
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
-  font-style: italic;
+  justify-content: end;
+  margin-bottom: 0.5rem;
 }
 
 .uploadImg {
@@ -84,8 +85,15 @@
 }
 
 .uploadImg .confirmUpload {
-  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 0.5rem;
+}
+
+.uploadImg .confirmBUtton {
+  cursor: pointer;
 }
 
 .uploadImg .imageContainer {
@@ -94,17 +102,13 @@
   padding: 0.5rem;
 }
 
-.about strong {
-  font-weight: bold;
-}
-
 .about p {
   margin-bottom: 0.25rem;
 }
 
 .about ul {
   padding-left: 1.5rem;
-  margin-bottom: 0.25rem;
+  margin: 0 0 0.25rem 0;
 }
 
 .about ul li {
