@@ -8,11 +8,9 @@ import {
   Problem,
   ProblemDict,
 } from "./types";
-import { UI, CHOICE_MAP } from "./ui";
-import { devLog, newURL, openWin } from "./utils";
+import { UI, CHOICE_MAP, showConfirmUpload } from "./ui";
+import { devLog, newURL } from "./utils";
 import { EXAM_ID, NO_LEAVE_CHECK, SORT_PROBLEMS } from "./config";
-import Recks from "./recks";
-import { locals as style } from "./style.mod.css";
 
 function sortProblems(problems: Problem[]): Problem[] {
   if (SORT_PROBLEMS.value === true) {
@@ -148,31 +146,8 @@ async function main(): Promise<void> {
             if (body instanceof FormData && body.get("file") instanceof File) {
               return new Promise((ok) => {
                 const f = new FileReader();
-                f.onload = () => {
-                  const win = openWin("上传图片", {
-                    width: 300,
-                    height: 200,
-                  });
-                  win.document.body.append(
-                    <div classList={[style.uploadImg, style.mainBody]}>
-                      <div>
-                        <button
-                          on-click={() => {
-                            ok(body);
-                            win.close();
-                          }}
-                          classList={[style.confirmUpload]}
-                          type="button"
-                        >
-                          {"确认上传"}
-                        </button>
-                      </div>
-                      <div classList={[style.imageContainer]}>
-                        <img src={f.result as any} />
-                      </div>
-                    </div>
-                  );
-                };
+                f.onload = () =>
+                  showConfirmUpload(f.result as string, () => ok(body));
                 f.readAsDataURL(body.get("file") as File);
               });
             }

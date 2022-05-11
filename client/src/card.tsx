@@ -203,6 +203,7 @@ export class ProblemCard {
           <UList>
             {[...this.results.entries()]
               .sort(([a], [b]) => (a < b ? -1 : 1))
+              .filter(([_, res]) => "content" in res)
               .map(([username, res]: [string, ShortAnswerResult]) => {
                 return (
                   <Recks.Fragment>
