@@ -1,5 +1,5 @@
 .mainBody {
-  font-size: 0.5rem;
+  font-size: 0.75rem;
   opacity: 0.5;
 }
 
@@ -26,6 +26,8 @@
   border-width: thin;
   margin: 0.2rem;
   padding: 0.2rem;
+  min-height: fit-content;
+  min-width: fit-content;
 }
 
 .clickable {
@@ -42,16 +44,15 @@
   flex-direction: row;
   margin-bottom: 0.5rem;
   justify-content: space-between;
+  align-items: center;
 }
 
 .settings .settingsEntry label {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   font-weight: bold;
 }
 
 .settings .settingsEntry input {
+  height: fit-content;
   text-align: right;
 }
 
@@ -70,7 +71,6 @@
   flex-direction: row;
   justify-content: flex-end;
   font-style: italic;
-  font-size: 0.3rem;
 }
 
 .uploadImg {

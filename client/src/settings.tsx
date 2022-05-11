@@ -11,7 +11,7 @@ import { locals as style } from "./style.mod.css";
 import Recks from "./recks";
 
 export function showSettings() {
-  const win = openWin("设置", { height: 150, width: 200 });
+  const win = openWin("设置", { height: 300, width: 400 });
 
   function SettingsEntry(props: {
     name: string;
@@ -65,8 +65,8 @@ export function showSettings() {
         <SettingsEntry
           name="server"
           title="服务器地址"
-          pattern={".*"}
-          size={15}
+          pattern={"https?://.+"}
+          size={20}
           value={SERVER.value ?? undefined}
         />
         <SettingsEntry
