@@ -947,7 +947,7 @@ var ___CSS_LOADER_API_NO_SOURCEMAP_IMPORT___ = __webpack_require__(11);
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(12);
 var ___CSS_LOADER_EXPORT___ = ___CSS_LOADER_API_IMPORT___(___CSS_LOADER_API_NO_SOURCEMAP_IMPORT___);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".K7vQwtugDxkOfU77fg4J {\n  font-size: 0.75rem;\n  opacity: 0.5;\n}\n\n.C2I4DvlMSfimZfl_xPn0 p {\n  margin: 0;\n}\n\n.C2I4DvlMSfimZfl_xPn0 ul {\n  margin: 0;\n  padding-left: 1.5rem;\n}\n\n.C2I4DvlMSfimZfl_xPn0 img {\n  height: auto;\n  width: 80%;\n}\n\n.C2I4DvlMSfimZfl_xPn0 .Njk3jLX2FgrdznVCqYh5 {\n  font-weight: bold;\n}\n\n.C2I4DvlMSfimZfl_xPn0 .yZIu6SlfivGi6blasrPS {\n  border-style: groove;\n  border-width: thin;\n  margin: 0.2rem;\n  padding: 0.2rem;\n  min-height: fit-content;\n  min-width: fit-content;\n}\n\n.mcfTbD5P0GwQwMJOmYD5 {\n  cursor: pointer;\n}\n\n.ogPrX91zgEreh2bN9mhh {\n  display: flex;\n  flex-direction: column;\n}\n\n.ogPrX91zgEreh2bN9mhh .jVC6DpTyv93BozsU0r_Q {\n  display: flex;\n  flex-direction: row;\n  margin-bottom: 0.5rem;\n  justify-content: space-between;\n  align-items: center;\n}\n\n.ogPrX91zgEreh2bN9mhh .jVC6DpTyv93BozsU0r_Q label {\n  font-weight: bold;\n}\n\n.ogPrX91zgEreh2bN9mhh .jVC6DpTyv93BozsU0r_Q input {\n  height: fit-content;\n  text-align: right;\n}\n\n.ogPrX91zgEreh2bN9mhh .TGZ9H1pYsrQDZ5TLZZXX {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-end;\n}\n\n.ogPrX91zgEreh2bN9mhh .TGZ9H1pYsrQDZ5TLZZXX input {\n  cursor: pointer;\n}\n\n.ogPrX91zgEreh2bN9mhh .UeVqvz4xIIdNv68ajZbg {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-end;\n  font-style: italic;\n}\n\n.Gu11L3zStV2T8FRx34Gu {\n  display: flex;\n  flex-direction: column;\n}\n\n.Gu11L3zStV2T8FRx34Gu img {\n  width: 100%;\n  height: auto;\n}\n\n.Gu11L3zStV2T8FRx34Gu .tw3KNVkLhuhtS7HuVpZm {\n  cursor: pointer;\n  margin-bottom: 0.5rem;\n}\n\n.Gu11L3zStV2T8FRx34Gu .pvyAMUVLQ5TZqHUQGRaz {\n  border-style: groove;\n  border-width: thin;\n  padding: 0.5rem;\n}\n\n.qN5pz3Z5naDIp60s9Di8 strong {\n  font-weight: bold;\n}\n\n.qN5pz3Z5naDIp60s9Di8 p {\n  margin-bottom: 0.25rem;\n}\n\n.qN5pz3Z5naDIp60s9Di8 ul {\n  padding-left: 1.5rem;\n  margin-bottom: 0.25rem;\n}\n\n.qN5pz3Z5naDIp60s9Di8 ul li {\n  margin-bottom: 0.25rem;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".K7vQwtugDxkOfU77fg4J {\n  font-size: 0.75rem;\n  opacity: 0.5;\n}\n\n.C2I4DvlMSfimZfl_xPn0 p {\n  margin: 0;\n}\n\n.C2I4DvlMSfimZfl_xPn0 ul {\n  margin: 0;\n  padding-left: 1.5rem;\n}\n\n.C2I4DvlMSfimZfl_xPn0 img {\n  height: auto;\n  width: 80%;\n}\n\n.C2I4DvlMSfimZfl_xPn0 .Njk3jLX2FgrdznVCqYh5 {\n  font-weight: bold;\n}\n\n.C2I4DvlMSfimZfl_xPn0 .yZIu6SlfivGi6blasrPS {\n  border-style: groove;\n  border-width: thin;\n  margin: 0.2rem;\n  padding: 0.2rem;\n  min-height: fit-content;\n  min-width: fit-content;\n  max-width: 35rem;\n}\n\n.mcfTbD5P0GwQwMJOmYD5 {\n  cursor: pointer;\n}\n\n.ogPrX91zgEreh2bN9mhh {\n  display: flex;\n  flex-direction: column;\n}\n\n.ogPrX91zgEreh2bN9mhh .jVC6DpTyv93BozsU0r_Q {\n  display: flex;\n  flex-direction: row;\n  margin-bottom: 0.5rem;\n  justify-content: space-between;\n  align-items: center;\n}\n\n.ogPrX91zgEreh2bN9mhh .jVC6DpTyv93BozsU0r_Q label {\n  font-weight: bold;\n}\n\n.ogPrX91zgEreh2bN9mhh .jVC6DpTyv93BozsU0r_Q input {\n  height: fit-content;\n  text-align: right;\n}\n\n.ogPrX91zgEreh2bN9mhh .TGZ9H1pYsrQDZ5TLZZXX {\n  display: flex;\n  flex-direction: row;\n  justify-content: end;\n}\n\n.ogPrX91zgEreh2bN9mhh .TGZ9H1pYsrQDZ5TLZZXX input {\n  cursor: pointer;\n}\n\n.ogPrX91zgEreh2bN9mhh .UeVqvz4xIIdNv68ajZbg {\n  display: flex;\n  flex-direction: row;\n  justify-content: end;\n  margin-bottom: 0.5rem;\n}\n\n.Gu11L3zStV2T8FRx34Gu {\n  display: flex;\n  flex-direction: column;\n}\n\n.Gu11L3zStV2T8FRx34Gu img {\n  width: 100%;\n  height: auto;\n}\n\n.Gu11L3zStV2T8FRx34Gu .tw3KNVkLhuhtS7HuVpZm {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 0.5rem;\n}\n\n.Gu11L3zStV2T8FRx34Gu .G1llltOzrRbVQVD3mY8l {\n  cursor: pointer;\n}\n\n.Gu11L3zStV2T8FRx34Gu .pvyAMUVLQ5TZqHUQGRaz {\n  border-style: groove;\n  border-width: thin;\n  padding: 0.5rem;\n}\n\n.qN5pz3Z5naDIp60s9Di8 p {\n  margin-bottom: 0.25rem;\n}\n\n.qN5pz3Z5naDIp60s9Di8 ul {\n  padding-left: 1.5rem;\n  margin: 0 0 0.25rem 0;\n}\n\n.qN5pz3Z5naDIp60s9Di8 ul li {\n  margin-bottom: 0.25rem;\n}\n", ""]);
 // Exports
 ___CSS_LOADER_EXPORT___.locals = {
 	"mainBody": "K7vQwtugDxkOfU77fg4J",
@@ -961,6 +961,7 @@ ___CSS_LOADER_EXPORT___.locals = {
 	"submitTip": "UeVqvz4xIIdNv68ajZbg",
 	"uploadImg": "Gu11L3zStV2T8FRx34Gu",
 	"confirmUpload": "tw3KNVkLhuhtS7HuVpZm",
+	"confirmBUtton": "G1llltOzrRbVQVD3mY8l",
 	"imageContainer": "pvyAMUVLQ5TZqHUQGRaz",
 	"about": "qN5pz3Z5naDIp60s9Di8"
 };
@@ -1317,7 +1318,8 @@ function isChoice(ty) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "CHOICE_MAP": () => (/* binding */ CHOICE_MAP),
-/* harmony export */   "UI": () => (/* binding */ UI)
+/* harmony export */   "UI": () => (/* binding */ UI),
+/* harmony export */   "showConfirmUpload": () => (/* binding */ showConfirmUpload)
 /* harmony export */ });
 /* harmony import */ var _style_mod_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
 /* harmony import */ var _style_mod_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_style_mod_css__WEBPACK_IMPORTED_MODULE_0__);
@@ -1366,6 +1368,22 @@ class UI {
     updateUI() {
         this.problems.forEach((card) => card.updateUI());
     }
+}
+function showConfirmUpload(dataURL, cb) {
+    const win = (0,_utils__WEBPACK_IMPORTED_MODULE_4__.openWin)("上传图片", {
+        width: 300,
+        height: 200,
+    });
+    win.document.body.append(_recks__WEBPACK_IMPORTED_MODULE_2__["default"].createElement("div", { classList: [_style_mod_css__WEBPACK_IMPORTED_MODULE_0__.locals.uploadImg, _style_mod_css__WEBPACK_IMPORTED_MODULE_0__.locals.mainBody] },
+        _recks__WEBPACK_IMPORTED_MODULE_2__["default"].createElement("div", { classList: [_style_mod_css__WEBPACK_IMPORTED_MODULE_0__.locals.confirmUpload] },
+            _recks__WEBPACK_IMPORTED_MODULE_2__["default"].createElement("button", { "on-click": () => {
+                    cb();
+                    win.close();
+                }, classList: [_style_mod_css__WEBPACK_IMPORTED_MODULE_0__.locals.confirmBUtton], type: "button" }, "确认上传"),
+            _recks__WEBPACK_IMPORTED_MODULE_2__["default"].createElement("span", null,
+                _recks__WEBPACK_IMPORTED_MODULE_2__["default"].createElement("i", null, "*关闭窗口以取消上传"))),
+        _recks__WEBPACK_IMPORTED_MODULE_2__["default"].createElement("div", { classList: [_style_mod_css__WEBPACK_IMPORTED_MODULE_0__.locals.imageContainer] },
+            _recks__WEBPACK_IMPORTED_MODULE_2__["default"].createElement("img", { src: dataURL }))));
 }
 
 
@@ -1525,6 +1543,7 @@ class ProblemCard {
                 //   - File2
                 mainBody.append(_recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(UList, null, [...this.results.entries()]
                     .sort(([a], [b]) => (a < b ? -1 : 1))
+                    .filter(([_, res]) => "content" in res)
                     .map(([username, res]) => {
                     var _a, _b;
                     return (_recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(_recks__WEBPACK_IMPORTED_MODULE_3__["default"].Fragment, null,
@@ -1624,7 +1643,7 @@ function showSettings() {
             _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(SettingsEntry, { name: "sort_problems", title: "\u6392\u5E8F\u9898\u76EE", checked: _config__WEBPACK_IMPORTED_MODULE_1__.SORT_PROBLEMS.value === true, type: "checkbox" }),
             _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(SettingsEntry, { name: "no_leave_check", title: "\u62E6\u622A\u5207\u5C4F\u68C0\u6D4B", checked: _config__WEBPACK_IMPORTED_MODULE_1__.NO_LEAVE_CHECK.value === true, type: "checkbox" }),
             _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("div", { classList: [_style_mod_css__WEBPACK_IMPORTED_MODULE_2__.locals.submitTip] },
-                _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("p", null, "*更改设置后请刷新页面")),
+                _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("i", null, "*更改设置后请刷新页面")),
             _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("div", { classList: [_style_mod_css__WEBPACK_IMPORTED_MODULE_2__.locals.settingsSubmit] },
                 _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("input", { type: "submit", value: "\u63D0\u4EA4", size: 10 }))),
         _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("div", { classList: [_style_mod_css__WEBPACK_IMPORTED_MODULE_2__.locals.about] },
@@ -1729,9 +1748,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ui__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(17);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(9);
 /* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(14);
-/* harmony import */ var _recks__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(13);
-/* harmony import */ var _style_mod_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(10);
-/* harmony import */ var _style_mod_css__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_style_mod_css__WEBPACK_IMPORTED_MODULE_7__);
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -1741,8 +1757,6 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-
-
 
 
 
@@ -1870,20 +1884,7 @@ function main() {
                             if (body instanceof FormData && body.get("file") instanceof File) {
                                 return new Promise((ok) => {
                                     const f = new FileReader();
-                                    f.onload = () => {
-                                        const win = (0,_utils__WEBPACK_IMPORTED_MODULE_4__.openWin)("上传图片", {
-                                            width: 300,
-                                            height: 200,
-                                        });
-                                        win.document.body.append(_recks__WEBPACK_IMPORTED_MODULE_6__["default"].createElement("div", { classList: [_style_mod_css__WEBPACK_IMPORTED_MODULE_7__.locals.uploadImg, _style_mod_css__WEBPACK_IMPORTED_MODULE_7__.locals.mainBody] },
-                                            _recks__WEBPACK_IMPORTED_MODULE_6__["default"].createElement("div", null,
-                                                _recks__WEBPACK_IMPORTED_MODULE_6__["default"].createElement("button", { "on-click": () => {
-                                                        ok(body);
-                                                        win.close();
-                                                    }, classList: [_style_mod_css__WEBPACK_IMPORTED_MODULE_7__.locals.confirmUpload], type: "button" }, "确认上传")),
-                                            _recks__WEBPACK_IMPORTED_MODULE_6__["default"].createElement("div", { classList: [_style_mod_css__WEBPACK_IMPORTED_MODULE_7__.locals.imageContainer] },
-                                                _recks__WEBPACK_IMPORTED_MODULE_6__["default"].createElement("img", { src: f.result }))));
-                                    };
+                                    f.onload = () => (0,_ui__WEBPACK_IMPORTED_MODULE_3__.showConfirmUpload)(f.result, () => ok(body));
                                     f.readAsDataURL(body.get("file"));
                                 });
                             }

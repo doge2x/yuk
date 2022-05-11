@@ -3,7 +3,7 @@ import { locals as style, default as styleCss } from "./style.mod.css";
 import { ProblemCard } from "./card";
 import Recks from "./recks";
 import { showSettings } from "./settings";
-import { Map2 } from "./utils";
+import { Map2, openWin } from "./utils";
 
 export const CHOICE_MAP: Map2<number, Map<string, string>> = new Map2(
   () => new Map()
@@ -50,4 +50,33 @@ export class UI {
   updateUI() {
     this.problems.forEach((card) => card.updateUI());
   }
+}
+
+export function showConfirmUpload(dataURL: string, cb: () => void) {
+  const win = openWin("上传图片", {
+    width: 300,
+    height: 200,
+  });
+  win.document.body.append(
+    <div classList={[style.uploadImg, style.mainBody]}>
+      <div classList={[style.confirmUpload]}>
+        <button
+          on-click={() => {
+            cb();
+            win.close();
+          }}
+          classList={[style.confirmBUtton]}
+          type="button"
+        >
+          {"确认上传"}
+        </button>
+        <span>
+          <i>{"*关闭窗口以取消上传"}</i>
+        </span>
+      </div>
+      <div classList={[style.imageContainer]}>
+        <img src={dataURL} />
+      </div>
+    </div>
+  );
 }
