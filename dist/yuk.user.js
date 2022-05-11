@@ -1626,7 +1626,7 @@ function showSettings() {
                     "点击题目显示详细答案，在选项/填空处悬停鼠标显示简略答案"),
                 _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("li", null,
                     _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("strong", null, "排序题目："),
-                    "根据题目 ID 和选项对试卷进行重新排序"),
+                    "根据 ID 对题目进行重新排序，每题的选项一定会被排序以保证每个人看到相同的答案"),
                 _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("li", null,
                     _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("strong", null, "拦截切屏检测："),
                     "随意切换页面、窗口不会被发现"),
@@ -1740,8 +1740,11 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 
 function sortProblems(problems) {
-    problems.sort((a, b) => a.problem_id - b.problem_id);
+    if (_config__WEBPACK_IMPORTED_MODULE_5__.SORT_PROBLEMS.value === true) {
+        problems = problems.sort((a, b) => a.problem_id - b.problem_id);
+    }
     problems.forEach((problem) => {
+        // Options must be sorted to ensure the answers users saw are the same.
         if ((0,_types__WEBPACK_IMPORTED_MODULE_2__.isChoice)(problem.ProblemType)) {
             problem.Options.sort((a, b) => {
                 return a.key < b.key ? -1 : 1;
@@ -1786,17 +1789,15 @@ function main() {
                     this.addEventListener("readystatechange", () => {
                         if (this.readyState == XMLHttpRequest.DONE) {
                             // Sort problems.
-                            if (_config__WEBPACK_IMPORTED_MODULE_5__.SORT_PROBLEMS.value === true) {
-                                const text = JSON.stringify(sortPaper(JSON.parse(this.responseText)));
-                                // Modify response text.
-                                Object.defineProperties(this, {
-                                    responseText: {
-                                        get() {
-                                            return text;
-                                        },
+                            const text = JSON.stringify(sortPaper(JSON.parse(this.responseText)));
+                            // Modify response text.
+                            Object.defineProperties(this, {
+                                responseText: {
+                                    get() {
+                                        return text;
                                     },
-                                });
-                            }
+                                },
+                            });
                         }
                     });
                     this.addEventListener("load", () => {
