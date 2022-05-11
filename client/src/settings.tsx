@@ -1,7 +1,6 @@
 import { openWin } from "./utils";
 import {
   NO_LEAVE_CHECK,
-  NO_SCREENSHOTS,
   SERVER,
   SORT_PROBLEMS,
   SYNC_ANSWERS,
@@ -51,7 +50,6 @@ export function showSettings() {
           NO_LEAVE_CHECK.value = form.get("no_leave_check") === "on";
           SORT_PROBLEMS.value = form.get("sort_problems") === "on";
           SYNC_ANSWERS.value = form.get("sync_answers") === "on";
-          NO_SCREENSHOTS.value = form.get("no_screenshots") === "on";
           win.close();
         }}
       >
@@ -87,12 +85,6 @@ export function showSettings() {
           checked={NO_LEAVE_CHECK.value === true}
           type="checkbox"
         />
-        <SettingsEntry
-          name="no_screenshots"
-          title="拦截全部截图"
-          checked={NO_SCREENSHOTS.value === true}
-          type="checkbox"
-        />
         <div classList={[style.submitTip]}>
           <p>{"*更改设置后请刷新页面"}</p>
         </div>
@@ -119,12 +111,10 @@ export function showSettings() {
           </li>
           <li>
             <strong>{"拦截上传截图："}</strong>
-            {"仅当用户确认时，才会上传截图，启用"}
-            <strong>{"[拦截全部截图]"}</strong>
-            {"后，所有截图默认取消上传"}
+            {"仅当用户确认时，才会上传截图"}
           </li>
           <li>
-            <strong>{"阻止提交异常状态："}</strong>
+            <strong>{"拦截异常状态："}</strong>
             {"即使页面显示异常状态也不会被提交到服务器"}
           </li>
         </ul>

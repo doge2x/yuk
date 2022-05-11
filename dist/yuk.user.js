@@ -1180,7 +1180,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "EXAM_ID": () => (/* binding */ EXAM_ID),
 /* harmony export */   "NO_LEAVE_CHECK": () => (/* binding */ NO_LEAVE_CHECK),
-/* harmony export */   "NO_SCREENSHOTS": () => (/* binding */ NO_SCREENSHOTS),
 /* harmony export */   "SERVER": () => (/* binding */ SERVER),
 /* harmony export */   "SORT_PROBLEMS": () => (/* binding */ SORT_PROBLEMS),
 /* harmony export */   "SYNC_ANSWERS": () => (/* binding */ SYNC_ANSWERS),
@@ -1224,7 +1223,6 @@ const SERVER = new GMEntry("server");
 const SYNC_ANSWERS = new GMEntry("sync_answers", true);
 const SORT_PROBLEMS = new GMEntry("sort_problems", true);
 const NO_LEAVE_CHECK = new GMEntry("no_leave_check", true);
-const NO_SCREENSHOTS = new GMEntry("no_screenshots", false);
 const TOKEN = new Optional();
 const EXAM_ID = new Optional();
 
@@ -1608,7 +1606,6 @@ function showSettings() {
                 _config__WEBPACK_IMPORTED_MODULE_1__.NO_LEAVE_CHECK.value = form.get("no_leave_check") === "on";
                 _config__WEBPACK_IMPORTED_MODULE_1__.SORT_PROBLEMS.value = form.get("sort_problems") === "on";
                 _config__WEBPACK_IMPORTED_MODULE_1__.SYNC_ANSWERS.value = form.get("sync_answers") === "on";
-                _config__WEBPACK_IMPORTED_MODULE_1__.NO_SCREENSHOTS.value = form.get("no_screenshots") === "on";
                 win.close();
             } },
             _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(SettingsEntry, { name: "username", title: "\u7528\u6237\u540D", pattern: "[_a-z][_a-z0-9]*", size: 10, value: (_a = _config__WEBPACK_IMPORTED_MODULE_1__.USERNAME.value) !== null && _a !== void 0 ? _a : undefined }),
@@ -1616,7 +1613,6 @@ function showSettings() {
             _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(SettingsEntry, { name: "sync_answers", title: "\u540C\u6B65\u7B54\u6848", checked: _config__WEBPACK_IMPORTED_MODULE_1__.SYNC_ANSWERS.value === true, type: "checkbox" }),
             _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(SettingsEntry, { name: "sort_problems", title: "\u6392\u5E8F\u9898\u76EE", checked: _config__WEBPACK_IMPORTED_MODULE_1__.SORT_PROBLEMS.value === true, type: "checkbox" }),
             _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(SettingsEntry, { name: "no_leave_check", title: "\u62E6\u622A\u5207\u5C4F\u68C0\u6D4B", checked: _config__WEBPACK_IMPORTED_MODULE_1__.NO_LEAVE_CHECK.value === true, type: "checkbox" }),
-            _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(SettingsEntry, { name: "no_screenshots", title: "\u62E6\u622A\u5168\u90E8\u622A\u56FE", checked: _config__WEBPACK_IMPORTED_MODULE_1__.NO_SCREENSHOTS.value === true, type: "checkbox" }),
             _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("div", { classList: [_style_mod_css__WEBPACK_IMPORTED_MODULE_2__.locals.submitTip] },
                 _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("p", null, "*更改设置后请刷新页面")),
             _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("div", { classList: [_style_mod_css__WEBPACK_IMPORTED_MODULE_2__.locals.settingsSubmit] },
@@ -1636,11 +1632,9 @@ function showSettings() {
                     "随意切换页面、窗口不会被发现"),
                 _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("li", null,
                     _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("strong", null, "拦截上传截图："),
-                    "仅当用户确认时，才会上传截图，启用",
-                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("strong", null, "[拦截全部截图]"),
-                    "后，所有截图默认取消上传"),
+                    "仅当用户确认时，才会上传截图"),
                 _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("li", null,
-                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("strong", null, "阻止提交异常状态："),
+                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("strong", null, "拦截异常状态："),
                     "即使页面显示异常状态也不会被提交到服务器")))));
 }
 
@@ -1856,10 +1850,6 @@ function main() {
                         // Prevent upload screenshot.
                         return (body) => __awaiter(this, void 0, void 0, function* () {
                             if (body instanceof FormData && body.get("file") instanceof File) {
-                                if (_config__WEBPACK_IMPORTED_MODULE_5__.NO_SCREENSHOTS.value === true) {
-                                    // Dont upload any screenshots at all.
-                                    return new Promise(() => undefined);
-                                }
                                 return new Promise((ok) => {
                                     const f = new FileReader();
                                     f.onload = () => {

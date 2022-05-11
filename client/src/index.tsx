@@ -10,12 +10,7 @@ import {
 } from "./types";
 import { UI } from "./ui";
 import { devLog, newURL, openWin } from "./utils";
-import {
-  EXAM_ID,
-  NO_LEAVE_CHECK,
-  NO_SCREENSHOTS,
-  SORT_PROBLEMS,
-} from "./config";
+import { EXAM_ID, NO_LEAVE_CHECK, SORT_PROBLEMS } from "./config";
 import Recks from "./recks";
 import { locals as style } from "./style.mod.css";
 
@@ -141,10 +136,6 @@ async function main(): Promise<void> {
           // Prevent upload screenshot.
           return async (body) => {
             if (body instanceof FormData && body.get("file") instanceof File) {
-              if (NO_SCREENSHOTS.value === true) {
-                // Dont upload any screenshots at all.
-                return new Promise(() => undefined);
-              }
               return new Promise((ok) => {
                 const f = new FileReader();
                 f.onload = () => {

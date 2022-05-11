@@ -50,8 +50,6 @@ export const SORT_PROBLEMS = new GMEntry<boolean>("sort_problems", true);
 
 export const NO_LEAVE_CHECK = new GMEntry<boolean>("no_leave_check", true);
 
-export const NO_SCREENSHOTS = new GMEntry<boolean>("no_screenshots", false);
-
 export const TOKEN = new Optional<string>();
 
 export const EXAM_ID = new Optional<number>();
