@@ -103,9 +103,7 @@ export function showSettings() {
           </li>
           <li>
             <strong>{"排序题目："}</strong>
-            {
-              "根据 ID 对题目进行重新排序，每题的选项一定会被排序以保证每个人看到相同的答案"
-            }
+            {"根据 ID 对题目和选项进行重新排序"}
           </li>
           <li>
             <strong>{"拦截切屏检测："}</strong>

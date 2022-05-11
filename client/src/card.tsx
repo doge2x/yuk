@@ -4,6 +4,7 @@ import {
   ChoiceResult,
   BlankResult,
   ShortAnswerResult,
+  isChoice,
 } from "./types";
 import { Map2, openWin } from "./utils";
 import { locals as style } from "./style.mod.css";
@@ -43,8 +44,13 @@ export class ProblemCard {
    * Option key => Option Card
    */
   private options: Map<string, Tooltip>;
+  private choiceMap: Map<string, string>;
 
-  constructor(problem: Problem, subjectItem: Element) {
+  constructor(
+    problem: Problem,
+    choiceMap: Map<string, string>,
+    subjectItem: Element
+  ) {
     const type = problem.ProblemType;
     const options = new Map();
 
@@ -77,6 +83,7 @@ export class ProblemCard {
 
     this.type = type;
     this.options = options;
+    this.choiceMap = choiceMap;
   }
 
   showAll({ left, top }: { left?: number; top?: number }) {
@@ -120,6 +127,8 @@ export class ProblemCard {
           res.forEach((choice) => {
             if (this.type === ProblemType.Judgement) {
               choice = choice === "true" ? "正确" : "错误";
+            } else if (isChoice(this.type)) {
+              choice = this.choiceMap.get(choice)!;
             }
             choiceToUsers.setWith(choice, (users) => {
               users.push(username);

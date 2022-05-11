@@ -8,7 +8,7 @@ import {
   Problem,
   ProblemDict,
 } from "./types";
-import { UI } from "./ui";
+import { UI, CHOICE_MAP } from "./ui";
 import { devLog, newURL, openWin } from "./utils";
 import { EXAM_ID, NO_LEAVE_CHECK, SORT_PROBLEMS } from "./config";
 import Recks from "./recks";
@@ -16,13 +16,21 @@ import { locals as style } from "./style.mod.css";
 
 function sortProblems(problems: Problem[]): Problem[] {
   if (SORT_PROBLEMS.value === true) {
-    problems = problems.sort((a, b) => a.problem_id - b.problem_id);
+    problems.sort((a, b) => a.problem_id - b.problem_id);
   }
   problems.forEach((problem) => {
     // Options must be sorted to ensure the answers users saw are the same.
     if (isChoice(problem.ProblemType)) {
-      (problem.Options as ChoiceOption[]).sort((a, b) => {
-        return a.key < b.key ? -1 : 1;
+      const options = problem.Options as ChoiceOption[];
+      if (SORT_PROBLEMS.value === true) {
+        options.sort((a, b) => {
+          return a.key < b.key ? -1 : 1;
+        });
+      }
+      options.forEach((cho, idx) => {
+        CHOICE_MAP.setWith(problem.problem_id, (m) =>
+          m.set(cho.key, String.fromCharCode(65 + idx))
+        );
       });
     }
   });
@@ -40,6 +48,7 @@ function sortPaper(paper: Paper): Paper {
   } else {
     paper.data.problems = sortProblems(paper.data.problems as Problem[]);
   }
+  devLog(CHOICE_MAP);
   return paper;
 }
 
