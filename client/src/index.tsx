@@ -15,8 +15,11 @@ import Recks from "./recks";
 import { locals as style } from "./style.mod.css";
 
 function sortProblems(problems: Problem[]): Problem[] {
-  problems.sort((a, b) => a.problem_id - b.problem_id);
+  if (SORT_PROBLEMS.value === true) {
+    problems = problems.sort((a, b) => a.problem_id - b.problem_id);
+  }
   problems.forEach((problem) => {
+    // Options must be sorted to ensure the answers users saw are the same.
     if (isChoice(problem.ProblemType)) {
       (problem.Options as ChoiceOption[]).sort((a, b) => {
         return a.key < b.key ? -1 : 1;
@@ -70,19 +73,17 @@ async function main(): Promise<void> {
         this.addEventListener("readystatechange", () => {
           if (this.readyState == XMLHttpRequest.DONE) {
             // Sort problems.
-            if (SORT_PROBLEMS.value === true) {
-              const text = JSON.stringify(
-                sortPaper(JSON.parse(this.responseText))
-              );
-              // Modify response text.
-              Object.defineProperties(this, {
-                responseText: {
-                  get() {
-                    return text;
-                  },
+            const text = JSON.stringify(
+              sortPaper(JSON.parse(this.responseText))
+            );
+            // Modify response text.
+            Object.defineProperties(this, {
+              responseText: {
+                get() {
+                  return text;
                 },
-              });
-            }
+              },
+            });
           }
         });
         this.addEventListener("load", () => {
