@@ -3,7 +3,14 @@ import { locals as style, default as styleCss } from "./style.mod.css";
 import { openWin } from "./utils";
 import { ProblemCard } from "./card";
 import Recks from "./recks";
-import { NO_LEAVE_CHECK, SERVER, SORT_PROBLEMS, USERNAME } from "./context";
+import {
+  NO_LEAVE_CHECK,
+  NO_SCREENSHOTS,
+  SERVER,
+  SORT_PROBLEMS,
+  SYNC_ANSWERS,
+  USERNAME,
+} from "./config";
 
 export class UI {
   private problems: Map<number, ProblemCard>;
@@ -53,6 +60,8 @@ export class UI {
               SERVER.value = form.get("server") as any;
               NO_LEAVE_CHECK.value = form.get("no_leave_check") === "on";
               SORT_PROBLEMS.value = form.get("sort_problems") === "on";
+              SYNC_ANSWERS.value = form.get("sync_answers") === "on";
+              NO_SCREENSHOTS.value = form.get("no_screenshots") === "on";
               win.close();
             }}
           >
@@ -71,9 +80,9 @@ export class UI {
               value={SERVER.value ?? undefined}
             />
             <SettingsEntry
-              name="no_leave_check"
-              title="取消切屏检测"
-              checked={NO_LEAVE_CHECK.value === true}
+              name="sync_answers"
+              title="同步答案"
+              checked={SYNC_ANSWERS.value === true}
               type="checkbox"
             />
             <SettingsEntry
@@ -82,6 +91,21 @@ export class UI {
               checked={SORT_PROBLEMS.value === true}
               type="checkbox"
             />
+            <SettingsEntry
+              name="no_leave_check"
+              title="拦截切屏检测"
+              checked={NO_LEAVE_CHECK.value === true}
+              type="checkbox"
+            />
+            <SettingsEntry
+              name="no_screenshots"
+              title="拦截全部截图"
+              checked={NO_SCREENSHOTS.value === true}
+              type="checkbox"
+            />
+            <div classList={[style.submitTip]}>
+              <p>{"*更改设置后请刷新页面"}</p>
+            </div>
             <div classList={[style.settingsSubmit]}>
               <input type="submit" value="提交" size={10} />
             </div>
@@ -96,8 +120,18 @@ export class UI {
                 {"点击题目显示详细答案，在选项/填空处悬停鼠标显示简略答案"}
               </li>
               <li>
-                <strong>{"阻止上传截图："}</strong>
-                {"仅当用户确认时，才会上传截图"}
+                <strong>{"排序题目："}</strong>
+                {"根据题目 ID 和选项对试卷进行重新排序"}
+              </li>
+              <li>
+                <strong>{"拦截切屏检测："}</strong>
+                {"随意切换页面、窗口不会被发现"}
+              </li>
+              <li>
+                <strong>{"拦截上传截图："}</strong>
+                {"仅当用户确认时，才会上传截图，启用"}
+                <strong>{"[拦截全部截图]"}</strong>
+                {"后，所有截图默认取消上传"}
               </li>
               <li>
                 <strong>{"阻止提交异常状态："}</strong>
@@ -111,7 +145,7 @@ export class UI {
     // Problem cards.
     const problems = new Map();
     document.body
-      .querySelectorAll(".exam-main--body div .subject-item")
+      .querySelectorAll(".exam-main--body .subject-item")
       .forEach((subjectItem, idx) => {
         const prob = paper.data.problems[idx];
         problems.set(prob.problem_id, new ProblemCard(prob, subjectItem));

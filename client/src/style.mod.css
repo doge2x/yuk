@@ -34,7 +34,6 @@
 
 .settings {
   display: flex;
-  max-width: 15rem;
   flex-direction: column;
 }
 
@@ -64,6 +63,14 @@
 
 .settings .settingsSubmit input {
   cursor: pointer;
+}
+
+.settings .submitTip {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  font-style: italic;
+  font-size: 0.3rem;
 }
 
 .uploadImg {

@@ -10,6 +10,7 @@ declare namespace StyleModCssNamespace {
     settingsEntry: string;
     settingsSubmit: string;
     shorAnswer: string;
+    submitTip: string;
     title: string;
     uploadImg: string;
   }

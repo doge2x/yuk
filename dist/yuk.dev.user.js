@@ -23,7 +23,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var json_rpc_2_0__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(json_rpc_2_0__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _gm__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(8);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(9);
-/* harmony import */ var _context__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(14);
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(14);
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -42,7 +42,7 @@ class Client {
         this.onmsg = [];
         this.queue = new Map();
         const client = new json_rpc_2_0__WEBPACK_IMPORTED_MODULE_0__.JSONRPCClient((req) => __awaiter(this, void 0, void 0, function* () {
-            const url = _context__WEBPACK_IMPORTED_MODULE_3__.SERVER.value;
+            const url = _config__WEBPACK_IMPORTED_MODULE_3__.SERVER.value;
             if (url !== null) {
                 yield new Promise((ok, err) => __awaiter(this, void 0, void 0, function* () {
                     yield _gm__WEBPACK_IMPORTED_MODULE_1__["default"].xhr({
@@ -84,23 +84,24 @@ class Client {
     sendQueue() {
         return __awaiter(this, void 0, void 0, function* () {
             if (this.queue.size < 1 ||
-                _context__WEBPACK_IMPORTED_MODULE_3__.USERNAME.value === null ||
-                _context__WEBPACK_IMPORTED_MODULE_3__.SERVER.value === null ||
-                _context__WEBPACK_IMPORTED_MODULE_3__.EXAM_ID.value === null) {
+                _config__WEBPACK_IMPORTED_MODULE_3__.USERNAME.value === null ||
+                _config__WEBPACK_IMPORTED_MODULE_3__.SERVER.value === null ||
+                _config__WEBPACK_IMPORTED_MODULE_3__.EXAM_ID.value === null ||
+                _config__WEBPACK_IMPORTED_MODULE_3__.SYNC_ANSWERS.value === false) {
                 return;
             }
             let answers = [...this.queue.values()];
             this.queue.clear();
-            if (_context__WEBPACK_IMPORTED_MODULE_3__.TOKEN.value === null) {
-                (0,_utils__WEBPACK_IMPORTED_MODULE_2__.devLog)(`login to server: ${_context__WEBPACK_IMPORTED_MODULE_3__.USERNAME.value}, ${_context__WEBPACK_IMPORTED_MODULE_3__.EXAM_ID.value}`);
+            if (_config__WEBPACK_IMPORTED_MODULE_3__.TOKEN.value === null) {
+                (0,_utils__WEBPACK_IMPORTED_MODULE_2__.devLog)(`login to server: ${_config__WEBPACK_IMPORTED_MODULE_3__.USERNAME.value}, ${_config__WEBPACK_IMPORTED_MODULE_3__.EXAM_ID.value}`);
                 const token = yield this.client.request("login", [
-                    _context__WEBPACK_IMPORTED_MODULE_3__.USERNAME.value,
-                    _context__WEBPACK_IMPORTED_MODULE_3__.EXAM_ID.value,
+                    _config__WEBPACK_IMPORTED_MODULE_3__.USERNAME.value,
+                    _config__WEBPACK_IMPORTED_MODULE_3__.EXAM_ID.value,
                 ]);
                 (0,_utils__WEBPACK_IMPORTED_MODULE_2__.devLog)("got token", token);
-                _context__WEBPACK_IMPORTED_MODULE_3__.TOKEN.value = token;
+                _config__WEBPACK_IMPORTED_MODULE_3__.TOKEN.value = token;
             }
-            this.postAnswers(_context__WEBPACK_IMPORTED_MODULE_3__.TOKEN.value, answers);
+            this.postAnswers(_config__WEBPACK_IMPORTED_MODULE_3__.TOKEN.value, answers);
         });
     }
     postAnswers(token, answers) {
@@ -946,7 +947,7 @@ var ___CSS_LOADER_API_NO_SOURCEMAP_IMPORT___ = __webpack_require__(11);
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(12);
 var ___CSS_LOADER_EXPORT___ = ___CSS_LOADER_API_IMPORT___(___CSS_LOADER_API_NO_SOURCEMAP_IMPORT___);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".K7vQwtugDxkOfU77fg4J {\n  font-size: 0.5rem;\n  opacity: 0.5;\n}\n\n.C2I4DvlMSfimZfl_xPn0 p {\n  margin: 0;\n}\n\n.C2I4DvlMSfimZfl_xPn0 ul {\n  margin: 0;\n  padding-left: 1.5rem;\n}\n\n.C2I4DvlMSfimZfl_xPn0 img {\n  height: auto;\n  width: 80%;\n}\n\n.C2I4DvlMSfimZfl_xPn0 .Njk3jLX2FgrdznVCqYh5 {\n  font-weight: bold;\n}\n\n.C2I4DvlMSfimZfl_xPn0 .yZIu6SlfivGi6blasrPS {\n  border-style: groove;\n  border-width: thin;\n  margin: 0.2rem;\n  padding: 0.2rem;\n}\n\n.mcfTbD5P0GwQwMJOmYD5 {\n  cursor: pointer;\n}\n\n.ogPrX91zgEreh2bN9mhh {\n  display: flex;\n  max-width: 15rem;\n  flex-direction: column;\n}\n\n.ogPrX91zgEreh2bN9mhh .jVC6DpTyv93BozsU0r_Q {\n  display: flex;\n  flex-direction: row;\n  margin-bottom: 0.5rem;\n  justify-content: space-between;\n}\n\n.ogPrX91zgEreh2bN9mhh .jVC6DpTyv93BozsU0r_Q label {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  font-weight: bold;\n}\n\n.ogPrX91zgEreh2bN9mhh .jVC6DpTyv93BozsU0r_Q input {\n  text-align: right;\n}\n\n.ogPrX91zgEreh2bN9mhh .TGZ9H1pYsrQDZ5TLZZXX {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-end;\n}\n\n.ogPrX91zgEreh2bN9mhh .TGZ9H1pYsrQDZ5TLZZXX input {\n  cursor: pointer;\n}\n\n.Gu11L3zStV2T8FRx34Gu {\n  display: flex;\n  flex-direction: column;\n}\n\n.Gu11L3zStV2T8FRx34Gu img {\n  width: 100%;\n  height: auto;\n}\n\n.Gu11L3zStV2T8FRx34Gu .tw3KNVkLhuhtS7HuVpZm {\n  cursor: pointer;\n  margin-bottom: 0.5rem;\n}\n\n.Gu11L3zStV2T8FRx34Gu .pvyAMUVLQ5TZqHUQGRaz {\n  border-style: groove;\n  border-width: thin;\n  padding: 0.5rem;\n}\n\n.qN5pz3Z5naDIp60s9Di8 strong {\n  font-weight: bold;\n}\n\n.qN5pz3Z5naDIp60s9Di8 p {\n  margin-bottom: 0.25rem;\n}\n\n.qN5pz3Z5naDIp60s9Di8 ul {\n  padding-left: 1.5rem;\n  margin-bottom: 0.25rem;\n}\n\n.qN5pz3Z5naDIp60s9Di8 ul li {\n  margin-bottom: 0.25rem;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".K7vQwtugDxkOfU77fg4J {\n  font-size: 0.5rem;\n  opacity: 0.5;\n}\n\n.C2I4DvlMSfimZfl_xPn0 p {\n  margin: 0;\n}\n\n.C2I4DvlMSfimZfl_xPn0 ul {\n  margin: 0;\n  padding-left: 1.5rem;\n}\n\n.C2I4DvlMSfimZfl_xPn0 img {\n  height: auto;\n  width: 80%;\n}\n\n.C2I4DvlMSfimZfl_xPn0 .Njk3jLX2FgrdznVCqYh5 {\n  font-weight: bold;\n}\n\n.C2I4DvlMSfimZfl_xPn0 .yZIu6SlfivGi6blasrPS {\n  border-style: groove;\n  border-width: thin;\n  margin: 0.2rem;\n  padding: 0.2rem;\n}\n\n.mcfTbD5P0GwQwMJOmYD5 {\n  cursor: pointer;\n}\n\n.ogPrX91zgEreh2bN9mhh {\n  display: flex;\n  flex-direction: column;\n}\n\n.ogPrX91zgEreh2bN9mhh .jVC6DpTyv93BozsU0r_Q {\n  display: flex;\n  flex-direction: row;\n  margin-bottom: 0.5rem;\n  justify-content: space-between;\n}\n\n.ogPrX91zgEreh2bN9mhh .jVC6DpTyv93BozsU0r_Q label {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  font-weight: bold;\n}\n\n.ogPrX91zgEreh2bN9mhh .jVC6DpTyv93BozsU0r_Q input {\n  text-align: right;\n}\n\n.ogPrX91zgEreh2bN9mhh .TGZ9H1pYsrQDZ5TLZZXX {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-end;\n}\n\n.ogPrX91zgEreh2bN9mhh .TGZ9H1pYsrQDZ5TLZZXX input {\n  cursor: pointer;\n}\n\n.ogPrX91zgEreh2bN9mhh .UeVqvz4xIIdNv68ajZbg {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-end;\n  font-style: italic;\n  font-size: 0.3rem;\n}\n\n.Gu11L3zStV2T8FRx34Gu {\n  display: flex;\n  flex-direction: column;\n}\n\n.Gu11L3zStV2T8FRx34Gu img {\n  width: 100%;\n  height: auto;\n}\n\n.Gu11L3zStV2T8FRx34Gu .tw3KNVkLhuhtS7HuVpZm {\n  cursor: pointer;\n  margin-bottom: 0.5rem;\n}\n\n.Gu11L3zStV2T8FRx34Gu .pvyAMUVLQ5TZqHUQGRaz {\n  border-style: groove;\n  border-width: thin;\n  padding: 0.5rem;\n}\n\n.qN5pz3Z5naDIp60s9Di8 strong {\n  font-weight: bold;\n}\n\n.qN5pz3Z5naDIp60s9Di8 p {\n  margin-bottom: 0.25rem;\n}\n\n.qN5pz3Z5naDIp60s9Di8 ul {\n  padding-left: 1.5rem;\n  margin-bottom: 0.25rem;\n}\n\n.qN5pz3Z5naDIp60s9Di8 ul li {\n  margin-bottom: 0.25rem;\n}\n", ""]);
 // Exports
 ___CSS_LOADER_EXPORT___.locals = {
 	"mainBody": "K7vQwtugDxkOfU77fg4J",
@@ -957,6 +958,7 @@ ___CSS_LOADER_EXPORT___.locals = {
 	"settings": "ogPrX91zgEreh2bN9mhh",
 	"settingsEntry": "jVC6DpTyv93BozsU0r_Q",
 	"settingsSubmit": "TGZ9H1pYsrQDZ5TLZZXX",
+	"submitTip": "UeVqvz4xIIdNv68ajZbg",
 	"uploadImg": "Gu11L3zStV2T8FRx34Gu",
 	"confirmUpload": "tw3KNVkLhuhtS7HuVpZm",
 	"imageContainer": "pvyAMUVLQ5TZqHUQGRaz",
@@ -1180,51 +1182,53 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "EXAM_ID": () => (/* binding */ EXAM_ID),
 /* harmony export */   "NO_LEAVE_CHECK": () => (/* binding */ NO_LEAVE_CHECK),
+/* harmony export */   "NO_SCREENSHOTS": () => (/* binding */ NO_SCREENSHOTS),
 /* harmony export */   "SERVER": () => (/* binding */ SERVER),
 /* harmony export */   "SORT_PROBLEMS": () => (/* binding */ SORT_PROBLEMS),
+/* harmony export */   "SYNC_ANSWERS": () => (/* binding */ SYNC_ANSWERS),
 /* harmony export */   "TOKEN": () => (/* binding */ TOKEN),
 /* harmony export */   "USERNAME": () => (/* binding */ USERNAME)
 /* harmony export */ });
 /* harmony import */ var _gm__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
 
-class GMEntry {
-    constructor(name, init, onupdate) {
-        this.name = name;
-        let val = _gm__WEBPACK_IMPORTED_MODULE_0__["default"].getValue(name);
-        if (val === undefined && init !== undefined) {
-            _gm__WEBPACK_IMPORTED_MODULE_0__["default"].setValue(name, init);
-            val = init;
-        }
-        this._value = new Optional(val, onupdate);
-    }
-    get value() {
-        return this._value.value;
-    }
-    set value(newVal) {
-        _gm__WEBPACK_IMPORTED_MODULE_0__["default"].setValue(this.name, newVal);
-        this._value.value = newVal;
-    }
-}
 class Optional {
-    constructor(init, onupdate) {
+    constructor(init) {
         this._value = null;
         this._value = init !== null && init !== void 0 ? init : null;
-        this.onupdate = onupdate !== null && onupdate !== void 0 ? onupdate : (() => undefined);
     }
     get value() {
         return this._value;
     }
     set value(newVal) {
-        this.onupdate(newVal);
         this._value = newVal;
     }
 }
-const USERNAME = new GMEntry("username", undefined, () => (TOKEN.value = null));
-const SERVER = new GMEntry("server", undefined, () => (TOKEN.value = null));
-const TOKEN = new Optional();
-const EXAM_ID = new Optional();
+class GMEntry extends Optional {
+    constructor(name, init) {
+        let val = _gm__WEBPACK_IMPORTED_MODULE_0__["default"].getValue(name);
+        if (val === undefined && init !== undefined) {
+            _gm__WEBPACK_IMPORTED_MODULE_0__["default"].setValue(name, init);
+            val = init;
+        }
+        super(val);
+        this.name = name;
+    }
+    get value() {
+        return super.value;
+    }
+    set value(newVal) {
+        _gm__WEBPACK_IMPORTED_MODULE_0__["default"].setValue(this.name, newVal);
+        super.value = newVal;
+    }
+}
+const USERNAME = new GMEntry("username");
+const SERVER = new GMEntry("server");
+const SYNC_ANSWERS = new GMEntry("sync_answers", true);
 const SORT_PROBLEMS = new GMEntry("sort_problems", true);
 const NO_LEAVE_CHECK = new GMEntry("no_leave_check", true);
+const NO_SCREENSHOTS = new GMEntry("no_screenshots", false);
+const TOKEN = new Optional();
+const EXAM_ID = new Optional();
 
 
 /***/ }),
@@ -1321,7 +1325,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(9);
 /* harmony import */ var _card__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(18);
 /* harmony import */ var _recks__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(13);
-/* harmony import */ var _context__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(14);
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(14);
 
 
 
@@ -1345,16 +1349,22 @@ class UI {
             win.document.body.append(_recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("div", { classList: [_style_mod_css__WEBPACK_IMPORTED_MODULE_0__.locals.mainBody, _style_mod_css__WEBPACK_IMPORTED_MODULE_0__.locals.settings] },
                 _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("form", { onsubmit: () => false, "on-submit": function () {
                         const form = new FormData(this);
-                        _context__WEBPACK_IMPORTED_MODULE_4__.USERNAME.value = form.get("username");
-                        _context__WEBPACK_IMPORTED_MODULE_4__.SERVER.value = form.get("server");
-                        _context__WEBPACK_IMPORTED_MODULE_4__.NO_LEAVE_CHECK.value = form.get("no_leave_check") === "on";
-                        _context__WEBPACK_IMPORTED_MODULE_4__.SORT_PROBLEMS.value = form.get("sort_problems") === "on";
+                        _config__WEBPACK_IMPORTED_MODULE_4__.USERNAME.value = form.get("username");
+                        _config__WEBPACK_IMPORTED_MODULE_4__.SERVER.value = form.get("server");
+                        _config__WEBPACK_IMPORTED_MODULE_4__.NO_LEAVE_CHECK.value = form.get("no_leave_check") === "on";
+                        _config__WEBPACK_IMPORTED_MODULE_4__.SORT_PROBLEMS.value = form.get("sort_problems") === "on";
+                        _config__WEBPACK_IMPORTED_MODULE_4__.SYNC_ANSWERS.value = form.get("sync_answers") === "on";
+                        _config__WEBPACK_IMPORTED_MODULE_4__.NO_SCREENSHOTS.value = form.get("no_screenshots") === "on";
                         win.close();
                     } },
-                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(SettingsEntry, { name: "username", title: "\u7528\u6237\u540D", pattern: "[_a-z][_a-z0-9]*", size: 10, value: (_a = _context__WEBPACK_IMPORTED_MODULE_4__.USERNAME.value) !== null && _a !== void 0 ? _a : undefined }),
-                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(SettingsEntry, { name: "server", title: "\u670D\u52A1\u5668\u5730\u5740", pattern: ".*", size: 15, value: (_b = _context__WEBPACK_IMPORTED_MODULE_4__.SERVER.value) !== null && _b !== void 0 ? _b : undefined }),
-                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(SettingsEntry, { name: "no_leave_check", title: "\u53D6\u6D88\u5207\u5C4F\u68C0\u6D4B", checked: _context__WEBPACK_IMPORTED_MODULE_4__.NO_LEAVE_CHECK.value === true, type: "checkbox" }),
-                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(SettingsEntry, { name: "sort_problems", title: "\u6392\u5E8F\u9898\u76EE", checked: _context__WEBPACK_IMPORTED_MODULE_4__.SORT_PROBLEMS.value === true, type: "checkbox" }),
+                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(SettingsEntry, { name: "username", title: "\u7528\u6237\u540D", pattern: "[_a-z][_a-z0-9]*", size: 10, value: (_a = _config__WEBPACK_IMPORTED_MODULE_4__.USERNAME.value) !== null && _a !== void 0 ? _a : undefined }),
+                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(SettingsEntry, { name: "server", title: "\u670D\u52A1\u5668\u5730\u5740", pattern: ".*", size: 15, value: (_b = _config__WEBPACK_IMPORTED_MODULE_4__.SERVER.value) !== null && _b !== void 0 ? _b : undefined }),
+                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(SettingsEntry, { name: "sync_answers", title: "\u540C\u6B65\u7B54\u6848", checked: _config__WEBPACK_IMPORTED_MODULE_4__.SYNC_ANSWERS.value === true, type: "checkbox" }),
+                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(SettingsEntry, { name: "sort_problems", title: "\u6392\u5E8F\u9898\u76EE", checked: _config__WEBPACK_IMPORTED_MODULE_4__.SORT_PROBLEMS.value === true, type: "checkbox" }),
+                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(SettingsEntry, { name: "no_leave_check", title: "\u62E6\u622A\u5207\u5C4F\u68C0\u6D4B", checked: _config__WEBPACK_IMPORTED_MODULE_4__.NO_LEAVE_CHECK.value === true, type: "checkbox" }),
+                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(SettingsEntry, { name: "no_screenshots", title: "\u62E6\u622A\u5168\u90E8\u622A\u56FE", checked: _config__WEBPACK_IMPORTED_MODULE_4__.NO_SCREENSHOTS.value === true, type: "checkbox" }),
+                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("div", { classList: [_style_mod_css__WEBPACK_IMPORTED_MODULE_0__.locals.submitTip] },
+                        _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("p", null, "*更改设置后请刷新页面")),
                     _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("div", { classList: [_style_mod_css__WEBPACK_IMPORTED_MODULE_0__.locals.settingsSubmit] },
                         _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("input", { type: "submit", value: "\u63D0\u4EA4", size: 10 }))),
                 _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("div", { classList: [_style_mod_css__WEBPACK_IMPORTED_MODULE_0__.locals.about] },
@@ -1365,8 +1375,16 @@ class UI {
                             _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("strong", null, "同步答案："),
                             "点击题目显示详细答案，在选项/填空处悬停鼠标显示简略答案"),
                         _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("li", null,
-                            _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("strong", null, "阻止上传截图："),
-                            "仅当用户确认时，才会上传截图"),
+                            _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("strong", null, "排序题目："),
+                            "根据题目 ID 和选项对试卷进行重新排序"),
+                        _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("li", null,
+                            _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("strong", null, "拦截切屏检测："),
+                            "随意切换页面、窗口不会被发现"),
+                        _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("li", null,
+                            _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("strong", null, "拦截上传截图："),
+                            "仅当用户确认时，才会上传截图，启用",
+                            _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("strong", null, "[拦截全部截图]"),
+                            "后，所有截图默认取消上传"),
                         _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("li", null,
                             _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("strong", null, "阻止提交异常状态："),
                             "即使页面显示异常状态也不会被提交到服务器")))));
@@ -1374,7 +1392,7 @@ class UI {
         // Problem cards.
         const problems = new Map();
         document.body
-            .querySelectorAll(".exam-main--body div .subject-item")
+            .querySelectorAll(".exam-main--body .subject-item")
             .forEach((subjectItem, idx) => {
             const prob = paper.data.problems[idx];
             problems.set(prob.problem_id, new _card__WEBPACK_IMPORTED_MODULE_2__.ProblemCard(prob, subjectItem));
@@ -1678,7 +1696,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(16);
 /* harmony import */ var _ui__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(17);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(9);
-/* harmony import */ var _context__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(14);
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(14);
 /* harmony import */ var _recks__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(13);
 /* harmony import */ var _style_mod_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(10);
 /* harmony import */ var _style_mod_css__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_style_mod_css__WEBPACK_IMPORTED_MODULE_7__);
@@ -1722,7 +1740,7 @@ function removeVisibilityListener() {
 }
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
-        if (_context__WEBPACK_IMPORTED_MODULE_5__.NO_LEAVE_CHECK.value === true) {
+        if (_config__WEBPACK_IMPORTED_MODULE_5__.NO_LEAVE_CHECK.value === true) {
             removeVisibilityListener();
         }
         const client = new _client__WEBPACK_IMPORTED_MODULE_0__.Client();
@@ -1732,7 +1750,7 @@ function main() {
                     this.addEventListener("readystatechange", () => {
                         if (this.readyState == XMLHttpRequest.DONE) {
                             // Sort problems.
-                            if (_context__WEBPACK_IMPORTED_MODULE_5__.SORT_PROBLEMS.value === true) {
+                            if (_config__WEBPACK_IMPORTED_MODULE_5__.SORT_PROBLEMS.value === true) {
                                 const text = JSON.stringify(sortPaper(JSON.parse(this.responseText)));
                                 // Modify response text.
                                 Object.defineProperties(this, {
@@ -1755,9 +1773,9 @@ function main() {
                         });
                         (() => __awaiter(this, void 0, void 0, function* () {
                             // Fetch cached results.
-                            _context__WEBPACK_IMPORTED_MODULE_5__.EXAM_ID.value = parseInt(url.searchParams.get("exam_id"));
+                            _config__WEBPACK_IMPORTED_MODULE_5__.EXAM_ID.value = parseInt(url.searchParams.get("exam_id"));
                             const cacheResults = yield fetch((0,_utils__WEBPACK_IMPORTED_MODULE_4__.newURL)("/exam_room/cache_results", {
-                                exam_id: _context__WEBPACK_IMPORTED_MODULE_5__.EXAM_ID.value.toString(),
+                                exam_id: _config__WEBPACK_IMPORTED_MODULE_5__.EXAM_ID.value.toString(),
                             }).toString()).then((res) => res.json());
                             client.answerProblem(cacheResults.data.results);
                         }))().catch(_utils__WEBPACK_IMPORTED_MODULE_4__.devLog);
@@ -1772,18 +1790,20 @@ function main() {
                             // Dont report abnormal behavior.
                             if ("action" in data) {
                                 switch (data.action) {
-                                    // 离开页面
-                                    case 12:
-                                    // 返回页面
-                                    case 16:
+                                    // 上传截图
+                                    case 1:
                                     // 上传桌面截屏
-                                    // case 17:
-                                    // 取消共享窗口
-                                    case 19:
+                                    case 17:
+                                        break;
+                                    default:
+                                        console.log("Intercept actions", data);
                                         return new Promise(() => undefined);
                                 }
                             }
-                            client.answerProblem((_a = data.results) !== null && _a !== void 0 ? _a : []).catch(_utils__WEBPACK_IMPORTED_MODULE_4__.devLog);
+                            else if ("results" in data) {
+                                (0,_utils__WEBPACK_IMPORTED_MODULE_4__.devLog)("Intercept answers", data);
+                                client.answerProblem((_a = data.results) !== null && _a !== void 0 ? _a : []).catch(_utils__WEBPACK_IMPORTED_MODULE_4__.devLog);
+                            }
                         }
                         return body;
                     });
@@ -1792,6 +1812,10 @@ function main() {
                         // Prevent upload screenshot.
                         return (body) => __awaiter(this, void 0, void 0, function* () {
                             if (body instanceof FormData && body.get("file") instanceof File) {
+                                if (_config__WEBPACK_IMPORTED_MODULE_5__.NO_SCREENSHOTS.value === true) {
+                                    // Dont upload any screenshots at all.
+                                    return new Promise(() => undefined);
+                                }
                                 return new Promise((ok) => {
                                     const f = new FileReader();
                                     f.onload = () => {

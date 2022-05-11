@@ -2,7 +2,7 @@ import { Answer, UserAnswer } from "./types";
 import { JSONRPCClient } from "json-rpc-2.0";
 import GM from "./gm";
 import { devLog } from "./utils";
-import { SERVER, USERNAME, TOKEN, EXAM_ID } from "./context";
+import { SERVER, USERNAME, TOKEN, EXAM_ID, SYNC_ANSWERS } from "./config";
 
 export class Client {
   // Use http request, since we can use non-secure connections
@@ -56,7 +56,8 @@ export class Client {
       this.queue.size < 1 ||
       USERNAME.value === null ||
       SERVER.value === null ||
-      EXAM_ID.value === null
+      EXAM_ID.value === null ||
+      SYNC_ANSWERS.value === false
     ) {
       return;
     }
