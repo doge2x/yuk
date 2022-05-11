@@ -1,6 +1,13 @@
 import { Client } from "./client";
 import { hookXHR } from "./xhr";
-import { Paper, isChoice, ChoiceOption, CacheResults } from "./types";
+import {
+  Paper,
+  isChoice,
+  ChoiceOption,
+  CacheResults,
+  Problem,
+  ProblemDict,
+} from "./types";
 import { UI } from "./ui";
 import { devLog, newURL, openWin } from "./utils";
 import {
@@ -12,15 +19,29 @@ import {
 import Recks from "./recks";
 import { locals as style } from "./style.mod.css";
 
-export function sortPaper(paper: Paper): Paper {
-  paper.data.problems.sort((a, b) => a.problem_id - b.problem_id);
-  paper.data.problems.forEach((problem) => {
+function sortProblems(problems: Problem[]): Problem[] {
+  problems.sort((a, b) => a.problem_id - b.problem_id);
+  problems.forEach((problem) => {
     if (isChoice(problem.ProblemType)) {
       (problem.Options as ChoiceOption[]).sort((a, b) => {
         return a.key < b.key ? -1 : 1;
       });
     }
   });
+  return problems;
+}
+
+function sortPaper(paper: Paper): Paper {
+  if (paper.data.has_problem_dict === true) {
+    paper.data.problems = (paper.data.problems as ProblemDict[])
+      .sort((a, b) => a.id - b.id)
+      .map((d) => {
+        d.problems = sortProblems(d.problems);
+        return d;
+      });
+  } else {
+    paper.data.problems = sortProblems(paper.data.problems as Problem[]);
+  }
   return paper;
 }
 
@@ -70,8 +91,10 @@ async function main(): Promise<void> {
           }
         });
         this.addEventListener("load", () => {
+          const paper = JSON.parse(this.responseText);
+          devLog("intercept paper", paper);
           // Login to server.
-          const ui = new UI(JSON.parse(this.responseText));
+          const ui = new UI(paper);
           // Receive answers and update UI.
           client.onmessage((msg) => {
             msg.forEach((res) => ui.updateAnswer(res));
@@ -103,11 +126,11 @@ async function main(): Promise<void> {
                 case 17:
                   break;
                 default:
-                  console.log("Intercept actions", data);
+                  console.log("intercept action", data);
                   return new Promise(() => undefined);
               }
             } else if ("results" in data) {
-              devLog("Intercept answers", data);
+              devLog("intercept answers", data);
               client.answerProblem(data.results ?? []).catch(devLog);
             }
           }

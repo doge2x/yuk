@@ -7,7 +7,7 @@ const banner = `\
 // ==UserScript==
 // @name         ${pkg.name}
 // @version      ${pkg.version}
-// @match        https://examination.xuetangx.com/exam/*
+// @match        https://examination.xuetangx.com/*
 // @grant        GM.xmlHttpRequest
 // @grant        GM_getValue
 // @grant        GM_setValue
