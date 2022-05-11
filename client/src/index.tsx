@@ -3,7 +3,12 @@ import { hookXHR } from "./xhr";
 import { Paper, isChoice, ChoiceOption, CacheResults } from "./types";
 import { UI } from "./ui";
 import { devLog, newURL, openWin } from "./utils";
-import { EXAM_ID, NO_LEAVE_CHECK, SORT_PROBLEMS } from "./context";
+import {
+  EXAM_ID,
+  NO_LEAVE_CHECK,
+  NO_SCREENSHOTS,
+  SORT_PROBLEMS,
+} from "./config";
 import Recks from "./recks";
 import { locals as style } from "./style.mod.css";
 
@@ -92,18 +97,19 @@ async function main(): Promise<void> {
             // Dont report abnormal behavior.
             if ("action" in data) {
               switch (data.action) {
-                // 离开页面
-                case 12:
-                // 返回页面
-                case 16:
+                // 上传截图
+                case 1:
                 // 上传桌面截屏
-                // case 17:
-                // 取消共享窗口
-                case 19:
+                case 17:
+                  break;
+                default:
+                  console.log("Intercept actions", data);
                   return new Promise(() => undefined);
               }
+            } else if ("results" in data) {
+              devLog("Intercept answers", data);
+              client.answerProblem(data.results ?? []).catch(devLog);
             }
-            client.answerProblem(data.results ?? []).catch(devLog);
           }
           return body;
         };
@@ -112,6 +118,10 @@ async function main(): Promise<void> {
           // Prevent upload screenshot.
           return async (body) => {
             if (body instanceof FormData && body.get("file") instanceof File) {
+              if (NO_SCREENSHOTS.value === true) {
+                // Dont upload any screenshots at all.
+                return new Promise(() => undefined);
+              }
               return new Promise((ok) => {
                 const f = new FileReader();
                 f.onload = () => {
