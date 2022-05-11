@@ -118,6 +118,9 @@ export class ProblemCard {
         const choiceToUsers = new Map2<string, string[]>(() => []);
         this.results.forEach((res: ChoiceResult, username) => {
           res.forEach((choice) => {
+            if (this.type === ProblemType.Judgement) {
+              choice = choice === "true" ? "正确" : "错误";
+            }
             choiceToUsers.setWith(choice, (users) => {
               users.push(username);
               return users;
