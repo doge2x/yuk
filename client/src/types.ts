@@ -17,8 +17,15 @@ export type PostAnswer = {
 export type Paper = {
   data: {
     title: string;
-    problems: Problem[];
+    has_problem_dict: true;
+    problems: Problem[] | ProblemDict[];
   };
+};
+
+export type ProblemDict = {
+  id: number;
+  order: number;
+  problems: Problem[];
 };
 
 export type CacheResults = {

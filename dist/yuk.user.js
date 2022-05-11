@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         yuk-client
 // @version      0.2.0
-// @match        https://examination.xuetangx.com/exam/*
+// @match        https://examination.xuetangx.com/*
 // @grant        GM.xmlHttpRequest
 // @grant        GM_getValue
 // @grant        GM_setValue
@@ -1203,13 +1203,13 @@ class Optional {
 }
 class GMEntry extends Optional {
     constructor(name, init) {
+        super();
+        this.name = name;
         let val = _gm__WEBPACK_IMPORTED_MODULE_0__["default"].getValue(name);
-        if (val === undefined && init !== undefined) {
-            _gm__WEBPACK_IMPORTED_MODULE_0__["default"].setValue(name, init);
+        if (val === undefined) {
             val = init;
         }
-        super(val);
-        this.name = name;
+        this.value = val !== null && val !== void 0 ? val : null;
     }
     get value() {
         return super.value;
@@ -1320,11 +1320,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _style_mod_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
 /* harmony import */ var _style_mod_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_style_mod_css__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(9);
-/* harmony import */ var _card__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(18);
-/* harmony import */ var _recks__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(13);
-/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(14);
-
+/* harmony import */ var _card__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(18);
+/* harmony import */ var _recks__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(13);
+/* harmony import */ var _settings__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(19);
 
 
 
@@ -1332,70 +1330,30 @@ __webpack_require__.r(__webpack_exports__);
 class UI {
     constructor(paper) {
         // Header.
-        document.head.append(_recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("style", null, _style_mod_css__WEBPACK_IMPORTED_MODULE_0___default().toString()));
+        document.head.append(_recks__WEBPACK_IMPORTED_MODULE_2__["default"].createElement("style", null, _style_mod_css__WEBPACK_IMPORTED_MODULE_0___default().toString()));
         const header = document.body.querySelector(".header-title");
         header.classList.add(_style_mod_css__WEBPACK_IMPORTED_MODULE_0__.locals.clickable);
         header.addEventListener("click", () => {
-            var _a, _b;
-            const win = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.openWin)("设置", { height: 150, width: 200 });
-            function SettingsEntry(props) {
-                var _a;
-                return (_recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("div", { classList: [_style_mod_css__WEBPACK_IMPORTED_MODULE_0__.locals.settingsEntry] },
-                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("label", { htmlFor: props.name }, props.title),
-                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("input", { name: props.name, title: props.title, size: props.size, type: (_a = props.type) !== null && _a !== void 0 ? _a : "text", required: props.required === true, pattern: props.pattern, value: props.value, checked: props.checked })));
-            }
-            win.document.body.append(_recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("div", { classList: [_style_mod_css__WEBPACK_IMPORTED_MODULE_0__.locals.mainBody, _style_mod_css__WEBPACK_IMPORTED_MODULE_0__.locals.settings] },
-                _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("form", { onsubmit: () => false, "on-submit": function () {
-                        const form = new FormData(this);
-                        _config__WEBPACK_IMPORTED_MODULE_4__.USERNAME.value = form.get("username");
-                        _config__WEBPACK_IMPORTED_MODULE_4__.SERVER.value = form.get("server");
-                        _config__WEBPACK_IMPORTED_MODULE_4__.NO_LEAVE_CHECK.value = form.get("no_leave_check") === "on";
-                        _config__WEBPACK_IMPORTED_MODULE_4__.SORT_PROBLEMS.value = form.get("sort_problems") === "on";
-                        _config__WEBPACK_IMPORTED_MODULE_4__.SYNC_ANSWERS.value = form.get("sync_answers") === "on";
-                        _config__WEBPACK_IMPORTED_MODULE_4__.NO_SCREENSHOTS.value = form.get("no_screenshots") === "on";
-                        win.close();
-                    } },
-                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(SettingsEntry, { name: "username", title: "\u7528\u6237\u540D", pattern: "[_a-z][_a-z0-9]*", size: 10, value: (_a = _config__WEBPACK_IMPORTED_MODULE_4__.USERNAME.value) !== null && _a !== void 0 ? _a : undefined }),
-                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(SettingsEntry, { name: "server", title: "\u670D\u52A1\u5668\u5730\u5740", pattern: ".*", size: 15, value: (_b = _config__WEBPACK_IMPORTED_MODULE_4__.SERVER.value) !== null && _b !== void 0 ? _b : undefined }),
-                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(SettingsEntry, { name: "sync_answers", title: "\u540C\u6B65\u7B54\u6848", checked: _config__WEBPACK_IMPORTED_MODULE_4__.SYNC_ANSWERS.value === true, type: "checkbox" }),
-                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(SettingsEntry, { name: "sort_problems", title: "\u6392\u5E8F\u9898\u76EE", checked: _config__WEBPACK_IMPORTED_MODULE_4__.SORT_PROBLEMS.value === true, type: "checkbox" }),
-                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(SettingsEntry, { name: "no_leave_check", title: "\u62E6\u622A\u5207\u5C4F\u68C0\u6D4B", checked: _config__WEBPACK_IMPORTED_MODULE_4__.NO_LEAVE_CHECK.value === true, type: "checkbox" }),
-                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(SettingsEntry, { name: "no_screenshots", title: "\u62E6\u622A\u5168\u90E8\u622A\u56FE", checked: _config__WEBPACK_IMPORTED_MODULE_4__.NO_SCREENSHOTS.value === true, type: "checkbox" }),
-                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("div", { classList: [_style_mod_css__WEBPACK_IMPORTED_MODULE_0__.locals.submitTip] },
-                        _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("p", null, "*更改设置后请刷新页面")),
-                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("div", { classList: [_style_mod_css__WEBPACK_IMPORTED_MODULE_0__.locals.settingsSubmit] },
-                        _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("input", { type: "submit", value: "\u63D0\u4EA4", size: 10 }))),
-                _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("div", { classList: [_style_mod_css__WEBPACK_IMPORTED_MODULE_0__.locals.about] },
-                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("p", null,
-                        _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("strong", null, "功能特性：")),
-                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("ul", null,
-                        _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("li", null,
-                            _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("strong", null, "同步答案："),
-                            "点击题目显示详细答案，在选项/填空处悬停鼠标显示简略答案"),
-                        _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("li", null,
-                            _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("strong", null, "排序题目："),
-                            "根据题目 ID 和选项对试卷进行重新排序"),
-                        _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("li", null,
-                            _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("strong", null, "拦截切屏检测："),
-                            "随意切换页面、窗口不会被发现"),
-                        _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("li", null,
-                            _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("strong", null, "拦截上传截图："),
-                            "仅当用户确认时，才会上传截图，启用",
-                            _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("strong", null, "[拦截全部截图]"),
-                            "后，所有截图默认取消上传"),
-                        _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("li", null,
-                            _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("strong", null, "阻止提交异常状态："),
-                            "即使页面显示异常状态也不会被提交到服务器")))));
+            (0,_settings__WEBPACK_IMPORTED_MODULE_3__.showSettings)();
         });
+        let problems = [];
+        if (paper.data.has_problem_dict === true) {
+            paper.data.problems.forEach((dict) => {
+                problems = problems.concat(dict.problems);
+            });
+        }
+        else {
+            problems = paper.data.problems;
+        }
         // Problem cards.
-        const problems = new Map();
+        const cards = new Map();
         document.body
             .querySelectorAll(".exam-main--body .subject-item")
             .forEach((subjectItem, idx) => {
-            const prob = paper.data.problems[idx];
-            problems.set(prob.problem_id, new _card__WEBPACK_IMPORTED_MODULE_2__.ProblemCard(prob, subjectItem));
+            const prob = problems[idx];
+            cards.set(prob.problem_id, new _card__WEBPACK_IMPORTED_MODULE_1__.ProblemCard(prob, subjectItem));
         });
-        this.problems = problems;
+        this.problems = cards;
     }
     updateAnswer({ username, problem_id, result }) {
         var _a;
@@ -1506,6 +1464,9 @@ class ProblemCard {
                 const choiceToUsers = new _utils__WEBPACK_IMPORTED_MODULE_1__.Map2(() => []);
                 this.results.forEach((res, username) => {
                     res.forEach((choice) => {
+                        if (this.type === _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.Judgement) {
+                            choice = choice === "true" ? "正确" : "错误";
+                        }
                         choiceToUsers.setWith(choice, (users) => {
                             users.push(username);
                             return users;
@@ -1612,6 +1573,78 @@ class ProblemCard {
 }
 
 
+/***/ }),
+/* 19 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "showSettings": () => (/* binding */ showSettings)
+/* harmony export */ });
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(14);
+/* harmony import */ var _style_mod_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(10);
+/* harmony import */ var _style_mod_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_style_mod_css__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _recks__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(13);
+
+
+
+
+function showSettings() {
+    var _a, _b;
+    const win = (0,_utils__WEBPACK_IMPORTED_MODULE_0__.openWin)("设置", { height: 150, width: 200 });
+    function SettingsEntry(props) {
+        var _a;
+        return (_recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("div", { classList: [_style_mod_css__WEBPACK_IMPORTED_MODULE_2__.locals.settingsEntry] },
+            _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("label", { htmlFor: props.name }, props.title),
+            _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("input", { name: props.name, title: props.title, size: props.size, type: (_a = props.type) !== null && _a !== void 0 ? _a : "text", required: props.required === true, pattern: props.pattern, value: props.value, checked: props.checked })));
+    }
+    win.document.body.append(_recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("div", { classList: [_style_mod_css__WEBPACK_IMPORTED_MODULE_2__.locals.mainBody, _style_mod_css__WEBPACK_IMPORTED_MODULE_2__.locals.settings] },
+        _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("form", { onsubmit: () => false, "on-submit": function () {
+                const form = new FormData(this);
+                _config__WEBPACK_IMPORTED_MODULE_1__.USERNAME.value = form.get("username");
+                _config__WEBPACK_IMPORTED_MODULE_1__.SERVER.value = form.get("server");
+                _config__WEBPACK_IMPORTED_MODULE_1__.NO_LEAVE_CHECK.value = form.get("no_leave_check") === "on";
+                _config__WEBPACK_IMPORTED_MODULE_1__.SORT_PROBLEMS.value = form.get("sort_problems") === "on";
+                _config__WEBPACK_IMPORTED_MODULE_1__.SYNC_ANSWERS.value = form.get("sync_answers") === "on";
+                _config__WEBPACK_IMPORTED_MODULE_1__.NO_SCREENSHOTS.value = form.get("no_screenshots") === "on";
+                win.close();
+            } },
+            _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(SettingsEntry, { name: "username", title: "\u7528\u6237\u540D", pattern: "[_a-z][_a-z0-9]*", size: 10, value: (_a = _config__WEBPACK_IMPORTED_MODULE_1__.USERNAME.value) !== null && _a !== void 0 ? _a : undefined }),
+            _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(SettingsEntry, { name: "server", title: "\u670D\u52A1\u5668\u5730\u5740", pattern: ".*", size: 15, value: (_b = _config__WEBPACK_IMPORTED_MODULE_1__.SERVER.value) !== null && _b !== void 0 ? _b : undefined }),
+            _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(SettingsEntry, { name: "sync_answers", title: "\u540C\u6B65\u7B54\u6848", checked: _config__WEBPACK_IMPORTED_MODULE_1__.SYNC_ANSWERS.value === true, type: "checkbox" }),
+            _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(SettingsEntry, { name: "sort_problems", title: "\u6392\u5E8F\u9898\u76EE", checked: _config__WEBPACK_IMPORTED_MODULE_1__.SORT_PROBLEMS.value === true, type: "checkbox" }),
+            _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(SettingsEntry, { name: "no_leave_check", title: "\u62E6\u622A\u5207\u5C4F\u68C0\u6D4B", checked: _config__WEBPACK_IMPORTED_MODULE_1__.NO_LEAVE_CHECK.value === true, type: "checkbox" }),
+            _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement(SettingsEntry, { name: "no_screenshots", title: "\u62E6\u622A\u5168\u90E8\u622A\u56FE", checked: _config__WEBPACK_IMPORTED_MODULE_1__.NO_SCREENSHOTS.value === true, type: "checkbox" }),
+            _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("div", { classList: [_style_mod_css__WEBPACK_IMPORTED_MODULE_2__.locals.submitTip] },
+                _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("p", null, "*更改设置后请刷新页面")),
+            _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("div", { classList: [_style_mod_css__WEBPACK_IMPORTED_MODULE_2__.locals.settingsSubmit] },
+                _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("input", { type: "submit", value: "\u63D0\u4EA4", size: 10 }))),
+        _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("div", { classList: [_style_mod_css__WEBPACK_IMPORTED_MODULE_2__.locals.about] },
+            _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("p", null,
+                _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("strong", null, "功能特性：")),
+            _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("ul", null,
+                _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("li", null,
+                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("strong", null, "同步答案："),
+                    "点击题目显示详细答案，在选项/填空处悬停鼠标显示简略答案"),
+                _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("li", null,
+                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("strong", null, "排序题目："),
+                    "根据题目 ID 和选项对试卷进行重新排序"),
+                _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("li", null,
+                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("strong", null, "拦截切屏检测："),
+                    "随意切换页面、窗口不会被发现"),
+                _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("li", null,
+                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("strong", null, "拦截上传截图："),
+                    "仅当用户确认时，才会上传截图，启用",
+                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("strong", null, "[拦截全部截图]"),
+                    "后，所有截图默认取消上传"),
+                _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("li", null,
+                    _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("strong", null, "阻止提交异常状态："),
+                    "即使页面显示异常状态也不会被提交到服务器")))));
+}
+
+
 /***/ })
 /******/ 	]);
 /************************************************************************/
@@ -1686,9 +1719,6 @@ var __webpack_exports__ = {};
 (() => {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "sortPaper": () => (/* binding */ sortPaper)
-/* harmony export */ });
 /* harmony import */ var _client__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
 /* harmony import */ var _xhr__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(15);
 /* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(16);
@@ -1715,15 +1745,29 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 
 
-function sortPaper(paper) {
-    paper.data.problems.sort((a, b) => a.problem_id - b.problem_id);
-    paper.data.problems.forEach((problem) => {
+function sortProblems(problems) {
+    problems.sort((a, b) => a.problem_id - b.problem_id);
+    problems.forEach((problem) => {
         if ((0,_types__WEBPACK_IMPORTED_MODULE_2__.isChoice)(problem.ProblemType)) {
             problem.Options.sort((a, b) => {
                 return a.key < b.key ? -1 : 1;
             });
         }
     });
+    return problems;
+}
+function sortPaper(paper) {
+    if (paper.data.has_problem_dict === true) {
+        paper.data.problems = paper.data.problems
+            .sort((a, b) => a.id - b.id)
+            .map((d) => {
+            d.problems = sortProblems(d.problems);
+            return d;
+        });
+    }
+    else {
+        paper.data.problems = sortProblems(paper.data.problems);
+    }
     return paper;
 }
 function removeVisibilityListener() {
@@ -1762,8 +1806,10 @@ function main() {
                         }
                     });
                     this.addEventListener("load", () => {
+                        const paper = JSON.parse(this.responseText);
+                        (0,_utils__WEBPACK_IMPORTED_MODULE_4__.devLog)("intercept paper", paper);
                         // Login to server.
-                        const ui = new _ui__WEBPACK_IMPORTED_MODULE_3__.UI(JSON.parse(this.responseText));
+                        const ui = new _ui__WEBPACK_IMPORTED_MODULE_3__.UI(paper);
                         // Receive answers and update UI.
                         client.onmessage((msg) => {
                             msg.forEach((res) => ui.updateAnswer(res));
@@ -1794,12 +1840,12 @@ function main() {
                                     case 17:
                                         break;
                                     default:
-                                        console.log("Intercept actions", data);
+                                        console.log("intercept action", data);
                                         return new Promise(() => undefined);
                                 }
                             }
                             else if ("results" in data) {
-                                (0,_utils__WEBPACK_IMPORTED_MODULE_4__.devLog)("Intercept answers", data);
+                                (0,_utils__WEBPACK_IMPORTED_MODULE_4__.devLog)("intercept answers", data);
                                 client.answerProblem((_a = data.results) !== null && _a !== void 0 ? _a : []).catch(_utils__WEBPACK_IMPORTED_MODULE_4__.devLog);
                             }
                         }

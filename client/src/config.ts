@@ -20,13 +20,14 @@ class GMEntry<T> extends Optional<T> {
   private name: string;
 
   constructor(name: string, init?: T) {
+    super();
+    this.name = name;
+
     let val = GM.getValue(name);
-    if (val === undefined && init !== undefined) {
-      GM.setValue(name, init);
+    if (val === undefined) {
       val = init;
     }
-    super(val);
-    this.name = name;
+    this.value = val ?? null;
   }
 
   get value(): T | null {
