@@ -1314,6 +1314,7 @@ function isChoice(ty) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "CHOICE_MAP": () => (/* binding */ CHOICE_MAP),
 /* harmony export */   "UI": () => (/* binding */ UI)
 /* harmony export */ });
 /* harmony import */ var _style_mod_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
@@ -1321,10 +1322,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _card__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(18);
 /* harmony import */ var _recks__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(13);
 /* harmony import */ var _settings__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(19);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(9);
 
 
 
 
+
+const CHOICE_MAP = new _utils__WEBPACK_IMPORTED_MODULE_4__.Map2(() => new Map());
 class UI {
     constructor(paper) {
         // Header.
@@ -1349,7 +1353,7 @@ class UI {
             .querySelectorAll(".exam-main--body .subject-item")
             .forEach((subjectItem, idx) => {
             const prob = problems[idx];
-            cards.set(prob.problem_id, new _card__WEBPACK_IMPORTED_MODULE_1__.ProblemCard(prob, subjectItem));
+            cards.set(prob.problem_id, new _card__WEBPACK_IMPORTED_MODULE_1__.ProblemCard(prob, CHOICE_MAP.get(prob.problem_id), subjectItem));
         });
         this.problems = cards;
     }
@@ -1401,7 +1405,7 @@ function percent(n) {
     return `${Math.floor(n * 100)}%`;
 }
 class ProblemCard {
-    constructor(problem, subjectItem) {
+    constructor(problem, choiceMap, subjectItem) {
         /**
          * Username => Result
          */
@@ -1433,6 +1437,7 @@ class ProblemCard {
         }
         this.type = type;
         this.options = options;
+        this.choiceMap = choiceMap;
     }
     showAll({ left, top }) {
         const win = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.openWin)("详细答案", {
@@ -1464,6 +1469,9 @@ class ProblemCard {
                     res.forEach((choice) => {
                         if (this.type === _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.Judgement) {
                             choice = choice === "true" ? "正确" : "错误";
+                        }
+                        else if ((0,_types__WEBPACK_IMPORTED_MODULE_0__.isChoice)(this.type)) {
+                            choice = this.choiceMap.get(choice);
                         }
                         choiceToUsers.setWith(choice, (users) => {
                             users.push(username);
@@ -1626,7 +1634,7 @@ function showSettings() {
                     "点击题目显示详细答案，在选项/填空处悬停鼠标显示简略答案"),
                 _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("li", null,
                     _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("strong", null, "排序题目："),
-                    "根据 ID 对题目进行重新排序，每题的选项一定会被排序以保证每个人看到相同的答案"),
+                    "根据 ID 对题目和选项进行重新排序"),
                 _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("li", null,
                     _recks__WEBPACK_IMPORTED_MODULE_3__["default"].createElement("strong", null, "拦截切屏检测："),
                     "随意切换页面、窗口不会被发现"),
@@ -1741,13 +1749,19 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 function sortProblems(problems) {
     if (_config__WEBPACK_IMPORTED_MODULE_5__.SORT_PROBLEMS.value === true) {
-        problems = problems.sort((a, b) => a.problem_id - b.problem_id);
+        problems.sort((a, b) => a.problem_id - b.problem_id);
     }
     problems.forEach((problem) => {
         // Options must be sorted to ensure the answers users saw are the same.
         if ((0,_types__WEBPACK_IMPORTED_MODULE_2__.isChoice)(problem.ProblemType)) {
-            problem.Options.sort((a, b) => {
-                return a.key < b.key ? -1 : 1;
+            const options = problem.Options;
+            if (_config__WEBPACK_IMPORTED_MODULE_5__.SORT_PROBLEMS.value === true) {
+                options.sort((a, b) => {
+                    return a.key < b.key ? -1 : 1;
+                });
+            }
+            options.forEach((cho, idx) => {
+                _ui__WEBPACK_IMPORTED_MODULE_3__.CHOICE_MAP.setWith(problem.problem_id, (m) => m.set(cho.key, String.fromCharCode(65 + idx)));
             });
         }
     });
@@ -1765,6 +1779,7 @@ function sortPaper(paper) {
     else {
         paper.data.problems = sortProblems(paper.data.problems);
     }
+    (0,_utils__WEBPACK_IMPORTED_MODULE_4__.devLog)(_ui__WEBPACK_IMPORTED_MODULE_3__.CHOICE_MAP);
     return paper;
 }
 function removeVisibilityListener() {

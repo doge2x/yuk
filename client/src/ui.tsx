@@ -3,6 +3,11 @@ import { locals as style, default as styleCss } from "./style.mod.css";
 import { ProblemCard } from "./card";
 import Recks from "./recks";
 import { showSettings } from "./settings";
+import { Map2 } from "./utils";
+
+export const CHOICE_MAP: Map2<number, Map<string, string>> = new Map2(
+  () => new Map()
+);
 
 export class UI {
   private problems: Map<number, ProblemCard>;
@@ -30,7 +35,10 @@ export class UI {
       .querySelectorAll(".exam-main--body .subject-item")
       .forEach((subjectItem, idx) => {
         const prob = problems[idx];
-        cards.set(prob.problem_id, new ProblemCard(prob, subjectItem));
+        cards.set(
+          prob.problem_id,
+          new ProblemCard(prob, CHOICE_MAP.get(prob.problem_id)!, subjectItem)
+        );
       });
     this.problems = cards;
   }
