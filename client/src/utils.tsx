@@ -55,10 +55,10 @@ export function openWin(
   )!;
   window.addEventListener("unload", () => win.close());
   win.document.head.append(
-    <Recks.Fragment>
+    <>
       <title>{title}</title>
       <style>{styleCss.toString()}</style>
-    </Recks.Fragment>
+    </>
   );
   return win;
 }
