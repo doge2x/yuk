@@ -180,14 +180,14 @@ export class ProblemCard {
                   {[...resToUsers]
                     .sort(([a], [b]) => (a < b ? -1 : 1))
                     .map(([res, users]) => (
-                      <Recks.Fragment>
+                      <>
                         {<Text>{res}</Text>}
                         <UList>
                           {users.sort().map((user) => (
                             <Text>{user}</Text>
                           ))}
                         </UList>
-                      </Recks.Fragment>
+                      </>
                     ))}
                 </UList>
               </div>
@@ -206,7 +206,7 @@ export class ProblemCard {
               .filter(([_, res]) => "content" in res)
               .map(([username, res]: [string, ShortAnswerResult]) => {
                 return (
-                  <Recks.Fragment>
+                  <>
                     <Text title={true}>{username}</Text>
                     <div>
                       <div
@@ -219,7 +219,7 @@ export class ProblemCard {
                         ))}
                       </UList>
                     </div>
-                  </Recks.Fragment>
+                  </>
                 );
               })}
           </UList>
