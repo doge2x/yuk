@@ -7,8 +7,10 @@ import {
   isChoice,
 } from "./types";
 import { Map2, openWin } from "./utils";
-import { locals as style } from "./style.mod.css";
 import Recks from "./recks";
+import * as STYLE from "./style.mod.css";
+
+// const STYLE = style.locals;
 
 class Tooltip {
   private ele: HTMLElement;
@@ -55,7 +57,7 @@ export class ProblemCard {
     const options = new Map();
 
     const itemType = subjectItem.querySelector(".item-type") as HTMLElement;
-    itemType.classList.add(style.clickable);
+    itemType.classList.add(STYLE.clickable);
     itemType.addEventListener("click", () =>
       this.showAll(itemType.getBoundingClientRect())
     );
@@ -93,12 +95,14 @@ export class ProblemCard {
       left: left,
       top: top,
     });
-    const mainBody = <div classList={[style.mainBody, style.answerDetail]} />;
+    const mainBody = (
+      <div className={[STYLE.mainBody, STYLE.answerDetail].join(" ")} />
+    );
     win.document.body.append(mainBody);
 
     function Text(props: { title?: boolean; children?: any }) {
       return (
-        <p className={props.title === true ? style.title : ""}>
+        <p className={props.title === true ? STYLE.title : ""}>
           {props.children}
         </p>
       );
@@ -139,7 +143,7 @@ export class ProblemCard {
         [...choiceToUsers.entries()]
           .sort(([a], [b]) => (a < b ? -1 : 1))
           .forEach(([choice, users]) => {
-            mainBody.append(
+            mainBody.appendChild(
               <div>
                 <Text title={true}>{choice}</Text>
                 <UList>
@@ -173,7 +177,7 @@ export class ProblemCard {
         [...blankToResToUsers.entries()]
           .sort(([a], [b]) => (a < b ? -1 : 1))
           .forEach(([blank, resToUsers]) => {
-            mainBody.append(
+            mainBody.appendChild(
               <div>
                 <Text title={true}>{`#${blank}`}</Text>
                 <UList>
@@ -199,7 +203,7 @@ export class ProblemCard {
         //   <content>
         //   - File1
         //   - File2
-        mainBody.append(
+        mainBody.appendChild(
           <UList>
             {[...this.results.entries()]
               .sort(([a], [b]) => (a < b ? -1 : 1))
@@ -210,7 +214,7 @@ export class ProblemCard {
                     <Text title={true}>{username}</Text>
                     <div>
                       <div
-                        className={style.shorAnswer}
+                        className={STYLE.shorAnswer}
                         dangerouslySetInnerHTML={{ __html: res.content }}
                       />
                       <UList>
