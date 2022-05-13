@@ -1,9 +1,10 @@
 import { Paper, Problem, ProblemDict, UserAnswer } from "./types";
-import { locals as style, default as styleCss } from "./style.mod.css";
 import { ProblemCard } from "./card";
 import Recks from "./recks";
 import { showSettings } from "./settings";
 import { Map2, openWin } from "./utils";
+import * as STYLE from "./style.mod.css";
+import styleCss from "./style.mod.css";
 
 export const CHOICE_MAP: Map2<number, Map<string, string>> = new Map2(
   () => new Map()
@@ -14,9 +15,14 @@ export class UI {
 
   constructor(paper: Paper) {
     // Header.
-    document.head.append(<style>{styleCss.toString()}</style>);
+    document.head.append(
+      <>
+        <style>{styleCss.toString()}</style>
+      </>
+    );
+    // document.head.append(<style>{styleCss.toString()}</style>);
     const header = document.body.querySelector(".header-title") as HTMLElement;
-    header.classList.add(style.clickable);
+    header.classList.add(STYLE.clickable);
     header.addEventListener("click", () => {
       showSettings();
     });
@@ -58,14 +64,14 @@ export function showConfirmUpload(dataURL: string, cb: () => void) {
     height: 200,
   });
   win.document.body.append(
-    <div classList={[style.uploadImg, style.mainBody]}>
-      <div classList={[style.confirmUpload]}>
+    <div className={[STYLE.uploadImg, STYLE.mainBody].join(" ")}>
+      <div className={[STYLE.confirmUpload].join(" ")}>
         <button
           on-click={() => {
             cb();
             win.close();
           }}
-          classList={[style.confirmBUtton]}
+          className={[STYLE.confirmBUtton].join(" ")}
           type="button"
         >
           {"确认上传"}
@@ -74,7 +80,7 @@ export function showConfirmUpload(dataURL: string, cb: () => void) {
           <i>{"*关闭窗口以取消上传"}</i>
         </span>
       </div>
-      <div classList={[style.imageContainer]}>
+      <div className={[STYLE.imageContainer].join(" ")}>
         <img src={dataURL} />
       </div>
     </div>

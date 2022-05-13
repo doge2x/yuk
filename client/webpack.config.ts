@@ -35,16 +35,12 @@ function newConfig(
           test: /\.mod\.css$/,
           use: [
             {
-              loader: "@teamsupercell/typings-for-css-modules-loader",
-              options: {
-                formatter: "prettier",
-              },
-            },
-            {
               loader: "css-loader",
               options: {
-                esModule: false,
-                modules: true,
+                esModule: true,
+                modules: {
+                  namedExport: true,
+                },
               },
             },
           ],
