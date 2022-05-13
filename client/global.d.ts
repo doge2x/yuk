@@ -1,6 +1,6 @@
 declare var DEV_MODE: boolean;
 
-declare module "*.mod.css" {
+declare module "*.mod.less" {
   const style: {
     locals: { [k: string]: string };
     use(opt?: {}): void;

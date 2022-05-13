@@ -8,9 +8,7 @@ import {
 } from "./types";
 import { Map2, openWin } from "./utils";
 import Recks from "./recks";
-import * as STYLE from "./style.mod.css";
-
-// const STYLE = style.locals;
+import * as STYLE from "./style.mod.less";
 
 class Tooltip {
   private ele: HTMLElement;
@@ -102,7 +100,7 @@ export class ProblemCard {
 
     function Text(props: { title?: boolean; children?: any }) {
       return (
-        <p className={props.title === true ? STYLE.title : ""}>
+        <p className={props.title === true ? STYLE.answerDetailTitle : ""}>
           {props.children}
         </p>
       );
@@ -214,7 +212,7 @@ export class ProblemCard {
                     <Text title={true}>{username}</Text>
                     <div>
                       <div
-                        className={STYLE.shorAnswer}
+                        className={STYLE.answerDetailShortAnswer}
                         dangerouslySetInnerHTML={{ __html: res.content }}
                       />
                       <UList>
