@@ -1,5 +1,5 @@
 @module
-external style: {..} = "./style.mod.css"
+external style: {..} = "./style.mod.less"
 
 module React = Recks
 module ReactDOMRe = Recks.DOMRe
@@ -90,10 +90,12 @@ let make = () => {
         title=`拦截切屏检测`
         ty=Checkbox(Some(%raw(`NO_LEAVE_CHECK.value`)))
       />
-      <div className={style["submitTip"]}>
-        <i> {React.string(`*更改设置后请刷新页面`)} </i>
+      <div className={style["settingsSubmit"]}>
+        <div className={style["settingsSubmitTip"]}>
+          <i> {React.string(`*更改设置后请刷新页面`)} </i>
+        </div>
+        <div> <button> {React.string(`提交`)} </button> </div>
       </div>
-      <div className={style["settingsSubmit"]}> <button> {React.string(`提交`)} </button> </div>
     </form>
     <div className={style["about"]}>
       <TitleText title=`功能特性：` />

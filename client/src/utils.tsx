@@ -1,4 +1,4 @@
-import styleCss from "./style.mod.css";
+import styleCss from "./style.mod.less";
 import Recks from "./recks";
 
 export function devLog(msg?: any, ...params: any[]) {

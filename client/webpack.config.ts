@@ -32,7 +32,7 @@ function newConfig(
           use: "ts-loader",
         },
         {
-          test: /\.mod\.css$/,
+          test: /\.mod\.(c|le)ss$/,
           use: [
             {
               loader: "css-loader",
@@ -42,6 +42,9 @@ function newConfig(
                   namedExport: true,
                 },
               },
+            },
+            {
+              loader: "less-loader",
             },
           ],
         },

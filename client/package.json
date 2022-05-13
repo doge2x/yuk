@@ -16,6 +16,8 @@
     "@types/react": "^18.0.9",
     "css-loader": "^6.7.1",
     "json-rpc-2.0": "^1.1.0",
+    "less": "^4.1.2",
+    "less-loader": "^10.2.0",
     "prettier": "^2.4.1",
     "rescript": "^9.1.4",
     "terser-webpack-plugin": "^5.3.1",

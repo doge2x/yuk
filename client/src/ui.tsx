@@ -3,8 +3,8 @@ import { ProblemCard } from "./card";
 import Recks from "./recks";
 import { showSettings } from "./settings";
 import { Map2, openWin } from "./utils";
-import * as STYLE from "./style.mod.css";
-import styleCss from "./style.mod.css";
+import * as STYLE from "./style.mod.less";
+import styleCss from "./style.mod.less";
 
 export const CHOICE_MAP: Map2<number, Map<string, string>> = new Map2(
   () => new Map()
@@ -65,14 +65,13 @@ export function showConfirmUpload(dataURL: string, cb: () => void) {
   });
   win.document.body.append(
     <div className={[STYLE.uploadImg, STYLE.mainBody].join(" ")}>
-      <div className={[STYLE.confirmUpload].join(" ")}>
+      <div className={[STYLE.uploadImgConfirm].join(" ")}>
         <button
           on-click={() => {
             cb();
             win.close();
           }}
-          className={[STYLE.confirmBUtton].join(" ")}
-          type="button"
+          className={[STYLE.clickable].join(" ")}
         >
           {"确认上传"}
         </button>
@@ -80,7 +79,7 @@ export function showConfirmUpload(dataURL: string, cb: () => void) {
           <i>{"*关闭窗口以取消上传"}</i>
         </span>
       </div>
-      <div className={[STYLE.imageContainer].join(" ")}>
+      <div className={[STYLE.uploadImgImage].join(" ")}>
         <img src={dataURL} />
       </div>
     </div>
