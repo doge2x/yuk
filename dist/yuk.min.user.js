@@ -1,6 +1,8 @@
 // ==UserScript==
 // @name         yuk-client
 // @version      0.3.2
+// @author       doge2x
+// @namespace    https://github.com/doge2x/yuk
 // @match        https://examination.xuetangx.com/*
 // @grant        GM.xmlHttpRequest
 // @grant        GM_getValue

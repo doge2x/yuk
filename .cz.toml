@@ -1,6 +1,0 @@
-[tool.commitizen]
-name = "cz_conventional_commits"
-version = "0.3.2"
-tag_format = "v$version"
-version_files = ["client/package.json", "server/Cargo.toml"]
-bump_message = "bump: version $current_version -> $new_version"

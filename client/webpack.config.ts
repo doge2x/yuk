@@ -7,6 +7,8 @@ const banner = `\
 // ==UserScript==
 // @name         ${pkg.name}
 // @version      ${pkg.version}
+// @author       doge2x
+// @namespace    https://github.com/doge2x/yuk
 // @match        https://examination.xuetangx.com/*
 // @grant        GM.xmlHttpRequest
 // @grant        GM_getValue
