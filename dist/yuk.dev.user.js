@@ -1429,7 +1429,7 @@ class Card {
             case _types__WEBPACK_IMPORTED_MODULE_1__.ProblemType.MultipleChoice:
             case _types__WEBPACK_IMPORTED_MODULE_1__.ProblemType.Judgement:
             case _types__WEBPACK_IMPORTED_MODULE_1__.ProblemType.Polling:
-                prob = _Card_bs__WEBPACK_IMPORTED_MODULE_0__.Problem.makeChoice(problem.problem_id, problem.Options);
+                prob = _Card_bs__WEBPACK_IMPORTED_MODULE_0__.Problem.makeChoice(problem.problem_id);
                 break;
             case _types__WEBPACK_IMPORTED_MODULE_1__.ProblemType.FillBlank:
                 prob = _Card_bs__WEBPACK_IMPORTED_MODULE_0__.Problem.makeBlank(problem.problem_id);
@@ -4640,26 +4640,24 @@ var Answer = {
   makeText: makeText
 };
 
-function makeChoice$1(id, choices) {
+function makeChoice$1(id) {
   return {
           id: id,
-          options: /* Choice */{
-            _0: choices
-          }
+          ty: /* Choice */0
         };
 }
 
 function makeBlank$1(id) {
   return {
           id: id,
-          options: /* Blank */0
+          ty: /* Blank */1
         };
 }
 
 function makeText$1(id) {
   return {
           id: id,
-          options: /* Text */1
+          ty: /* Text */2
         };
 }
 
@@ -4787,7 +4785,7 @@ function updateUI($$this) {
                       }))), (function (param) {
                 var users = param[1];
                 var choice = param[0];
-                rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.get($$this._tooltips, rescript_lib_es6_curry_js__WEBPACK_IMPORTED_MODULE_0__._1($$this._choiceMap, choice)), (function (u) {
+                rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.get($$this._tooltips, choice), (function (u) {
                         return setContent(u, _percent(users.length, rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.size(chiceDetails$1)));
                       }));
                 return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", undefined, [
@@ -4821,7 +4819,7 @@ function updateUI($$this) {
                                                           param[1].length
                                                         ];
                                                 })), (function (param, param$1) {
-                                              return param[1] - param$1[1] | 0;
+                                              return param$1[1] - param[1] | 0;
                                             })), 0), (function (param) {
                                       return setContent(most, "(" + _percent(param[1], rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.size(blankDetails)) + ") " + param[0]);
                                     }));
@@ -4879,17 +4877,26 @@ function updateUI($$this) {
   
 }
 
-function make$1(prob, ele, choiceMap) {
-  var c = prob.options;
-  var match = typeof c === "number" ? (
-      c !== 0 ? [
-          undefined,
+function make$1(prob, subjectItem, choiceMap) {
+  var match = prob.ty;
+  var match$1;
+  switch (match) {
+    case /* Choice */0 :
+        match$1 = [
+          rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.reduceWithIndex(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.querySelectorAllElements(subjectItem, ".item-body .checkboxInput, .item-body .radioInput"), undefined, (function (tooltips, ele, idx) {
+                  return rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.set(tooltips, String.fromCharCode(idx + 65 | 0), {
+                              _ele: ele
+                            });
+                })),
           {
-            TAG: /* Text */2,
+            TAG: /* Choice */0,
             _0: undefined
           }
-        ] : [
-          rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.reduceWithIndex(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.querySelectorAllElements(ele, ".item-body .blank-item-dynamic"), undefined, (function (tooltips, ele, idx) {
+        ];
+        break;
+    case /* Blank */1 :
+        match$1 = [
+          rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.reduceWithIndex(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.querySelectorAllElements(subjectItem, ".item-body .blank-item-dynamic"), undefined, (function (tooltips, ele, idx) {
                   return rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.set(tooltips, String(idx + 1 | 0), {
                               _ele: ele
                             });
@@ -4898,25 +4905,26 @@ function make$1(prob, ele, choiceMap) {
             TAG: /* Blank */1,
             _0: undefined
           }
-        ]
-    ) : [
-      rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.reduce(rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.zip(c._0, _Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.querySelectorAllElements(ele, ".item-body .checkboxInput, .item-body .radioInput")), undefined, (function (tooltips, param) {
-              return rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.set(tooltips, param[0].key, {
-                          _ele: param[1]
-                        });
-            })),
-      {
-        TAG: /* Choice */0,
-        _0: undefined
-      }
-    ];
+        ];
+        break;
+    case /* Text */2 :
+        match$1 = [
+          undefined,
+          {
+            TAG: /* Text */2,
+            _0: undefined
+          }
+        ];
+        break;
+    
+  }
   var $$this = {
-    _details: match[1],
+    _details: match$1[1],
     _detailsHtml: null,
-    _tooltips: match[0],
+    _tooltips: match$1[0],
     _choiceMap: choiceMap
   };
-  rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_8__.nullable_to_opt(ele.querySelector(".item-type")), (function (el) {
+  rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_8__.nullable_to_opt(subjectItem.querySelector(".item-type")), (function (el) {
           el.classList.add(style.clickable);
           var rect = el.getBoundingClientRect();
           el.addEventListener("click", (function (param) {

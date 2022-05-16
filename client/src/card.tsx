@@ -20,7 +20,7 @@ export class Card {
       case ProblemType.MultipleChoice:
       case ProblemType.Judgement:
       case ProblemType.Polling:
-        prob = Problem_.makeChoice(problem.problem_id, problem.Options);
+        prob = Problem_.makeChoice(problem.problem_id);
         break;
       case ProblemType.FillBlank:
         prob = Problem_.makeBlank(problem.problem_id);
