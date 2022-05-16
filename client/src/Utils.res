@@ -7,6 +7,8 @@ external styleCss: {..} = "default"
 module React = Recks
 module ReactDOMRe = Recks.DOMRe
 
+let joinStrings = (s: array<string>, sep: string) => s->Array.joinWith(sep, s => s)
+
 let querySelectorAllElements = (t: Dom.element, q: string) =>
   t->Element.querySelectorAll(q)->NodeList.toArray->Array.keepMap(Element.ofNode)
 

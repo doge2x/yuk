@@ -1,7 +1,7 @@
 import { Paper, Problem, ProblemDict, UserAnswer } from "./types";
-import { Card } from "./card";
+import { Detail } from "./detail";
 import Recks from "./recks";
-import { showSettings } from "./settings";
+import { showSettings } from "./Settings.bs";
 import { Map2, openWin } from "./utils";
 import * as STYLE from "./style.mod.less";
 import styleCss from "./style.mod.less";
@@ -11,7 +11,7 @@ export const CHOICE_MAP: Map2<number, Map<string, string>> = new Map2(
 );
 
 export class UI {
-  private problems: Map<number, Card>;
+  private problems: Map<number, Detail>;
 
   constructor(paper: Paper) {
     // Header.
@@ -41,7 +41,7 @@ export class UI {
           CHOICE_MAP.get(prob.problem_id) ?? new Map();
         cards.set(
           prob.problem_id,
-          new Card(prob, subjectItem, (ori) => choiceMap.get(ori) ?? ori)
+          new Detail(prob, subjectItem, (ori) => choiceMap.get(ori) ?? ori)
         );
       });
     this.problems = cards;

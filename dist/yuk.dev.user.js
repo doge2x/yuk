@@ -1324,9 +1324,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "UI": () => (/* binding */ UI),
 /* harmony export */   "showConfirmUpload": () => (/* binding */ showConfirmUpload)
 /* harmony export */ });
-/* harmony import */ var _card__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(18);
+/* harmony import */ var _detail__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(18);
 /* harmony import */ var _recks__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(13);
-/* harmony import */ var _settings__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(19);
+/* harmony import */ var _Settings_bs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(20);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(9);
 /* harmony import */ var _style_mod_less__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(10);
 
@@ -1344,7 +1344,7 @@ class UI {
         const header = document.body.querySelector(".header-title");
         header.classList.add(_style_mod_less__WEBPACK_IMPORTED_MODULE_4__.clickable);
         header.addEventListener("click", () => {
-            (0,_settings__WEBPACK_IMPORTED_MODULE_2__.showSettings)();
+            (0,_Settings_bs__WEBPACK_IMPORTED_MODULE_2__.showSettings)();
         });
         let problems = [];
         if (paper.data.has_problem_dict === true) {
@@ -1363,7 +1363,7 @@ class UI {
             var _a;
             const prob = problems[idx];
             const choiceMap = (_a = CHOICE_MAP.get(prob.problem_id)) !== null && _a !== void 0 ? _a : new Map();
-            cards.set(prob.problem_id, new _card__WEBPACK_IMPORTED_MODULE_0__.Card(prob, subjectItem, (ori) => { var _a; return (_a = choiceMap.get(ori)) !== null && _a !== void 0 ? _a : ori; }));
+            cards.set(prob.problem_id, new _detail__WEBPACK_IMPORTED_MODULE_0__.Detail(prob, subjectItem, (ori) => { var _a; return (_a = choiceMap.get(ori)) !== null && _a !== void 0 ? _a : ori; }));
         });
         this.problems = cards;
     }
@@ -1399,13 +1399,13 @@ function showConfirmUpload(dataURL, cb) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Card": () => (/* binding */ Card)
+/* harmony export */   "Detail": () => (/* binding */ Detail)
 /* harmony export */ });
 /* harmony import */ var _Detail_bs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(43);
 /* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(16);
 
 
-class Card {
+class Detail {
     constructor(problem, subjectItem, choiceMap) {
         let detail;
         let detailProto;
@@ -1436,28 +1436,7 @@ class Card {
 
 
 /***/ }),
-/* 19 */
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "showSettings": () => (/* binding */ showSettings)
-/* harmony export */ });
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
-/* harmony import */ var _recks__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(13);
-/* harmony import */ var _Settings_bs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(20);
-/* harmony import */ var _style_mod_less__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(10);
-
-
-
-
-function showSettings() {
-    const win = (0,_utils__WEBPACK_IMPORTED_MODULE_0__.openWin)("设置", { height: 300, width: 400 });
-    win.document.body.appendChild(_recks__WEBPACK_IMPORTED_MODULE_1__["default"].createElement("div", { className: [_style_mod_less__WEBPACK_IMPORTED_MODULE_3__.mainBody, _style_mod_less__WEBPACK_IMPORTED_MODULE_3__.settings].join(" ") }, _Settings_bs__WEBPACK_IMPORTED_MODULE_2__.make()));
-}
-
-
-/***/ }),
+/* 19 */,
 /* 20 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -1466,7 +1445,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Entries": () => (/* binding */ Entries),
 /* harmony export */   "React": () => (/* binding */ React),
 /* harmony export */   "ReactDOMRe": () => (/* binding */ ReactDOMRe),
-/* harmony export */   "make": () => (/* binding */ make$1),
+/* harmony export */   "Settings": () => (/* binding */ Settings),
+/* harmony export */   "showSettings": () => (/* binding */ showSettings),
 /* harmony export */   "style": () => (/* binding */ style)
 /* harmony export */ });
 /* harmony import */ var rescript_lib_es6_curry_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
@@ -1577,7 +1557,8 @@ var Entries = {
   make: make
 };
 
-function make$1(param) {
+function Settings$Settings(Props) {
+  var onSubmit = Props.onSubmit;
   var match = make([
         {
           name: "username",
@@ -1648,7 +1629,7 @@ function make$1(param) {
         }
       ]);
   var doSubmit = match[1];
-  var Settings = function (Props) {
+  var Settings$Settings$1 = function (Props) {
     var title = Props.title;
     var content = Props.content;
     return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("p", undefined, [
@@ -1660,6 +1641,7 @@ function make$1(param) {
               _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("form", {
                     onSubmit: (function (ev) {
                         ev.preventDefault();
+                        rescript_lib_es6_curry_js__WEBPACK_IMPORTED_MODULE_0__._1(onSubmit, undefined);
                         return rescript_lib_es6_curry_js__WEBPACK_IMPORTED_MODULE_0__._1(doSubmit, undefined);
                       })
                   }, [
@@ -1680,29 +1662,55 @@ function make$1(param) {
                     _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElementVariadic(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.UList.make, {
                           children: null
                         }, [
-                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(Settings, {
+                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(Settings$Settings$1, {
                                 title: "同步答案：",
                                 content: "点击题目显示详细答案，在选项/填空处悬停显示简略答案"
                               }),
-                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(Settings, {
+                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(Settings$Settings$1, {
                                 title: "排序题目：",
                                 content: "根据 ID 对题目和选项进行重新排序"
                               }),
-                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(Settings, {
+                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(Settings$Settings$1, {
                                 title: "拦截切屏检测：",
                                 content: "随意切换页面、窗口不会被发现"
                               }),
-                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(Settings, {
+                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(Settings$Settings$1, {
                                 title: "拦截上传截图：",
                                 content: "仅当用户确认后，才会上传截图"
                               }),
-                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(Settings, {
+                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(Settings$Settings$1, {
                                 title: "拦截异常状态：",
                                 content: "即使本地显示异常也不会推送到服务器"
                               })
                         ])
                   ])
             ]);
+}
+
+var Settings = {
+  make: Settings$Settings
+};
+
+function showSettings(param) {
+  return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_5__.map(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.openWin("设置", 300, 400, undefined, undefined, undefined), (function (param) {
+                var win = param[0];
+                return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_5__.map(rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_6__.nullable_to_opt(param[1].body), (function (body) {
+                              return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_5__.map(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.toNode(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
+                                                  className: _Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.joinStrings([
+                                                        style.mainBody,
+                                                        style.settings
+                                                      ], " ")
+                                                }, [_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(Settings$Settings, {
+                                                        onSubmit: (function (param) {
+                                                            win.close();
+                                                            
+                                                          })
+                                                      })])), (function (node) {
+                                            body.appendChild(node);
+                                            
+                                          }));
+                            }));
+              }));
 }
 
 var React;
@@ -2615,6 +2623,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "React": () => (/* binding */ React),
 /* harmony export */   "ReactDOMRe": () => (/* binding */ ReactDOMRe),
 /* harmony export */   "UList": () => (/* binding */ UList),
+/* harmony export */   "joinStrings": () => (/* binding */ joinStrings),
 /* harmony export */   "openWin": () => (/* binding */ openWin),
 /* harmony export */   "querySelectorAllElements": () => (/* binding */ querySelectorAllElements),
 /* harmony export */   "styleCss": () => (/* binding */ styleCss)
@@ -2637,6 +2646,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var styleCss = _style_mod_less__WEBPACK_IMPORTED_MODULE_4__["default"];
+
+function joinStrings(s, sep) {
+  return rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_1__.joinWith(s, sep, (function (s) {
+                return s;
+              }));
+}
 
 function querySelectorAllElements(t, q) {
   return rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_1__.keepMap(Array.prototype.slice.call(t.querySelectorAll(q)), rescript_webapi_src_Webapi_Dom_Webapi_Dom_Element_bs_js__WEBPACK_IMPORTED_MODULE_5__.ofNode);
@@ -4614,14 +4629,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(21);
 /* harmony import */ var _Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(26);
 /* harmony import */ var rescript_lib_es6_string_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(44);
-/* harmony import */ var rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(27);
-/* harmony import */ var rescript_lib_es6_caml_int32_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(52);
-/* harmony import */ var rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(31);
-/* harmony import */ var rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(24);
-/* harmony import */ var rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(53);
-/* harmony import */ var rescript_lib_es6_belt_SortArray_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(55);
-/* harmony import */ var _style_mod_less__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(10);
-/* harmony import */ var rescript_lib_es6_belt_SortArrayString_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(60);
+/* harmony import */ var rescript_lib_es6_js_dict_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(51);
+/* harmony import */ var rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(27);
+/* harmony import */ var rescript_lib_es6_caml_int32_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(52);
+/* harmony import */ var rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(31);
+/* harmony import */ var rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(24);
+/* harmony import */ var rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(53);
+/* harmony import */ var rescript_lib_es6_belt_SortArray_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(55);
+/* harmony import */ var _style_mod_less__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(10);
+/* harmony import */ var rescript_lib_es6_belt_SortArrayString_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(60);
 // Generated by ReScript, PLEASE EDIT WITH CARE
 
 
@@ -4637,7 +4653,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var style = _style_mod_less__WEBPACK_IMPORTED_MODULE_10__;
+
+var style = _style_mod_less__WEBPACK_IMPORTED_MODULE_11__;
 
 var Answer = {};
 
@@ -4659,7 +4676,7 @@ var Tooltip = {
 
 function Make(T) {
   var updateAnswer = function ($$this, username, answer) {
-    $$this.detail = rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_8__.set($$this.detail, username, answer);
+    $$this.detail = rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.set($$this.detail, username, answer);
     
   };
   var updateUI = function ($$this) {
@@ -4667,17 +4684,15 @@ function Make(T) {
     
   };
   var showDetail = function ($$this, top, left) {
-    return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_6__.forEach(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.openWin("详细答案", 200, 300, left, top, undefined), (function (param) {
+    return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.openWin("详细答案", 200, 300, left, top, undefined), (function (param) {
                   var doc = param[1];
-                  return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_6__.forEach(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.toNode(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
-                                      className: rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_4__.joinWith([
+                  return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.toNode(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
+                                      className: _Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.joinStrings([
                                             style.mainBody,
                                             style.answerDetail
-                                          ], " ", (function (s) {
-                                              return s;
-                                            }))
+                                          ], " ")
                                     }, [$$this.detailHtml])), (function (node) {
-                                return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_6__.forEach(rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_7__.nullable_to_opt(doc.body), (function (body) {
+                                return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_8__.nullable_to_opt(doc.body), (function (body) {
                                               body.appendChild(node);
                                               
                                             }));
@@ -4685,16 +4700,15 @@ function Make(T) {
                 }));
   };
   var make = function (subjectItem, extra) {
-    var context = rescript_lib_es6_curry_js__WEBPACK_IMPORTED_MODULE_0__._2(T.make, subjectItem, extra);
     var $$this = {
       detail: undefined,
       detailHtml: null,
-      context: context
+      context: rescript_lib_es6_curry_js__WEBPACK_IMPORTED_MODULE_0__._2(T.make, subjectItem, extra)
     };
-    rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_6__.forEach(rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_7__.nullable_to_opt(subjectItem.querySelector(".item-type")), (function (el) {
+    rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_8__.nullable_to_opt(subjectItem.querySelector(".item-type")), (function (el) {
             el.classList.add(style.clickable);
-            var rect = el.getBoundingClientRect();
             el.addEventListener("click", (function (param) {
+                    var rect = el.getBoundingClientRect();
                     return showDetail($$this, rect.top | 0, rect.left | 0);
                   }));
             
@@ -4714,20 +4728,20 @@ var Detail = {
 };
 
 function percent(a, b) {
-  return String(rescript_lib_es6_caml_int32_js__WEBPACK_IMPORTED_MODULE_5__.div(Math.imul(a, 100), b)) + "%";
+  return String(rescript_lib_es6_caml_int32_js__WEBPACK_IMPORTED_MODULE_6__.div(Math.imul(a, 100), b)) + "%";
 }
 
 function sortByKey(arr) {
-  return rescript_lib_es6_belt_SortArray_js__WEBPACK_IMPORTED_MODULE_9__.stableSortBy(arr, (function (param, param$1) {
+  return rescript_lib_es6_belt_SortArray_js__WEBPACK_IMPORTED_MODULE_10__.stableSortBy(arr, (function (param, param$1) {
                 return rescript_lib_es6_string_js__WEBPACK_IMPORTED_MODULE_3__.compare(param[0], param$1[0]);
               }));
 }
 
 function updateUI(detail, context) {
-  return rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_4__.map(sortByKey(rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_4__.map(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_8__.toArray(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_8__.reduce(detail, undefined, (function (choiceToUsers, user, choices) {
-                                return rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_4__.reduce(choices, choiceToUsers, (function (choiceToUsers, choice) {
-                                              return rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_8__.update(choiceToUsers, choice, (function (users) {
-                                                            return rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_4__.concat(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_6__.getWithDefault(users, []), [user]);
+  return rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.map(sortByKey(rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.map(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.toArray(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.reduce(detail, undefined, (function (choiceToUsers, user, choices) {
+                                return rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.reduce(choices, choiceToUsers, (function (choiceToUsers, choice) {
+                                              return rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.update(choiceToUsers, choice, (function (users) {
+                                                            return rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.concat(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.getWithDefault(users, []), [user]);
                                                           }));
                                             }));
                               }))), (function (param) {
@@ -4738,13 +4752,13 @@ function updateUI(detail, context) {
                       }))), (function (param) {
                 var users = param[1];
                 var choice = param[0];
-                rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_6__.forEach(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_8__.get(context.tooltips, choice), (function (u) {
-                        return setContent(u, percent(users.length, rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_8__.size(detail)));
+                rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.get(context.tooltips, choice), (function (u) {
+                        return setContent(u, percent(users.length, rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.size(detail)));
                       }));
                 return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", undefined, [
                             _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("p", undefined, [_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("strong", undefined, [choice])]),
                             _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.UList.make, {
-                                  children: rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_4__.map(rescript_lib_es6_belt_SortArrayString_js__WEBPACK_IMPORTED_MODULE_11__.stableSort(users), (function (user) {
+                                  children: rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.map(rescript_lib_es6_belt_SortArrayString_js__WEBPACK_IMPORTED_MODULE_12__.stableSort(users), (function (user) {
                                           return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("p", undefined, [user]);
                                         }))
                                 })
@@ -4754,8 +4768,8 @@ function updateUI(detail, context) {
 
 function make$1(subjectItem, extra) {
   return {
-          tooltips: rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_4__.reduceWithIndex(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.querySelectorAllElements(subjectItem, ".item-body .checkboxInput, .item-body .radioInput"), undefined, (function (tooltips, ele, idx) {
-                  return rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_8__.set(tooltips, String.fromCharCode(idx + 65 | 0), {
+          tooltips: rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.reduceWithIndex(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.querySelectorAllElements(subjectItem, ".item-body .checkboxInput, .item-body .radioInput"), undefined, (function (tooltips, ele, idx) {
+                  return rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.set(tooltips, String.fromCharCode(idx + 65 | 0), {
                               ele: ele
                             });
                 })),
@@ -4764,7 +4778,7 @@ function make$1(subjectItem, extra) {
 }
 
 function updateAnswer($$this, username, answer) {
-  $$this.detail = rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_8__.set($$this.detail, username, answer);
+  $$this.detail = rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.set($$this.detail, username, answer);
   
 }
 
@@ -4774,17 +4788,15 @@ function updateUI$1($$this) {
 }
 
 function showDetail($$this, top, left) {
-  return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_6__.forEach(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.openWin("详细答案", 200, 300, left, top, undefined), (function (param) {
+  return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.openWin("详细答案", 200, 300, left, top, undefined), (function (param) {
                 var doc = param[1];
-                return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_6__.forEach(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.toNode(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
-                                    className: rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_4__.joinWith([
+                return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.toNode(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
+                                    className: _Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.joinStrings([
                                           style.mainBody,
                                           style.answerDetail
-                                        ], " ", (function (s) {
-                                            return s;
-                                          }))
+                                        ], " ")
                                   }, [$$this.detailHtml])), (function (node) {
-                              return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_6__.forEach(rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_7__.nullable_to_opt(doc.body), (function (body) {
+                              return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_8__.nullable_to_opt(doc.body), (function (body) {
                                             body.appendChild(node);
                                             
                                           }));
@@ -4793,16 +4805,15 @@ function showDetail($$this, top, left) {
 }
 
 function make$2(subjectItem, extra) {
-  var context = make$1(subjectItem, extra);
   var $$this = {
     detail: undefined,
     detailHtml: null,
-    context: context
+    context: make$1(subjectItem, extra)
   };
-  rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_6__.forEach(rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_7__.nullable_to_opt(subjectItem.querySelector(".item-type")), (function (el) {
+  rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_8__.nullable_to_opt(subjectItem.querySelector(".item-type")), (function (el) {
           el.classList.add(style.clickable);
-          var rect = el.getBoundingClientRect();
           el.addEventListener("click", (function (param) {
+                  var rect = el.getBoundingClientRect();
                   return showDetail($$this, rect.top | 0, rect.left | 0);
                 }));
           
@@ -4818,20 +4829,20 @@ var ChoiceDetail = {
 };
 
 function updateUI$2(detail, context) {
-  return rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_4__.map(sortByKey(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_8__.toArray(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_8__.reduce(detail, undefined, (function (blankToFillToUsers, user, blankAndFill) {
-                            return rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_4__.reduce(blankAndFill, blankToFillToUsers, (function (blankToFillToUsers, param) {
+  return rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.map(sortByKey(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.toArray(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.reduce(detail, undefined, (function (blankToFillToUsers, user, blankToFill) {
+                            return rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.reduce(sortByKey(rescript_lib_es6_js_dict_js__WEBPACK_IMPORTED_MODULE_4__.entries(blankToFill)), blankToFillToUsers, (function (blankToFillToUsers, param) {
                                           var fill = param[1];
-                                          return rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_8__.update(blankToFillToUsers, param[0], (function (fillToUsers) {
-                                                        return rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_7__.some(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_8__.update(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_6__.getWithDefault(fillToUsers, undefined), fill, (function (users) {
-                                                                          return rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_4__.concat(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_6__.getWithDefault(users, []), [user]);
+                                          return rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.update(blankToFillToUsers, param[0], (function (fillToUsers) {
+                                                        return rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_8__.some(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.update(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.getWithDefault(fillToUsers, undefined), fill, (function (users) {
+                                                                          return rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.concat(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.getWithDefault(users, []), [user]);
                                                                         })));
                                                       }));
                                         }));
                           })))), (function (param) {
                 var blank = param[0];
-                var fillToUsers = sortByKey(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_8__.toArray(param[1]));
-                rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_6__.forEach(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_8__.get(context.tooltips, blank), (function (most) {
-                        return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_6__.forEach(rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_4__.get(rescript_lib_es6_belt_SortArray_js__WEBPACK_IMPORTED_MODULE_9__.stableSortBy(rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_4__.map(fillToUsers, (function (param) {
+                var fillToUsers = sortByKey(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.toArray(param[1]));
+                rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.get(context.tooltips, blank), (function (most) {
+                        return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.get(rescript_lib_es6_belt_SortArray_js__WEBPACK_IMPORTED_MODULE_10__.stableSortBy(rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.map(fillToUsers, (function (param) {
                                                   return [
                                                           param[0],
                                                           param[1].length
@@ -4839,19 +4850,19 @@ function updateUI$2(detail, context) {
                                                 })), (function (param, param$1) {
                                               return param$1[1] - param[1] | 0;
                                             })), 0), (function (param) {
-                                      return setContent(most, "(" + percent(param[1], rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_8__.size(detail)) + ") " + param[0]);
+                                      return setContent(most, "(" + percent(param[1], rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.size(detail)) + ") " + param[0]);
                                     }));
                       }));
                 return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", undefined, [
                             _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("p", undefined, [_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("strong", undefined, ["#" + blank])]),
                             _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.UList.make, {
-                                  children: rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_4__.map(fillToUsers, (function (param) {
+                                  children: rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.map(fillToUsers, (function (param) {
                                           return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElementVariadic(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.Fragment.make, {
                                                       children: null
                                                     }, [
                                                       _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("p", undefined, [param[0]]),
                                                       _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.UList.make, {
-                                                            children: rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_4__.map(rescript_lib_es6_belt_SortArrayString_js__WEBPACK_IMPORTED_MODULE_11__.stableSort(param[1]), (function (user) {
+                                                            children: rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.map(rescript_lib_es6_belt_SortArrayString_js__WEBPACK_IMPORTED_MODULE_12__.stableSort(param[1]), (function (user) {
                                                                     return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("p", undefined, [user]);
                                                                   }))
                                                           })
@@ -4864,8 +4875,8 @@ function updateUI$2(detail, context) {
 
 function make$3(subjectItem, param) {
   return {
-          tooltips: rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_4__.reduceWithIndex(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.querySelectorAllElements(subjectItem, ".item-body .checkboxInput, .item-body .radioInput"), undefined, (function (tooltips, ele, idx) {
-                  return rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_8__.set(tooltips, String.fromCharCode(idx + 65 | 0), {
+          tooltips: rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.reduceWithIndex(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.querySelectorAllElements(subjectItem, ".item-body .blank-item-dynamic"), undefined, (function (tooltips, ele, idx) {
+                  return rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.set(tooltips, String(idx + 1 | 0), {
                               ele: ele
                             });
                 }))
@@ -4873,7 +4884,7 @@ function make$3(subjectItem, param) {
 }
 
 function updateAnswer$1($$this, username, answer) {
-  $$this.detail = rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_8__.set($$this.detail, username, answer);
+  $$this.detail = rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.set($$this.detail, username, answer);
   
 }
 
@@ -4883,17 +4894,15 @@ function updateUI$3($$this) {
 }
 
 function showDetail$1($$this, top, left) {
-  return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_6__.forEach(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.openWin("详细答案", 200, 300, left, top, undefined), (function (param) {
+  return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.openWin("详细答案", 200, 300, left, top, undefined), (function (param) {
                 var doc = param[1];
-                return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_6__.forEach(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.toNode(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
-                                    className: rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_4__.joinWith([
+                return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.toNode(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
+                                    className: _Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.joinStrings([
                                           style.mainBody,
                                           style.answerDetail
-                                        ], " ", (function (s) {
-                                            return s;
-                                          }))
+                                        ], " ")
                                   }, [$$this.detailHtml])), (function (node) {
-                              return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_6__.forEach(rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_7__.nullable_to_opt(doc.body), (function (body) {
+                              return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_8__.nullable_to_opt(doc.body), (function (body) {
                                             body.appendChild(node);
                                             
                                           }));
@@ -4902,16 +4911,15 @@ function showDetail$1($$this, top, left) {
 }
 
 function make$4(subjectItem, extra) {
-  var context = make$3(subjectItem, extra);
   var $$this = {
     detail: undefined,
     detailHtml: null,
-    context: context
+    context: make$3(subjectItem, extra)
   };
-  rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_6__.forEach(rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_7__.nullable_to_opt(subjectItem.querySelector(".item-type")), (function (el) {
+  rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_8__.nullable_to_opt(subjectItem.querySelector(".item-type")), (function (el) {
           el.classList.add(style.clickable);
-          var rect = el.getBoundingClientRect();
           el.addEventListener("click", (function (param) {
+                  var rect = el.getBoundingClientRect();
                   return showDetail$1($$this, rect.top | 0, rect.left | 0);
                 }));
           
@@ -4927,11 +4935,11 @@ var BlankDetail = {
 };
 
 function updateUI$4(detail, param) {
-  return rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_4__.map(sortByKey(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_8__.toArray(detail)), (function (param) {
+  return rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.map(sortByKey(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.toArray(detail)), (function (param) {
                 var text = param[1];
                 return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", undefined, [
                             _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("p", undefined, [_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("strong", undefined, [param[0]])]),
-                            rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_6__.mapWithDefault(text.content, null, (function (htm) {
+                            rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.mapWithDefault(text.content, null, (function (htm) {
                                     return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
                                                 className: style.answerDetailShortAnswer,
                                                 dangerouslySetInnerHTML: {
@@ -4939,11 +4947,11 @@ function updateUI$4(detail, param) {
                                                 }
                                               }, []);
                                   })),
-                            rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_6__.mapWithDefault(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_6__.flatMap(text.attachments, (function (attachments) {
+                            rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.mapWithDefault(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.flatMap(text.attachments, (function (attachments) {
                                         return attachments.filelist;
                                       })), null, (function (attachments) {
                                     return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.UList.make, {
-                                                children: rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_4__.map(attachments, (function (atta) {
+                                                children: rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.map(attachments, (function (atta) {
                                                         return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("a", {
                                                                     href: atta.fileUrl
                                                                   }, [atta.fileName]);
@@ -4960,7 +4968,7 @@ function make$5(param, param$1) {
 }
 
 function updateAnswer$2($$this, username, answer) {
-  $$this.detail = rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_8__.set($$this.detail, username, answer);
+  $$this.detail = rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.set($$this.detail, username, answer);
   
 }
 
@@ -4970,17 +4978,15 @@ function updateUI$5($$this) {
 }
 
 function showDetail$2($$this, top, left) {
-  return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_6__.forEach(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.openWin("详细答案", 200, 300, left, top, undefined), (function (param) {
+  return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.openWin("详细答案", 200, 300, left, top, undefined), (function (param) {
                 var doc = param[1];
-                return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_6__.forEach(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.toNode(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
-                                    className: rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_4__.joinWith([
+                return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.toNode(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
+                                    className: _Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.joinStrings([
                                           style.mainBody,
                                           style.answerDetail
-                                        ], " ", (function (s) {
-                                            return s;
-                                          }))
+                                        ], " ")
                                   }, [$$this.detailHtml])), (function (node) {
-                              return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_6__.forEach(rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_7__.nullable_to_opt(doc.body), (function (body) {
+                              return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_8__.nullable_to_opt(doc.body), (function (body) {
                                             body.appendChild(node);
                                             
                                           }));
@@ -4989,16 +4995,15 @@ function showDetail$2($$this, top, left) {
 }
 
 function make$6(subjectItem, extra) {
-  var context = make$5(subjectItem, extra);
   var $$this = {
     detail: undefined,
     detailHtml: null,
-    context: context
+    context: make$5(subjectItem, extra)
   };
-  rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_6__.forEach(rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_7__.nullable_to_opt(subjectItem.querySelector(".item-type")), (function (el) {
+  rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_8__.nullable_to_opt(subjectItem.querySelector(".item-type")), (function (el) {
           el.classList.add(style.clickable);
-          var rect = el.getBoundingClientRect();
           el.addEventListener("click", (function (param) {
+                  var rect = el.getBoundingClientRect();
                   return showDetail$2($$this, rect.top | 0, rect.left | 0);
                 }));
           
@@ -6585,7 +6590,100 @@ function make(n, ch) {
 
 
 /***/ }),
-/* 51 */,
+/* 51 */
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "entries": () => (/* binding */ entries),
+/* harmony export */   "fromArray": () => (/* binding */ fromArray),
+/* harmony export */   "fromList": () => (/* binding */ fromList),
+/* harmony export */   "get": () => (/* binding */ get),
+/* harmony export */   "map": () => (/* binding */ map),
+/* harmony export */   "unsafeDeleteKey": () => (/* binding */ unsafeDeleteKey),
+/* harmony export */   "values": () => (/* binding */ values)
+/* harmony export */ });
+/* harmony import */ var _caml_option_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
+
+
+
+
+function get(dict, k) {
+  if ((k in dict)) {
+    return _caml_option_js__WEBPACK_IMPORTED_MODULE_0__.some(dict[k]);
+  }
+  
+}
+
+var unsafeDeleteKey = (function (dict,key){
+      delete dict[key];
+     });
+
+function entries(dict) {
+  var keys = Object.keys(dict);
+  var l = keys.length;
+  var values = new Array(l);
+  for(var i = 0; i < l; ++i){
+    var key = keys[i];
+    values[i] = [
+      key,
+      dict[key]
+    ];
+  }
+  return values;
+}
+
+function values(dict) {
+  var keys = Object.keys(dict);
+  var l = keys.length;
+  var values$1 = new Array(l);
+  for(var i = 0; i < l; ++i){
+    values$1[i] = dict[keys[i]];
+  }
+  return values$1;
+}
+
+function fromList(entries) {
+  var dict = {};
+  var _param = entries;
+  while(true) {
+    var param = _param;
+    if (!param) {
+      return dict;
+    }
+    var match = param.hd;
+    dict[match[0]] = match[1];
+    _param = param.tl;
+    continue ;
+  };
+}
+
+function fromArray(entries) {
+  var dict = {};
+  var l = entries.length;
+  for(var i = 0; i < l; ++i){
+    var match = entries[i];
+    dict[match[0]] = match[1];
+  }
+  return dict;
+}
+
+function map(f, source) {
+  var target = {};
+  var keys = Object.keys(source);
+  var l = keys.length;
+  for(var i = 0; i < l; ++i){
+    var key = keys[i];
+    target[key] = f(source[key]);
+  }
+  return target;
+}
+
+
+/* No side effect */
+
+
+/***/ }),
 /* 52 */
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
