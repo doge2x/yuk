@@ -45,7 +45,7 @@ class Client {
         this.queue = new Map();
         const client = new json_rpc_2_0__WEBPACK_IMPORTED_MODULE_0__.JSONRPCClient((req) => __awaiter(this, void 0, void 0, function* () {
             const url = _config__WEBPACK_IMPORTED_MODULE_3__.SERVER.value;
-            if (url !== null) {
+            if (url !== undefined) {
                 yield new Promise((ok, err) => __awaiter(this, void 0, void 0, function* () {
                     yield _gm__WEBPACK_IMPORTED_MODULE_1__["default"].xhr({
                         url: url,
@@ -86,15 +86,15 @@ class Client {
     sendQueue() {
         return __awaiter(this, void 0, void 0, function* () {
             if (this.queue.size < 1 ||
-                _config__WEBPACK_IMPORTED_MODULE_3__.USERNAME.value === null ||
-                _config__WEBPACK_IMPORTED_MODULE_3__.SERVER.value === null ||
-                _config__WEBPACK_IMPORTED_MODULE_3__.EXAM_ID.value === null ||
+                _config__WEBPACK_IMPORTED_MODULE_3__.USERNAME.value === undefined ||
+                _config__WEBPACK_IMPORTED_MODULE_3__.SERVER.value === undefined ||
+                _config__WEBPACK_IMPORTED_MODULE_3__.EXAM_ID.value === undefined ||
                 _config__WEBPACK_IMPORTED_MODULE_3__.SYNC_ANSWERS.value === false) {
                 return;
             }
             let answers = [...this.queue.values()];
             this.queue.clear();
-            if (_config__WEBPACK_IMPORTED_MODULE_3__.TOKEN.value === null) {
+            if (_config__WEBPACK_IMPORTED_MODULE_3__.TOKEN.value === undefined) {
                 (0,_utils__WEBPACK_IMPORTED_MODULE_2__.devLog)(`login to server: ${_config__WEBPACK_IMPORTED_MODULE_3__.USERNAME.value}, ${_config__WEBPACK_IMPORTED_MODULE_3__.EXAM_ID.value}`);
                 const token = yield this.client.request("login", [
                     _config__WEBPACK_IMPORTED_MODULE_3__.USERNAME.value,
@@ -1155,6 +1155,9 @@ function setDOMProps(ele, props) {
                 if (name.startsWith("on")) {
                     ele.addEventListener(name.slice(2).toLowerCase(), value);
                 }
+                else if (name in ele) {
+                    ele[name] = value;
+                }
                 else {
                     ele.setAttribute(name, value);
                 }
@@ -1211,45 +1214,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "TOKEN": () => (/* binding */ TOKEN),
 /* harmony export */   "USERNAME": () => (/* binding */ USERNAME)
 /* harmony export */ });
-/* harmony import */ var _gm__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
+/* harmony import */ var _Config_bs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(58);
 
-class Optional {
-    constructor(init) {
-        this._value = null;
-        this._value = init !== null && init !== void 0 ? init : null;
+class ReValue {
+    constructor(value) {
+        this._value = value;
     }
     get value() {
-        return this._value;
+        return this._value.get();
     }
     set value(newVal) {
-        this._value = newVal;
+        this._value.set(newVal);
     }
 }
-class GMEntry extends Optional {
-    constructor(name, init) {
-        super();
-        this.name = name;
-        let val = _gm__WEBPACK_IMPORTED_MODULE_0__["default"].getValue(name);
-        if (val === undefined) {
-            val = init;
-        }
-        this.value = val !== null && val !== void 0 ? val : null;
-    }
-    get value() {
-        return super.value;
-    }
-    set value(newVal) {
-        _gm__WEBPACK_IMPORTED_MODULE_0__["default"].setValue(this.name, newVal);
-        super.value = newVal;
-    }
-}
-const USERNAME = new GMEntry("username");
-const SERVER = new GMEntry("server");
-const SYNC_ANSWERS = new GMEntry("sync_answers", true);
-const SORT_PROBLEMS = new GMEntry("sort_problems", true);
-const NO_LEAVE_CHECK = new GMEntry("no_leave_check", true);
-const TOKEN = new Optional();
-const EXAM_ID = new Optional();
+const USERNAME = new ReValue(_Config_bs__WEBPACK_IMPORTED_MODULE_0__.Username);
+const SERVER = new ReValue(_Config_bs__WEBPACK_IMPORTED_MODULE_0__.Server);
+const SYNC_ANSWERS = new ReValue(_Config_bs__WEBPACK_IMPORTED_MODULE_0__.SyncAnswers);
+const SORT_PROBLEMS = new ReValue(_Config_bs__WEBPACK_IMPORTED_MODULE_0__.SortProblems);
+const NO_LEAVE_CHECK = new ReValue(_Config_bs__WEBPACK_IMPORTED_MODULE_0__.NoLeaveCheck);
+const TOKEN = new ReValue(_Config_bs__WEBPACK_IMPORTED_MODULE_0__.Token);
+const EXAM_ID = new ReValue(_Config_bs__WEBPACK_IMPORTED_MODULE_0__.ExamId);
 
 
 /***/ }),
@@ -1493,19 +1477,21 @@ function showSettings() {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Entry": () => (/* binding */ Entry),
+/* harmony export */   "Entries": () => (/* binding */ Entries),
 /* harmony export */   "React": () => (/* binding */ React),
 /* harmony export */   "ReactDOMRe": () => (/* binding */ ReactDOMRe),
-/* harmony export */   "TitleText": () => (/* binding */ TitleText),
-/* harmony export */   "make": () => (/* binding */ make),
+/* harmony export */   "make": () => (/* binding */ make$1),
 /* harmony export */   "style": () => (/* binding */ style)
 /* harmony export */ });
-/* harmony import */ var _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(21);
-/* harmony import */ var _Utils_bs_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(26);
-/* harmony import */ var rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(31);
-/* harmony import */ var rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(24);
-/* harmony import */ var _style_mod_less__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(10);
-/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(14);
+/* harmony import */ var rescript_lib_es6_curry_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
+/* harmony import */ var _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(21);
+/* harmony import */ var _Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(26);
+/* harmony import */ var _Config_bs_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(58);
+/* harmony import */ var rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(27);
+/* harmony import */ var rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(31);
+/* harmony import */ var rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(24);
+/* harmony import */ var _style_mod_less__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(10);
+/* harmony import */ var rescript_webapi_src_Webapi_Dom_Webapi_Dom_HtmlElement_bs_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(57);
 // Generated by ReScript, PLEASE EDIT WITH CARE
 
 
@@ -1514,165 +1500,217 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var style = _style_mod_less__WEBPACK_IMPORTED_MODULE_4__;
 
-function Settings$TitleText(Props) {
-  var title = Props.title;
-  var content = Props.content;
-  return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.DOMRe.createDOMElementVariadic("p", undefined, [
-              _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.DOMRe.createDOMElementVariadic("strong", undefined, [title]),
-              rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_2__.getWithDefault(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_2__.map(content, (function (prim) {
-                          return prim;
-                        })), null)
-            ]);
+
+
+
+var style = _style_mod_less__WEBPACK_IMPORTED_MODULE_7__;
+
+function make(v) {
+  var match = rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_4__.reduce(v, [
+        [],
+        []
+      ], (function (param, param$1) {
+          var ty = param$1.ty;
+          var title = param$1.title;
+          var name = param$1.name;
+          var match;
+          if (ty.TAG === /* Text */0) {
+            var match$1 = ty._0;
+            var onSubmit = match$1.onSubmit;
+            match = [
+              "text",
+              match$1.value,
+              undefined,
+              match$1.pattern,
+              true,
+              (function (ele) {
+                  return rescript_lib_es6_curry_js__WEBPACK_IMPORTED_MODULE_0__._1(onSubmit, ele.value);
+                })
+            ];
+          } else {
+            var match$2 = ty._0;
+            var onSubmit$1 = match$2.onSubmit;
+            match = [
+              "checkbox",
+              undefined,
+              match$2.checked,
+              undefined,
+              false,
+              (function (ele) {
+                  return rescript_lib_es6_curry_js__WEBPACK_IMPORTED_MODULE_0__._1(onSubmit$1, ele.checked);
+                })
+            ];
+          }
+          var submit = match[5];
+          var tmp = {
+            title: title,
+            name: name,
+            required: match[4],
+            type: match[0]
+          };
+          var tmp$1 = match[2];
+          if (tmp$1 !== undefined) {
+            tmp.checked = rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_6__.valFromOption(tmp$1);
+          }
+          var tmp$2 = match[3];
+          if (tmp$2 !== undefined) {
+            tmp.pattern = rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_6__.valFromOption(tmp$2);
+          }
+          var tmp$3 = match[1];
+          if (tmp$3 !== undefined) {
+            tmp.value = rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_6__.valFromOption(tmp$3);
+          }
+          var input = _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("input", rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_6__.some(tmp), []);
+          return [
+                  rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_4__.concat(param[0], [_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
+                              className: style.settingsEntry
+                            }, [
+                              _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("label", {
+                                    htmlFor: name
+                                  }, [title]),
+                              input
+                            ])]),
+                  rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_4__.concat(param[1], [(function (param) {
+                            return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_5__.forEach(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_5__.flatMap(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.toNode(input), rescript_webapi_src_Webapi_Dom_Webapi_Dom_HtmlElement_bs_js__WEBPACK_IMPORTED_MODULE_8__.ofNode), submit);
+                          })])
+                ];
+        }));
+  var doSubmits = match[1];
+  return [
+          match[0],
+          (function (param) {
+              return rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_4__.forEach(doSubmits, (function (f) {
+                            return rescript_lib_es6_curry_js__WEBPACK_IMPORTED_MODULE_0__._1(f, undefined);
+                          }));
+            })
+        ];
 }
 
-var TitleText = {
-  make: Settings$TitleText
+var Entries = {
+  make: make
 };
 
-function Settings$Entry(Props) {
-  var name = Props.name;
-  var title = Props.title;
-  var ty = Props.ty;
-  var required = Props.required;
-  var pattern = Props.pattern;
-  var match;
-  match = ty.TAG === /* Text */0 ? [
-      "text",
-      ty._0,
-      undefined
-    ] : [
-      "checkbox",
-      undefined,
-      ty._0
-    ];
-  var tmp = {
-    title: title,
-    name: name,
-    type: match[0]
+function make$1(param) {
+  var match = make([
+        {
+          name: "username",
+          title: "用户名",
+          ty: {
+            TAG: /* Text */0,
+            _0: {
+              value: _Config_bs_js__WEBPACK_IMPORTED_MODULE_3__.Username.get(undefined),
+              pattern: "[a-z][_a-z0-9]*",
+              onSubmit: (function (s) {
+                  return _Config_bs_js__WEBPACK_IMPORTED_MODULE_3__.Username.set(s);
+                })
+            }
+          }
+        },
+        {
+          name: "server",
+          title: "服务器",
+          ty: {
+            TAG: /* Text */0,
+            _0: {
+              value: _Config_bs_js__WEBPACK_IMPORTED_MODULE_3__.Server.get(undefined),
+              pattern: "https?://.+",
+              onSubmit: (function (s) {
+                  return _Config_bs_js__WEBPACK_IMPORTED_MODULE_3__.Server.set(s);
+                })
+            }
+          }
+        },
+        {
+          name: "sync_answers",
+          title: "同步答案",
+          ty: {
+            TAG: /* Checkbox */1,
+            _0: {
+              checked: _Config_bs_js__WEBPACK_IMPORTED_MODULE_3__.SyncAnswers.get(undefined),
+              onSubmit: (function (c) {
+                  return _Config_bs_js__WEBPACK_IMPORTED_MODULE_3__.SyncAnswers.set(c);
+                })
+            }
+          }
+        },
+        {
+          name: "sort_problems",
+          title: "排序答案",
+          ty: {
+            TAG: /* Checkbox */1,
+            _0: {
+              checked: _Config_bs_js__WEBPACK_IMPORTED_MODULE_3__.SortProblems.get(undefined),
+              onSubmit: (function (c) {
+                  return _Config_bs_js__WEBPACK_IMPORTED_MODULE_3__.SortProblems.set(c);
+                })
+            }
+          }
+        },
+        {
+          name: "no_leave_check",
+          title: "拦截切屏检测",
+          ty: {
+            TAG: /* Checkbox */1,
+            _0: {
+              checked: _Config_bs_js__WEBPACK_IMPORTED_MODULE_3__.NoLeaveCheck.get(undefined),
+              onSubmit: (function (c) {
+                  return _Config_bs_js__WEBPACK_IMPORTED_MODULE_3__.NoLeaveCheck.set(c);
+                })
+            }
+          }
+        }
+      ]);
+  var doSubmit = match[1];
+  var Settings = function (Props) {
+    var title = Props.title;
+    var content = Props.content;
+    return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("p", undefined, [
+                _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("strong", undefined, [title]),
+                content
+              ]);
   };
-  var tmp$1 = match[2];
-  if (tmp$1 !== undefined) {
-    tmp.checked = rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_3__.valFromOption(tmp$1);
-  }
-  if (pattern !== undefined) {
-    tmp.pattern = rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_3__.valFromOption(pattern);
-  }
-  if (required !== undefined) {
-    tmp.required = rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_3__.valFromOption(required);
-  }
-  var tmp$2 = match[1];
-  if (tmp$2 !== undefined) {
-    tmp.value = rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_3__.valFromOption(tmp$2);
-  }
-  return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.DOMRe.createDOMElementVariadic("div", {
-              className: style.settingsEntry
-            }, [
-              _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.DOMRe.createDOMElementVariadic("label", {
-                    htmlFor: name
-                  }, [title]),
-              _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.DOMRe.createDOMElementVariadic("input", rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_3__.some(tmp), [])
-            ]);
-}
-
-var Entry = {
-  make: Settings$Entry
-};
-
-
-;
-
-function make(param) {
-  return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.DOMRe.createDOMElementVariadic("div", undefined, [
-              _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.DOMRe.createDOMElementVariadic("form", {
+  return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", undefined, [
+              _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("form", {
                     onSubmit: (function (ev) {
-                        return ((ev) => {
-            ev.preventDefault();
-            const form = new FormData(this);
-            _config__WEBPACK_IMPORTED_MODULE_5__.USERNAME.value = form.get("username");
-            _config__WEBPACK_IMPORTED_MODULE_5__.SERVER.value = form.get("server");
-            _config__WEBPACK_IMPORTED_MODULE_5__.NO_LEAVE_CHECK.value = form.get("no_leave_check") === "on";
-            _config__WEBPACK_IMPORTED_MODULE_5__.SORT_PROBLEMS.value = form.get("sort_problems") === "on";
-            _config__WEBPACK_IMPORTED_MODULE_5__.SYNC_ANSWERS.value = form.get("sync_answers") === "on";
-          })(ev);
+                        ev.preventDefault();
+                        return rescript_lib_es6_curry_js__WEBPACK_IMPORTED_MODULE_0__._1(doSubmit, undefined);
                       })
                   }, [
-                    _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.createElement(Settings$Entry, {
-                          name: "username",
-                          title: "用户名",
-                          ty: {
-                            TAG: /* Text */0,
-                            _0: _config__WEBPACK_IMPORTED_MODULE_5__.USERNAME.value
-                          }
-                        }),
-                    _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.createElement(Settings$Entry, {
-                          name: "server",
-                          title: "服务器",
-                          ty: {
-                            TAG: /* Text */0,
-                            _0: _config__WEBPACK_IMPORTED_MODULE_5__.SERVER.value
-                          }
-                        }),
-                    _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.createElement(Settings$Entry, {
-                          name: "sync_answers",
-                          title: "同步答案",
-                          ty: {
-                            TAG: /* Checkbox */1,
-                            _0: _config__WEBPACK_IMPORTED_MODULE_5__.SYNC_ANSWERS.value
-                          }
-                        }),
-                    _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.createElement(Settings$Entry, {
-                          name: "sort_problems",
-                          title: "排序答案",
-                          ty: {
-                            TAG: /* Checkbox */1,
-                            _0: _config__WEBPACK_IMPORTED_MODULE_5__.SORT_PROBLEMS.value
-                          }
-                        }),
-                    _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.createElement(Settings$Entry, {
-                          name: "no_leave_check",
-                          title: "拦截切屏检测",
-                          ty: {
-                            TAG: /* Checkbox */1,
-                            _0: _config__WEBPACK_IMPORTED_MODULE_5__.NO_LEAVE_CHECK.value
-                          }
-                        }),
-                    _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.DOMRe.createDOMElementVariadic("div", {
+                    _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", undefined, [match[0]]),
+                    _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
                           className: style.settingsSubmit
                         }, [
-                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.DOMRe.createDOMElementVariadic("div", {
+                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
                                 className: style.settingsSubmitTip
-                              }, [_Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.DOMRe.createDOMElementVariadic("i", undefined, ["*更改设置后请刷新页面"])]),
-                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.DOMRe.createDOMElementVariadic("div", undefined, [_Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.DOMRe.createDOMElementVariadic("button", undefined, ["提交"])])
+                              }, [_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("i", undefined, ["*更改设置后请刷新页面"])]),
+                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", undefined, [_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("button", undefined, ["提交"])])
                         ])
                   ]),
-              _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.DOMRe.createDOMElementVariadic("div", {
+              _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
                     className: style.about
                   }, [
-                    _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.createElement(Settings$TitleText, {
-                          title: "功能特性："
-                        }),
-                    _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.createElementVariadic(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_1__.UList.make, {
+                    _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("p", undefined, [_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("strong", undefined, ["功能特性："])]),
+                    _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElementVariadic(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.UList.make, {
                           children: null
                         }, [
-                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.createElement(Settings$TitleText, {
+                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(Settings, {
                                 title: "同步答案：",
                                 content: "点击题目显示详细答案，在选项/填空处悬停显示简略答案"
                               }),
-                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.createElement(Settings$TitleText, {
+                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(Settings, {
                                 title: "排序题目：",
                                 content: "根据 ID 对题目和选项进行重新排序"
                               }),
-                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.createElement(Settings$TitleText, {
+                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(Settings, {
                                 title: "拦截切屏检测：",
                                 content: "随意切换页面、窗口不会被发现"
                               }),
-                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.createElement(Settings$TitleText, {
+                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(Settings, {
                                 title: "拦截上传截图：",
                                 content: "仅当用户确认后，才会上传截图"
                               }),
-                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.createElement(Settings$TitleText, {
+                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(Settings, {
                                 title: "拦截异常状态：",
                                 content: "即使本地显示异常也不会推送到服务器"
                               })
@@ -8936,9 +8974,454 @@ var S;
 
 
 /***/ }),
-/* 57 */,
-/* 58 */,
-/* 59 */,
+/* 57 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Impl": () => (/* binding */ Impl),
+/* harmony export */   "asHtmlElement": () => (/* binding */ asHtmlElement),
+/* harmony export */   "contentEditable": () => (/* binding */ contentEditable),
+/* harmony export */   "dir": () => (/* binding */ dir),
+/* harmony export */   "insertAdjacentElement": () => (/* binding */ insertAdjacentElement),
+/* harmony export */   "insertAdjacentHTML": () => (/* binding */ insertAdjacentHTML),
+/* harmony export */   "insertAdjacentText": () => (/* binding */ insertAdjacentText),
+/* harmony export */   "nodeType": () => (/* binding */ nodeType),
+/* harmony export */   "ofElement": () => (/* binding */ ofElement),
+/* harmony export */   "ofNode": () => (/* binding */ ofNode),
+/* harmony export */   "setContentEditable": () => (/* binding */ setContentEditable),
+/* harmony export */   "setDir": () => (/* binding */ setDir)
+/* harmony export */ });
+/* harmony import */ var _Webapi_Dom_Node_bs_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(33);
+/* harmony import */ var _Webapi_Dom_Types_bs_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(34);
+/* harmony import */ var _Webapi_Dom_Element_bs_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(32);
+/* harmony import */ var _Webapi_Dom_EventTarget_bs_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(35);
+/* harmony import */ var _Webapi_Dom_GlobalEventHandlers_bs_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(39);
+
+
+
+
+
+
+
+
+function Impl(T) {
+  var contentEditable = function (self) {
+    return _Webapi_Dom_Types_bs_js__WEBPACK_IMPORTED_MODULE_1__.decodeContentEditable(self.contentEditable);
+  };
+  var setContentEditable = function (self, value) {
+    self.contentEditable = _Webapi_Dom_Types_bs_js__WEBPACK_IMPORTED_MODULE_1__.encodeContentEditable(value);
+    
+  };
+  var dir = function (self) {
+    return _Webapi_Dom_Types_bs_js__WEBPACK_IMPORTED_MODULE_1__.decodeDir(self.dir);
+  };
+  var setDir = function (self, value) {
+    self.dir = _Webapi_Dom_Types_bs_js__WEBPACK_IMPORTED_MODULE_1__.encodeDir(value);
+    
+  };
+  return {
+          ofElement: _Webapi_Dom_Element_bs_js__WEBPACK_IMPORTED_MODULE_2__.asHtmlElement,
+          contentEditable: contentEditable,
+          setContentEditable: setContentEditable,
+          dir: dir,
+          setDir: setDir
+        };
+}
+
+var include = _Webapi_Dom_Node_bs_js__WEBPACK_IMPORTED_MODULE_0__.Impl({});
+
+_Webapi_Dom_EventTarget_bs_js__WEBPACK_IMPORTED_MODULE_3__.Impl({});
+
+_Webapi_Dom_GlobalEventHandlers_bs_js__WEBPACK_IMPORTED_MODULE_4__.Impl({});
+
+var include$1 = _Webapi_Dom_Element_bs_js__WEBPACK_IMPORTED_MODULE_2__.Impl({});
+
+function contentEditable(self) {
+  return _Webapi_Dom_Types_bs_js__WEBPACK_IMPORTED_MODULE_1__.decodeContentEditable(self.contentEditable);
+}
+
+function setContentEditable(self, value) {
+  self.contentEditable = _Webapi_Dom_Types_bs_js__WEBPACK_IMPORTED_MODULE_1__.encodeContentEditable(value);
+  
+}
+
+function dir(self) {
+  return _Webapi_Dom_Types_bs_js__WEBPACK_IMPORTED_MODULE_1__.decodeDir(self.dir);
+}
+
+function setDir(self, value) {
+  self.dir = _Webapi_Dom_Types_bs_js__WEBPACK_IMPORTED_MODULE_1__.encodeDir(value);
+  
+}
+
+var nodeType = include.nodeType;
+
+var asHtmlElement = include$1.asHtmlElement;
+
+var ofNode = include$1.ofNode;
+
+var insertAdjacentElement = include$1.insertAdjacentElement;
+
+var insertAdjacentHTML = include$1.insertAdjacentHTML;
+
+var insertAdjacentText = include$1.insertAdjacentText;
+
+var ofElement = _Webapi_Dom_Element_bs_js__WEBPACK_IMPORTED_MODULE_2__.asHtmlElement;
+
+
+/* include Not a pure module */
+
+
+/***/ }),
+/* 58 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ExamId": () => (/* binding */ ExamId),
+/* harmony export */   "GMEntry": () => (/* binding */ GMEntry),
+/* harmony export */   "NoLeaveCheck": () => (/* binding */ NoLeaveCheck),
+/* harmony export */   "Option2": () => (/* binding */ Option2),
+/* harmony export */   "Server": () => (/* binding */ Server),
+/* harmony export */   "SortProblems": () => (/* binding */ SortProblems),
+/* harmony export */   "SyncAnswers": () => (/* binding */ SyncAnswers),
+/* harmony export */   "Token": () => (/* binding */ Token),
+/* harmony export */   "Username": () => (/* binding */ Username)
+/* harmony export */ });
+/* harmony import */ var rescript_lib_es6_lazy_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(59);
+/* harmony import */ var rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(24);
+/* harmony import */ var rescript_lib_es6_camlinternalLazy_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(61);
+// Generated by ReScript, PLEASE EDIT WITH CARE
+
+
+
+
+
+function Make(T) {
+  var v = {
+    contents: {
+      LAZY_DONE: false,
+      VAL: (function () {
+          var cached = GM_getValue(T.name);
+          if (cached == null) {
+            GM_setValue(T.name, T.init);
+            return T.init;
+          } else {
+            return rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_1__.some(cached);
+          }
+        })
+    }
+  };
+  var get = function (param) {
+    return rescript_lib_es6_camlinternalLazy_js__WEBPACK_IMPORTED_MODULE_2__.force(v.contents);
+  };
+  var set = function (newVal) {
+    v.contents = rescript_lib_es6_lazy_js__WEBPACK_IMPORTED_MODULE_0__.from_val(newVal);
+    GM_setValue(T.name, newVal);
+    
+  };
+  return {
+          v: v,
+          get: get,
+          set: set
+        };
+}
+
+var GMEntry = {
+  Make: Make
+};
+
+function Make$1(T) {
+  var v = {
+    contents: undefined
+  };
+  var get = function (param) {
+    return v.contents;
+  };
+  var set = function (newVal) {
+    v.contents = newVal;
+    
+  };
+  return {
+          v: v,
+          get: get,
+          set: set
+        };
+}
+
+var Option2 = {
+  Make: Make$1
+};
+
+var name = "username";
+
+var v = {
+  contents: {
+    LAZY_DONE: false,
+    VAL: (function () {
+        var cached = GM_getValue(name);
+        if (cached == null) {
+          GM_setValue(name, undefined);
+          return ;
+        } else {
+          return rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_1__.some(cached);
+        }
+      })
+  }
+};
+
+function get(param) {
+  return rescript_lib_es6_camlinternalLazy_js__WEBPACK_IMPORTED_MODULE_2__.force(v.contents);
+}
+
+function set(newVal) {
+  v.contents = rescript_lib_es6_lazy_js__WEBPACK_IMPORTED_MODULE_0__.from_val(newVal);
+  GM_setValue(name, newVal);
+  
+}
+
+var Username = {
+  v: v,
+  get: get,
+  set: set
+};
+
+var name$1 = "server";
+
+var v$1 = {
+  contents: {
+    LAZY_DONE: false,
+    VAL: (function () {
+        var cached = GM_getValue(name$1);
+        if (cached == null) {
+          GM_setValue(name$1, undefined);
+          return ;
+        } else {
+          return rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_1__.some(cached);
+        }
+      })
+  }
+};
+
+function get$1(param) {
+  return rescript_lib_es6_camlinternalLazy_js__WEBPACK_IMPORTED_MODULE_2__.force(v$1.contents);
+}
+
+function set$1(newVal) {
+  v$1.contents = rescript_lib_es6_lazy_js__WEBPACK_IMPORTED_MODULE_0__.from_val(newVal);
+  GM_setValue(name$1, newVal);
+  
+}
+
+var Server = {
+  v: v$1,
+  get: get$1,
+  set: set$1
+};
+
+var name$2 = "sync_answers";
+
+var init = true;
+
+var v$2 = {
+  contents: {
+    LAZY_DONE: false,
+    VAL: (function () {
+        var cached = GM_getValue(name$2);
+        if (cached == null) {
+          GM_setValue(name$2, init);
+          return init;
+        } else {
+          return rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_1__.some(cached);
+        }
+      })
+  }
+};
+
+function get$2(param) {
+  return rescript_lib_es6_camlinternalLazy_js__WEBPACK_IMPORTED_MODULE_2__.force(v$2.contents);
+}
+
+function set$2(newVal) {
+  v$2.contents = rescript_lib_es6_lazy_js__WEBPACK_IMPORTED_MODULE_0__.from_val(newVal);
+  GM_setValue(name$2, newVal);
+  
+}
+
+var SyncAnswers = {
+  v: v$2,
+  get: get$2,
+  set: set$2
+};
+
+var name$3 = "no_leave_check";
+
+var init$1 = true;
+
+var v$3 = {
+  contents: {
+    LAZY_DONE: false,
+    VAL: (function () {
+        var cached = GM_getValue(name$3);
+        if (cached == null) {
+          GM_setValue(name$3, init$1);
+          return init$1;
+        } else {
+          return rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_1__.some(cached);
+        }
+      })
+  }
+};
+
+function get$3(param) {
+  return rescript_lib_es6_camlinternalLazy_js__WEBPACK_IMPORTED_MODULE_2__.force(v$3.contents);
+}
+
+function set$3(newVal) {
+  v$3.contents = rescript_lib_es6_lazy_js__WEBPACK_IMPORTED_MODULE_0__.from_val(newVal);
+  GM_setValue(name$3, newVal);
+  
+}
+
+var NoLeaveCheck = {
+  v: v$3,
+  get: get$3,
+  set: set$3
+};
+
+var name$4 = "sort_problems";
+
+var init$2 = false;
+
+var v$4 = {
+  contents: {
+    LAZY_DONE: false,
+    VAL: (function () {
+        var cached = GM_getValue(name$4);
+        if (cached == null) {
+          GM_setValue(name$4, init$2);
+          return init$2;
+        } else {
+          return rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_1__.some(cached);
+        }
+      })
+  }
+};
+
+function get$4(param) {
+  return rescript_lib_es6_camlinternalLazy_js__WEBPACK_IMPORTED_MODULE_2__.force(v$4.contents);
+}
+
+function set$4(newVal) {
+  v$4.contents = rescript_lib_es6_lazy_js__WEBPACK_IMPORTED_MODULE_0__.from_val(newVal);
+  GM_setValue(name$4, newVal);
+  
+}
+
+var SortProblems = {
+  v: v$4,
+  get: get$4,
+  set: set$4
+};
+
+var v$5 = {
+  contents: undefined
+};
+
+function get$5(param) {
+  return v$5.contents;
+}
+
+function set$5(newVal) {
+  v$5.contents = newVal;
+  
+}
+
+var Token = {
+  v: v$5,
+  get: get$5,
+  set: set$5
+};
+
+var v$6 = {
+  contents: undefined
+};
+
+function get$6(param) {
+  return v$6.contents;
+}
+
+function set$6(newVal) {
+  v$6.contents = newVal;
+  
+}
+
+var ExamId = {
+  v: v$6,
+  get: get$6,
+  set: set$6
+};
+
+
+/* No side effect */
+
+
+/***/ }),
+/* 59 */
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Undefined": () => (/* binding */ Undefined),
+/* harmony export */   "force_val": () => (/* binding */ force_val),
+/* harmony export */   "from_fun": () => (/* binding */ from_fun),
+/* harmony export */   "from_val": () => (/* binding */ from_val),
+/* harmony export */   "is_val": () => (/* binding */ is_val),
+/* harmony export */   "lazy_from_fun": () => (/* binding */ lazy_from_fun),
+/* harmony export */   "lazy_from_val": () => (/* binding */ lazy_from_val),
+/* harmony export */   "lazy_is_val": () => (/* binding */ lazy_is_val)
+/* harmony export */ });
+/* harmony import */ var _curry_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
+/* harmony import */ var _camlinternalLazy_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(61);
+
+
+
+
+
+function from_fun(f) {
+  return {
+          LAZY_DONE: false,
+          VAL: (function () {
+              return _curry_js__WEBPACK_IMPORTED_MODULE_0__._1(f, undefined);
+            })
+        };
+}
+
+function from_val(v) {
+  return {
+          LAZY_DONE: true,
+          VAL: v
+        };
+}
+
+var Undefined = _camlinternalLazy_js__WEBPACK_IMPORTED_MODULE_1__.Undefined;
+
+var force_val = _camlinternalLazy_js__WEBPACK_IMPORTED_MODULE_1__.force_val;
+
+var is_val = _camlinternalLazy_js__WEBPACK_IMPORTED_MODULE_1__.is_val;
+
+var lazy_from_fun = from_fun;
+
+var lazy_from_val = from_val;
+
+var lazy_is_val = _camlinternalLazy_js__WEBPACK_IMPORTED_MODULE_1__.is_val;
+
+
+/* No side effect */
+
+
+/***/ }),
 /* 60 */
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
@@ -9315,6 +9798,74 @@ function binarySearch(sorted, key) {
       _lo = mid;
       continue ;
     };
+  }
+}
+
+
+/* No side effect */
+
+
+/***/ }),
+/* 61 */
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Undefined": () => (/* binding */ Undefined),
+/* harmony export */   "force": () => (/* binding */ force),
+/* harmony export */   "force_val": () => (/* binding */ force_val),
+/* harmony export */   "is_val": () => (/* binding */ is_val)
+/* harmony export */ });
+/* harmony import */ var _caml_exceptions_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(49);
+
+
+
+
+function is_val(l) {
+  return l.LAZY_DONE;
+}
+
+var Undefined = /* @__PURE__ */_caml_exceptions_js__WEBPACK_IMPORTED_MODULE_0__.create("CamlinternalLazy.Undefined");
+
+function forward_with_closure(blk, closure) {
+  var result = closure();
+  blk.VAL = result;
+  blk.LAZY_DONE = true;
+  return result;
+}
+
+function raise_undefined() {
+  throw {
+        RE_EXN_ID: Undefined,
+        Error: new Error()
+      };
+}
+
+function force(lzv) {
+  if (lzv.LAZY_DONE) {
+    return lzv.VAL;
+  } else {
+    var closure = lzv.VAL;
+    lzv.VAL = raise_undefined;
+    try {
+      return forward_with_closure(lzv, closure);
+    }
+    catch (e){
+      lzv.VAL = (function () {
+          throw e;
+        });
+      throw e;
+    }
+  }
+}
+
+function force_val(lzv) {
+  if (lzv.LAZY_DONE) {
+    return lzv.VAL;
+  } else {
+    var closure = lzv.VAL;
+    lzv.VAL = raise_undefined;
+    return forward_with_closure(lzv, closure);
   }
 }
 

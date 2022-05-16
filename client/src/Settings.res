@@ -1,85 +1,126 @@
 open Utils
+open Belt
+open Config
 
 @module
 external style: {..} = "./style.mod.less"
 
-module TitleText = {
-  @react.component
-  let make = (~title: string, ~content: option<string>=?) =>
-    <p>
-      <strong> {React.string(title)} </strong>
-      {content->Belt.Option.map(React.string)->Belt.Option.getWithDefault(React.null)}
-    </p>
-}
-
 module React = Recks
 module ReactDOMRe = Recks.DOMRe
 
-type entryType =
-  | Text(option<string>)
-  | Checkbox(option<bool>)
+module Entries = {
+  type text = {
+    value: option<string>,
+    pattern: option<string>,
+    onSubmit: string => unit,
+  }
 
-module Entry = {
-  @react.component
-  let make = (
-    ~name: string,
-    ~title: string,
-    ~ty: entryType,
-    ~required: option<bool>=?,
-    ~pattern: option<string>=?,
-  ) =>
-    <div className={style["settingsEntry"]}>
-      <label htmlFor={name}> {React.string(title)} </label>
-      {
-        let (ty, value, checked) = switch ty {
-        | Text(value) => ("text", value, None)
-        | Checkbox(checked) => ("checkbox", None, checked)
-        }
-        <input name title type_=ty ?value ?checked ?required ?pattern />
+  type checkbox = {checked: option<bool>, onSubmit: bool => unit}
+
+  type entryType =
+    | Text(text)
+    | Checkbox(checkbox)
+
+  type entrySchema = {
+    name: string,
+    title: string,
+    ty: entryType,
+  }
+
+  module type T = {
+    let v: array<entrySchema>
+  }
+
+  let make = (v: array<entrySchema>) => {
+    let (ele, doSubmits) = v->Array.reduce(([], []), ((ele, doSubmits), {name, title, ty}) => {
+      let (ty, value, checked, pattern, required, submit) = switch ty {
+      | Text({value, pattern, onSubmit}) => (
+          "text",
+          value,
+          None,
+          pattern,
+          true,
+          ele => onSubmit(ele->Webapi.Dom.HtmlElement.value),
+        )
+      | Checkbox({checked, onSubmit}) => (
+          "checkbox",
+          None,
+          checked,
+          None,
+          false,
+          ele => onSubmit(ele->Webapi.Dom.HtmlElement.checked),
+        )
       }
-    </div>
+      let input = <input name title type_=ty ?value ?checked ?pattern required />
+      (
+        ele->Array.concat([
+          <div className={style["settingsEntry"]}>
+            <label htmlFor={name}> {React.string(title)} </label> input
+          </div>,
+        ]),
+        doSubmits->Array.concat([
+          () =>
+            input
+            ->React.toNode
+            ->Option.flatMap(Webapi.Dom.HtmlElement.ofNode)
+            ->Option.forEach(submit),
+        ]),
+      )
+    })
+    (ele, () => doSubmits->Array.forEach(f => f()))
+  }
 }
 
-// TODO: use pure rescript?
-%%raw(`
-  import {
-    NO_LEAVE_CHECK,
-    SERVER,
-    SORT_PROBLEMS,
-    SYNC_ANSWERS,
-    USERNAME,
-  } from "./config";
-`)
-
 let make = () => {
+  let (entries, doSubmit) = Entries.make([
+    {
+      name: "username",
+      title: `用户名`,
+      ty: Entries.Text({
+        value: Username.get(),
+        pattern: Some("[a-z][_a-z0-9]*"),
+        onSubmit: s => Username.set(Some(s)),
+      }),
+    },
+    {
+      name: "server",
+      title: `服务器`,
+      ty: Entries.Text({
+        value: Server.get(),
+        pattern: Some("https?://.+"),
+        onSubmit: s => Server.set(Some(s)),
+      }),
+    },
+    {
+      name: "sync_answers",
+      title: `同步答案`,
+      ty: Entries.Checkbox({checked: SyncAnswers.get(), onSubmit: c => SyncAnswers.set(c->Some)}),
+    },
+    {
+      name: "sort_problems",
+      title: `排序答案`,
+      ty: Entries.Checkbox({checked: SortProblems.get(), onSubmit: c => SortProblems.set(c->Some)}),
+    },
+    {
+      name: "no_leave_check",
+      title: `拦截切屏检测`,
+      ty: Entries.Checkbox({checked: NoLeaveCheck.get(), onSubmit: c => NoLeaveCheck.set(c->Some)}),
+    },
+  ])
+
+  module TitleText = {
+    @react.component
+    let make = (~title: string, ~content: string) =>
+      <p> <strong> {React.string(title)} </strong> {content->React.string} </p>
+  }
+
   <div>
     <form
-      onSubmit={ev =>
-        // TODO: use pure rescript?
-        %raw(`
-          (ev) => {
-            ev.preventDefault();
-            const form = new FormData(this);
-            USERNAME.value = form.get("username");
-            SERVER.value = form.get("server");
-            NO_LEAVE_CHECK.value = form.get("no_leave_check") === "on";
-            SORT_PROBLEMS.value = form.get("sort_problems") === "on";
-            SYNC_ANSWERS.value = form.get("sync_answers") === "on";
-          }
-        `)(ev)}>
-      <Entry name="username" title=`用户名` ty=Text(Some(%raw(`USERNAME.value`))) />
-      <Entry name="server" title=`服务器` ty=Text(Some(%raw(`SERVER.value`))) />
-      <Entry
-        name="sync_answers" title=`同步答案` ty=Checkbox(Some(%raw(`SYNC_ANSWERS.value`)))
-      />
-      <Entry
-        name="sort_problems" title=`排序答案` ty=Checkbox(Some(%raw(`SORT_PROBLEMS.value`)))
-      />
-      <Entry
-        name="no_leave_check"
-        title=`拦截切屏检测`
-        ty=Checkbox(Some(%raw(`NO_LEAVE_CHECK.value`)))
-      />
+      onSubmit={ev => {
+        ReactEvent.Form.preventDefault(ev)
+        doSubmit()
+      }}>
+      <div> {entries->React.array} </div>
       <div className={style["settingsSubmit"]}>
         <div className={style["settingsSubmitTip"]}>
           <i> {React.string(`*更改设置后请刷新页面`)} </i>
@@ -88,7 +129,7 @@ let make = () => {
       </div>
     </form>
     <div className={style["about"]}>
-      <TitleText title=`功能特性：` />
+      <p> <strong> {`功能特性：`->React.string} </strong> </p>
       <UList>
         <TitleText
           title=`同步答案：`
