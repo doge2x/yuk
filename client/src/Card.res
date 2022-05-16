@@ -34,34 +34,29 @@ module Answer = {
 }
 
 module Problem = {
-  type choice = {
-    key: string,
-    value: string,
-  }
-
-  type options =
-    | Choice(array<choice>)
+  type ty =
+    | Choice
     | Blank
     | Text
 
   type t = {
     id: int,
-    options: options,
+    ty: ty,
   }
 
-  let makeChoice = (id: int, choices: array<choice>) => {
+  let makeChoice = (id: int) => {
     id: id,
-    options: choices->Choice,
+    ty: Choice,
   }
 
   let makeBlank = (id: int) => {
     id: id,
-    options: Blank,
+    ty: Blank,
   }
 
   let makeText = (id: int) => {
     id: id,
-    options: Text,
+    ty: Text,
   }
 }
 
@@ -147,7 +142,7 @@ module Card = {
       ->Array.map(((choice, users)) => {
         // Update tooltips to show how many users have selected the option.
         this._tooltips
-        ->Map.String.get(choice->this._choiceMap)
+        ->Map.String.get(choice)
         ->Option.forEach(u =>
           u->Tooltip.setContent(_percent(users->Array.size, chiceDetails->Map.String.size))
         )
@@ -189,7 +184,7 @@ module Card = {
         ->Option.forEach(most =>
           fillToUsers
           ->Array.map(((fill, users)) => (fill, users->Array.size))
-          ->SortArray.stableSortBy(((_, a), (_, b)) => a - b)
+          ->SortArray.stableSortBy(((_, a), (_, b)) => b - a)
           ->Array.get(0)
           ->Option.forEach(((text, count)) =>
             most->Tooltip.setContent(`(${_percent(count, blankDetails->Map.String.size)}) ${text}`)
@@ -247,20 +242,18 @@ module Card = {
     }
   }
 
-  let make = (prob: Problem.t, ele: Dom.element, choiceMap: string => string): t => {
-    let (tooltips, details) = switch prob.options {
-    | Problem.Choice(c) => (
-        c
-        ->Array.zip(
-          ele->Utils.querySelectorAllElements(".item-body .checkboxInput, .item-body .radioInput"),
-        )
-        ->Array.reduce(Map.String.empty, (tooltips, (c, ele)) => {
-          tooltips->Map.String.set(c.key, ele->Tooltip.make)
+  let make = (prob: Problem.t, subjectItem: Dom.element, choiceMap: string => string): t => {
+    let (tooltips, details) = switch prob.ty {
+    | Problem.Choice => (
+        subjectItem
+        ->Utils.querySelectorAllElements(".item-body .checkboxInput, .item-body .radioInput")
+        ->Array.reduceWithIndex(Map.String.empty, (tooltips, ele, idx) => {
+          tooltips->Map.String.set(Js.String.fromCharCode(idx + 65), ele->Tooltip.make)
         }),
         Map.String.empty->Choice,
       )
     | Problem.Blank => (
-        ele
+        subjectItem
         ->Utils.querySelectorAllElements(".item-body .blank-item-dynamic")
         ->Array.reduceWithIndex(Map.String.empty, (tooltips, ele, idx) =>
           tooltips->Map.String.set((idx + 1)->Int.toString, ele->Tooltip.make)
@@ -277,7 +270,7 @@ module Card = {
       _choiceMap: choiceMap,
     }
 
-    ele
+    subjectItem
     ->Element.querySelector(".item-type")
     ->Option.forEach(el => {
       el->Element.classList->DomTokenList.add(style["clickable"])
