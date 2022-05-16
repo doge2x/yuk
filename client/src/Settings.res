@@ -1,5 +1,16 @@
+open Utils
+
 @module
 external style: {..} = "./style.mod.less"
+
+module TitleText = {
+  @react.component
+  let make = (~title: string, ~content: option<string>=?) =>
+    <p>
+      <strong> {React.string(title)} </strong>
+      {content->Belt.Option.map(React.string)->Belt.Option.getWithDefault(React.null)}
+    </p>
+}
 
 module React = Recks
 module ReactDOMRe = Recks.DOMRe
@@ -27,27 +38,6 @@ module Entry = {
         <input name title type_=ty ?value ?checked ?required ?pattern />
       }
     </div>
-}
-
-module TitleText = {
-  @react.component
-  let make = (~title: string, ~content: option<string>=?) =>
-    <p>
-      <strong> {React.string(title)} </strong>
-      {content->Belt.Option.map(React.string)->Belt.Option.getWithDefault(React.null)}
-    </p>
-}
-
-module UList = {
-  @react.component
-  let make = (~children: React.element) =>
-    <ul>
-      {React.Children.toArray(children)
-      ->Js.Array2.map(item => {
-        <li> item </li>
-      })
-      ->React.array}
-    </ul>
 }
 
 // TODO: use pure rescript?

@@ -82,7 +82,10 @@ export function createElement(
   props: Props | null | undefined,
   ...children: any[]
 ): Recks.JSX.Element {
-  let nodeArray = childrenToArray(children);
+  props = props ?? {};
+  let nodeArray = childrenToArray(children).concat(
+    childrenToArray(props.children)
+  );
   if (typeof t === "function") {
     return t({ ...props, children: nodeArray });
   } else {
@@ -97,6 +100,14 @@ export function Fragment(props: Recks.PropWithChildren<{}>): DocumentFragment {
   let frag = document.createDocumentFragment();
   addChildren(frag, childrenToArray(props.children));
   return frag;
+}
+
+export function toNode(element: Recks.JSX.Element): Node | null {
+  if (element instanceof Node) {
+    return element;
+  } else {
+    return null;
+  }
 }
 
 export const Children = {
