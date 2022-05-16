@@ -3,7 +3,7 @@ module Props = ReactDOM.Props
 type element
 
 @module
-external _recks: {..} = "./recks"
+external recks: {..} = "./recks"
 
 @val
 external null: element = "null"
@@ -12,10 +12,10 @@ external int: int => element = "%identity"
 external string: string => element = "%identity"
 external array: array<element> => element = "%identity"
 let toNode: element => option<Dom.node> = element =>
-  _recks["toNode"](. element)->Js.Nullable.toOption
+  recks["toNode"](. element)->Js.Nullable.toOption
 
 module Children = {
-  let toArray: element => array<element> = ele => _recks["Children"]["toArray"](. ele)
+  let toArray: element => array<element> = ele => recks["Children"]["toArray"](. ele)
 }
 
 @variadic @module("./recks")
@@ -37,5 +37,5 @@ module DOMRe = {
 
 module Fragment = {
   @react.component
-  let make = (~children) => _recks["Fragment"](. {"children": children})
+  let make = (~children) => recks["Fragment"](. {"children": children})
 }

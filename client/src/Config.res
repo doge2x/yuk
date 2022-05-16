@@ -64,7 +64,7 @@ module SyncAnswers = GMEntry.Make({
 
 module NoLeaveCheck = GMEntry.Make({
   type val = bool
-  let name = "no_leave_check"
+  let name = "nol_eavecheck"
   let init = Some(true)
 })
 

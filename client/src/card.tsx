@@ -1,58 +1,52 @@
+import { throws } from "assert";
 import {
-  Card as Card_,
-  Problem as Problem_,
+  ChoiceDetail,
+  BlankDetail,
+  TextDetail,
   Answer as Answer_,
-} from "./Card.bs";
+} from "./Detail.bs";
 import { Problem, ProblemType } from "./types";
 
 export class Card {
-  private card: any;
-  private type_: ProblemType;
+  updateUI: () => void;
+  updateAnswer: (username: string, answer: any) => void;
 
   constructor(
     problem: Problem,
     subjectItem: Element,
     choiceMap: (s: string) => string
   ) {
-    let prob;
+    interface Proto {
+      updateUI(detail: any): void;
+      updateAnswer(detail: any, username: string, answer: any): void;
+    }
+
+    let detail: any;
+    let detailProto: Proto;
+
     switch (problem.ProblemType) {
       case ProblemType.SingleChoice:
       case ProblemType.MultipleChoice:
       case ProblemType.Judgement:
-      case ProblemType.Polling:
-        prob = Problem_.makeChoice(problem.problem_id);
+      case ProblemType.Polling: {
+        detail = ChoiceDetail.make(subjectItem, choiceMap);
+        detailProto = ChoiceDetail;
         break;
-      case ProblemType.FillBlank:
-        prob = Problem_.makeBlank(problem.problem_id);
+      }
+      case ProblemType.FillBlank: {
+        detail = BlankDetail.make(subjectItem, undefined);
+        detailProto = BlankDetail;
         break;
-      case ProblemType.ShortAnswer:
-        prob = Problem_.makeText(problem.problem_id);
+      }
+      case ProblemType.ShortAnswer: {
+        detail = TextDetail.make(subjectItem, undefined);
+        detailProto = TextDetail;
         break;
+      }
     }
-    this.card = Card_.make(prob, subjectItem, choiceMap);
-    this.type_ = problem.ProblemType;
-  }
 
-  updateAnswer(username: string, result: any) {
-    let ans;
-    switch (this.type_) {
-      case ProblemType.SingleChoice:
-      case ProblemType.MultipleChoice:
-      case ProblemType.Judgement:
-      case ProblemType.Polling:
-        ans = Answer_.makeChoice(result);
-        break;
-      case ProblemType.FillBlank:
-        ans = Answer_.makeBlank(result);
-        break;
-      case ProblemType.ShortAnswer:
-        ans = Answer_.makeText(result);
-        break;
-    }
-    Card_.updateAnswer(this.card, username, ans);
-  }
-
-  updateUI() {
-    Card_.updateUI(this.card);
+    this.updateUI = () => detailProto.updateUI(detail);
+    this.updateAnswer = (username, answer) =>
+      detailProto.updateAnswer(detail, username, answer);
   }
 }
