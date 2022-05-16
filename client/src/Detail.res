@@ -62,7 +62,7 @@ module Detail = {
         (),
       )->Option.forEach(((_, doc)) =>
         {
-          <div className={[style["mainBody"], style["answerDetail"]]->Array.joinWith(" ", s => s)}>
+          <div className={[style["mainBody"], style["answerDetail"]]->Utils.joinStrings(" ")}>
             this.detailHtml
           </div>
         }
@@ -74,24 +74,24 @@ module Detail = {
     }
 
     let make = (subjectItem: Dom.element, extra: T.extra) => {
-      let context = T.make(subjectItem, extra)
       let this = {
         detail: Map.String.empty,
         detailHtml: React.null,
-        context: context,
+        context: T.make(subjectItem, extra),
       }
 
+      // Click problem title to show detail of answers.
       subjectItem
       ->Element.querySelector(".item-type")
       ->Option.forEach(el => {
         el->Element.classList->DomTokenList.add(style["clickable"])
-        let rect = el->Element.getBoundingClientRect
-        el->Element.addClickEventListener(_ =>
+        el->Element.addClickEventListener(_ => {
+          let rect = el->Element.getBoundingClientRect
           this->showDetail(
             ~top=rect->DomRect.top->Float.toInt,
             ~left=rect->DomRect.left->Float.toInt,
           )
-        )
+        })
       })
 
       this
@@ -160,13 +160,16 @@ module ChoiceDetail = Detail.Make({
 module BlankDetail = Detail.Make({
   type extra = unit
   type context = {tooltips: Map.String.t<Tooltip.t>}
-  type answer = array<(string, string)>
+  type answer = Js.Dict.t<string>
   type detail = Map.String.t<answer>
 
   let updateUI = (detail: detail, context: context) =>
     detail
-    ->Map.String.reduce(Map.String.empty, (blankToFillToUsers, user, blankAndFill) =>
-      blankAndFill->Array.reduce(blankToFillToUsers, (blankToFillToUsers, (blank, fill)) =>
+    ->Map.String.reduce(Map.String.empty, (blankToFillToUsers, user, blankToFill) =>
+      blankToFill
+      ->Js.Dict.entries
+      ->sortByKey
+      ->Array.reduce(blankToFillToUsers, (blankToFillToUsers, (blank, fill)) =>
         blankToFillToUsers->Map.String.update(blank, fillToUsers =>
           fillToUsers
           ->Option.getWithDefault(Map.String.empty)
@@ -220,10 +223,10 @@ module BlankDetail = Detail.Make({
 
   let make = (subjectItem: Dom.element, _: extra) => {
     tooltips: subjectItem
-    ->Utils.querySelectorAllElements(".item-body .checkboxInput, .item-body .radioInput")
-    ->Array.reduceWithIndex(Map.String.empty, (tooltips, ele, idx) => {
-      tooltips->Map.String.set(Js.String.fromCharCode(idx + 65), ele->Tooltip.make)
-    }),
+    ->Utils.querySelectorAllElements(".item-body .blank-item-dynamic")
+    ->Array.reduceWithIndex(Map.String.empty, (tooltips, ele, idx) =>
+      tooltips->Map.String.set((idx + 1)->Int.toString, ele->Tooltip.make)
+    ),
   }
 })
 

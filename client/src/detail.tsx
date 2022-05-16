@@ -7,7 +7,7 @@ import {
 } from "./Detail.bs";
 import { Problem, ProblemType } from "./types";
 
-export class Card {
+export class Detail {
   updateUI: () => void;
   updateAnswer: (username: string, answer: any) => void;
 
