@@ -1,5 +1,5 @@
 import { Paper, Problem, ProblemDict, UserAnswer } from "./types";
-import { ProblemCard } from "./card";
+import { Card } from "./card";
 import Recks from "./recks";
 import { showSettings } from "./settings";
 import { Map2, openWin } from "./utils";
@@ -11,15 +11,11 @@ export const CHOICE_MAP: Map2<number, Map<string, string>> = new Map2(
 );
 
 export class UI {
-  private problems: Map<number, ProblemCard>;
+  private problems: Map<number, Card>;
 
   constructor(paper: Paper) {
     // Header.
-    document.head.append(
-      <>
-        <style>{styleCss.toString()}</style>
-      </>
-    );
+    document.head.append(<style>{styleCss.toString()}</style>);
     // document.head.append(<style>{styleCss.toString()}</style>);
     const header = document.body.querySelector(".header-title") as HTMLElement;
     header.classList.add(STYLE.clickable);
@@ -41,16 +37,18 @@ export class UI {
       .querySelectorAll(".exam-main--body .subject-item")
       .forEach((subjectItem, idx) => {
         const prob = problems[idx];
+        const choiceMap: Map<string, string> =
+          CHOICE_MAP.get(prob.problem_id) ?? new Map();
         cards.set(
           prob.problem_id,
-          new ProblemCard(prob, CHOICE_MAP.get(prob.problem_id)!, subjectItem)
+          new Card(prob, subjectItem, (ori) => choiceMap.get(ori) ?? ori)
         );
       });
     this.problems = cards;
   }
 
   updateAnswer({ username, problem_id, result }: UserAnswer) {
-    this.problems.get(problem_id)?.updateResult(username, result);
+    this.problems.get(problem_id)?.updateAnswer(username, result);
   }
 
   updateUI() {

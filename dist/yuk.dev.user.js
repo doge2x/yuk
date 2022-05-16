@@ -940,7 +940,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "about": () => (/* binding */ about),
 /* harmony export */   "answerDetail": () => (/* binding */ answerDetail),
 /* harmony export */   "answerDetailShortAnswer": () => (/* binding */ answerDetailShortAnswer),
-/* harmony export */   "answerDetailTitle": () => (/* binding */ answerDetailTitle),
 /* harmony export */   "clickable": () => (/* binding */ clickable),
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
 /* harmony export */   "mainBody": () => (/* binding */ mainBody),
@@ -961,12 +960,11 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".KtSQfh45DkzY1g4GTjHG {\n  font-size: 0.75rem;\n  opacity: 0.5;\n}\n.nl0fbl1STsJ1E_ijRd86 {\n  cursor: pointer;\n}\n.E2WC5WHEPccqZwiUT6nE p {\n  margin: 0;\n}\n.E2WC5WHEPccqZwiUT6nE ul {\n  margin: 0;\n  padding-left: 1.5rem;\n}\n.E2WC5WHEPccqZwiUT6nE img {\n  height: auto;\n  width: 80%;\n}\n.r7r59h_4Cl6wDjEogUvK {\n  font-weight: bold;\n}\n.yZjHuTE6p_FgmbomqPFx {\n  border-style: groove;\n  border-width: thin;\n  margin: 0.2rem;\n  padding: 0.2rem;\n  min-height: min-content;\n  min-width: min-content;\n  max-width: 35rem;\n}\n._o1gebpEn7x9Td7Hes6g {\n  display: flex;\n  flex-direction: column;\n}\n.YalNJJWiNdYPl5FzO1a_ {\n  display: flex;\n  flex-direction: row;\n  margin-bottom: 0.5rem;\n  justify-content: space-between;\n  align-items: center;\n}\n.YalNJJWiNdYPl5FzO1a_ label {\n  font-weight: bold;\n}\n.YalNJJWiNdYPl5FzO1a_ input {\n  height: fit-content;\n  text-align: right;\n}\n.GkQ9CK5Dl58odGzSBLOP {\n  display: flex;\n  flex-direction: column;\n  justify-content: end;\n  align-items: end;\n}\n.CY2oPnMnonyamRy15TxZ {\n  margin-bottom: 0.5rem;\n}\n.GkQ9CK5Dl58odGzSBLOP button {\n  cursor: pointer;\n}\n.ssrv8ndZGNgvTL1Osr92 p {\n  margin-bottom: 0.25rem;\n}\n.ssrv8ndZGNgvTL1Osr92 ul {\n  padding-left: 1.5rem;\n  margin: 0 0 0.25rem 0;\n}\n.ssrv8ndZGNgvTL1Osr92 ul li {\n  margin-bottom: 0.25rem;\n}\n.UJVcq5yyVfeOtVL0dWlT {\n  display: flex;\n  flex-direction: column;\n}\n.UJVcq5yyVfeOtVL0dWlT img {\n  width: 100%;\n  height: auto;\n}\n.SB_KxqWR3Sju8ih5VCQj {\n  border-style: groove;\n  border-width: thin;\n  padding: 0.5rem;\n}\n.YM_eQySt5C11IITqy_br {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 0.5rem;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".KtSQfh45DkzY1g4GTjHG {\n  font-size: 0.75rem;\n  opacity: 0.5;\n}\n.nl0fbl1STsJ1E_ijRd86 {\n  cursor: pointer;\n}\n.E2WC5WHEPccqZwiUT6nE p {\n  margin: 0;\n}\n.E2WC5WHEPccqZwiUT6nE ul {\n  margin: 0;\n  padding-left: 1.5rem;\n}\n.E2WC5WHEPccqZwiUT6nE img {\n  height: auto;\n  width: 80%;\n}\n.yZjHuTE6p_FgmbomqPFx {\n  border-style: groove;\n  border-width: thin;\n  margin: 0.2rem;\n  padding: 0.2rem;\n}\n._o1gebpEn7x9Td7Hes6g {\n  display: flex;\n  flex-direction: column;\n}\n.YalNJJWiNdYPl5FzO1a_ {\n  display: flex;\n  flex-direction: row;\n  margin-bottom: 0.5rem;\n  justify-content: space-between;\n  align-items: center;\n}\n.YalNJJWiNdYPl5FzO1a_ label {\n  font-weight: bold;\n}\n.YalNJJWiNdYPl5FzO1a_ input {\n  height: fit-content;\n  text-align: right;\n}\n.GkQ9CK5Dl58odGzSBLOP {\n  display: flex;\n  flex-direction: column;\n  justify-content: end;\n  align-items: end;\n}\n.CY2oPnMnonyamRy15TxZ {\n  margin-bottom: 0.5rem;\n}\n.GkQ9CK5Dl58odGzSBLOP button {\n  cursor: pointer;\n}\n.ssrv8ndZGNgvTL1Osr92 p {\n  margin-bottom: 0.25rem;\n}\n.ssrv8ndZGNgvTL1Osr92 ul {\n  padding-left: 1.5rem;\n  margin: 0 0 0.25rem 0;\n}\n.ssrv8ndZGNgvTL1Osr92 ul li {\n  margin-bottom: 0.25rem;\n}\n.UJVcq5yyVfeOtVL0dWlT {\n  display: flex;\n  flex-direction: column;\n}\n.UJVcq5yyVfeOtVL0dWlT img {\n  width: 100%;\n  height: auto;\n}\n.SB_KxqWR3Sju8ih5VCQj {\n  border-style: groove;\n  border-width: thin;\n  padding: 0.5rem;\n}\n.YM_eQySt5C11IITqy_br {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 0.5rem;\n}\n", ""]);
 // Exports
 var mainBody = "KtSQfh45DkzY1g4GTjHG";
 var clickable = "nl0fbl1STsJ1E_ijRd86";
 var answerDetail = "E2WC5WHEPccqZwiUT6nE";
-var answerDetailTitle = "r7r59h_4Cl6wDjEogUvK";
 var answerDetailShortAnswer = "yZjHuTE6p_FgmbomqPFx";
 var settings = "_o1gebpEn7x9Td7Hes6g";
 var settingsEntry = "YalNJJWiNdYPl5FzO1a_";
@@ -1105,7 +1103,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Children": () => (/* binding */ Children),
 /* harmony export */   "Fragment": () => (/* binding */ Fragment),
 /* harmony export */   "createElement": () => (/* binding */ createElement),
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   "toNode": () => (/* binding */ toNode)
 /* harmony export */ });
 function childrenToArray(children) {
     if (Array.isArray(children)) {
@@ -1163,7 +1162,8 @@ function setDOMProps(ele, props) {
     }
 }
 function createElement(t, props, ...children) {
-    let nodeArray = childrenToArray(children);
+    props = props !== null && props !== void 0 ? props : {};
+    let nodeArray = childrenToArray(children).concat(childrenToArray(props.children));
     if (typeof t === "function") {
         return t(Object.assign(Object.assign({}, props), { children: nodeArray }));
     }
@@ -1178,6 +1178,14 @@ function Fragment(props) {
     let frag = document.createDocumentFragment();
     addChildren(frag, childrenToArray(props.children));
     return frag;
+}
+function toNode(element) {
+    if (element instanceof Node) {
+        return element;
+    }
+    else {
+        return null;
+    }
 }
 const Children = {
     toArray: childrenToArray,
@@ -1347,8 +1355,7 @@ const CHOICE_MAP = new _utils__WEBPACK_IMPORTED_MODULE_3__.Map2(() => new Map())
 class UI {
     constructor(paper) {
         // Header.
-        document.head.append(_recks__WEBPACK_IMPORTED_MODULE_1__["default"].createElement(_recks__WEBPACK_IMPORTED_MODULE_1__["default"].Fragment, null,
-            _recks__WEBPACK_IMPORTED_MODULE_1__["default"].createElement("style", null, _style_mod_less__WEBPACK_IMPORTED_MODULE_4__["default"].toString())));
+        document.head.append(_recks__WEBPACK_IMPORTED_MODULE_1__["default"].createElement("style", null, _style_mod_less__WEBPACK_IMPORTED_MODULE_4__["default"].toString()));
         // document.head.append(<style>{styleCss.toString()}</style>);
         const header = document.body.querySelector(".header-title");
         header.classList.add(_style_mod_less__WEBPACK_IMPORTED_MODULE_4__.clickable);
@@ -1369,14 +1376,16 @@ class UI {
         document.body
             .querySelectorAll(".exam-main--body .subject-item")
             .forEach((subjectItem, idx) => {
+            var _a;
             const prob = problems[idx];
-            cards.set(prob.problem_id, new _card__WEBPACK_IMPORTED_MODULE_0__.ProblemCard(prob, CHOICE_MAP.get(prob.problem_id), subjectItem));
+            const choiceMap = (_a = CHOICE_MAP.get(prob.problem_id)) !== null && _a !== void 0 ? _a : new Map();
+            cards.set(prob.problem_id, new _card__WEBPACK_IMPORTED_MODULE_0__.Card(prob, subjectItem, (ori) => { var _a; return (_a = choiceMap.get(ori)) !== null && _a !== void 0 ? _a : ori; }));
         });
         this.problems = cards;
     }
     updateAnswer({ username, problem_id, result }) {
         var _a;
-        (_a = this.problems.get(problem_id)) === null || _a === void 0 ? void 0 : _a.updateResult(username, result);
+        (_a = this.problems.get(problem_id)) === null || _a === void 0 ? void 0 : _a.updateAnswer(username, result);
     }
     updateUI() {
         this.problems.forEach((card) => card.updateUI());
@@ -1406,207 +1415,52 @@ function showConfirmUpload(dataURL, cb) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "ProblemCard": () => (/* binding */ ProblemCard)
+/* harmony export */   "Card": () => (/* binding */ Card)
 /* harmony export */ });
-/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(16);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(9);
-/* harmony import */ var _recks__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(13);
-/* harmony import */ var _style_mod_less__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(10);
+/* harmony import */ var _Card_bs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(43);
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(16);
 
 
-
-
-class Tooltip {
-    constructor(ele) {
-        if (ele instanceof HTMLElement) {
-            this.ele = ele;
-        }
-        else {
-            throw new Error("not a html element");
-        }
-    }
-    get content() {
-        return this.ele.title;
-    }
-    set content(val) {
-        this.ele.title = val;
-    }
-}
-function percent(n) {
-    return `${Math.floor(n * 100)}%`;
-}
-class ProblemCard {
-    constructor(problem, choiceMap, subjectItem) {
-        /**
-         * Username => Result
-         */
-        this.results = new Map();
-        const type = problem.ProblemType;
-        const options = new Map();
-        const itemType = subjectItem.querySelector(".item-type");
-        itemType.classList.add(_style_mod_less__WEBPACK_IMPORTED_MODULE_3__.clickable);
-        itemType.addEventListener("click", () => this.showAll(itemType.getBoundingClientRect()));
-        // Init UI.
-        switch (type) {
-            case _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.SingleChoice:
-            case _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.MultipleChoice:
-            case _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.Polling:
-            case _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.Judgement:
-                subjectItem
-                    .querySelectorAll(".item-body .checkboxInput, .item-body .radioInput")
-                    .forEach((ele, idx) => {
-                    options.set(problem.Options[idx].key, new Tooltip(ele));
-                });
+class Card {
+    constructor(problem, subjectItem, choiceMap) {
+        let prob;
+        switch (problem.ProblemType) {
+            case _types__WEBPACK_IMPORTED_MODULE_1__.ProblemType.SingleChoice:
+            case _types__WEBPACK_IMPORTED_MODULE_1__.ProblemType.MultipleChoice:
+            case _types__WEBPACK_IMPORTED_MODULE_1__.ProblemType.Judgement:
+            case _types__WEBPACK_IMPORTED_MODULE_1__.ProblemType.Polling:
+                prob = _Card_bs__WEBPACK_IMPORTED_MODULE_0__.Problem.makeChoice(problem.problem_id, problem.Options);
                 break;
-            case _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.FillBlank:
-                subjectItem
-                    .querySelectorAll(".item-body .blank-item-dynamic")
-                    .forEach((ele, idx) => {
-                    options.set(`${idx + 1}`, new Tooltip(ele));
-                });
+            case _types__WEBPACK_IMPORTED_MODULE_1__.ProblemType.FillBlank:
+                prob = _Card_bs__WEBPACK_IMPORTED_MODULE_0__.Problem.makeBlank(problem.problem_id);
+                break;
+            case _types__WEBPACK_IMPORTED_MODULE_1__.ProblemType.ShortAnswer:
+                prob = _Card_bs__WEBPACK_IMPORTED_MODULE_0__.Problem.makeText(problem.problem_id);
                 break;
         }
-        this.type = type;
-        this.options = options;
-        this.choiceMap = choiceMap;
+        this.card = _Card_bs__WEBPACK_IMPORTED_MODULE_0__.Card.make(prob, subjectItem, choiceMap);
+        this.type_ = problem.ProblemType;
     }
-    showAll({ left, top }) {
-        const win = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.openWin)("详细答案", {
-            height: 150,
-            width: 200,
-            left: left,
-            top: top,
-        });
-        const mainBody = (_recks__WEBPACK_IMPORTED_MODULE_2__["default"].createElement("div", { className: [_style_mod_less__WEBPACK_IMPORTED_MODULE_3__.mainBody, _style_mod_less__WEBPACK_IMPORTED_MODULE_3__.answerDetail].join(" ") }));
-        win.document.body.append(mainBody);
-        function Text(props) {
-            return (_recks__WEBPACK_IMPORTED_MODULE_2__["default"].createElement("p", { className: props.title === true ? _style_mod_less__WEBPACK_IMPORTED_MODULE_3__.answerDetailTitle : "" }, props.children));
-        }
-        function UList(props) {
-            return (_recks__WEBPACK_IMPORTED_MODULE_2__["default"].createElement("ul", null, Array.isArray(props.children)
-                ? props.children.map((ele) => _recks__WEBPACK_IMPORTED_MODULE_2__["default"].createElement("li", null, ele))
-                : props.children));
-        }
-        switch (this.type) {
-            case _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.SingleChoice:
-            case _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.MultipleChoice:
-            case _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.Polling:
-            case _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.Judgement:
-                // Choice
-                //   - User1
-                //   - User2
-                const choiceToUsers = new _utils__WEBPACK_IMPORTED_MODULE_1__.Map2(() => []);
-                this.results.forEach((res, username) => {
-                    res.forEach((choice) => {
-                        if (this.type === _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.Judgement) {
-                            choice = choice === "true" ? "正确" : "错误";
-                        }
-                        else if ((0,_types__WEBPACK_IMPORTED_MODULE_0__.isChoice)(this.type)) {
-                            choice = this.choiceMap.get(choice);
-                        }
-                        choiceToUsers.setWith(choice, (users) => {
-                            users.push(username);
-                            return users;
-                        });
-                    });
-                });
-                [...choiceToUsers.entries()]
-                    .sort(([a], [b]) => (a < b ? -1 : 1))
-                    .forEach(([choice, users]) => {
-                    mainBody.appendChild(_recks__WEBPACK_IMPORTED_MODULE_2__["default"].createElement("div", null,
-                        _recks__WEBPACK_IMPORTED_MODULE_2__["default"].createElement(Text, { title: true }, choice),
-                        _recks__WEBPACK_IMPORTED_MODULE_2__["default"].createElement(UList, null, users.sort().map((user) => (_recks__WEBPACK_IMPORTED_MODULE_2__["default"].createElement(Text, null, user))))));
-                });
+    updateAnswer(username, result) {
+        let ans;
+        switch (this.type_) {
+            case _types__WEBPACK_IMPORTED_MODULE_1__.ProblemType.SingleChoice:
+            case _types__WEBPACK_IMPORTED_MODULE_1__.ProblemType.MultipleChoice:
+            case _types__WEBPACK_IMPORTED_MODULE_1__.ProblemType.Judgement:
+            case _types__WEBPACK_IMPORTED_MODULE_1__.ProblemType.Polling:
+                ans = _Card_bs__WEBPACK_IMPORTED_MODULE_0__.Answer.makeChoice(result);
                 break;
-            case _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.FillBlank:
-                // #Blank
-                //   - result1
-                //     - user1
-                //     - user2
-                const blankToResToUsers = new _utils__WEBPACK_IMPORTED_MODULE_1__.Map2(() => new _utils__WEBPACK_IMPORTED_MODULE_1__.Map2(() => []));
-                this.results.forEach((res, username) => {
-                    Object.entries(res).forEach(([key, ans]) => {
-                        blankToResToUsers.setWith(key, (val) => {
-                            val.setWith(ans, (users) => {
-                                users.push(username);
-                                return users;
-                            });
-                            return val;
-                        });
-                    });
-                });
-                [...blankToResToUsers.entries()]
-                    .sort(([a], [b]) => (a < b ? -1 : 1))
-                    .forEach(([blank, resToUsers]) => {
-                    mainBody.appendChild(_recks__WEBPACK_IMPORTED_MODULE_2__["default"].createElement("div", null,
-                        _recks__WEBPACK_IMPORTED_MODULE_2__["default"].createElement(Text, { title: true }, `#${blank}`),
-                        _recks__WEBPACK_IMPORTED_MODULE_2__["default"].createElement(UList, null, [...resToUsers]
-                            .sort(([a], [b]) => (a < b ? -1 : 1))
-                            .map(([res, users]) => (_recks__WEBPACK_IMPORTED_MODULE_2__["default"].createElement(_recks__WEBPACK_IMPORTED_MODULE_2__["default"].Fragment, null,
-                            _recks__WEBPACK_IMPORTED_MODULE_2__["default"].createElement(Text, null, res),
-                            _recks__WEBPACK_IMPORTED_MODULE_2__["default"].createElement(UList, null, users.sort().map((user) => (_recks__WEBPACK_IMPORTED_MODULE_2__["default"].createElement(Text, null, user))))))))));
-                });
+            case _types__WEBPACK_IMPORTED_MODULE_1__.ProblemType.FillBlank:
+                ans = _Card_bs__WEBPACK_IMPORTED_MODULE_0__.Answer.makeBlank(result);
                 break;
-            case _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.ShortAnswer:
-                // - User1
-                //   <content>
-                //   - File1
-                //   - File2
-                mainBody.appendChild(_recks__WEBPACK_IMPORTED_MODULE_2__["default"].createElement(UList, null, [...this.results.entries()]
-                    .sort(([a], [b]) => (a < b ? -1 : 1))
-                    .filter(([_, res]) => "content" in res)
-                    .map(([username, res]) => {
-                    var _a, _b;
-                    return (_recks__WEBPACK_IMPORTED_MODULE_2__["default"].createElement(_recks__WEBPACK_IMPORTED_MODULE_2__["default"].Fragment, null,
-                        _recks__WEBPACK_IMPORTED_MODULE_2__["default"].createElement(Text, { title: true }, username),
-                        _recks__WEBPACK_IMPORTED_MODULE_2__["default"].createElement("div", null,
-                            _recks__WEBPACK_IMPORTED_MODULE_2__["default"].createElement("div", { className: _style_mod_less__WEBPACK_IMPORTED_MODULE_3__.answerDetailShortAnswer, dangerouslySetInnerHTML: { __html: res.content } }),
-                            _recks__WEBPACK_IMPORTED_MODULE_2__["default"].createElement(UList, null, ((_b = (_a = res.attachments) === null || _a === void 0 ? void 0 : _a.filelist) !== null && _b !== void 0 ? _b : []).map((atta) => (_recks__WEBPACK_IMPORTED_MODULE_2__["default"].createElement("a", { href: atta.fileUrl }, atta.fileName)))))));
-                })));
+            case _types__WEBPACK_IMPORTED_MODULE_1__.ProblemType.ShortAnswer:
+                ans = _Card_bs__WEBPACK_IMPORTED_MODULE_0__.Answer.makeText(result);
                 break;
         }
-    }
-    updateResult(username, result) {
-        this.results.set(username, result);
+        _Card_bs__WEBPACK_IMPORTED_MODULE_0__.Card.updateAnswer(this.card, username, ans);
     }
     updateUI() {
-        // Reset tooltip of options.
-        this.options.forEach((opt) => (opt.content = ""));
-        switch (this.type) {
-            // Tooltip show how many users have selected the option.
-            case _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.SingleChoice:
-            case _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.MultipleChoice:
-            case _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.Polling:
-            case _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.Judgement:
-                const optCounter = new _utils__WEBPACK_IMPORTED_MODULE_1__.Map2(() => 0);
-                this.results.forEach((res) => {
-                    res.forEach((key) => {
-                        optCounter.setWith(key, (n) => n + 1);
-                    });
-                });
-                optCounter.forEach((num, key) => {
-                    this.options.get(key).content = `${percent(num / this.results.size)}`;
-                });
-                break;
-            // Tooltip show the most popular answers.
-            case _types__WEBPACK_IMPORTED_MODULE_0__.ProblemType.FillBlank:
-                const ansCounter = new _utils__WEBPACK_IMPORTED_MODULE_1__.Map2(() => new _utils__WEBPACK_IMPORTED_MODULE_1__.Map2(() => 0));
-                this.results.forEach((res) => {
-                    Object.entries(res).forEach(([key, text]) => {
-                        ansCounter.setWith(key, (counter) => {
-                            counter.setWith(text, (n) => n + 1);
-                            return counter;
-                        });
-                    });
-                });
-                ansCounter.forEach((counter, key) => {
-                    const [text, num] = [...counter.entries()]
-                        .sort(([_1, a], [_2, b]) => a - b)
-                        .pop();
-                    this.options.get(key).content = `(${percent(num / this.results.size)}) ${text}`;
-                });
-                break;
-        }
+        _Card_bs__WEBPACK_IMPORTED_MODULE_0__.Card.updateUI(this.card);
     }
 }
 
@@ -1643,13 +1497,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "React": () => (/* binding */ React),
 /* harmony export */   "ReactDOMRe": () => (/* binding */ ReactDOMRe),
 /* harmony export */   "TitleText": () => (/* binding */ TitleText),
-/* harmony export */   "UList": () => (/* binding */ UList),
 /* harmony export */   "make": () => (/* binding */ make),
 /* harmony export */   "style": () => (/* binding */ style)
 /* harmony export */ });
-/* harmony import */ var rescript_lib_es6_curry_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(21);
-/* harmony import */ var _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(23);
-/* harmony import */ var rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(26);
+/* harmony import */ var _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(21);
+/* harmony import */ var _Utils_bs_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(26);
+/* harmony import */ var rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(31);
 /* harmony import */ var rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(24);
 /* harmony import */ var _style_mod_less__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(10);
 /* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(14);
@@ -1662,6 +1515,21 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var style = _style_mod_less__WEBPACK_IMPORTED_MODULE_4__;
+
+function Settings$TitleText(Props) {
+  var title = Props.title;
+  var content = Props.content;
+  return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.DOMRe.createDOMElementVariadic("p", undefined, [
+              _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.DOMRe.createDOMElementVariadic("strong", undefined, [title]),
+              rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_2__.getWithDefault(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_2__.map(content, (function (prim) {
+                          return prim;
+                        })), null)
+            ]);
+}
+
+var TitleText = {
+  make: Settings$TitleText
+};
 
 function Settings$Entry(Props) {
   var name = Props.name;
@@ -1698,13 +1566,13 @@ function Settings$Entry(Props) {
   if (tmp$2 !== undefined) {
     tmp.value = rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_3__.valFromOption(tmp$2);
   }
-  return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
+  return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.DOMRe.createDOMElementVariadic("div", {
               className: style.settingsEntry
             }, [
-              _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("label", {
+              _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.DOMRe.createDOMElementVariadic("label", {
                     htmlFor: name
                   }, [title]),
-              _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("input", rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_3__.some(tmp), [])
+              _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.DOMRe.createDOMElementVariadic("input", rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_3__.some(tmp), [])
             ]);
 }
 
@@ -1712,38 +1580,12 @@ var Entry = {
   make: Settings$Entry
 };
 
-function Settings$TitleText(Props) {
-  var title = Props.title;
-  var content = Props.content;
-  return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("p", undefined, [
-              _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("strong", undefined, [title]),
-              rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_2__.getWithDefault(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_2__.map(content, (function (prim) {
-                          return prim;
-                        })), null)
-            ]);
-}
-
-var TitleText = {
-  make: Settings$TitleText
-};
-
-function Settings$UList(Props) {
-  var children = Props.children;
-  return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("ul", undefined, [rescript_lib_es6_curry_js__WEBPACK_IMPORTED_MODULE_0__._1(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.Children.toArray, children).map(function (item) {
-                    return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("li", undefined, [item]);
-                  })]);
-}
-
-var UList = {
-  make: Settings$UList
-};
-
 
 ;
 
 function make(param) {
-  return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", undefined, [
-              _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("form", {
+  return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.DOMRe.createDOMElementVariadic("div", undefined, [
+              _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.DOMRe.createDOMElementVariadic("form", {
                     onSubmit: (function (ev) {
                         return ((ev) => {
             ev.preventDefault();
@@ -1756,7 +1598,7 @@ function make(param) {
           })(ev);
                       })
                   }, [
-                    _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(Settings$Entry, {
+                    _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.createElement(Settings$Entry, {
                           name: "username",
                           title: "用户名",
                           ty: {
@@ -1764,7 +1606,7 @@ function make(param) {
                             _0: _config__WEBPACK_IMPORTED_MODULE_5__.USERNAME.value
                           }
                         }),
-                    _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(Settings$Entry, {
+                    _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.createElement(Settings$Entry, {
                           name: "server",
                           title: "服务器",
                           ty: {
@@ -1772,7 +1614,7 @@ function make(param) {
                             _0: _config__WEBPACK_IMPORTED_MODULE_5__.SERVER.value
                           }
                         }),
-                    _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(Settings$Entry, {
+                    _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.createElement(Settings$Entry, {
                           name: "sync_answers",
                           title: "同步答案",
                           ty: {
@@ -1780,7 +1622,7 @@ function make(param) {
                             _0: _config__WEBPACK_IMPORTED_MODULE_5__.SYNC_ANSWERS.value
                           }
                         }),
-                    _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(Settings$Entry, {
+                    _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.createElement(Settings$Entry, {
                           name: "sort_problems",
                           title: "排序答案",
                           ty: {
@@ -1788,7 +1630,7 @@ function make(param) {
                             _0: _config__WEBPACK_IMPORTED_MODULE_5__.SORT_PROBLEMS.value
                           }
                         }),
-                    _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(Settings$Entry, {
+                    _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.createElement(Settings$Entry, {
                           name: "no_leave_check",
                           title: "拦截切屏检测",
                           ty: {
@@ -1796,41 +1638,41 @@ function make(param) {
                             _0: _config__WEBPACK_IMPORTED_MODULE_5__.NO_LEAVE_CHECK.value
                           }
                         }),
-                    _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
+                    _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.DOMRe.createDOMElementVariadic("div", {
                           className: style.settingsSubmit
                         }, [
-                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
+                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.DOMRe.createDOMElementVariadic("div", {
                                 className: style.settingsSubmitTip
-                              }, [_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("i", undefined, ["*更改设置后请刷新页面"])]),
-                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", undefined, [_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("button", undefined, ["提交"])])
+                              }, [_Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.DOMRe.createDOMElementVariadic("i", undefined, ["*更改设置后请刷新页面"])]),
+                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.DOMRe.createDOMElementVariadic("div", undefined, [_Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.DOMRe.createDOMElementVariadic("button", undefined, ["提交"])])
                         ])
                   ]),
-              _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
+              _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.DOMRe.createDOMElementVariadic("div", {
                     className: style.about
                   }, [
-                    _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(Settings$TitleText, {
+                    _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.createElement(Settings$TitleText, {
                           title: "功能特性："
                         }),
-                    _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElementVariadic(Settings$UList, {
+                    _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.createElementVariadic(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_1__.UList.make, {
                           children: null
                         }, [
-                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(Settings$TitleText, {
+                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.createElement(Settings$TitleText, {
                                 title: "同步答案：",
                                 content: "点击题目显示详细答案，在选项/填空处悬停显示简略答案"
                               }),
-                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(Settings$TitleText, {
+                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.createElement(Settings$TitleText, {
                                 title: "排序题目：",
                                 content: "根据 ID 对题目和选项进行重新排序"
                               }),
-                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(Settings$TitleText, {
+                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.createElement(Settings$TitleText, {
                                 title: "拦截切屏检测：",
                                 content: "随意切换页面、窗口不会被发现"
                               }),
-                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(Settings$TitleText, {
+                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.createElement(Settings$TitleText, {
                                 title: "拦截上传截图：",
                                 content: "仅当用户确认后，才会上传截图"
                               }),
-                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(Settings$TitleText, {
+                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.createElement(Settings$TitleText, {
                                 title: "拦截异常状态：",
                                 content: "即使本地显示异常也不会推送到服务器"
                               })
@@ -1849,6 +1691,94 @@ var ReactDOMRe;
 
 /***/ }),
 /* 21 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Children": () => (/* binding */ Children),
+/* harmony export */   "DOMRe": () => (/* binding */ DOMRe),
+/* harmony export */   "Fragment": () => (/* binding */ Fragment),
+/* harmony export */   "Props": () => (/* binding */ Props),
+/* harmony export */   "_recks": () => (/* binding */ _recks),
+/* harmony export */   "createElement": () => (/* binding */ createElement),
+/* harmony export */   "createElementVariadic": () => (/* binding */ createElementVariadic),
+/* harmony export */   "toNode": () => (/* binding */ toNode)
+/* harmony export */ });
+/* harmony import */ var _recks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
+/* harmony import */ var rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(24);
+/* harmony import */ var rescript_lib_es6_caml_splice_call_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(25);
+// Generated by ReScript, PLEASE EDIT WITH CARE
+
+
+
+
+
+var _recks = _recks__WEBPACK_IMPORTED_MODULE_0__;
+
+function toNode(element) {
+  return rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_1__.nullable_to_opt(_recks.toNode(element));
+}
+
+function toArray(ele) {
+  return _recks.Children.toArray(ele);
+}
+
+var Children = {
+  toArray: toArray
+};
+
+function createElementVariadic(prim0, prim1, prim2) {
+  return rescript_lib_es6_caml_splice_call_js__WEBPACK_IMPORTED_MODULE_2__.spliceApply(_recks__WEBPACK_IMPORTED_MODULE_0__.createElement, [
+              prim0,
+              prim1,
+              prim2
+            ]);
+}
+
+function createElement(prim0, prim1) {
+  return _recks__WEBPACK_IMPORTED_MODULE_0__.createElement(prim0, prim1);
+}
+
+function createDOMElementVariadic(prim0, prim1, prim2) {
+  return rescript_lib_es6_caml_splice_call_js__WEBPACK_IMPORTED_MODULE_2__.spliceApply(_recks__WEBPACK_IMPORTED_MODULE_0__.createElement, [
+              prim0,
+              prim1 !== undefined ? rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_1__.valFromOption(prim1) : undefined,
+              prim2
+            ]);
+}
+
+function createElement$1(prim0, prim1, prim2) {
+  return rescript_lib_es6_caml_splice_call_js__WEBPACK_IMPORTED_MODULE_2__.spliceApply(_recks__WEBPACK_IMPORTED_MODULE_0__.createElement, [
+              prim0,
+              prim1 !== undefined ? rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_1__.valFromOption(prim1) : undefined,
+              prim2
+            ]);
+}
+
+var DOMRe = {
+  createDOMElementVariadic: createDOMElementVariadic,
+  createElement: createElement$1
+};
+
+function Recks$Fragment(Props) {
+  var children = Props.children;
+  return _recks.Fragment({
+              children: children
+            });
+}
+
+var Fragment = {
+  make: Recks$Fragment
+};
+
+var Props;
+
+
+/* _recks Not a pure module */
+
+
+/***/ }),
+/* 22 */
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -1871,7 +1801,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "__8": () => (/* binding */ __8),
 /* harmony export */   "app": () => (/* binding */ app)
 /* harmony export */ });
-/* harmony import */ var _caml_array_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
+/* harmony import */ var _caml_array_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(23);
 
 
 
@@ -2383,7 +2313,7 @@ function __8(o) {
 
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -2512,67 +2442,6 @@ function dup(prim) {
 
 
 /* No side effect */
-
-
-/***/ }),
-/* 23 */
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Children": () => (/* binding */ Children),
-/* harmony export */   "DOMRe": () => (/* binding */ DOMRe),
-/* harmony export */   "Props": () => (/* binding */ Props),
-/* harmony export */   "createDOMElementVariadic": () => (/* binding */ createDOMElementVariadic),
-/* harmony export */   "createElement": () => (/* binding */ createElement),
-/* harmony export */   "createElementVariadic": () => (/* binding */ createElementVariadic)
-/* harmony export */ });
-/* harmony import */ var _recks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
-/* harmony import */ var rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(24);
-/* harmony import */ var rescript_lib_es6_caml_splice_call_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(25);
-// Generated by ReScript, PLEASE EDIT WITH CARE
-
-
-
-
-
-var _recks = _recks__WEBPACK_IMPORTED_MODULE_0__;
-
-var toArray = _recks.Children.toArray;
-
-var Children = {
-  _recks: _recks,
-  toArray: toArray
-};
-
-function createDOMElementVariadic(prim0, prim1, prim2) {
-  return rescript_lib_es6_caml_splice_call_js__WEBPACK_IMPORTED_MODULE_2__.spliceApply(_recks__WEBPACK_IMPORTED_MODULE_0__.createElement, [
-              prim0,
-              prim1 !== undefined ? rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_1__.valFromOption(prim1) : undefined,
-              prim2
-            ]);
-}
-
-function createElementVariadic(prim0, prim1, prim2) {
-  return rescript_lib_es6_caml_splice_call_js__WEBPACK_IMPORTED_MODULE_2__.spliceApply(_recks__WEBPACK_IMPORTED_MODULE_0__.createElement, [
-              prim0,
-              prim1,
-              prim2
-            ]);
-}
-
-function createElement(prim0, prim1) {
-  return _recks__WEBPACK_IMPORTED_MODULE_0__.createElement(prim0, prim1);
-}
-
-var DOMRe = {
-  createDOMElementVariadic: createDOMElementVariadic
-};
-
-var Props;
-
-
-/* _recks Not a pure module */
 
 
 /***/ }),
@@ -2715,6 +2584,1171 @@ var spliceObjApply = (function(obj,name,args){
 
 /***/ }),
 /* 26 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "React": () => (/* binding */ React),
+/* harmony export */   "ReactDOMRe": () => (/* binding */ ReactDOMRe),
+/* harmony export */   "UList": () => (/* binding */ UList),
+/* harmony export */   "openWin": () => (/* binding */ openWin),
+/* harmony export */   "querySelectorAllElements": () => (/* binding */ querySelectorAllElements),
+/* harmony export */   "styleCss": () => (/* binding */ styleCss)
+/* harmony export */ });
+/* harmony import */ var _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(21);
+/* harmony import */ var rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(27);
+/* harmony import */ var rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(31);
+/* harmony import */ var rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(24);
+/* harmony import */ var _style_mod_less__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(10);
+/* harmony import */ var rescript_webapi_src_Webapi_Dom_Webapi_Dom_Element_bs_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(32);
+/* harmony import */ var rescript_webapi_src_Webapi_Dom_Webapi_Dom_Document_bs_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(41);
+// Generated by ReScript, PLEASE EDIT WITH CARE
+
+
+
+
+
+
+
+
+
+var styleCss = _style_mod_less__WEBPACK_IMPORTED_MODULE_4__["default"];
+
+function querySelectorAllElements(t, q) {
+  return rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_1__.keepMap(Array.prototype.slice.call(t.querySelectorAll(q)), rescript_webapi_src_Webapi_Dom_Webapi_Dom_Element_bs_js__WEBPACK_IMPORTED_MODULE_5__.ofNode);
+}
+
+function Utils$UList(Props) {
+  var children = Props.children;
+  return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.DOMRe.createDOMElementVariadic("ul", undefined, [_Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.Children.toArray(children).map(function (item) {
+                    return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.DOMRe.createDOMElementVariadic("li", undefined, [item]);
+                  })]);
+}
+
+var UList = {
+  make: Utils$UList
+};
+
+function openWin(title, height, width, left, top, param) {
+  return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_2__.flatMap(rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_3__.nullable_to_opt(window.open("", "", rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_1__.joinWith([
+                          [
+                            "location",
+                            "no"
+                          ],
+                          [
+                            "height",
+                            String(height)
+                          ],
+                          [
+                            "width",
+                            String(width)
+                          ],
+                          [
+                            "left",
+                            String(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_2__.getWithDefault(left, 0))
+                          ],
+                          [
+                            "top",
+                            String(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_2__.getWithDefault(top, 0))
+                          ]
+                        ], ",", (function (param) {
+                            return param[0] + "=" + param[1];
+                          })))), (function (win) {
+                return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_2__.map(rescript_webapi_src_Webapi_Dom_Webapi_Dom_Document_bs_js__WEBPACK_IMPORTED_MODULE_6__.asHtmlDocument(win.document), (function (html) {
+                              rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_2__.forEach(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.toNode(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.createElementVariadic(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.Fragment.make, {
+                                            children: null
+                                          }, [
+                                            _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.DOMRe.createDOMElementVariadic("title", undefined, [title]),
+                                            _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.DOMRe.createDOMElementVariadic("style", undefined, [styleCss.toString()])
+                                          ])), (function (node) {
+                                      html.head.appendChild(node);
+                                      
+                                    }));
+                              return [
+                                      win,
+                                      html
+                                    ];
+                            }));
+              }));
+}
+
+var React;
+
+var ReactDOMRe;
+
+
+/* styleCss Not a pure module */
+
+
+/***/ }),
+/* 27 */
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "blit": () => (/* binding */ blit),
+/* harmony export */   "blitUnsafe": () => (/* binding */ blitUnsafe),
+/* harmony export */   "cmp": () => (/* binding */ cmp),
+/* harmony export */   "cmpU": () => (/* binding */ cmpU),
+/* harmony export */   "concat": () => (/* binding */ concat),
+/* harmony export */   "concatMany": () => (/* binding */ concatMany),
+/* harmony export */   "eq": () => (/* binding */ eq),
+/* harmony export */   "eqU": () => (/* binding */ eqU),
+/* harmony export */   "every": () => (/* binding */ every),
+/* harmony export */   "every2": () => (/* binding */ every2),
+/* harmony export */   "every2U": () => (/* binding */ every2U),
+/* harmony export */   "everyU": () => (/* binding */ everyU),
+/* harmony export */   "fill": () => (/* binding */ fill),
+/* harmony export */   "forEach": () => (/* binding */ forEach),
+/* harmony export */   "forEachU": () => (/* binding */ forEachU),
+/* harmony export */   "forEachWithIndex": () => (/* binding */ forEachWithIndex),
+/* harmony export */   "forEachWithIndexU": () => (/* binding */ forEachWithIndexU),
+/* harmony export */   "get": () => (/* binding */ get),
+/* harmony export */   "getBy": () => (/* binding */ getBy),
+/* harmony export */   "getByU": () => (/* binding */ getByU),
+/* harmony export */   "getExn": () => (/* binding */ getExn),
+/* harmony export */   "getIndexBy": () => (/* binding */ getIndexBy),
+/* harmony export */   "getIndexByU": () => (/* binding */ getIndexByU),
+/* harmony export */   "joinWith": () => (/* binding */ joinWith),
+/* harmony export */   "joinWithU": () => (/* binding */ joinWithU),
+/* harmony export */   "keep": () => (/* binding */ keep),
+/* harmony export */   "keepMap": () => (/* binding */ keepMap),
+/* harmony export */   "keepMapU": () => (/* binding */ keepMapU),
+/* harmony export */   "keepU": () => (/* binding */ keepU),
+/* harmony export */   "keepWithIndex": () => (/* binding */ keepWithIndex),
+/* harmony export */   "keepWithIndexU": () => (/* binding */ keepWithIndexU),
+/* harmony export */   "make": () => (/* binding */ make),
+/* harmony export */   "makeBy": () => (/* binding */ makeBy),
+/* harmony export */   "makeByAndShuffle": () => (/* binding */ makeByAndShuffle),
+/* harmony export */   "makeByAndShuffleU": () => (/* binding */ makeByAndShuffleU),
+/* harmony export */   "makeByU": () => (/* binding */ makeByU),
+/* harmony export */   "map": () => (/* binding */ map),
+/* harmony export */   "mapU": () => (/* binding */ mapU),
+/* harmony export */   "mapWithIndex": () => (/* binding */ mapWithIndex),
+/* harmony export */   "mapWithIndexU": () => (/* binding */ mapWithIndexU),
+/* harmony export */   "partition": () => (/* binding */ partition),
+/* harmony export */   "partitionU": () => (/* binding */ partitionU),
+/* harmony export */   "range": () => (/* binding */ range),
+/* harmony export */   "rangeBy": () => (/* binding */ rangeBy),
+/* harmony export */   "reduce": () => (/* binding */ reduce),
+/* harmony export */   "reduceReverse": () => (/* binding */ reduceReverse),
+/* harmony export */   "reduceReverse2": () => (/* binding */ reduceReverse2),
+/* harmony export */   "reduceReverse2U": () => (/* binding */ reduceReverse2U),
+/* harmony export */   "reduceReverseU": () => (/* binding */ reduceReverseU),
+/* harmony export */   "reduceU": () => (/* binding */ reduceU),
+/* harmony export */   "reduceWithIndex": () => (/* binding */ reduceWithIndex),
+/* harmony export */   "reduceWithIndexU": () => (/* binding */ reduceWithIndexU),
+/* harmony export */   "reverse": () => (/* binding */ reverse),
+/* harmony export */   "reverseInPlace": () => (/* binding */ reverseInPlace),
+/* harmony export */   "set": () => (/* binding */ set),
+/* harmony export */   "setExn": () => (/* binding */ setExn),
+/* harmony export */   "shuffle": () => (/* binding */ shuffle),
+/* harmony export */   "shuffleInPlace": () => (/* binding */ shuffleInPlace),
+/* harmony export */   "slice": () => (/* binding */ slice),
+/* harmony export */   "sliceToEnd": () => (/* binding */ sliceToEnd),
+/* harmony export */   "some": () => (/* binding */ some),
+/* harmony export */   "some2": () => (/* binding */ some2),
+/* harmony export */   "some2U": () => (/* binding */ some2U),
+/* harmony export */   "someU": () => (/* binding */ someU),
+/* harmony export */   "unzip": () => (/* binding */ unzip),
+/* harmony export */   "zip": () => (/* binding */ zip),
+/* harmony export */   "zipBy": () => (/* binding */ zipBy),
+/* harmony export */   "zipByU": () => (/* binding */ zipByU)
+/* harmony export */ });
+/* harmony import */ var _caml_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(28);
+/* harmony import */ var _curry_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(22);
+/* harmony import */ var _js_math_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(29);
+/* harmony import */ var _caml_option_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(24);
+
+
+
+
+
+
+
+function get(arr, i) {
+  if (i >= 0 && i < arr.length) {
+    return _caml_option_js__WEBPACK_IMPORTED_MODULE_3__.some(arr[i]);
+  }
+  
+}
+
+function getExn(arr, i) {
+  if (!(i >= 0 && i < arr.length)) {
+    throw {
+          RE_EXN_ID: "Assert_failure",
+          _1: [
+            "belt_Array.ml",
+            27,
+            4
+          ],
+          Error: new Error()
+        };
+  }
+  return arr[i];
+}
+
+function set(arr, i, v) {
+  if (i >= 0 && i < arr.length) {
+    arr[i] = v;
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function setExn(arr, i, v) {
+  if (!(i >= 0 && i < arr.length)) {
+    throw {
+          RE_EXN_ID: "Assert_failure",
+          _1: [
+            "belt_Array.ml",
+            33,
+            2
+          ],
+          Error: new Error()
+        };
+  }
+  arr[i] = v;
+  
+}
+
+function swapUnsafe(xs, i, j) {
+  var tmp = xs[i];
+  xs[i] = xs[j];
+  xs[j] = tmp;
+  
+}
+
+function shuffleInPlace(xs) {
+  var len = xs.length;
+  for(var i = 0; i < len; ++i){
+    swapUnsafe(xs, i, _js_math_js__WEBPACK_IMPORTED_MODULE_2__.random_int(i, len));
+  }
+  
+}
+
+function shuffle(xs) {
+  var result = xs.slice(0);
+  shuffleInPlace(result);
+  return result;
+}
+
+function reverseInPlace(xs) {
+  var len = xs.length;
+  var ofs = 0;
+  for(var i = 0 ,i_finish = len / 2 | 0; i < i_finish; ++i){
+    swapUnsafe(xs, ofs + i | 0, ((ofs + len | 0) - i | 0) - 1 | 0);
+  }
+  
+}
+
+function reverse(xs) {
+  var len = xs.length;
+  var result = new Array(len);
+  for(var i = 0; i < len; ++i){
+    result[i] = xs[(len - 1 | 0) - i | 0];
+  }
+  return result;
+}
+
+function make(l, f) {
+  if (l <= 0) {
+    return [];
+  }
+  var res = new Array(l);
+  for(var i = 0; i < l; ++i){
+    res[i] = f;
+  }
+  return res;
+}
+
+function makeByU(l, f) {
+  if (l <= 0) {
+    return [];
+  }
+  var res = new Array(l);
+  for(var i = 0; i < l; ++i){
+    res[i] = f(i);
+  }
+  return res;
+}
+
+function makeBy(l, f) {
+  return makeByU(l, _curry_js__WEBPACK_IMPORTED_MODULE_1__.__1(f));
+}
+
+function makeByAndShuffleU(l, f) {
+  var u = makeByU(l, f);
+  shuffleInPlace(u);
+  return u;
+}
+
+function makeByAndShuffle(l, f) {
+  return makeByAndShuffleU(l, _curry_js__WEBPACK_IMPORTED_MODULE_1__.__1(f));
+}
+
+function range(start, finish) {
+  var cut = finish - start | 0;
+  if (cut < 0) {
+    return [];
+  }
+  var arr = new Array(cut + 1 | 0);
+  for(var i = 0; i <= cut; ++i){
+    arr[i] = start + i | 0;
+  }
+  return arr;
+}
+
+function rangeBy(start, finish, step) {
+  var cut = finish - start | 0;
+  if (cut < 0 || step <= 0) {
+    return [];
+  }
+  var nb = (cut / step | 0) + 1 | 0;
+  var arr = new Array(nb);
+  var cur = start;
+  for(var i = 0; i < nb; ++i){
+    arr[i] = cur;
+    cur = cur + step | 0;
+  }
+  return arr;
+}
+
+function zip(xs, ys) {
+  var lenx = xs.length;
+  var leny = ys.length;
+  var len = lenx < leny ? lenx : leny;
+  var s = new Array(len);
+  for(var i = 0; i < len; ++i){
+    s[i] = [
+      xs[i],
+      ys[i]
+    ];
+  }
+  return s;
+}
+
+function zipByU(xs, ys, f) {
+  var lenx = xs.length;
+  var leny = ys.length;
+  var len = lenx < leny ? lenx : leny;
+  var s = new Array(len);
+  for(var i = 0; i < len; ++i){
+    s[i] = f(xs[i], ys[i]);
+  }
+  return s;
+}
+
+function zipBy(xs, ys, f) {
+  return zipByU(xs, ys, _curry_js__WEBPACK_IMPORTED_MODULE_1__.__2(f));
+}
+
+function concat(a1, a2) {
+  var l1 = a1.length;
+  var l2 = a2.length;
+  var a1a2 = new Array(l1 + l2 | 0);
+  for(var i = 0; i < l1; ++i){
+    a1a2[i] = a1[i];
+  }
+  for(var i$1 = 0; i$1 < l2; ++i$1){
+    a1a2[l1 + i$1 | 0] = a2[i$1];
+  }
+  return a1a2;
+}
+
+function concatMany(arrs) {
+  var lenArrs = arrs.length;
+  var totalLen = 0;
+  for(var i = 0; i < lenArrs; ++i){
+    totalLen = totalLen + arrs[i].length | 0;
+  }
+  var result = new Array(totalLen);
+  totalLen = 0;
+  for(var j = 0; j < lenArrs; ++j){
+    var cur = arrs[j];
+    for(var k = 0 ,k_finish = cur.length; k < k_finish; ++k){
+      result[totalLen] = cur[k];
+      totalLen = totalLen + 1 | 0;
+    }
+  }
+  return result;
+}
+
+function slice(a, offset, len) {
+  if (len <= 0) {
+    return [];
+  }
+  var lena = a.length;
+  var ofs = offset < 0 ? _caml_js__WEBPACK_IMPORTED_MODULE_0__.caml_int_max(lena + offset | 0, 0) : offset;
+  var hasLen = lena - ofs | 0;
+  var copyLength = hasLen < len ? hasLen : len;
+  if (copyLength <= 0) {
+    return [];
+  }
+  var result = new Array(copyLength);
+  for(var i = 0; i < copyLength; ++i){
+    result[i] = a[ofs + i | 0];
+  }
+  return result;
+}
+
+function sliceToEnd(a, offset) {
+  var lena = a.length;
+  var ofs = offset < 0 ? _caml_js__WEBPACK_IMPORTED_MODULE_0__.caml_int_max(lena + offset | 0, 0) : offset;
+  var len = lena - ofs | 0;
+  var result = new Array(len);
+  for(var i = 0; i < len; ++i){
+    result[i] = a[ofs + i | 0];
+  }
+  return result;
+}
+
+function fill(a, offset, len, v) {
+  if (len <= 0) {
+    return ;
+  }
+  var lena = a.length;
+  var ofs = offset < 0 ? _caml_js__WEBPACK_IMPORTED_MODULE_0__.caml_int_max(lena + offset | 0, 0) : offset;
+  var hasLen = lena - ofs | 0;
+  var fillLength = hasLen < len ? hasLen : len;
+  if (fillLength <= 0) {
+    return ;
+  }
+  for(var i = ofs ,i_finish = ofs + fillLength | 0; i < i_finish; ++i){
+    a[i] = v;
+  }
+  
+}
+
+function blitUnsafe(a1, srcofs1, a2, srcofs2, blitLength) {
+  if (srcofs2 <= srcofs1) {
+    for(var j = 0; j < blitLength; ++j){
+      a2[j + srcofs2 | 0] = a1[j + srcofs1 | 0];
+    }
+    return ;
+  }
+  for(var j$1 = blitLength - 1 | 0; j$1 >= 0; --j$1){
+    a2[j$1 + srcofs2 | 0] = a1[j$1 + srcofs1 | 0];
+  }
+  
+}
+
+function blit(a1, ofs1, a2, ofs2, len) {
+  var lena1 = a1.length;
+  var lena2 = a2.length;
+  var srcofs1 = ofs1 < 0 ? _caml_js__WEBPACK_IMPORTED_MODULE_0__.caml_int_max(lena1 + ofs1 | 0, 0) : ofs1;
+  var srcofs2 = ofs2 < 0 ? _caml_js__WEBPACK_IMPORTED_MODULE_0__.caml_int_max(lena2 + ofs2 | 0, 0) : ofs2;
+  var blitLength = _caml_js__WEBPACK_IMPORTED_MODULE_0__.caml_int_min(len, _caml_js__WEBPACK_IMPORTED_MODULE_0__.caml_int_min(lena1 - srcofs1 | 0, lena2 - srcofs2 | 0));
+  if (srcofs2 <= srcofs1) {
+    for(var j = 0; j < blitLength; ++j){
+      a2[j + srcofs2 | 0] = a1[j + srcofs1 | 0];
+    }
+    return ;
+  }
+  for(var j$1 = blitLength - 1 | 0; j$1 >= 0; --j$1){
+    a2[j$1 + srcofs2 | 0] = a1[j$1 + srcofs1 | 0];
+  }
+  
+}
+
+function forEachU(a, f) {
+  for(var i = 0 ,i_finish = a.length; i < i_finish; ++i){
+    f(a[i]);
+  }
+  
+}
+
+function forEach(a, f) {
+  return forEachU(a, _curry_js__WEBPACK_IMPORTED_MODULE_1__.__1(f));
+}
+
+function mapU(a, f) {
+  var l = a.length;
+  var r = new Array(l);
+  for(var i = 0; i < l; ++i){
+    r[i] = f(a[i]);
+  }
+  return r;
+}
+
+function map(a, f) {
+  return mapU(a, _curry_js__WEBPACK_IMPORTED_MODULE_1__.__1(f));
+}
+
+function getByU(a, p) {
+  var l = a.length;
+  var i = 0;
+  var r;
+  while(r === undefined && i < l) {
+    var v = a[i];
+    if (p(v)) {
+      r = _caml_option_js__WEBPACK_IMPORTED_MODULE_3__.some(v);
+    }
+    i = i + 1 | 0;
+  };
+  return r;
+}
+
+function getBy(a, p) {
+  return getByU(a, _curry_js__WEBPACK_IMPORTED_MODULE_1__.__1(p));
+}
+
+function getIndexByU(a, p) {
+  var l = a.length;
+  var i = 0;
+  var r;
+  while(r === undefined && i < l) {
+    var v = a[i];
+    if (p(v)) {
+      r = i;
+    }
+    i = i + 1 | 0;
+  };
+  return r;
+}
+
+function getIndexBy(a, p) {
+  return getIndexByU(a, _curry_js__WEBPACK_IMPORTED_MODULE_1__.__1(p));
+}
+
+function keepU(a, f) {
+  var l = a.length;
+  var r = new Array(l);
+  var j = 0;
+  for(var i = 0; i < l; ++i){
+    var v = a[i];
+    if (f(v)) {
+      r[j] = v;
+      j = j + 1 | 0;
+    }
+    
+  }
+  r.length = j;
+  return r;
+}
+
+function keep(a, f) {
+  return keepU(a, _curry_js__WEBPACK_IMPORTED_MODULE_1__.__1(f));
+}
+
+function keepWithIndexU(a, f) {
+  var l = a.length;
+  var r = new Array(l);
+  var j = 0;
+  for(var i = 0; i < l; ++i){
+    var v = a[i];
+    if (f(v, i)) {
+      r[j] = v;
+      j = j + 1 | 0;
+    }
+    
+  }
+  r.length = j;
+  return r;
+}
+
+function keepWithIndex(a, f) {
+  return keepWithIndexU(a, _curry_js__WEBPACK_IMPORTED_MODULE_1__.__2(f));
+}
+
+function keepMapU(a, f) {
+  var l = a.length;
+  var r = new Array(l);
+  var j = 0;
+  for(var i = 0; i < l; ++i){
+    var v = a[i];
+    var v$1 = f(v);
+    if (v$1 !== undefined) {
+      r[j] = _caml_option_js__WEBPACK_IMPORTED_MODULE_3__.valFromOption(v$1);
+      j = j + 1 | 0;
+    }
+    
+  }
+  r.length = j;
+  return r;
+}
+
+function keepMap(a, f) {
+  return keepMapU(a, _curry_js__WEBPACK_IMPORTED_MODULE_1__.__1(f));
+}
+
+function forEachWithIndexU(a, f) {
+  for(var i = 0 ,i_finish = a.length; i < i_finish; ++i){
+    f(i, a[i]);
+  }
+  
+}
+
+function forEachWithIndex(a, f) {
+  return forEachWithIndexU(a, _curry_js__WEBPACK_IMPORTED_MODULE_1__.__2(f));
+}
+
+function mapWithIndexU(a, f) {
+  var l = a.length;
+  var r = new Array(l);
+  for(var i = 0; i < l; ++i){
+    r[i] = f(i, a[i]);
+  }
+  return r;
+}
+
+function mapWithIndex(a, f) {
+  return mapWithIndexU(a, _curry_js__WEBPACK_IMPORTED_MODULE_1__.__2(f));
+}
+
+function reduceU(a, x, f) {
+  var r = x;
+  for(var i = 0 ,i_finish = a.length; i < i_finish; ++i){
+    r = f(r, a[i]);
+  }
+  return r;
+}
+
+function reduce(a, x, f) {
+  return reduceU(a, x, _curry_js__WEBPACK_IMPORTED_MODULE_1__.__2(f));
+}
+
+function reduceReverseU(a, x, f) {
+  var r = x;
+  for(var i = a.length - 1 | 0; i >= 0; --i){
+    r = f(r, a[i]);
+  }
+  return r;
+}
+
+function reduceReverse(a, x, f) {
+  return reduceReverseU(a, x, _curry_js__WEBPACK_IMPORTED_MODULE_1__.__2(f));
+}
+
+function reduceReverse2U(a, b, x, f) {
+  var r = x;
+  var len = _caml_js__WEBPACK_IMPORTED_MODULE_0__.caml_int_min(a.length, b.length);
+  for(var i = len - 1 | 0; i >= 0; --i){
+    r = f(r, a[i], b[i]);
+  }
+  return r;
+}
+
+function reduceReverse2(a, b, x, f) {
+  return reduceReverse2U(a, b, x, _curry_js__WEBPACK_IMPORTED_MODULE_1__.__3(f));
+}
+
+function reduceWithIndexU(a, x, f) {
+  var r = x;
+  for(var i = 0 ,i_finish = a.length; i < i_finish; ++i){
+    r = f(r, a[i], i);
+  }
+  return r;
+}
+
+function reduceWithIndex(a, x, f) {
+  return reduceWithIndexU(a, x, _curry_js__WEBPACK_IMPORTED_MODULE_1__.__3(f));
+}
+
+function everyU(arr, b) {
+  var len = arr.length;
+  var _i = 0;
+  while(true) {
+    var i = _i;
+    if (i === len) {
+      return true;
+    }
+    if (!b(arr[i])) {
+      return false;
+    }
+    _i = i + 1 | 0;
+    continue ;
+  };
+}
+
+function every(arr, f) {
+  return everyU(arr, _curry_js__WEBPACK_IMPORTED_MODULE_1__.__1(f));
+}
+
+function someU(arr, b) {
+  var len = arr.length;
+  var _i = 0;
+  while(true) {
+    var i = _i;
+    if (i === len) {
+      return false;
+    }
+    if (b(arr[i])) {
+      return true;
+    }
+    _i = i + 1 | 0;
+    continue ;
+  };
+}
+
+function some(arr, f) {
+  return someU(arr, _curry_js__WEBPACK_IMPORTED_MODULE_1__.__1(f));
+}
+
+function everyAux2(arr1, arr2, _i, b, len) {
+  while(true) {
+    var i = _i;
+    if (i === len) {
+      return true;
+    }
+    if (!b(arr1[i], arr2[i])) {
+      return false;
+    }
+    _i = i + 1 | 0;
+    continue ;
+  };
+}
+
+function every2U(a, b, p) {
+  return everyAux2(a, b, 0, p, _caml_js__WEBPACK_IMPORTED_MODULE_0__.caml_int_min(a.length, b.length));
+}
+
+function every2(a, b, p) {
+  return every2U(a, b, _curry_js__WEBPACK_IMPORTED_MODULE_1__.__2(p));
+}
+
+function some2U(a, b, p) {
+  var _i = 0;
+  var len = _caml_js__WEBPACK_IMPORTED_MODULE_0__.caml_int_min(a.length, b.length);
+  while(true) {
+    var i = _i;
+    if (i === len) {
+      return false;
+    }
+    if (p(a[i], b[i])) {
+      return true;
+    }
+    _i = i + 1 | 0;
+    continue ;
+  };
+}
+
+function some2(a, b, p) {
+  return some2U(a, b, _curry_js__WEBPACK_IMPORTED_MODULE_1__.__2(p));
+}
+
+function eqU(a, b, p) {
+  var lena = a.length;
+  var lenb = b.length;
+  if (lena === lenb) {
+    return everyAux2(a, b, 0, p, lena);
+  } else {
+    return false;
+  }
+}
+
+function eq(a, b, p) {
+  return eqU(a, b, _curry_js__WEBPACK_IMPORTED_MODULE_1__.__2(p));
+}
+
+function cmpU(a, b, p) {
+  var lena = a.length;
+  var lenb = b.length;
+  if (lena > lenb) {
+    return 1;
+  } else if (lena < lenb) {
+    return -1;
+  } else {
+    var _i = 0;
+    while(true) {
+      var i = _i;
+      if (i === lena) {
+        return 0;
+      }
+      var c = p(a[i], b[i]);
+      if (c !== 0) {
+        return c;
+      }
+      _i = i + 1 | 0;
+      continue ;
+    };
+  }
+}
+
+function cmp(a, b, p) {
+  return cmpU(a, b, _curry_js__WEBPACK_IMPORTED_MODULE_1__.__2(p));
+}
+
+function partitionU(a, f) {
+  var l = a.length;
+  var i = 0;
+  var j = 0;
+  var a1 = new Array(l);
+  var a2 = new Array(l);
+  for(var ii = 0; ii < l; ++ii){
+    var v = a[ii];
+    if (f(v)) {
+      a1[i] = v;
+      i = i + 1 | 0;
+    } else {
+      a2[j] = v;
+      j = j + 1 | 0;
+    }
+  }
+  a1.length = i;
+  a2.length = j;
+  return [
+          a1,
+          a2
+        ];
+}
+
+function partition(a, f) {
+  return partitionU(a, _curry_js__WEBPACK_IMPORTED_MODULE_1__.__1(f));
+}
+
+function unzip(a) {
+  var l = a.length;
+  var a1 = new Array(l);
+  var a2 = new Array(l);
+  for(var i = 0; i < l; ++i){
+    var match = a[i];
+    a1[i] = match[0];
+    a2[i] = match[1];
+  }
+  return [
+          a1,
+          a2
+        ];
+}
+
+function joinWithU(a, sep, toString) {
+  var l = a.length;
+  if (l === 0) {
+    return "";
+  }
+  var lastIndex = l - 1 | 0;
+  var _i = 0;
+  var _res = "";
+  while(true) {
+    var res = _res;
+    var i = _i;
+    if (i === lastIndex) {
+      return res + toString(a[i]);
+    }
+    _res = res + (toString(a[i]) + sep);
+    _i = i + 1 | 0;
+    continue ;
+  };
+}
+
+function joinWith(a, sep, toString) {
+  return joinWithU(a, sep, _curry_js__WEBPACK_IMPORTED_MODULE_1__.__1(toString));
+}
+
+
+/* No side effect */
+
+
+/***/ }),
+/* 28 */
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "caml_bool_compare": () => (/* binding */ caml_bool_compare),
+/* harmony export */   "caml_bool_max": () => (/* binding */ caml_bool_max),
+/* harmony export */   "caml_bool_min": () => (/* binding */ caml_bool_min),
+/* harmony export */   "caml_float_compare": () => (/* binding */ caml_float_compare),
+/* harmony export */   "caml_float_max": () => (/* binding */ caml_float_max),
+/* harmony export */   "caml_float_min": () => (/* binding */ caml_float_min),
+/* harmony export */   "caml_int32_max": () => (/* binding */ caml_int32_max),
+/* harmony export */   "caml_int32_min": () => (/* binding */ caml_int32_min),
+/* harmony export */   "caml_int_compare": () => (/* binding */ caml_int_compare),
+/* harmony export */   "caml_int_max": () => (/* binding */ caml_int_max),
+/* harmony export */   "caml_int_min": () => (/* binding */ caml_int_min),
+/* harmony export */   "caml_string_compare": () => (/* binding */ caml_string_compare),
+/* harmony export */   "caml_string_max": () => (/* binding */ caml_string_max),
+/* harmony export */   "caml_string_min": () => (/* binding */ caml_string_min),
+/* harmony export */   "i64_eq": () => (/* binding */ i64_eq),
+/* harmony export */   "i64_ge": () => (/* binding */ i64_ge),
+/* harmony export */   "i64_gt": () => (/* binding */ i64_gt),
+/* harmony export */   "i64_le": () => (/* binding */ i64_le),
+/* harmony export */   "i64_lt": () => (/* binding */ i64_lt),
+/* harmony export */   "i64_max": () => (/* binding */ i64_max),
+/* harmony export */   "i64_min": () => (/* binding */ i64_min),
+/* harmony export */   "i64_neq": () => (/* binding */ i64_neq)
+/* harmony export */ });
+
+
+
+function caml_int_compare(x, y) {
+  if (x < y) {
+    return -1;
+  } else if (x === y) {
+    return 0;
+  } else {
+    return 1;
+  }
+}
+
+function caml_bool_compare(x, y) {
+  if (x) {
+    if (y) {
+      return 0;
+    } else {
+      return 1;
+    }
+  } else if (y) {
+    return -1;
+  } else {
+    return 0;
+  }
+}
+
+function caml_float_compare(x, y) {
+  if (x === y) {
+    return 0;
+  } else if (x < y) {
+    return -1;
+  } else if (x > y || x === x) {
+    return 1;
+  } else if (y === y) {
+    return -1;
+  } else {
+    return 0;
+  }
+}
+
+function caml_string_compare(s1, s2) {
+  if (s1 === s2) {
+    return 0;
+  } else if (s1 < s2) {
+    return -1;
+  } else {
+    return 1;
+  }
+}
+
+function caml_bool_min(x, y) {
+  if (x) {
+    return y;
+  } else {
+    return x;
+  }
+}
+
+function caml_int_min(x, y) {
+  if (x < y) {
+    return x;
+  } else {
+    return y;
+  }
+}
+
+function caml_float_min(x, y) {
+  if (x < y) {
+    return x;
+  } else {
+    return y;
+  }
+}
+
+function caml_string_min(x, y) {
+  if (x < y) {
+    return x;
+  } else {
+    return y;
+  }
+}
+
+function caml_int32_min(x, y) {
+  if (x < y) {
+    return x;
+  } else {
+    return y;
+  }
+}
+
+function caml_bool_max(x, y) {
+  if (x) {
+    return x;
+  } else {
+    return y;
+  }
+}
+
+function caml_int_max(x, y) {
+  if (x > y) {
+    return x;
+  } else {
+    return y;
+  }
+}
+
+function caml_float_max(x, y) {
+  if (x > y) {
+    return x;
+  } else {
+    return y;
+  }
+}
+
+function caml_string_max(x, y) {
+  if (x > y) {
+    return x;
+  } else {
+    return y;
+  }
+}
+
+function caml_int32_max(x, y) {
+  if (x > y) {
+    return x;
+  } else {
+    return y;
+  }
+}
+
+function i64_eq(x, y) {
+  if (x[1] === y[1]) {
+    return x[0] === y[0];
+  } else {
+    return false;
+  }
+}
+
+function i64_ge(param, param$1) {
+  var other_hi = param$1[0];
+  var hi = param[0];
+  if (hi > other_hi) {
+    return true;
+  } else if (hi < other_hi) {
+    return false;
+  } else {
+    return param[1] >= param$1[1];
+  }
+}
+
+function i64_neq(x, y) {
+  return !i64_eq(x, y);
+}
+
+function i64_lt(x, y) {
+  return !i64_ge(x, y);
+}
+
+function i64_gt(x, y) {
+  if (x[0] > y[0]) {
+    return true;
+  } else if (x[0] < y[0]) {
+    return false;
+  } else {
+    return x[1] > y[1];
+  }
+}
+
+function i64_le(x, y) {
+  return !i64_gt(x, y);
+}
+
+function i64_min(x, y) {
+  if (i64_ge(x, y)) {
+    return y;
+  } else {
+    return x;
+  }
+}
+
+function i64_max(x, y) {
+  if (i64_gt(x, y)) {
+    return x;
+  } else {
+    return y;
+  }
+}
+
+
+/* No side effect */
+
+
+/***/ }),
+/* 29 */
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ceil": () => (/* binding */ ceil),
+/* harmony export */   "ceil_int": () => (/* binding */ ceil_int),
+/* harmony export */   "floor": () => (/* binding */ floor),
+/* harmony export */   "floor_int": () => (/* binding */ floor_int),
+/* harmony export */   "random_int": () => (/* binding */ random_int),
+/* harmony export */   "unsafe_ceil": () => (/* binding */ unsafe_ceil),
+/* harmony export */   "unsafe_floor": () => (/* binding */ unsafe_floor)
+/* harmony export */ });
+/* harmony import */ var _js_int_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(30);
+
+
+
+
+function unsafe_ceil(prim) {
+  return Math.ceil(prim);
+}
+
+function ceil_int(f) {
+  if (f > _js_int_js__WEBPACK_IMPORTED_MODULE_0__.max) {
+    return _js_int_js__WEBPACK_IMPORTED_MODULE_0__.max;
+  } else if (f < _js_int_js__WEBPACK_IMPORTED_MODULE_0__.min) {
+    return _js_int_js__WEBPACK_IMPORTED_MODULE_0__.min;
+  } else {
+    return Math.ceil(f);
+  }
+}
+
+function unsafe_floor(prim) {
+  return Math.floor(prim);
+}
+
+function floor_int(f) {
+  if (f > _js_int_js__WEBPACK_IMPORTED_MODULE_0__.max) {
+    return _js_int_js__WEBPACK_IMPORTED_MODULE_0__.max;
+  } else if (f < _js_int_js__WEBPACK_IMPORTED_MODULE_0__.min) {
+    return _js_int_js__WEBPACK_IMPORTED_MODULE_0__.min;
+  } else {
+    return Math.floor(f);
+  }
+}
+
+function random_int(min, max) {
+  return floor_int(Math.random() * (max - min | 0)) + min | 0;
+}
+
+var ceil = ceil_int;
+
+var floor = floor_int;
+
+
+/* No side effect */
+
+
+/***/ }),
+/* 30 */
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "equal": () => (/* binding */ equal),
+/* harmony export */   "max": () => (/* binding */ max),
+/* harmony export */   "min": () => (/* binding */ min)
+/* harmony export */ });
+
+
+
+function equal(x, y) {
+  return x === y;
+}
+
+var max = 2147483647;
+
+var min = -2147483648;
+
+
+/* No side effect */
+
+
+/***/ }),
+/* 31 */
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -2738,7 +3772,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "mapWithDefault": () => (/* binding */ mapWithDefault),
 /* harmony export */   "mapWithDefaultU": () => (/* binding */ mapWithDefaultU)
 /* harmony export */ });
-/* harmony import */ var _curry_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(21);
+/* harmony import */ var _curry_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
 /* harmony import */ var _caml_option_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(24);
 
 
@@ -2859,6 +3893,5421 @@ function cmpU(a, b, f) {
 
 function cmp(a, b, f) {
   return cmpU(a, b, _curry_js__WEBPACK_IMPORTED_MODULE_0__.__2(f));
+}
+
+
+/* No side effect */
+
+
+/***/ }),
+/* 32 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Impl": () => (/* binding */ Impl),
+/* harmony export */   "asHtmlElement": () => (/* binding */ asHtmlElement),
+/* harmony export */   "insertAdjacentElement": () => (/* binding */ insertAdjacentElement),
+/* harmony export */   "insertAdjacentHTML": () => (/* binding */ insertAdjacentHTML),
+/* harmony export */   "insertAdjacentText": () => (/* binding */ insertAdjacentText),
+/* harmony export */   "nodeType": () => (/* binding */ nodeType),
+/* harmony export */   "ofNode": () => (/* binding */ ofNode)
+/* harmony export */ });
+/* harmony import */ var rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
+/* harmony import */ var _Webapi_Dom_Node_bs_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(33);
+/* harmony import */ var _Webapi_Dom_Types_bs_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(34);
+/* harmony import */ var _Webapi_Dom_Slotable_bs_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(36);
+/* harmony import */ var _Webapi_Dom_ChildNode_bs_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(37);
+/* harmony import */ var _Webapi_Dom_ParentNode_bs_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(38);
+/* harmony import */ var _Webapi_Dom_EventTarget_bs_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(35);
+/* harmony import */ var _Webapi_Dom_GlobalEventHandlers_bs_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(39);
+/* harmony import */ var _Webapi_Dom_NonDocumentTypeChildNode_bs_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(40);
+
+
+
+
+
+
+
+
+
+
+
+
+function ofNode(node) {
+  if (_Webapi_Dom_Node_bs_js__WEBPACK_IMPORTED_MODULE_1__.nodeType(node) === /* Element */0) {
+    return rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_0__.some(node);
+  }
+  
+}
+
+var asHtmlElement = (function(element) {
+      if ((window.constructor.name !== undefined && /^HTML\w*Element$/.test(element.constructor.name))
+          || (/^\[object HTML\w*Element\]$/.test(element.constructor.toString()))) {
+        return element;
+      }
+    });
+
+function Impl(T) {
+  var insertAdjacentElement = function (self, position, element) {
+    self.insertAdjacentElement(_Webapi_Dom_Types_bs_js__WEBPACK_IMPORTED_MODULE_2__.encodeInsertPosition(position), element);
+    
+  };
+  var insertAdjacentHTML = function (self, position, text) {
+    self.insertAdjacentHTML(_Webapi_Dom_Types_bs_js__WEBPACK_IMPORTED_MODULE_2__.encodeInsertPosition(position), text);
+    
+  };
+  var insertAdjacentText = function (self, position, text) {
+    self.insertAdjacentText(_Webapi_Dom_Types_bs_js__WEBPACK_IMPORTED_MODULE_2__.encodeInsertPosition(position), text);
+    
+  };
+  return {
+          asHtmlElement: asHtmlElement,
+          ofNode: ofNode,
+          insertAdjacentElement: insertAdjacentElement,
+          insertAdjacentHTML: insertAdjacentHTML,
+          insertAdjacentText: insertAdjacentText
+        };
+}
+
+var include = _Webapi_Dom_Node_bs_js__WEBPACK_IMPORTED_MODULE_1__.Impl({});
+
+_Webapi_Dom_EventTarget_bs_js__WEBPACK_IMPORTED_MODULE_6__.Impl({});
+
+_Webapi_Dom_GlobalEventHandlers_bs_js__WEBPACK_IMPORTED_MODULE_7__.Impl({});
+
+_Webapi_Dom_ParentNode_bs_js__WEBPACK_IMPORTED_MODULE_5__.Impl({});
+
+_Webapi_Dom_NonDocumentTypeChildNode_bs_js__WEBPACK_IMPORTED_MODULE_8__.Impl({});
+
+_Webapi_Dom_ChildNode_bs_js__WEBPACK_IMPORTED_MODULE_4__.Impl({});
+
+_Webapi_Dom_Slotable_bs_js__WEBPACK_IMPORTED_MODULE_3__.Impl({});
+
+function insertAdjacentElement(self, position, element) {
+  self.insertAdjacentElement(_Webapi_Dom_Types_bs_js__WEBPACK_IMPORTED_MODULE_2__.encodeInsertPosition(position), element);
+  
+}
+
+function insertAdjacentHTML(self, position, text) {
+  self.insertAdjacentHTML(_Webapi_Dom_Types_bs_js__WEBPACK_IMPORTED_MODULE_2__.encodeInsertPosition(position), text);
+  
+}
+
+function insertAdjacentText(self, position, text) {
+  self.insertAdjacentText(_Webapi_Dom_Types_bs_js__WEBPACK_IMPORTED_MODULE_2__.encodeInsertPosition(position), text);
+  
+}
+
+var nodeType = include.nodeType;
+
+
+/* include Not a pure module */
+
+
+/***/ }),
+/* 33 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Impl": () => (/* binding */ Impl),
+/* harmony export */   "nodeType": () => (/* binding */ nodeType)
+/* harmony export */ });
+/* harmony import */ var _Webapi_Dom_Types_bs_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(34);
+/* harmony import */ var _Webapi_Dom_EventTarget_bs_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(35);
+
+
+
+
+
+function Impl(T) {
+  var nodeType = function (self) {
+    return _Webapi_Dom_Types_bs_js__WEBPACK_IMPORTED_MODULE_0__.decodeNodeType(self.nodeType);
+  };
+  return {
+          nodeType: nodeType
+        };
+}
+
+_Webapi_Dom_EventTarget_bs_js__WEBPACK_IMPORTED_MODULE_1__.Impl({});
+
+function nodeType(self) {
+  return _Webapi_Dom_Types_bs_js__WEBPACK_IMPORTED_MODULE_0__.decodeNodeType(self.nodeType);
+}
+
+
+/*  Not a pure module */
+
+
+/***/ }),
+/* 34 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "EventPhase": () => (/* binding */ EventPhase),
+/* harmony export */   "WhatToShow": () => (/* binding */ WhatToShow),
+/* harmony export */   "decodeCompareResult": () => (/* binding */ decodeCompareResult),
+/* harmony export */   "decodeCompatMode": () => (/* binding */ decodeCompatMode),
+/* harmony export */   "decodeContentEditable": () => (/* binding */ decodeContentEditable),
+/* harmony export */   "decodeDeltaMode": () => (/* binding */ decodeDeltaMode),
+/* harmony export */   "decodeDesignMode": () => (/* binding */ decodeDesignMode),
+/* harmony export */   "decodeDir": () => (/* binding */ decodeDir),
+/* harmony export */   "decodeNodeType": () => (/* binding */ decodeNodeType),
+/* harmony export */   "decodePointerType": () => (/* binding */ decodePointerType),
+/* harmony export */   "decodeReadyState": () => (/* binding */ decodeReadyState),
+/* harmony export */   "decodeShadowRootMode": () => (/* binding */ decodeShadowRootMode),
+/* harmony export */   "decodeVisibilityState": () => (/* binding */ decodeVisibilityState),
+/* harmony export */   "encodeCompareHow": () => (/* binding */ encodeCompareHow),
+/* harmony export */   "encodeContentEditable": () => (/* binding */ encodeContentEditable),
+/* harmony export */   "encodeDesignMode": () => (/* binding */ encodeDesignMode),
+/* harmony export */   "encodeDir": () => (/* binding */ encodeDir),
+/* harmony export */   "encodeFilterAction": () => (/* binding */ encodeFilterAction),
+/* harmony export */   "encodeInsertPosition": () => (/* binding */ encodeInsertPosition),
+/* harmony export */   "encodeModifierKey": () => (/* binding */ encodeModifierKey)
+/* harmony export */ });
+
+
+
+function encodeCompareHow(x) {
+  return x;
+}
+
+function decodeCompareResult(x) {
+  if ((x + 1 >>> 0) > 2) {
+    return /* Unknown */3;
+  } else {
+    return x + 1 | 0;
+  }
+}
+
+function decodeCompatMode(x) {
+  switch (x) {
+    case "BackCompat" :
+        return /* BackCompat */0;
+    case "CSS1Compat" :
+        return /* CSS1Compat */1;
+    default:
+      return /* Unknown */2;
+  }
+}
+
+function encodeContentEditable(x) {
+  switch (x) {
+    case /* True */0 :
+        return "true";
+    case /* False */1 :
+        return "false";
+    case /* Inherit */2 :
+        return "inherit";
+    case /* Unknown */3 :
+        return "";
+    
+  }
+}
+
+function decodeContentEditable(x) {
+  switch (x) {
+    case "false" :
+        return /* False */1;
+    case "inherit" :
+        return /* Inherit */2;
+    case "true" :
+        return /* True */0;
+    default:
+      return /* Unknown */3;
+  }
+}
+
+function decodeDeltaMode(x) {
+  if (x > 2 || x < 0) {
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "invalid deltaMode",
+          Error: new Error()
+        };
+  }
+  return x;
+}
+
+function encodeDesignMode(x) {
+  switch (x) {
+    case /* On */0 :
+        return "on";
+    case /* Off */1 :
+        return "off";
+    case /* Unknown */2 :
+        return "";
+    
+  }
+}
+
+function decodeDesignMode(x) {
+  switch (x) {
+    case "off" :
+        return /* Off */1;
+    case "on" :
+        return /* On */0;
+    default:
+      return /* Unknown */2;
+  }
+}
+
+function encodeDir(x) {
+  switch (x) {
+    case /* Ltr */0 :
+        return "ltr";
+    case /* Rtl */1 :
+        return "rtl";
+    case /* Unknown */2 :
+        return "";
+    
+  }
+}
+
+function decodeDir(x) {
+  switch (x) {
+    case "ltr" :
+        return /* Ltr */0;
+    case "rtl" :
+        return /* Rtl */1;
+    default:
+      return /* Unknown */2;
+  }
+}
+
+function decode(x) {
+  if (x > 3 || x < 0) {
+    return /* Unknown */4;
+  } else {
+    return x;
+  }
+}
+
+var EventPhase = {
+  decode: decode
+};
+
+function encodeFilterAction(x) {
+  return x + 1 | 0;
+}
+
+function encodeInsertPosition(x) {
+  switch (x) {
+    case /* BeforeBegin */0 :
+        return "beforebegin";
+    case /* AfterBegin */1 :
+        return "afterbegin";
+    case /* BeforeEnd */2 :
+        return "beforeend";
+    case /* AfterEnd */3 :
+        return "afterend";
+    
+  }
+}
+
+function encodeModifierKey(x) {
+  switch (x) {
+    case /* Alt */0 :
+        return "Alt";
+    case /* AltGraph */1 :
+        return "AltGraph";
+    case /* CapsLock */2 :
+        return "CapsLock";
+    case /* Control */3 :
+        return "Control";
+    case /* Fn */4 :
+        return "Fn";
+    case /* FnLock */5 :
+        return "FnLock";
+    case /* Hyper */6 :
+        return "Hyper";
+    case /* Meta */7 :
+        return "Meta";
+    case /* NumLock */8 :
+        return "NumLock";
+    case /* ScrollLock */9 :
+        return "ScrollLock";
+    case /* Shift */10 :
+        return "Shift";
+    case /* Super */11 :
+        return "Super";
+    case /* Symbol */12 :
+        return "Symbol";
+    case /* SymbolLock */13 :
+        return "SymbolLock";
+    
+  }
+}
+
+function decodeNodeType(x) {
+  if (x > 12 || x < 1) {
+    return /* Unknown */12;
+  } else {
+    return x - 1 | 0;
+  }
+}
+
+function decodePointerType(x) {
+  switch (x) {
+    case "mouse" :
+        return /* Mouse */0;
+    case "pen" :
+        return /* Pen */1;
+    case "touch|" :
+        return /* Touch */2;
+    default:
+      return /* Unknown */3;
+  }
+}
+
+function decodeReadyState(x) {
+  switch (x) {
+    case "complete" :
+        return /* Complete */2;
+    case "interactive" :
+        return /* Interactive */1;
+    case "loading" :
+        return /* Loading */0;
+    default:
+      return /* Unknown */3;
+  }
+}
+
+function decodeShadowRootMode(x) {
+  switch (x) {
+    case "closed" :
+        return /* Closed */1;
+    case "open" :
+        return /* Open */0;
+    default:
+      throw {
+            RE_EXN_ID: "Invalid_argument",
+            _1: "Unknown shadowRootMode",
+            Error: new Error()
+          };
+  }
+}
+
+function decodeVisibilityState(x) {
+  switch (x) {
+    case "hidden" :
+        return /* Hidden */1;
+    case "prerender" :
+        return /* Prerender */2;
+    case "unloaded" :
+        return /* Unloaded */3;
+    case "visible" :
+        return /* Visible */0;
+    default:
+      return /* Unknown */4;
+  }
+}
+
+function many(x) {
+  if (x) {
+    return x.hd | many(x.tl);
+  } else {
+    return 0;
+  }
+}
+
+var WhatToShow = {
+  _All: -1,
+  _Element: 1,
+  _Attribute: 2,
+  _Text: 4,
+  _CDATASection: 8,
+  _EntityReference: 16,
+  _Entity: 32,
+  _ProcessingInstruction: 64,
+  _Comment: 128,
+  _Document: 256,
+  _DocumentType: 512,
+  _DocumentFragment: 1024,
+  _Notation: 2048,
+  many: many
+};
+
+
+/* No side effect */
+
+
+/***/ }),
+/* 35 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Impl": () => (/* binding */ Impl)
+/* harmony export */ });
+
+
+
+function Impl(T) {
+  return {};
+}
+
+
+/* No side effect */
+
+
+/***/ }),
+/* 36 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Impl": () => (/* binding */ Impl)
+/* harmony export */ });
+
+
+
+function Impl(T) {
+  return {};
+}
+
+
+/* No side effect */
+
+
+/***/ }),
+/* 37 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Impl": () => (/* binding */ Impl)
+/* harmony export */ });
+
+
+
+function Impl(T) {
+  return {};
+}
+
+
+/* No side effect */
+
+
+/***/ }),
+/* 38 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Impl": () => (/* binding */ Impl)
+/* harmony export */ });
+
+
+
+function Impl(T) {
+  return {};
+}
+
+
+/* No side effect */
+
+
+/***/ }),
+/* 39 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Impl": () => (/* binding */ Impl)
+/* harmony export */ });
+
+
+
+function Impl(T) {
+  return {};
+}
+
+
+/* No side effect */
+
+
+/***/ }),
+/* 40 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Impl": () => (/* binding */ Impl)
+/* harmony export */ });
+
+
+
+function Impl(T) {
+  return {};
+}
+
+
+/* No side effect */
+
+
+/***/ }),
+/* 41 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Impl": () => (/* binding */ Impl),
+/* harmony export */   "asHtmlDocument": () => (/* binding */ asHtmlDocument),
+/* harmony export */   "compatMode": () => (/* binding */ compatMode),
+/* harmony export */   "nodeType": () => (/* binding */ nodeType),
+/* harmony export */   "ofNode": () => (/* binding */ ofNode),
+/* harmony export */   "visibilityState": () => (/* binding */ visibilityState)
+/* harmony export */ });
+/* harmony import */ var rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
+/* harmony import */ var _Webapi_Dom_Node_bs_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(33);
+/* harmony import */ var _Webapi_Dom_Types_bs_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(34);
+/* harmony import */ var _Webapi_Dom_ParentNode_bs_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(38);
+/* harmony import */ var _Webapi_Dom_EventTarget_bs_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(35);
+/* harmony import */ var _Webapi_Dom_NonElementParentNode_bs_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(42);
+
+
+
+
+
+
+
+
+
+function Impl(T) {
+  var asHtmlDocument = (function(document) {
+      var defaultView = document.defaultView;
+
+      if (defaultView != null) {
+        var HTMLDocument = defaultView.HTMLDocument;
+
+        if (HTMLDocument != null && document instanceof HTMLDocument) {
+          return document;
+        }
+      }
+    });
+  var ofNode = function (node) {
+    if (_Webapi_Dom_Node_bs_js__WEBPACK_IMPORTED_MODULE_1__.nodeType(node) === /* Document */8) {
+      return rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_0__.some(node);
+    }
+    
+  };
+  var compatMode = function (self) {
+    return _Webapi_Dom_Types_bs_js__WEBPACK_IMPORTED_MODULE_2__.decodeCompatMode(self.compatMode);
+  };
+  var visibilityState = function (self) {
+    return _Webapi_Dom_Types_bs_js__WEBPACK_IMPORTED_MODULE_2__.decodeVisibilityState(self.visibilityState);
+  };
+  return {
+          asHtmlDocument: asHtmlDocument,
+          ofNode: ofNode,
+          compatMode: compatMode,
+          visibilityState: visibilityState
+        };
+}
+
+var include = _Webapi_Dom_Node_bs_js__WEBPACK_IMPORTED_MODULE_1__.Impl({});
+
+_Webapi_Dom_EventTarget_bs_js__WEBPACK_IMPORTED_MODULE_4__.Impl({});
+
+_Webapi_Dom_NonElementParentNode_bs_js__WEBPACK_IMPORTED_MODULE_5__.Impl({});
+
+_Webapi_Dom_ParentNode_bs_js__WEBPACK_IMPORTED_MODULE_3__.Impl({});
+
+var asHtmlDocument = (function(document) {
+      var defaultView = document.defaultView;
+
+      if (defaultView != null) {
+        var HTMLDocument = defaultView.HTMLDocument;
+
+        if (HTMLDocument != null && document instanceof HTMLDocument) {
+          return document;
+        }
+      }
+    });
+
+function ofNode(node) {
+  if (_Webapi_Dom_Node_bs_js__WEBPACK_IMPORTED_MODULE_1__.nodeType(node) === /* Document */8) {
+    return rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_0__.some(node);
+  }
+  
+}
+
+function compatMode(self) {
+  return _Webapi_Dom_Types_bs_js__WEBPACK_IMPORTED_MODULE_2__.decodeCompatMode(self.compatMode);
+}
+
+function visibilityState(self) {
+  return _Webapi_Dom_Types_bs_js__WEBPACK_IMPORTED_MODULE_2__.decodeVisibilityState(self.visibilityState);
+}
+
+var nodeType = include.nodeType;
+
+
+/* include Not a pure module */
+
+
+/***/ }),
+/* 42 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Impl": () => (/* binding */ Impl)
+/* harmony export */ });
+
+
+
+function Impl(T) {
+  return {};
+}
+
+
+/* No side effect */
+
+
+/***/ }),
+/* 43 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Answer": () => (/* binding */ Answer),
+/* harmony export */   "Card": () => (/* binding */ Card),
+/* harmony export */   "Problem": () => (/* binding */ Problem),
+/* harmony export */   "React": () => (/* binding */ React),
+/* harmony export */   "ReactDOMRe": () => (/* binding */ ReactDOMRe),
+/* harmony export */   "Tooltip": () => (/* binding */ Tooltip),
+/* harmony export */   "style": () => (/* binding */ style)
+/* harmony export */ });
+/* harmony import */ var rescript_lib_es6_curry_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
+/* harmony import */ var _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(21);
+/* harmony import */ var _Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(26);
+/* harmony import */ var rescript_lib_es6_string_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(44);
+/* harmony import */ var rescript_lib_es6_js_dict_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(51);
+/* harmony import */ var rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(27);
+/* harmony import */ var rescript_lib_es6_caml_int32_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(52);
+/* harmony import */ var rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(31);
+/* harmony import */ var rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(24);
+/* harmony import */ var rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(53);
+/* harmony import */ var rescript_lib_es6_belt_SortArray_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(55);
+/* harmony import */ var _style_mod_less__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(10);
+/* harmony import */ var rescript_lib_es6_belt_SortArrayString_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(60);
+// Generated by ReScript, PLEASE EDIT WITH CARE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var style = _style_mod_less__WEBPACK_IMPORTED_MODULE_11__;
+
+function makeChoice(v) {
+  return {
+          TAG: /* Choice */0,
+          _0: v
+        };
+}
+
+function makeBlank(v) {
+  return {
+          TAG: /* Blank */1,
+          _0: rescript_lib_es6_js_dict_js__WEBPACK_IMPORTED_MODULE_4__.entries(v)
+        };
+}
+
+function makeText(v) {
+  return {
+          TAG: /* Text */2,
+          _0: v
+        };
+}
+
+var Answer = {
+  makeChoice: makeChoice,
+  makeBlank: makeBlank,
+  makeText: makeText
+};
+
+function makeChoice$1(id, choices) {
+  return {
+          id: id,
+          options: /* Choice */{
+            _0: choices
+          }
+        };
+}
+
+function makeBlank$1(id) {
+  return {
+          id: id,
+          options: /* Blank */0
+        };
+}
+
+function makeText$1(id) {
+  return {
+          id: id,
+          options: /* Text */1
+        };
+}
+
+var Problem = {
+  makeChoice: makeChoice$1,
+  makeBlank: makeBlank$1,
+  makeText: makeText$1
+};
+
+function make(ele) {
+  return {
+          _ele: ele
+        };
+}
+
+function setContent($$this, text) {
+  $$this._ele.setAttribute("title", text);
+  
+}
+
+var Tooltip = {
+  make: make,
+  setContent: setContent
+};
+
+function showDetail($$this, top, left) {
+  return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.openWin("详细答案", 200, 300, left, top, undefined), (function (param) {
+                var doc = param[1];
+                return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.toNode(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
+                                    className: rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.joinWith([
+                                          style.mainBody,
+                                          style.answerDetail
+                                        ], " ", (function (s) {
+                                            return s;
+                                          }))
+                                  }, [$$this._detailsHtml])), (function (node) {
+                              return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_8__.nullable_to_opt(doc.body), (function (body) {
+                                            body.appendChild(node);
+                                            
+                                          }));
+                            }));
+              }));
+}
+
+function updateAnswer($$this, username, answer) {
+  var match = $$this._details;
+  var tmp;
+  switch (match.TAG | 0) {
+    case /* Choice */0 :
+        switch (answer.TAG | 0) {
+          case /* Choice */0 :
+              tmp = {
+                TAG: /* Choice */0,
+                _0: rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.set(match._0, username, answer._0)
+              };
+              break;
+          case /* Blank */1 :
+          case /* Text */2 :
+              tmp = $$this._details;
+              break;
+          
+        }
+        break;
+    case /* Blank */1 :
+        switch (answer.TAG | 0) {
+          case /* Blank */1 :
+              tmp = {
+                TAG: /* Blank */1,
+                _0: rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.set(match._0, username, answer._0)
+              };
+              break;
+          case /* Choice */0 :
+          case /* Text */2 :
+              tmp = $$this._details;
+              break;
+          
+        }
+        break;
+    case /* Text */2 :
+        switch (answer.TAG | 0) {
+          case /* Choice */0 :
+          case /* Blank */1 :
+              tmp = $$this._details;
+              break;
+          case /* Text */2 :
+              tmp = {
+                TAG: /* Text */2,
+                _0: rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.set(match._0, username, answer._0)
+              };
+              break;
+          
+        }
+        break;
+    
+  }
+  $$this._details = tmp;
+  
+}
+
+function updateUI($$this) {
+  var _percent = function (a, b) {
+    return String(rescript_lib_es6_caml_int32_js__WEBPACK_IMPORTED_MODULE_6__.div(Math.imul(a, 100), b)) + "%";
+  };
+  var _sortByKey = function (arr) {
+    return rescript_lib_es6_belt_SortArray_js__WEBPACK_IMPORTED_MODULE_10__.stableSortBy(arr, (function (param, param$1) {
+                  return rescript_lib_es6_string_js__WEBPACK_IMPORTED_MODULE_3__.compare(param[0], param$1[0]);
+                }));
+  };
+  var chiceDetails = $$this._details;
+  var tmp;
+  switch (chiceDetails.TAG | 0) {
+    case /* Choice */0 :
+        var chiceDetails$1 = chiceDetails._0;
+        tmp = rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.map(_sortByKey(rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.map(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.toArray(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.reduce(chiceDetails$1, undefined, (function (choiceToUsers, user, choices) {
+                                return rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.reduce(choices, choiceToUsers, (function (choiceToUsers, choice) {
+                                              return rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.update(choiceToUsers, choice, (function (users) {
+                                                            return rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.concat(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.getWithDefault(users, []), [user]);
+                                                          }));
+                                            }));
+                              }))), (function (param) {
+                        return [
+                                rescript_lib_es6_curry_js__WEBPACK_IMPORTED_MODULE_0__._1($$this._choiceMap, param[0]),
+                                param[1]
+                              ];
+                      }))), (function (param) {
+                var users = param[1];
+                var choice = param[0];
+                rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.get($$this._tooltips, rescript_lib_es6_curry_js__WEBPACK_IMPORTED_MODULE_0__._1($$this._choiceMap, choice)), (function (u) {
+                        return setContent(u, _percent(users.length, rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.size(chiceDetails$1)));
+                      }));
+                return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", undefined, [
+                            _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("p", undefined, [_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("strong", undefined, [choice])]),
+                            _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.UList.make, {
+                                  children: rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.map(rescript_lib_es6_belt_SortArrayString_js__WEBPACK_IMPORTED_MODULE_12__.stableSort(users), (function (user) {
+                                          return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("p", undefined, [user]);
+                                        }))
+                                })
+                          ]);
+              }));
+        break;
+    case /* Blank */1 :
+        var blankDetails = chiceDetails._0;
+        tmp = rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.map(_sortByKey(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.toArray(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.reduce(blankDetails, undefined, (function (blankToFillToUsers, user, blankAndFill) {
+                            return rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.reduce(blankAndFill, blankToFillToUsers, (function (blankToFillToUsers, param) {
+                                          var fill = param[1];
+                                          return rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.update(blankToFillToUsers, param[0], (function (fillToUsers) {
+                                                        return rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_8__.some(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.update(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.getWithDefault(fillToUsers, undefined), fill, (function (users) {
+                                                                          return rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.concat(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.getWithDefault(users, []), [user]);
+                                                                        })));
+                                                      }));
+                                        }));
+                          })))), (function (param) {
+                var blank = param[0];
+                var fillToUsers = _sortByKey(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.toArray(param[1]));
+                rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.get($$this._tooltips, blank), (function (most) {
+                        return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.get(rescript_lib_es6_belt_SortArray_js__WEBPACK_IMPORTED_MODULE_10__.stableSortBy(rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.map(fillToUsers, (function (param) {
+                                                  return [
+                                                          param[0],
+                                                          param[1].length
+                                                        ];
+                                                })), (function (param, param$1) {
+                                              return param[1] - param$1[1] | 0;
+                                            })), 0), (function (param) {
+                                      return setContent(most, "(" + _percent(param[1], rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.size(blankDetails)) + ") " + param[0]);
+                                    }));
+                      }));
+                return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", undefined, [
+                            _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("p", undefined, [_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("strong", undefined, ["#" + blank])]),
+                            _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.UList.make, {
+                                  children: rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.map(fillToUsers, (function (param) {
+                                          return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElementVariadic(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.Fragment.make, {
+                                                      children: null
+                                                    }, [
+                                                      _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("p", undefined, [param[0]]),
+                                                      _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.UList.make, {
+                                                            children: rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.map(rescript_lib_es6_belt_SortArrayString_js__WEBPACK_IMPORTED_MODULE_12__.stableSort(param[1]), (function (user) {
+                                                                    return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("p", undefined, [user]);
+                                                                  }))
+                                                          })
+                                                    ]);
+                                        }))
+                                })
+                          ]);
+              }));
+        break;
+    case /* Text */2 :
+        tmp = rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.map(_sortByKey(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.toArray(chiceDetails._0)), (function (param) {
+                var text = param[1];
+                return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", undefined, [
+                            _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("p", undefined, [_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("strong", undefined, [param[0]])]),
+                            rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.mapWithDefault(text.content, null, (function (htm) {
+                                    return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
+                                                className: style.answerDetailShortAnswer,
+                                                dangerouslySetInnerHTML: {
+                                                  __html: htm
+                                                }
+                                              }, []);
+                                  })),
+                            rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.mapWithDefault(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.flatMap(text.attachments, (function (attachments) {
+                                        return attachments.filelist;
+                                      })), null, (function (attachments) {
+                                    return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.UList.make, {
+                                                children: rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.map(attachments, (function (atta) {
+                                                        return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("a", {
+                                                                    href: atta.fileUrl
+                                                                  }, [atta.fileName]);
+                                                      }))
+                                              });
+                                  })),
+                            _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", undefined, [])
+                          ]);
+              }));
+        break;
+    
+  }
+  $$this._detailsHtml = tmp;
+  
+}
+
+function make$1(prob, ele, choiceMap) {
+  var c = prob.options;
+  var match = typeof c === "number" ? (
+      c !== 0 ? [
+          undefined,
+          {
+            TAG: /* Text */2,
+            _0: undefined
+          }
+        ] : [
+          rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.reduceWithIndex(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.querySelectorAllElements(ele, ".item-body .blank-item-dynamic"), undefined, (function (tooltips, ele, idx) {
+                  return rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.set(tooltips, String(idx + 1 | 0), {
+                              _ele: ele
+                            });
+                })),
+          {
+            TAG: /* Blank */1,
+            _0: undefined
+          }
+        ]
+    ) : [
+      rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.reduce(rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.zip(c._0, _Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.querySelectorAllElements(ele, ".item-body .checkboxInput, .item-body .radioInput")), undefined, (function (tooltips, param) {
+              return rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.set(tooltips, param[0].key, {
+                          _ele: param[1]
+                        });
+            })),
+      {
+        TAG: /* Choice */0,
+        _0: undefined
+      }
+    ];
+  var $$this = {
+    _details: match[1],
+    _detailsHtml: null,
+    _tooltips: match[0],
+    _choiceMap: choiceMap
+  };
+  rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_8__.nullable_to_opt(ele.querySelector(".item-type")), (function (el) {
+          el.classList.add(style.clickable);
+          var rect = el.getBoundingClientRect();
+          el.addEventListener("click", (function (param) {
+                  return showDetail($$this, rect.top | 0, rect.left | 0);
+                }));
+          
+        }));
+  return $$this;
+}
+
+var Card = {
+  showDetail: showDetail,
+  updateAnswer: updateAnswer,
+  updateUI: updateUI,
+  make: make$1
+};
+
+var React;
+
+var ReactDOMRe;
+
+
+/* style Not a pure module */
+
+
+/***/ }),
+/* 44 */
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "blit": () => (/* binding */ blit),
+/* harmony export */   "capitalize": () => (/* binding */ capitalize),
+/* harmony export */   "capitalize_ascii": () => (/* binding */ capitalize_ascii),
+/* harmony export */   "compare": () => (/* binding */ compare),
+/* harmony export */   "concat": () => (/* binding */ concat),
+/* harmony export */   "contains": () => (/* binding */ contains),
+/* harmony export */   "contains_from": () => (/* binding */ contains_from),
+/* harmony export */   "equal": () => (/* binding */ equal),
+/* harmony export */   "escaped": () => (/* binding */ escaped),
+/* harmony export */   "index": () => (/* binding */ index),
+/* harmony export */   "index_from": () => (/* binding */ index_from),
+/* harmony export */   "index_from_opt": () => (/* binding */ index_from_opt),
+/* harmony export */   "index_opt": () => (/* binding */ index_opt),
+/* harmony export */   "init": () => (/* binding */ init),
+/* harmony export */   "iter": () => (/* binding */ iter),
+/* harmony export */   "iteri": () => (/* binding */ iteri),
+/* harmony export */   "lowercase": () => (/* binding */ lowercase),
+/* harmony export */   "lowercase_ascii": () => (/* binding */ lowercase_ascii),
+/* harmony export */   "make": () => (/* binding */ make),
+/* harmony export */   "map": () => (/* binding */ map),
+/* harmony export */   "mapi": () => (/* binding */ mapi),
+/* harmony export */   "rcontains_from": () => (/* binding */ rcontains_from),
+/* harmony export */   "rindex": () => (/* binding */ rindex),
+/* harmony export */   "rindex_from": () => (/* binding */ rindex_from),
+/* harmony export */   "rindex_from_opt": () => (/* binding */ rindex_from_opt),
+/* harmony export */   "rindex_opt": () => (/* binding */ rindex_opt),
+/* harmony export */   "split_on_char": () => (/* binding */ split_on_char),
+/* harmony export */   "sub": () => (/* binding */ sub),
+/* harmony export */   "trim": () => (/* binding */ trim),
+/* harmony export */   "uncapitalize": () => (/* binding */ uncapitalize),
+/* harmony export */   "uncapitalize_ascii": () => (/* binding */ uncapitalize_ascii),
+/* harmony export */   "uppercase": () => (/* binding */ uppercase),
+/* harmony export */   "uppercase_ascii": () => (/* binding */ uppercase_ascii)
+/* harmony export */ });
+/* harmony import */ var _caml_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(28);
+/* harmony import */ var _bytes_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(45);
+/* harmony import */ var _curry_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(22);
+/* harmony import */ var _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(47);
+/* harmony import */ var _caml_string_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(50);
+/* harmony import */ var _caml_js_exceptions_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(48);
+
+
+
+
+
+
+
+
+
+function init(n, f) {
+  return _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.bytes_to_string(_bytes_js__WEBPACK_IMPORTED_MODULE_1__.init(n, f));
+}
+
+function sub(s, ofs, len) {
+  return _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.bytes_to_string(_bytes_js__WEBPACK_IMPORTED_MODULE_1__.sub(_caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.bytes_of_string(s), ofs, len));
+}
+
+function ensure_ge(x, y) {
+  if (x >= y) {
+    return x;
+  }
+  throw {
+        RE_EXN_ID: "Invalid_argument",
+        _1: "String.concat",
+        Error: new Error()
+      };
+}
+
+function sum_lengths(_acc, seplen, _param) {
+  while(true) {
+    var param = _param;
+    var acc = _acc;
+    if (!param) {
+      return acc;
+    }
+    var tl = param.tl;
+    var hd = param.hd;
+    if (!tl) {
+      return hd.length + acc | 0;
+    }
+    _param = tl;
+    _acc = ensure_ge((hd.length + seplen | 0) + acc | 0, acc);
+    continue ;
+  };
+}
+
+function unsafe_blits(dst, _pos, sep, seplen, _param) {
+  while(true) {
+    var param = _param;
+    var pos = _pos;
+    if (!param) {
+      return dst;
+    }
+    var tl = param.tl;
+    var hd = param.hd;
+    if (tl) {
+      _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.caml_blit_string(hd, 0, dst, pos, hd.length);
+      _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.caml_blit_string(sep, 0, dst, pos + hd.length | 0, seplen);
+      _param = tl;
+      _pos = (pos + hd.length | 0) + seplen | 0;
+      continue ;
+    }
+    _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.caml_blit_string(hd, 0, dst, pos, hd.length);
+    return dst;
+  };
+}
+
+function concat(sep, l) {
+  if (!l) {
+    return "";
+  }
+  var seplen = sep.length;
+  return _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.bytes_to_string(unsafe_blits(_caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.caml_create_bytes(sum_lengths(0, seplen, l)), 0, sep, seplen, l));
+}
+
+function iter(f, s) {
+  for(var i = 0 ,i_finish = s.length; i < i_finish; ++i){
+    _curry_js__WEBPACK_IMPORTED_MODULE_2__._1(f, s.charCodeAt(i));
+  }
+  
+}
+
+function iteri(f, s) {
+  for(var i = 0 ,i_finish = s.length; i < i_finish; ++i){
+    _curry_js__WEBPACK_IMPORTED_MODULE_2__._2(f, i, s.charCodeAt(i));
+  }
+  
+}
+
+function map(f, s) {
+  return _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.bytes_to_string(_bytes_js__WEBPACK_IMPORTED_MODULE_1__.map(f, _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.bytes_of_string(s)));
+}
+
+function mapi(f, s) {
+  return _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.bytes_to_string(_bytes_js__WEBPACK_IMPORTED_MODULE_1__.mapi(f, _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.bytes_of_string(s)));
+}
+
+function is_space(param) {
+  if (param > 13 || param < 9) {
+    return param === 32;
+  } else {
+    return param !== 11;
+  }
+}
+
+function trim(s) {
+  if (s === "" || !(is_space(s.charCodeAt(0)) || is_space(s.charCodeAt(s.length - 1 | 0)))) {
+    return s;
+  } else {
+    return _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.bytes_to_string(_bytes_js__WEBPACK_IMPORTED_MODULE_1__.trim(_caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.bytes_of_string(s)));
+  }
+}
+
+function escaped(s) {
+  var needs_escape = function (_i) {
+    while(true) {
+      var i = _i;
+      if (i >= s.length) {
+        return false;
+      }
+      var match = s.charCodeAt(i);
+      if (match < 32) {
+        return true;
+      }
+      if (match > 92 || match < 34) {
+        if (match >= 127) {
+          return true;
+        }
+        _i = i + 1 | 0;
+        continue ;
+      }
+      if (match > 91 || match < 35) {
+        return true;
+      }
+      _i = i + 1 | 0;
+      continue ;
+    };
+  };
+  if (needs_escape(0)) {
+    return _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.bytes_to_string(_bytes_js__WEBPACK_IMPORTED_MODULE_1__.escaped(_caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.bytes_of_string(s)));
+  } else {
+    return s;
+  }
+}
+
+function index_rec(s, lim, _i, c) {
+  while(true) {
+    var i = _i;
+    if (i >= lim) {
+      throw {
+            RE_EXN_ID: "Not_found",
+            Error: new Error()
+          };
+    }
+    if (s.charCodeAt(i) === c) {
+      return i;
+    }
+    _i = i + 1 | 0;
+    continue ;
+  };
+}
+
+function index(s, c) {
+  return index_rec(s, s.length, 0, c);
+}
+
+function index_rec_opt(s, lim, _i, c) {
+  while(true) {
+    var i = _i;
+    if (i >= lim) {
+      return ;
+    }
+    if (s.charCodeAt(i) === c) {
+      return i;
+    }
+    _i = i + 1 | 0;
+    continue ;
+  };
+}
+
+function index_opt(s, c) {
+  return index_rec_opt(s, s.length, 0, c);
+}
+
+function index_from(s, i, c) {
+  var l = s.length;
+  if (i < 0 || i > l) {
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "String.index_from / Bytes.index_from",
+          Error: new Error()
+        };
+  }
+  return index_rec(s, l, i, c);
+}
+
+function index_from_opt(s, i, c) {
+  var l = s.length;
+  if (i < 0 || i > l) {
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "String.index_from_opt / Bytes.index_from_opt",
+          Error: new Error()
+        };
+  }
+  return index_rec_opt(s, l, i, c);
+}
+
+function rindex_rec(s, _i, c) {
+  while(true) {
+    var i = _i;
+    if (i < 0) {
+      throw {
+            RE_EXN_ID: "Not_found",
+            Error: new Error()
+          };
+    }
+    if (s.charCodeAt(i) === c) {
+      return i;
+    }
+    _i = i - 1 | 0;
+    continue ;
+  };
+}
+
+function rindex(s, c) {
+  return rindex_rec(s, s.length - 1 | 0, c);
+}
+
+function rindex_from(s, i, c) {
+  if (i < -1 || i >= s.length) {
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "String.rindex_from / Bytes.rindex_from",
+          Error: new Error()
+        };
+  }
+  return rindex_rec(s, i, c);
+}
+
+function rindex_rec_opt(s, _i, c) {
+  while(true) {
+    var i = _i;
+    if (i < 0) {
+      return ;
+    }
+    if (s.charCodeAt(i) === c) {
+      return i;
+    }
+    _i = i - 1 | 0;
+    continue ;
+  };
+}
+
+function rindex_opt(s, c) {
+  return rindex_rec_opt(s, s.length - 1 | 0, c);
+}
+
+function rindex_from_opt(s, i, c) {
+  if (i < -1 || i >= s.length) {
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "String.rindex_from_opt / Bytes.rindex_from_opt",
+          Error: new Error()
+        };
+  }
+  return rindex_rec_opt(s, i, c);
+}
+
+function contains_from(s, i, c) {
+  var l = s.length;
+  if (i < 0 || i > l) {
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "String.contains_from / Bytes.contains_from",
+          Error: new Error()
+        };
+  }
+  try {
+    index_rec(s, l, i, c);
+    return true;
+  }
+  catch (raw_exn){
+    var exn = _caml_js_exceptions_js__WEBPACK_IMPORTED_MODULE_5__.internalToOCamlException(raw_exn);
+    if (exn.RE_EXN_ID === "Not_found") {
+      return false;
+    }
+    throw exn;
+  }
+}
+
+function contains(s, c) {
+  return contains_from(s, 0, c);
+}
+
+function rcontains_from(s, i, c) {
+  if (i < 0 || i >= s.length) {
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "String.rcontains_from / Bytes.rcontains_from",
+          Error: new Error()
+        };
+  }
+  try {
+    rindex_rec(s, i, c);
+    return true;
+  }
+  catch (raw_exn){
+    var exn = _caml_js_exceptions_js__WEBPACK_IMPORTED_MODULE_5__.internalToOCamlException(raw_exn);
+    if (exn.RE_EXN_ID === "Not_found") {
+      return false;
+    }
+    throw exn;
+  }
+}
+
+function uppercase_ascii(s) {
+  return _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.bytes_to_string(_bytes_js__WEBPACK_IMPORTED_MODULE_1__.uppercase_ascii(_caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.bytes_of_string(s)));
+}
+
+function lowercase_ascii(s) {
+  return _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.bytes_to_string(_bytes_js__WEBPACK_IMPORTED_MODULE_1__.lowercase_ascii(_caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.bytes_of_string(s)));
+}
+
+function capitalize_ascii(s) {
+  return _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.bytes_to_string(_bytes_js__WEBPACK_IMPORTED_MODULE_1__.capitalize_ascii(_caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.bytes_of_string(s)));
+}
+
+function uncapitalize_ascii(s) {
+  return _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.bytes_to_string(_bytes_js__WEBPACK_IMPORTED_MODULE_1__.uncapitalize_ascii(_caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.bytes_of_string(s)));
+}
+
+var compare = _caml_js__WEBPACK_IMPORTED_MODULE_0__.caml_string_compare;
+
+function split_on_char(sep, s) {
+  var r = /* [] */0;
+  var j = s.length;
+  for(var i = s.length - 1 | 0; i >= 0; --i){
+    if (s.charCodeAt(i) === sep) {
+      r = {
+        hd: sub(s, i + 1 | 0, (j - i | 0) - 1 | 0),
+        tl: r
+      };
+      j = i;
+    }
+    
+  }
+  return {
+          hd: sub(s, 0, j),
+          tl: r
+        };
+}
+
+function uppercase(s) {
+  return _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.bytes_to_string(_bytes_js__WEBPACK_IMPORTED_MODULE_1__.uppercase(_caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.bytes_of_string(s)));
+}
+
+function lowercase(s) {
+  return _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.bytes_to_string(_bytes_js__WEBPACK_IMPORTED_MODULE_1__.lowercase(_caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.bytes_of_string(s)));
+}
+
+function capitalize(s) {
+  return _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.bytes_to_string(_bytes_js__WEBPACK_IMPORTED_MODULE_1__.capitalize(_caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.bytes_of_string(s)));
+}
+
+function uncapitalize(s) {
+  return _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.bytes_to_string(_bytes_js__WEBPACK_IMPORTED_MODULE_1__.uncapitalize(_caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.bytes_of_string(s)));
+}
+
+var make = _caml_string_js__WEBPACK_IMPORTED_MODULE_4__.make;
+
+var blit = _bytes_js__WEBPACK_IMPORTED_MODULE_1__.blit_string;
+
+function equal(prim0, prim1) {
+  return prim0 === prim1;
+}
+
+
+/* No side effect */
+
+
+/***/ }),
+/* 45 */
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "blit": () => (/* binding */ blit),
+/* harmony export */   "blit_string": () => (/* binding */ blit_string),
+/* harmony export */   "capitalize": () => (/* binding */ capitalize),
+/* harmony export */   "capitalize_ascii": () => (/* binding */ capitalize_ascii),
+/* harmony export */   "cat": () => (/* binding */ cat),
+/* harmony export */   "compare": () => (/* binding */ compare),
+/* harmony export */   "concat": () => (/* binding */ concat),
+/* harmony export */   "contains": () => (/* binding */ contains),
+/* harmony export */   "contains_from": () => (/* binding */ contains_from),
+/* harmony export */   "copy": () => (/* binding */ copy),
+/* harmony export */   "empty": () => (/* binding */ empty),
+/* harmony export */   "equal": () => (/* binding */ equal),
+/* harmony export */   "escaped": () => (/* binding */ escaped),
+/* harmony export */   "extend": () => (/* binding */ extend),
+/* harmony export */   "fill": () => (/* binding */ fill),
+/* harmony export */   "index": () => (/* binding */ index),
+/* harmony export */   "index_from": () => (/* binding */ index_from),
+/* harmony export */   "index_from_opt": () => (/* binding */ index_from_opt),
+/* harmony export */   "index_opt": () => (/* binding */ index_opt),
+/* harmony export */   "init": () => (/* binding */ init),
+/* harmony export */   "iter": () => (/* binding */ iter),
+/* harmony export */   "iteri": () => (/* binding */ iteri),
+/* harmony export */   "lowercase": () => (/* binding */ lowercase),
+/* harmony export */   "lowercase_ascii": () => (/* binding */ lowercase_ascii),
+/* harmony export */   "make": () => (/* binding */ make),
+/* harmony export */   "map": () => (/* binding */ map),
+/* harmony export */   "mapi": () => (/* binding */ mapi),
+/* harmony export */   "of_string": () => (/* binding */ of_string),
+/* harmony export */   "rcontains_from": () => (/* binding */ rcontains_from),
+/* harmony export */   "rindex": () => (/* binding */ rindex),
+/* harmony export */   "rindex_from": () => (/* binding */ rindex_from),
+/* harmony export */   "rindex_from_opt": () => (/* binding */ rindex_from_opt),
+/* harmony export */   "rindex_opt": () => (/* binding */ rindex_opt),
+/* harmony export */   "sub": () => (/* binding */ sub),
+/* harmony export */   "sub_string": () => (/* binding */ sub_string),
+/* harmony export */   "to_string": () => (/* binding */ to_string),
+/* harmony export */   "trim": () => (/* binding */ trim),
+/* harmony export */   "uncapitalize": () => (/* binding */ uncapitalize),
+/* harmony export */   "uncapitalize_ascii": () => (/* binding */ uncapitalize_ascii),
+/* harmony export */   "unsafe_of_string": () => (/* binding */ unsafe_of_string),
+/* harmony export */   "unsafe_to_string": () => (/* binding */ unsafe_to_string),
+/* harmony export */   "uppercase": () => (/* binding */ uppercase),
+/* harmony export */   "uppercase_ascii": () => (/* binding */ uppercase_ascii)
+/* harmony export */ });
+/* harmony import */ var _caml_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(28);
+/* harmony import */ var _char_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(46);
+/* harmony import */ var _curry_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(22);
+/* harmony import */ var _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(47);
+/* harmony import */ var _caml_js_exceptions_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(48);
+
+
+
+
+
+
+
+
+function make(n, c) {
+  var s = _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.caml_create_bytes(n);
+  _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.caml_fill_bytes(s, 0, n, c);
+  return s;
+}
+
+function init(n, f) {
+  var s = _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.caml_create_bytes(n);
+  for(var i = 0; i < n; ++i){
+    s[i] = _curry_js__WEBPACK_IMPORTED_MODULE_2__._1(f, i);
+  }
+  return s;
+}
+
+var empty = [];
+
+function copy(s) {
+  var len = s.length;
+  var r = _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.caml_create_bytes(len);
+  _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.caml_blit_bytes(s, 0, r, 0, len);
+  return r;
+}
+
+function to_string(b) {
+  return _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.bytes_to_string(copy(b));
+}
+
+function of_string(s) {
+  return copy(_caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.bytes_of_string(s));
+}
+
+function sub(s, ofs, len) {
+  if (ofs < 0 || len < 0 || ofs > (s.length - len | 0)) {
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "String.sub / Bytes.sub",
+          Error: new Error()
+        };
+  }
+  var r = _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.caml_create_bytes(len);
+  _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.caml_blit_bytes(s, ofs, r, 0, len);
+  return r;
+}
+
+function sub_string(b, ofs, len) {
+  return _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.bytes_to_string(sub(b, ofs, len));
+}
+
+function $plus$plus(a, b) {
+  var c = a + b | 0;
+  var match = a < 0;
+  var match$1 = b < 0;
+  var match$2 = c < 0;
+  if (match) {
+    if (!match$1) {
+      return c;
+    }
+    if (match$2) {
+      return c;
+    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Bytes.extend",
+          Error: new Error()
+        };
+  }
+  if (match$1) {
+    return c;
+  }
+  if (match$2) {
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Bytes.extend",
+          Error: new Error()
+        };
+  }
+  return c;
+}
+
+function extend(s, left, right) {
+  var len = $plus$plus($plus$plus(s.length, left), right);
+  var r = _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.caml_create_bytes(len);
+  var match = left < 0 ? [
+      -left | 0,
+      0
+    ] : [
+      0,
+      left
+    ];
+  var dstoff = match[1];
+  var srcoff = match[0];
+  var cpylen = _caml_js__WEBPACK_IMPORTED_MODULE_0__.caml_int_min(s.length - srcoff | 0, len - dstoff | 0);
+  if (cpylen > 0) {
+    _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.caml_blit_bytes(s, srcoff, r, dstoff, cpylen);
+  }
+  return r;
+}
+
+function fill(s, ofs, len, c) {
+  if (ofs < 0 || len < 0 || ofs > (s.length - len | 0)) {
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "String.fill / Bytes.fill",
+          Error: new Error()
+        };
+  }
+  return _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.caml_fill_bytes(s, ofs, len, c);
+}
+
+function blit(s1, ofs1, s2, ofs2, len) {
+  if (len < 0 || ofs1 < 0 || ofs1 > (s1.length - len | 0) || ofs2 < 0 || ofs2 > (s2.length - len | 0)) {
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Bytes.blit",
+          Error: new Error()
+        };
+  }
+  return _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.caml_blit_bytes(s1, ofs1, s2, ofs2, len);
+}
+
+function blit_string(s1, ofs1, s2, ofs2, len) {
+  if (len < 0 || ofs1 < 0 || ofs1 > (s1.length - len | 0) || ofs2 < 0 || ofs2 > (s2.length - len | 0)) {
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "String.blit / Bytes.blit_string",
+          Error: new Error()
+        };
+  }
+  return _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.caml_blit_string(s1, ofs1, s2, ofs2, len);
+}
+
+function iter(f, a) {
+  for(var i = 0 ,i_finish = a.length; i < i_finish; ++i){
+    _curry_js__WEBPACK_IMPORTED_MODULE_2__._1(f, a[i]);
+  }
+  
+}
+
+function iteri(f, a) {
+  for(var i = 0 ,i_finish = a.length; i < i_finish; ++i){
+    _curry_js__WEBPACK_IMPORTED_MODULE_2__._2(f, i, a[i]);
+  }
+  
+}
+
+function ensure_ge(x, y) {
+  if (x >= y) {
+    return x;
+  }
+  throw {
+        RE_EXN_ID: "Invalid_argument",
+        _1: "Bytes.concat",
+        Error: new Error()
+      };
+}
+
+function sum_lengths(_acc, seplen, _param) {
+  while(true) {
+    var param = _param;
+    var acc = _acc;
+    if (!param) {
+      return acc;
+    }
+    var tl = param.tl;
+    var hd = param.hd;
+    if (!tl) {
+      return hd.length + acc | 0;
+    }
+    _param = tl;
+    _acc = ensure_ge((hd.length + seplen | 0) + acc | 0, acc);
+    continue ;
+  };
+}
+
+function concat(sep, l) {
+  if (!l) {
+    return empty;
+  }
+  var seplen = sep.length;
+  var dst = _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.caml_create_bytes(sum_lengths(0, seplen, l));
+  var _pos = 0;
+  var _param = l;
+  while(true) {
+    var param = _param;
+    var pos = _pos;
+    if (!param) {
+      return dst;
+    }
+    var tl = param.tl;
+    var hd = param.hd;
+    if (tl) {
+      _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.caml_blit_bytes(hd, 0, dst, pos, hd.length);
+      _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.caml_blit_bytes(sep, 0, dst, pos + hd.length | 0, seplen);
+      _param = tl;
+      _pos = (pos + hd.length | 0) + seplen | 0;
+      continue ;
+    }
+    _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.caml_blit_bytes(hd, 0, dst, pos, hd.length);
+    return dst;
+  };
+}
+
+function cat(s1, s2) {
+  var l1 = s1.length;
+  var l2 = s2.length;
+  var r = _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.caml_create_bytes(l1 + l2 | 0);
+  _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.caml_blit_bytes(s1, 0, r, 0, l1);
+  _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.caml_blit_bytes(s2, 0, r, l1, l2);
+  return r;
+}
+
+function is_space(param) {
+  if (param > 13 || param < 9) {
+    return param === 32;
+  } else {
+    return param !== 11;
+  }
+}
+
+function trim(s) {
+  var len = s.length;
+  var i = 0;
+  while(i < len && is_space(s[i])) {
+    i = i + 1 | 0;
+  };
+  var j = len - 1 | 0;
+  while(j >= i && is_space(s[j])) {
+    j = j - 1 | 0;
+  };
+  if (j >= i) {
+    return sub(s, i, (j - i | 0) + 1 | 0);
+  } else {
+    return empty;
+  }
+}
+
+function escaped(s) {
+  var n = 0;
+  for(var i = 0 ,i_finish = s.length; i < i_finish; ++i){
+    var match = s[i];
+    n = n + (
+      match >= 32 ? (
+          match > 92 || match < 34 ? (
+              match >= 127 ? 4 : 1
+            ) : (
+              match > 91 || match < 35 ? 2 : 1
+            )
+        ) : (
+          match >= 11 ? (
+              match !== 13 ? 4 : 2
+            ) : (
+              match >= 8 ? 2 : 4
+            )
+        )
+    ) | 0;
+  }
+  if (n === s.length) {
+    return copy(s);
+  }
+  var s$p = _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.caml_create_bytes(n);
+  n = 0;
+  for(var i$1 = 0 ,i_finish$1 = s.length; i$1 < i_finish$1; ++i$1){
+    var c = s[i$1];
+    var exit = 0;
+    if (c >= 35) {
+      if (c !== 92) {
+        if (c >= 127) {
+          exit = 1;
+        } else {
+          s$p[n] = c;
+        }
+      } else {
+        exit = 2;
+      }
+    } else if (c >= 32) {
+      if (c >= 34) {
+        exit = 2;
+      } else {
+        s$p[n] = c;
+      }
+    } else if (c >= 14) {
+      exit = 1;
+    } else {
+      switch (c) {
+        case 8 :
+            s$p[n] = /* '\\' */92;
+            n = n + 1 | 0;
+            s$p[n] = /* 'b' */98;
+            break;
+        case 9 :
+            s$p[n] = /* '\\' */92;
+            n = n + 1 | 0;
+            s$p[n] = /* 't' */116;
+            break;
+        case 10 :
+            s$p[n] = /* '\\' */92;
+            n = n + 1 | 0;
+            s$p[n] = /* 'n' */110;
+            break;
+        case 0 :
+        case 1 :
+        case 2 :
+        case 3 :
+        case 4 :
+        case 5 :
+        case 6 :
+        case 7 :
+        case 11 :
+        case 12 :
+            exit = 1;
+            break;
+        case 13 :
+            s$p[n] = /* '\\' */92;
+            n = n + 1 | 0;
+            s$p[n] = /* 'r' */114;
+            break;
+        
+      }
+    }
+    switch (exit) {
+      case 1 :
+          s$p[n] = /* '\\' */92;
+          n = n + 1 | 0;
+          s$p[n] = 48 + (c / 100 | 0) | 0;
+          n = n + 1 | 0;
+          s$p[n] = 48 + (c / 10 | 0) % 10 | 0;
+          n = n + 1 | 0;
+          s$p[n] = 48 + c % 10 | 0;
+          break;
+      case 2 :
+          s$p[n] = /* '\\' */92;
+          n = n + 1 | 0;
+          s$p[n] = c;
+          break;
+      
+    }
+    n = n + 1 | 0;
+  }
+  return s$p;
+}
+
+function map(f, s) {
+  var l = s.length;
+  if (l === 0) {
+    return s;
+  }
+  var r = _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.caml_create_bytes(l);
+  for(var i = 0; i < l; ++i){
+    r[i] = _curry_js__WEBPACK_IMPORTED_MODULE_2__._1(f, s[i]);
+  }
+  return r;
+}
+
+function mapi(f, s) {
+  var l = s.length;
+  if (l === 0) {
+    return s;
+  }
+  var r = _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.caml_create_bytes(l);
+  for(var i = 0; i < l; ++i){
+    r[i] = _curry_js__WEBPACK_IMPORTED_MODULE_2__._2(f, i, s[i]);
+  }
+  return r;
+}
+
+function uppercase_ascii(s) {
+  return map(_char_js__WEBPACK_IMPORTED_MODULE_1__.uppercase_ascii, s);
+}
+
+function lowercase_ascii(s) {
+  return map(_char_js__WEBPACK_IMPORTED_MODULE_1__.lowercase_ascii, s);
+}
+
+function apply1(f, s) {
+  if (s.length === 0) {
+    return s;
+  }
+  var r = copy(s);
+  r[0] = _curry_js__WEBPACK_IMPORTED_MODULE_2__._1(f, s[0]);
+  return r;
+}
+
+function capitalize_ascii(s) {
+  return apply1(_char_js__WEBPACK_IMPORTED_MODULE_1__.uppercase_ascii, s);
+}
+
+function uncapitalize_ascii(s) {
+  return apply1(_char_js__WEBPACK_IMPORTED_MODULE_1__.lowercase_ascii, s);
+}
+
+function index_rec(s, lim, _i, c) {
+  while(true) {
+    var i = _i;
+    if (i >= lim) {
+      throw {
+            RE_EXN_ID: "Not_found",
+            Error: new Error()
+          };
+    }
+    if (s[i] === c) {
+      return i;
+    }
+    _i = i + 1 | 0;
+    continue ;
+  };
+}
+
+function index(s, c) {
+  return index_rec(s, s.length, 0, c);
+}
+
+function index_rec_opt(s, lim, _i, c) {
+  while(true) {
+    var i = _i;
+    if (i >= lim) {
+      return ;
+    }
+    if (s[i] === c) {
+      return i;
+    }
+    _i = i + 1 | 0;
+    continue ;
+  };
+}
+
+function index_opt(s, c) {
+  return index_rec_opt(s, s.length, 0, c);
+}
+
+function index_from(s, i, c) {
+  var l = s.length;
+  if (i < 0 || i > l) {
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "String.index_from / Bytes.index_from",
+          Error: new Error()
+        };
+  }
+  return index_rec(s, l, i, c);
+}
+
+function index_from_opt(s, i, c) {
+  var l = s.length;
+  if (i < 0 || i > l) {
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "String.index_from_opt / Bytes.index_from_opt",
+          Error: new Error()
+        };
+  }
+  return index_rec_opt(s, l, i, c);
+}
+
+function rindex_rec(s, _i, c) {
+  while(true) {
+    var i = _i;
+    if (i < 0) {
+      throw {
+            RE_EXN_ID: "Not_found",
+            Error: new Error()
+          };
+    }
+    if (s[i] === c) {
+      return i;
+    }
+    _i = i - 1 | 0;
+    continue ;
+  };
+}
+
+function rindex(s, c) {
+  return rindex_rec(s, s.length - 1 | 0, c);
+}
+
+function rindex_from(s, i, c) {
+  if (i < -1 || i >= s.length) {
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "String.rindex_from / Bytes.rindex_from",
+          Error: new Error()
+        };
+  }
+  return rindex_rec(s, i, c);
+}
+
+function rindex_rec_opt(s, _i, c) {
+  while(true) {
+    var i = _i;
+    if (i < 0) {
+      return ;
+    }
+    if (s[i] === c) {
+      return i;
+    }
+    _i = i - 1 | 0;
+    continue ;
+  };
+}
+
+function rindex_opt(s, c) {
+  return rindex_rec_opt(s, s.length - 1 | 0, c);
+}
+
+function rindex_from_opt(s, i, c) {
+  if (i < -1 || i >= s.length) {
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "String.rindex_from_opt / Bytes.rindex_from_opt",
+          Error: new Error()
+        };
+  }
+  return rindex_rec_opt(s, i, c);
+}
+
+function contains_from(s, i, c) {
+  var l = s.length;
+  if (i < 0 || i > l) {
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "String.contains_from / Bytes.contains_from",
+          Error: new Error()
+        };
+  }
+  try {
+    index_rec(s, l, i, c);
+    return true;
+  }
+  catch (raw_exn){
+    var exn = _caml_js_exceptions_js__WEBPACK_IMPORTED_MODULE_4__.internalToOCamlException(raw_exn);
+    if (exn.RE_EXN_ID === "Not_found") {
+      return false;
+    }
+    throw exn;
+  }
+}
+
+function contains(s, c) {
+  return contains_from(s, 0, c);
+}
+
+function rcontains_from(s, i, c) {
+  if (i < 0 || i >= s.length) {
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "String.rcontains_from / Bytes.rcontains_from",
+          Error: new Error()
+        };
+  }
+  try {
+    rindex_rec(s, i, c);
+    return true;
+  }
+  catch (raw_exn){
+    var exn = _caml_js_exceptions_js__WEBPACK_IMPORTED_MODULE_4__.internalToOCamlException(raw_exn);
+    if (exn.RE_EXN_ID === "Not_found") {
+      return false;
+    }
+    throw exn;
+  }
+}
+
+var compare = _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.caml_bytes_compare;
+
+function uppercase(s) {
+  return map(_char_js__WEBPACK_IMPORTED_MODULE_1__.uppercase, s);
+}
+
+function lowercase(s) {
+  return map(_char_js__WEBPACK_IMPORTED_MODULE_1__.lowercase, s);
+}
+
+function capitalize(s) {
+  return apply1(_char_js__WEBPACK_IMPORTED_MODULE_1__.uppercase, s);
+}
+
+function uncapitalize(s) {
+  return apply1(_char_js__WEBPACK_IMPORTED_MODULE_1__.lowercase, s);
+}
+
+var equal = _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.caml_bytes_equal;
+
+var unsafe_to_string = _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.bytes_to_string;
+
+var unsafe_of_string = _caml_bytes_js__WEBPACK_IMPORTED_MODULE_3__.bytes_of_string;
+
+
+/* No side effect */
+
+
+/***/ }),
+/* 46 */
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "chr": () => (/* binding */ chr),
+/* harmony export */   "compare": () => (/* binding */ compare),
+/* harmony export */   "equal": () => (/* binding */ equal),
+/* harmony export */   "escaped": () => (/* binding */ escaped),
+/* harmony export */   "lowercase": () => (/* binding */ lowercase),
+/* harmony export */   "lowercase_ascii": () => (/* binding */ lowercase_ascii),
+/* harmony export */   "uppercase": () => (/* binding */ uppercase),
+/* harmony export */   "uppercase_ascii": () => (/* binding */ uppercase_ascii)
+/* harmony export */ });
+/* harmony import */ var _caml_bytes_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(47);
+
+
+
+
+function chr(n) {
+  if (n < 0 || n > 255) {
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Char.chr",
+          Error: new Error()
+        };
+  }
+  return n;
+}
+
+function escaped(c) {
+  var exit = 0;
+  if (c >= 40) {
+    if (c === 92) {
+      return "\\\\";
+    }
+    exit = c >= 127 ? 1 : 2;
+  } else if (c >= 32) {
+    if (c >= 39) {
+      return "\\'";
+    }
+    exit = 2;
+  } else if (c >= 14) {
+    exit = 1;
+  } else {
+    switch (c) {
+      case 8 :
+          return "\\b";
+      case 9 :
+          return "\\t";
+      case 10 :
+          return "\\n";
+      case 0 :
+      case 1 :
+      case 2 :
+      case 3 :
+      case 4 :
+      case 5 :
+      case 6 :
+      case 7 :
+      case 11 :
+      case 12 :
+          exit = 1;
+          break;
+      case 13 :
+          return "\\r";
+      
+    }
+  }
+  switch (exit) {
+    case 1 :
+        var s = [
+          0,
+          0,
+          0,
+          0
+        ];
+        s[0] = /* '\\' */92;
+        s[1] = 48 + (c / 100 | 0) | 0;
+        s[2] = 48 + (c / 10 | 0) % 10 | 0;
+        s[3] = 48 + c % 10 | 0;
+        return _caml_bytes_js__WEBPACK_IMPORTED_MODULE_0__.bytes_to_string(s);
+    case 2 :
+        var s$1 = [0];
+        s$1[0] = c;
+        return _caml_bytes_js__WEBPACK_IMPORTED_MODULE_0__.bytes_to_string(s$1);
+    
+  }
+}
+
+function lowercase(c) {
+  if (c >= /* 'A' */65 && c <= /* 'Z' */90 || c >= /* '\192' */192 && c <= /* '\214' */214 || c >= /* '\216' */216 && c <= /* '\222' */222) {
+    return c + 32 | 0;
+  } else {
+    return c;
+  }
+}
+
+function uppercase(c) {
+  if (c >= /* 'a' */97 && c <= /* 'z' */122 || c >= /* '\224' */224 && c <= /* '\246' */246 || c >= /* '\248' */248 && c <= /* '\254' */254) {
+    return c - 32 | 0;
+  } else {
+    return c;
+  }
+}
+
+function lowercase_ascii(c) {
+  if (c >= /* 'A' */65 && c <= /* 'Z' */90) {
+    return c + 32 | 0;
+  } else {
+    return c;
+  }
+}
+
+function uppercase_ascii(c) {
+  if (c >= /* 'a' */97 && c <= /* 'z' */122) {
+    return c - 32 | 0;
+  } else {
+    return c;
+  }
+}
+
+function compare(c1, c2) {
+  return c1 - c2 | 0;
+}
+
+function equal(c1, c2) {
+  return (c1 - c2 | 0) === 0;
+}
+
+
+/* No side effect */
+
+
+/***/ }),
+/* 47 */
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "bytes_of_string": () => (/* binding */ bytes_of_string),
+/* harmony export */   "bytes_to_string": () => (/* binding */ bytes_to_string),
+/* harmony export */   "caml_blit_bytes": () => (/* binding */ caml_blit_bytes),
+/* harmony export */   "caml_blit_string": () => (/* binding */ caml_blit_string),
+/* harmony export */   "caml_bytes_compare": () => (/* binding */ caml_bytes_compare),
+/* harmony export */   "caml_bytes_equal": () => (/* binding */ caml_bytes_equal),
+/* harmony export */   "caml_bytes_greaterequal": () => (/* binding */ caml_bytes_greaterequal),
+/* harmony export */   "caml_bytes_greaterthan": () => (/* binding */ caml_bytes_greaterthan),
+/* harmony export */   "caml_bytes_lessequal": () => (/* binding */ caml_bytes_lessequal),
+/* harmony export */   "caml_bytes_lessthan": () => (/* binding */ caml_bytes_lessthan),
+/* harmony export */   "caml_create_bytes": () => (/* binding */ caml_create_bytes),
+/* harmony export */   "caml_fill_bytes": () => (/* binding */ caml_fill_bytes),
+/* harmony export */   "get": () => (/* binding */ get),
+/* harmony export */   "set": () => (/* binding */ set)
+/* harmony export */ });
+
+
+
+function set(s, i, ch) {
+  if (i < 0 || i >= s.length) {
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "index out of bounds",
+          Error: new Error()
+        };
+  }
+  s[i] = ch;
+  
+}
+
+function get(s, i) {
+  if (i < 0 || i >= s.length) {
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "index out of bounds",
+          Error: new Error()
+        };
+  }
+  return s[i];
+}
+
+function caml_fill_bytes(s, i, l, c) {
+  if (l <= 0) {
+    return ;
+  }
+  for(var k = i ,k_finish = l + i | 0; k < k_finish; ++k){
+    s[k] = c;
+  }
+  
+}
+
+function caml_create_bytes(len) {
+  if (len < 0) {
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "String.create",
+          Error: new Error()
+        };
+  }
+  var result = new Array(len);
+  for(var i = 0; i < len; ++i){
+    result[i] = /* '\000' */0;
+  }
+  return result;
+}
+
+function caml_blit_bytes(s1, i1, s2, i2, len) {
+  if (len <= 0) {
+    return ;
+  }
+  if (s1 === s2) {
+    if (i1 < i2) {
+      var range_a = (s1.length - i2 | 0) - 1 | 0;
+      var range_b = len - 1 | 0;
+      var range = range_a > range_b ? range_b : range_a;
+      for(var j = range; j >= 0; --j){
+        s1[i2 + j | 0] = s1[i1 + j | 0];
+      }
+      return ;
+    }
+    if (i1 <= i2) {
+      return ;
+    }
+    var range_a$1 = (s1.length - i1 | 0) - 1 | 0;
+    var range_b$1 = len - 1 | 0;
+    var range$1 = range_a$1 > range_b$1 ? range_b$1 : range_a$1;
+    for(var k = 0; k <= range$1; ++k){
+      s1[i2 + k | 0] = s1[i1 + k | 0];
+    }
+    return ;
+  }
+  var off1 = s1.length - i1 | 0;
+  if (len <= off1) {
+    for(var i = 0; i < len; ++i){
+      s2[i2 + i | 0] = s1[i1 + i | 0];
+    }
+    return ;
+  }
+  for(var i$1 = 0; i$1 < off1; ++i$1){
+    s2[i2 + i$1 | 0] = s1[i1 + i$1 | 0];
+  }
+  for(var i$2 = off1; i$2 < len; ++i$2){
+    s2[i2 + i$2 | 0] = /* '\000' */0;
+  }
+  
+}
+
+function bytes_to_string(a) {
+  var i = 0;
+  var len = a.length;
+  var s = "";
+  var s_len = len;
+  if (i === 0 && len <= 4096 && len === a.length) {
+    return String.fromCharCode.apply(null, a);
+  }
+  var offset = 0;
+  while(s_len > 0) {
+    var next = s_len < 1024 ? s_len : 1024;
+    var tmp_bytes = new Array(next);
+    for(var k = 0; k < next; ++k){
+      tmp_bytes[k] = a[k + offset | 0];
+    }
+    s = s + String.fromCharCode.apply(null, tmp_bytes);
+    s_len = s_len - next | 0;
+    offset = offset + next | 0;
+  };
+  return s;
+}
+
+function caml_blit_string(s1, i1, s2, i2, len) {
+  if (len <= 0) {
+    return ;
+  }
+  var off1 = s1.length - i1 | 0;
+  if (len <= off1) {
+    for(var i = 0; i < len; ++i){
+      s2[i2 + i | 0] = s1.charCodeAt(i1 + i | 0);
+    }
+    return ;
+  }
+  for(var i$1 = 0; i$1 < off1; ++i$1){
+    s2[i2 + i$1 | 0] = s1.charCodeAt(i1 + i$1 | 0);
+  }
+  for(var i$2 = off1; i$2 < len; ++i$2){
+    s2[i2 + i$2 | 0] = /* '\000' */0;
+  }
+  
+}
+
+function bytes_of_string(s) {
+  var len = s.length;
+  var res = new Array(len);
+  for(var i = 0; i < len; ++i){
+    res[i] = s.charCodeAt(i);
+  }
+  return res;
+}
+
+function caml_bytes_compare_aux(s1, s2, _off, len, def) {
+  while(true) {
+    var off = _off;
+    if (off >= len) {
+      return def;
+    }
+    var a = s1[off];
+    var b = s2[off];
+    if (a > b) {
+      return 1;
+    }
+    if (a < b) {
+      return -1;
+    }
+    _off = off + 1 | 0;
+    continue ;
+  };
+}
+
+function caml_bytes_compare(s1, s2) {
+  var len1 = s1.length;
+  var len2 = s2.length;
+  if (len1 === len2) {
+    return caml_bytes_compare_aux(s1, s2, 0, len1, 0);
+  } else if (len1 < len2) {
+    return caml_bytes_compare_aux(s1, s2, 0, len1, -1);
+  } else {
+    return caml_bytes_compare_aux(s1, s2, 0, len2, 1);
+  }
+}
+
+function caml_bytes_equal(s1, s2) {
+  var len1 = s1.length;
+  var len2 = s2.length;
+  if (len1 === len2) {
+    var _off = 0;
+    while(true) {
+      var off = _off;
+      if (off === len1) {
+        return true;
+      }
+      var a = s1[off];
+      var b = s2[off];
+      if (a !== b) {
+        return false;
+      }
+      _off = off + 1 | 0;
+      continue ;
+    };
+  } else {
+    return false;
+  }
+}
+
+function caml_bytes_greaterthan(s1, s2) {
+  return caml_bytes_compare(s1, s2) > 0;
+}
+
+function caml_bytes_greaterequal(s1, s2) {
+  return caml_bytes_compare(s1, s2) >= 0;
+}
+
+function caml_bytes_lessthan(s1, s2) {
+  return caml_bytes_compare(s1, s2) < 0;
+}
+
+function caml_bytes_lessequal(s1, s2) {
+  return caml_bytes_compare(s1, s2) <= 0;
+}
+
+
+/* No side effect */
+
+
+/***/ }),
+/* 48 */
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "$$Error": () => (/* binding */ $$Error),
+/* harmony export */   "caml_as_js_exn": () => (/* binding */ caml_as_js_exn),
+/* harmony export */   "internalToOCamlException": () => (/* binding */ internalToOCamlException)
+/* harmony export */ });
+/* harmony import */ var _caml_option_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
+/* harmony import */ var _caml_exceptions_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(49);
+
+
+
+
+
+var $$Error = /* @__PURE__ */_caml_exceptions_js__WEBPACK_IMPORTED_MODULE_1__.create("Caml_js_exceptions.Error");
+
+function internalToOCamlException(e) {
+  if (_caml_exceptions_js__WEBPACK_IMPORTED_MODULE_1__.caml_is_extension(e)) {
+    return e;
+  } else {
+    return {
+            RE_EXN_ID: $$Error,
+            _1: e
+          };
+  }
+}
+
+function caml_as_js_exn(exn) {
+  if (exn.RE_EXN_ID === $$Error) {
+    return _caml_option_js__WEBPACK_IMPORTED_MODULE_0__.some(exn._1);
+  }
+  
+}
+
+
+/* No side effect */
+
+
+/***/ }),
+/* 49 */
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "caml_exn_slot_name": () => (/* binding */ caml_exn_slot_name),
+/* harmony export */   "caml_is_extension": () => (/* binding */ caml_is_extension),
+/* harmony export */   "create": () => (/* binding */ create),
+/* harmony export */   "id": () => (/* binding */ id)
+/* harmony export */ });
+
+
+
+var id = {
+  contents: 0
+};
+
+function create(str) {
+  id.contents = id.contents + 1 | 0;
+  return str + ("/" + id.contents);
+}
+
+function caml_is_extension(e) {
+  if (e == null) {
+    return false;
+  } else {
+    return typeof e.RE_EXN_ID === "string";
+  }
+}
+
+function caml_exn_slot_name(x) {
+  return x.RE_EXN_ID;
+}
+
+
+/* No side effect */
+
+
+/***/ }),
+/* 50 */
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "get": () => (/* binding */ get),
+/* harmony export */   "make": () => (/* binding */ make)
+/* harmony export */ });
+
+
+
+function get(s, i) {
+  if (i >= s.length || i < 0) {
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "index out of bounds",
+          Error: new Error()
+        };
+  }
+  return s.charCodeAt(i);
+}
+
+function make(n, ch) {
+  return String.fromCharCode(ch).repeat(n);
+}
+
+
+/* No side effect */
+
+
+/***/ }),
+/* 51 */
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "entries": () => (/* binding */ entries),
+/* harmony export */   "fromArray": () => (/* binding */ fromArray),
+/* harmony export */   "fromList": () => (/* binding */ fromList),
+/* harmony export */   "get": () => (/* binding */ get),
+/* harmony export */   "map": () => (/* binding */ map),
+/* harmony export */   "unsafeDeleteKey": () => (/* binding */ unsafeDeleteKey),
+/* harmony export */   "values": () => (/* binding */ values)
+/* harmony export */ });
+/* harmony import */ var _caml_option_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
+
+
+
+
+function get(dict, k) {
+  if ((k in dict)) {
+    return _caml_option_js__WEBPACK_IMPORTED_MODULE_0__.some(dict[k]);
+  }
+  
+}
+
+var unsafeDeleteKey = (function (dict,key){
+      delete dict[key];
+     });
+
+function entries(dict) {
+  var keys = Object.keys(dict);
+  var l = keys.length;
+  var values = new Array(l);
+  for(var i = 0; i < l; ++i){
+    var key = keys[i];
+    values[i] = [
+      key,
+      dict[key]
+    ];
+  }
+  return values;
+}
+
+function values(dict) {
+  var keys = Object.keys(dict);
+  var l = keys.length;
+  var values$1 = new Array(l);
+  for(var i = 0; i < l; ++i){
+    values$1[i] = dict[keys[i]];
+  }
+  return values$1;
+}
+
+function fromList(entries) {
+  var dict = {};
+  var _param = entries;
+  while(true) {
+    var param = _param;
+    if (!param) {
+      return dict;
+    }
+    var match = param.hd;
+    dict[match[0]] = match[1];
+    _param = param.tl;
+    continue ;
+  };
+}
+
+function fromArray(entries) {
+  var dict = {};
+  var l = entries.length;
+  for(var i = 0; i < l; ++i){
+    var match = entries[i];
+    dict[match[0]] = match[1];
+  }
+  return dict;
+}
+
+function map(f, source) {
+  var target = {};
+  var keys = Object.keys(source);
+  var l = keys.length;
+  for(var i = 0; i < l; ++i){
+    var key = keys[i];
+    target[key] = f(source[key]);
+  }
+  return target;
+}
+
+
+/* No side effect */
+
+
+/***/ }),
+/* 52 */
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "div": () => (/* binding */ div),
+/* harmony export */   "mod_": () => (/* binding */ mod_)
+/* harmony export */ });
+
+
+
+function div(x, y) {
+  if (y === 0) {
+    throw {
+          RE_EXN_ID: "Division_by_zero",
+          Error: new Error()
+        };
+  }
+  return x / y | 0;
+}
+
+function mod_(x, y) {
+  if (y === 0) {
+    throw {
+          RE_EXN_ID: "Division_by_zero",
+          Error: new Error()
+        };
+  }
+  return x % y;
+}
+
+
+/* No side effect */
+
+
+/***/ }),
+/* 53 */
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "checkInvariantInternal": () => (/* binding */ checkInvariantInternal),
+/* harmony export */   "cmp": () => (/* binding */ cmp),
+/* harmony export */   "cmpU": () => (/* binding */ cmpU),
+/* harmony export */   "empty": () => (/* binding */ empty),
+/* harmony export */   "eq": () => (/* binding */ eq),
+/* harmony export */   "eqU": () => (/* binding */ eqU),
+/* harmony export */   "every": () => (/* binding */ every),
+/* harmony export */   "everyU": () => (/* binding */ everyU),
+/* harmony export */   "findFirstBy": () => (/* binding */ findFirstBy),
+/* harmony export */   "findFirstByU": () => (/* binding */ findFirstByU),
+/* harmony export */   "forEach": () => (/* binding */ forEach),
+/* harmony export */   "forEachU": () => (/* binding */ forEachU),
+/* harmony export */   "fromArray": () => (/* binding */ fromArray),
+/* harmony export */   "get": () => (/* binding */ get),
+/* harmony export */   "getExn": () => (/* binding */ getExn),
+/* harmony export */   "getUndefined": () => (/* binding */ getUndefined),
+/* harmony export */   "getWithDefault": () => (/* binding */ getWithDefault),
+/* harmony export */   "has": () => (/* binding */ has),
+/* harmony export */   "isEmpty": () => (/* binding */ isEmpty),
+/* harmony export */   "keep": () => (/* binding */ keep),
+/* harmony export */   "keepU": () => (/* binding */ keepU),
+/* harmony export */   "keysToArray": () => (/* binding */ keysToArray),
+/* harmony export */   "map": () => (/* binding */ map),
+/* harmony export */   "mapU": () => (/* binding */ mapU),
+/* harmony export */   "mapWithKey": () => (/* binding */ mapWithKey),
+/* harmony export */   "mapWithKeyU": () => (/* binding */ mapWithKeyU),
+/* harmony export */   "maxKey": () => (/* binding */ maxKey),
+/* harmony export */   "maxKeyUndefined": () => (/* binding */ maxKeyUndefined),
+/* harmony export */   "maxUndefined": () => (/* binding */ maxUndefined),
+/* harmony export */   "maximum": () => (/* binding */ maximum),
+/* harmony export */   "merge": () => (/* binding */ merge),
+/* harmony export */   "mergeMany": () => (/* binding */ mergeMany),
+/* harmony export */   "mergeU": () => (/* binding */ mergeU),
+/* harmony export */   "minKey": () => (/* binding */ minKey),
+/* harmony export */   "minKeyUndefined": () => (/* binding */ minKeyUndefined),
+/* harmony export */   "minUndefined": () => (/* binding */ minUndefined),
+/* harmony export */   "minimum": () => (/* binding */ minimum),
+/* harmony export */   "partition": () => (/* binding */ partition),
+/* harmony export */   "partitionU": () => (/* binding */ partitionU),
+/* harmony export */   "reduce": () => (/* binding */ reduce),
+/* harmony export */   "reduceU": () => (/* binding */ reduceU),
+/* harmony export */   "remove": () => (/* binding */ remove),
+/* harmony export */   "removeMany": () => (/* binding */ removeMany),
+/* harmony export */   "set": () => (/* binding */ set),
+/* harmony export */   "size": () => (/* binding */ size),
+/* harmony export */   "some": () => (/* binding */ some),
+/* harmony export */   "someU": () => (/* binding */ someU),
+/* harmony export */   "split": () => (/* binding */ split),
+/* harmony export */   "toArray": () => (/* binding */ toArray),
+/* harmony export */   "toList": () => (/* binding */ toList),
+/* harmony export */   "update": () => (/* binding */ update),
+/* harmony export */   "updateU": () => (/* binding */ updateU),
+/* harmony export */   "valuesToArray": () => (/* binding */ valuesToArray)
+/* harmony export */ });
+/* harmony import */ var _curry_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
+/* harmony import */ var _caml_option_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(24);
+/* harmony import */ var _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(54);
+/* harmony import */ var _belt_internalMapString_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(56);
+
+
+
+
+
+
+
+function set(t, newK, newD) {
+  if (t === undefined) {
+    return _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.singleton(newK, newD);
+  }
+  var k = t.k;
+  if (newK === k) {
+    return _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.updateValue(t, newD);
+  }
+  var v = t.v;
+  if (newK < k) {
+    return _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.bal(set(t.l, newK, newD), k, v, t.r);
+  } else {
+    return _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.bal(t.l, k, v, set(t.r, newK, newD));
+  }
+}
+
+function updateU(t, x, f) {
+  if (t !== undefined) {
+    var k = t.k;
+    if (x === k) {
+      var data = f(_caml_option_js__WEBPACK_IMPORTED_MODULE_1__.some(t.v));
+      if (data !== undefined) {
+        return _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.updateValue(t, _caml_option_js__WEBPACK_IMPORTED_MODULE_1__.valFromOption(data));
+      }
+      var l = t.l;
+      var r = t.r;
+      if (l === undefined) {
+        return r;
+      }
+      if (r === undefined) {
+        return l;
+      }
+      var kr = {
+        contents: r.k
+      };
+      var vr = {
+        contents: r.v
+      };
+      var r$1 = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.removeMinAuxWithRef(r, kr, vr);
+      return _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.bal(l, kr.contents, vr.contents, r$1);
+    }
+    var v = t.v;
+    var l$1 = t.l;
+    var r$2 = t.r;
+    if (x < k) {
+      var ll = updateU(l$1, x, f);
+      if (l$1 === ll) {
+        return t;
+      } else {
+        return _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.bal(ll, k, v, r$2);
+      }
+    }
+    var rr = updateU(r$2, x, f);
+    if (r$2 === rr) {
+      return t;
+    } else {
+      return _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.bal(l$1, k, v, rr);
+    }
+  }
+  var data$1 = f(undefined);
+  if (data$1 !== undefined) {
+    return _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.singleton(x, _caml_option_js__WEBPACK_IMPORTED_MODULE_1__.valFromOption(data$1));
+  } else {
+    return t;
+  }
+}
+
+function update(t, x, f) {
+  return updateU(t, x, _curry_js__WEBPACK_IMPORTED_MODULE_0__.__1(f));
+}
+
+function removeAux(n, x) {
+  var v = n.k;
+  var l = n.l;
+  var r = n.r;
+  if (x === v) {
+    if (l === undefined) {
+      return r;
+    }
+    if (r === undefined) {
+      return l;
+    }
+    var kr = {
+      contents: r.k
+    };
+    var vr = {
+      contents: r.v
+    };
+    var r$1 = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.removeMinAuxWithRef(r, kr, vr);
+    return _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.bal(l, kr.contents, vr.contents, r$1);
+  }
+  if (x < v) {
+    if (l === undefined) {
+      return n;
+    }
+    var ll = removeAux(l, x);
+    if (ll === l) {
+      return n;
+    } else {
+      return _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.bal(ll, v, n.v, r);
+    }
+  }
+  if (r === undefined) {
+    return n;
+  }
+  var rr = removeAux(r, x);
+  return _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.bal(l, v, n.v, rr);
+}
+
+function remove(n, x) {
+  if (n !== undefined) {
+    return removeAux(n, x);
+  }
+  
+}
+
+function removeMany(t, keys) {
+  var len = keys.length;
+  if (t !== undefined) {
+    var _t = t;
+    var _i = 0;
+    while(true) {
+      var i = _i;
+      var t$1 = _t;
+      if (i >= len) {
+        return t$1;
+      }
+      var ele = keys[i];
+      var u = removeAux(t$1, ele);
+      if (u === undefined) {
+        return u;
+      }
+      _i = i + 1 | 0;
+      _t = u;
+      continue ;
+    };
+  }
+  
+}
+
+function mergeMany(h, arr) {
+  var len = arr.length;
+  var v = h;
+  for(var i = 0; i < len; ++i){
+    var match = arr[i];
+    v = set(v, match[0], match[1]);
+  }
+  return v;
+}
+
+var empty;
+
+var isEmpty = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.isEmpty;
+
+var has = _belt_internalMapString_js__WEBPACK_IMPORTED_MODULE_3__.has;
+
+var cmpU = _belt_internalMapString_js__WEBPACK_IMPORTED_MODULE_3__.cmpU;
+
+var cmp = _belt_internalMapString_js__WEBPACK_IMPORTED_MODULE_3__.cmp;
+
+var eqU = _belt_internalMapString_js__WEBPACK_IMPORTED_MODULE_3__.eqU;
+
+var eq = _belt_internalMapString_js__WEBPACK_IMPORTED_MODULE_3__.eq;
+
+var findFirstByU = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.findFirstByU;
+
+var findFirstBy = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.findFirstBy;
+
+var forEachU = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.forEachU;
+
+var forEach = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.forEach;
+
+var reduceU = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.reduceU;
+
+var reduce = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.reduce;
+
+var everyU = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.everyU;
+
+var every = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.every;
+
+var someU = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.someU;
+
+var some = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.some;
+
+var size = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.size;
+
+var toList = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.toList;
+
+var toArray = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.toArray;
+
+var fromArray = _belt_internalMapString_js__WEBPACK_IMPORTED_MODULE_3__.fromArray;
+
+var keysToArray = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.keysToArray;
+
+var valuesToArray = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.valuesToArray;
+
+var minKey = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.minKey;
+
+var minKeyUndefined = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.minKeyUndefined;
+
+var maxKey = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.maxKey;
+
+var maxKeyUndefined = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.maxKeyUndefined;
+
+var minimum = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.minimum;
+
+var minUndefined = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.minUndefined;
+
+var maximum = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.maximum;
+
+var maxUndefined = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.maxUndefined;
+
+var get = _belt_internalMapString_js__WEBPACK_IMPORTED_MODULE_3__.get;
+
+var getUndefined = _belt_internalMapString_js__WEBPACK_IMPORTED_MODULE_3__.getUndefined;
+
+var getWithDefault = _belt_internalMapString_js__WEBPACK_IMPORTED_MODULE_3__.getWithDefault;
+
+var getExn = _belt_internalMapString_js__WEBPACK_IMPORTED_MODULE_3__.getExn;
+
+var checkInvariantInternal = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.checkInvariantInternal;
+
+var mergeU = _belt_internalMapString_js__WEBPACK_IMPORTED_MODULE_3__.mergeU;
+
+var merge = _belt_internalMapString_js__WEBPACK_IMPORTED_MODULE_3__.merge;
+
+var keepU = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.keepSharedU;
+
+var keep = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.keepShared;
+
+var partitionU = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.partitionSharedU;
+
+var partition = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.partitionShared;
+
+var split = _belt_internalMapString_js__WEBPACK_IMPORTED_MODULE_3__.split;
+
+var mapU = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.mapU;
+
+var map = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.map;
+
+var mapWithKeyU = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.mapWithKeyU;
+
+var mapWithKey = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_2__.mapWithKey;
+
+
+/* No side effect */
+
+
+/***/ }),
+/* 54 */
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "bal": () => (/* binding */ bal),
+/* harmony export */   "balMutate": () => (/* binding */ balMutate),
+/* harmony export */   "checkInvariantInternal": () => (/* binding */ checkInvariantInternal),
+/* harmony export */   "cmp": () => (/* binding */ cmp),
+/* harmony export */   "cmpU": () => (/* binding */ cmpU),
+/* harmony export */   "concat": () => (/* binding */ concat),
+/* harmony export */   "concatOrJoin": () => (/* binding */ concatOrJoin),
+/* harmony export */   "copy": () => (/* binding */ copy),
+/* harmony export */   "create": () => (/* binding */ create),
+/* harmony export */   "eq": () => (/* binding */ eq),
+/* harmony export */   "eqU": () => (/* binding */ eqU),
+/* harmony export */   "every": () => (/* binding */ every),
+/* harmony export */   "everyU": () => (/* binding */ everyU),
+/* harmony export */   "fillArray": () => (/* binding */ fillArray),
+/* harmony export */   "findFirstBy": () => (/* binding */ findFirstBy),
+/* harmony export */   "findFirstByU": () => (/* binding */ findFirstByU),
+/* harmony export */   "forEach": () => (/* binding */ forEach),
+/* harmony export */   "forEachU": () => (/* binding */ forEachU),
+/* harmony export */   "fromArray": () => (/* binding */ fromArray),
+/* harmony export */   "fromSortedArrayAux": () => (/* binding */ fromSortedArrayAux),
+/* harmony export */   "fromSortedArrayRevAux": () => (/* binding */ fromSortedArrayRevAux),
+/* harmony export */   "fromSortedArrayUnsafe": () => (/* binding */ fromSortedArrayUnsafe),
+/* harmony export */   "get": () => (/* binding */ get),
+/* harmony export */   "getExn": () => (/* binding */ getExn),
+/* harmony export */   "getUndefined": () => (/* binding */ getUndefined),
+/* harmony export */   "getWithDefault": () => (/* binding */ getWithDefault),
+/* harmony export */   "has": () => (/* binding */ has),
+/* harmony export */   "isEmpty": () => (/* binding */ isEmpty),
+/* harmony export */   "join": () => (/* binding */ join),
+/* harmony export */   "keepMap": () => (/* binding */ keepMap),
+/* harmony export */   "keepMapU": () => (/* binding */ keepMapU),
+/* harmony export */   "keepShared": () => (/* binding */ keepShared),
+/* harmony export */   "keepSharedU": () => (/* binding */ keepSharedU),
+/* harmony export */   "keysToArray": () => (/* binding */ keysToArray),
+/* harmony export */   "lengthNode": () => (/* binding */ lengthNode),
+/* harmony export */   "map": () => (/* binding */ map),
+/* harmony export */   "mapU": () => (/* binding */ mapU),
+/* harmony export */   "mapWithKey": () => (/* binding */ mapWithKey),
+/* harmony export */   "mapWithKeyU": () => (/* binding */ mapWithKeyU),
+/* harmony export */   "maxKey": () => (/* binding */ maxKey),
+/* harmony export */   "maxKeyUndefined": () => (/* binding */ maxKeyUndefined),
+/* harmony export */   "maxUndefined": () => (/* binding */ maxUndefined),
+/* harmony export */   "maximum": () => (/* binding */ maximum),
+/* harmony export */   "minKey": () => (/* binding */ minKey),
+/* harmony export */   "minKeyUndefined": () => (/* binding */ minKeyUndefined),
+/* harmony export */   "minUndefined": () => (/* binding */ minUndefined),
+/* harmony export */   "minimum": () => (/* binding */ minimum),
+/* harmony export */   "partitionShared": () => (/* binding */ partitionShared),
+/* harmony export */   "partitionSharedU": () => (/* binding */ partitionSharedU),
+/* harmony export */   "reduce": () => (/* binding */ reduce),
+/* harmony export */   "reduceU": () => (/* binding */ reduceU),
+/* harmony export */   "removeMinAuxWithRef": () => (/* binding */ removeMinAuxWithRef),
+/* harmony export */   "removeMinAuxWithRootMutate": () => (/* binding */ removeMinAuxWithRootMutate),
+/* harmony export */   "singleton": () => (/* binding */ singleton),
+/* harmony export */   "size": () => (/* binding */ size),
+/* harmony export */   "some": () => (/* binding */ some),
+/* harmony export */   "someU": () => (/* binding */ someU),
+/* harmony export */   "stackAllLeft": () => (/* binding */ stackAllLeft),
+/* harmony export */   "toArray": () => (/* binding */ toArray),
+/* harmony export */   "toList": () => (/* binding */ toList),
+/* harmony export */   "updateMutate": () => (/* binding */ updateMutate),
+/* harmony export */   "updateValue": () => (/* binding */ updateValue),
+/* harmony export */   "valuesToArray": () => (/* binding */ valuesToArray)
+/* harmony export */ });
+/* harmony import */ var _curry_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
+/* harmony import */ var _caml_option_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(24);
+/* harmony import */ var _belt_SortArray_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(55);
+
+
+
+
+
+
+function treeHeight(n) {
+  if (n !== undefined) {
+    return n.h;
+  } else {
+    return 0;
+  }
+}
+
+function copy(n) {
+  if (n !== undefined) {
+    return {
+            k: n.k,
+            v: n.v,
+            h: n.h,
+            l: copy(n.l),
+            r: copy(n.r)
+          };
+  } else {
+    return n;
+  }
+}
+
+function create(l, x, d, r) {
+  var hl = treeHeight(l);
+  var hr = treeHeight(r);
+  return {
+          k: x,
+          v: d,
+          h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0,
+          l: l,
+          r: r
+        };
+}
+
+function singleton(x, d) {
+  return {
+          k: x,
+          v: d,
+          h: 1,
+          l: undefined,
+          r: undefined
+        };
+}
+
+function heightGe(l, r) {
+  if (r !== undefined) {
+    if (l !== undefined) {
+      return l.h >= r.h;
+    } else {
+      return false;
+    }
+  } else {
+    return true;
+  }
+}
+
+function updateValue(n, newValue) {
+  if (n.v === newValue) {
+    return n;
+  } else {
+    return {
+            k: n.k,
+            v: newValue,
+            h: n.h,
+            l: n.l,
+            r: n.r
+          };
+  }
+}
+
+function bal(l, x, d, r) {
+  var hl = l !== undefined ? l.h : 0;
+  var hr = r !== undefined ? r.h : 0;
+  if (hl > (hr + 2 | 0)) {
+    var ll = l.l;
+    var lr = l.r;
+    if (treeHeight(ll) >= treeHeight(lr)) {
+      return create(ll, l.k, l.v, create(lr, x, d, r));
+    } else {
+      return create(create(ll, l.k, l.v, lr.l), lr.k, lr.v, create(lr.r, x, d, r));
+    }
+  }
+  if (hr <= (hl + 2 | 0)) {
+    return {
+            k: x,
+            v: d,
+            h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0,
+            l: l,
+            r: r
+          };
+  }
+  var rl = r.l;
+  var rr = r.r;
+  if (treeHeight(rr) >= treeHeight(rl)) {
+    return create(create(l, x, d, rl), r.k, r.v, rr);
+  } else {
+    return create(create(l, x, d, rl.l), rl.k, rl.v, create(rl.r, r.k, r.v, rr));
+  }
+}
+
+function minKey0Aux(_n) {
+  while(true) {
+    var n = _n;
+    var n$1 = n.l;
+    if (n$1 === undefined) {
+      return n.k;
+    }
+    _n = n$1;
+    continue ;
+  };
+}
+
+function minKey(n) {
+  if (n !== undefined) {
+    return _caml_option_js__WEBPACK_IMPORTED_MODULE_1__.some(minKey0Aux(n));
+  }
+  
+}
+
+function minKeyUndefined(n) {
+  if (n !== undefined) {
+    return minKey0Aux(n);
+  }
+  
+}
+
+function maxKey0Aux(_n) {
+  while(true) {
+    var n = _n;
+    var n$1 = n.r;
+    if (n$1 === undefined) {
+      return n.k;
+    }
+    _n = n$1;
+    continue ;
+  };
+}
+
+function maxKey(n) {
+  if (n !== undefined) {
+    return _caml_option_js__WEBPACK_IMPORTED_MODULE_1__.some(maxKey0Aux(n));
+  }
+  
+}
+
+function maxKeyUndefined(n) {
+  if (n !== undefined) {
+    return maxKey0Aux(n);
+  }
+  
+}
+
+function minKV0Aux(_n) {
+  while(true) {
+    var n = _n;
+    var n$1 = n.l;
+    if (n$1 === undefined) {
+      return [
+              n.k,
+              n.v
+            ];
+    }
+    _n = n$1;
+    continue ;
+  };
+}
+
+function minimum(n) {
+  if (n !== undefined) {
+    return minKV0Aux(n);
+  }
+  
+}
+
+function minUndefined(n) {
+  if (n !== undefined) {
+    return minKV0Aux(n);
+  }
+  
+}
+
+function maxKV0Aux(_n) {
+  while(true) {
+    var n = _n;
+    var n$1 = n.r;
+    if (n$1 === undefined) {
+      return [
+              n.k,
+              n.v
+            ];
+    }
+    _n = n$1;
+    continue ;
+  };
+}
+
+function maximum(n) {
+  if (n !== undefined) {
+    return maxKV0Aux(n);
+  }
+  
+}
+
+function maxUndefined(n) {
+  if (n !== undefined) {
+    return maxKV0Aux(n);
+  }
+  
+}
+
+function removeMinAuxWithRef(n, kr, vr) {
+  var ln = n.l;
+  if (ln !== undefined) {
+    return bal(removeMinAuxWithRef(ln, kr, vr), n.k, n.v, n.r);
+  } else {
+    kr.contents = n.k;
+    vr.contents = n.v;
+    return n.r;
+  }
+}
+
+function isEmpty(x) {
+  return x === undefined;
+}
+
+function stackAllLeft(_v, _s) {
+  while(true) {
+    var s = _s;
+    var v = _v;
+    if (v === undefined) {
+      return s;
+    }
+    _s = {
+      hd: v,
+      tl: s
+    };
+    _v = v.l;
+    continue ;
+  };
+}
+
+function findFirstByU(n, p) {
+  if (n === undefined) {
+    return ;
+  }
+  var left = findFirstByU(n.l, p);
+  if (left !== undefined) {
+    return left;
+  }
+  var v = n.k;
+  var d = n.v;
+  var pvd = p(v, d);
+  if (pvd) {
+    return [
+            v,
+            d
+          ];
+  }
+  var right = findFirstByU(n.r, p);
+  if (right !== undefined) {
+    return right;
+  }
+  
+}
+
+function findFirstBy(n, p) {
+  return findFirstByU(n, _curry_js__WEBPACK_IMPORTED_MODULE_0__.__2(p));
+}
+
+function forEachU(_n, f) {
+  while(true) {
+    var n = _n;
+    if (n === undefined) {
+      return ;
+    }
+    forEachU(n.l, f);
+    f(n.k, n.v);
+    _n = n.r;
+    continue ;
+  };
+}
+
+function forEach(n, f) {
+  return forEachU(n, _curry_js__WEBPACK_IMPORTED_MODULE_0__.__2(f));
+}
+
+function mapU(n, f) {
+  if (n === undefined) {
+    return ;
+  }
+  var newLeft = mapU(n.l, f);
+  var newD = f(n.v);
+  var newRight = mapU(n.r, f);
+  return {
+          k: n.k,
+          v: newD,
+          h: n.h,
+          l: newLeft,
+          r: newRight
+        };
+}
+
+function map(n, f) {
+  return mapU(n, _curry_js__WEBPACK_IMPORTED_MODULE_0__.__1(f));
+}
+
+function mapWithKeyU(n, f) {
+  if (n === undefined) {
+    return ;
+  }
+  var key = n.k;
+  var newLeft = mapWithKeyU(n.l, f);
+  var newD = f(key, n.v);
+  var newRight = mapWithKeyU(n.r, f);
+  return {
+          k: key,
+          v: newD,
+          h: n.h,
+          l: newLeft,
+          r: newRight
+        };
+}
+
+function mapWithKey(n, f) {
+  return mapWithKeyU(n, _curry_js__WEBPACK_IMPORTED_MODULE_0__.__2(f));
+}
+
+function reduceU(_m, _accu, f) {
+  while(true) {
+    var accu = _accu;
+    var m = _m;
+    if (m === undefined) {
+      return accu;
+    }
+    var v = m.k;
+    var d = m.v;
+    var l = m.l;
+    var r = m.r;
+    _accu = f(reduceU(l, accu, f), v, d);
+    _m = r;
+    continue ;
+  };
+}
+
+function reduce(m, accu, f) {
+  return reduceU(m, accu, _curry_js__WEBPACK_IMPORTED_MODULE_0__.__3(f));
+}
+
+function everyU(_n, p) {
+  while(true) {
+    var n = _n;
+    if (n === undefined) {
+      return true;
+    }
+    if (!p(n.k, n.v)) {
+      return false;
+    }
+    if (!everyU(n.l, p)) {
+      return false;
+    }
+    _n = n.r;
+    continue ;
+  };
+}
+
+function every(n, p) {
+  return everyU(n, _curry_js__WEBPACK_IMPORTED_MODULE_0__.__2(p));
+}
+
+function someU(_n, p) {
+  while(true) {
+    var n = _n;
+    if (n === undefined) {
+      return false;
+    }
+    if (p(n.k, n.v)) {
+      return true;
+    }
+    if (someU(n.l, p)) {
+      return true;
+    }
+    _n = n.r;
+    continue ;
+  };
+}
+
+function some(n, p) {
+  return someU(n, _curry_js__WEBPACK_IMPORTED_MODULE_0__.__2(p));
+}
+
+function addMinElement(n, k, v) {
+  if (n !== undefined) {
+    return bal(addMinElement(n.l, k, v), n.k, n.v, n.r);
+  } else {
+    return singleton(k, v);
+  }
+}
+
+function addMaxElement(n, k, v) {
+  if (n !== undefined) {
+    return bal(n.l, n.k, n.v, addMaxElement(n.r, k, v));
+  } else {
+    return singleton(k, v);
+  }
+}
+
+function join(ln, v, d, rn) {
+  if (ln === undefined) {
+    return addMinElement(rn, v, d);
+  }
+  if (rn === undefined) {
+    return addMaxElement(ln, v, d);
+  }
+  var lv = ln.k;
+  var ld = ln.v;
+  var lh = ln.h;
+  var ll = ln.l;
+  var lr = ln.r;
+  var rv = rn.k;
+  var rd = rn.v;
+  var rh = rn.h;
+  var rl = rn.l;
+  var rr = rn.r;
+  if (lh > (rh + 2 | 0)) {
+    return bal(ll, lv, ld, join(lr, v, d, rn));
+  } else if (rh > (lh + 2 | 0)) {
+    return bal(join(ln, v, d, rl), rv, rd, rr);
+  } else {
+    return create(ln, v, d, rn);
+  }
+}
+
+function concat(t1, t2) {
+  if (t1 === undefined) {
+    return t2;
+  }
+  if (t2 === undefined) {
+    return t1;
+  }
+  var kr = {
+    contents: t2.k
+  };
+  var vr = {
+    contents: t2.v
+  };
+  var t2r = removeMinAuxWithRef(t2, kr, vr);
+  return join(t1, kr.contents, vr.contents, t2r);
+}
+
+function concatOrJoin(t1, v, d, t2) {
+  if (d !== undefined) {
+    return join(t1, v, _caml_option_js__WEBPACK_IMPORTED_MODULE_1__.valFromOption(d), t2);
+  } else {
+    return concat(t1, t2);
+  }
+}
+
+function keepSharedU(n, p) {
+  if (n === undefined) {
+    return ;
+  }
+  var v = n.k;
+  var d = n.v;
+  var newLeft = keepSharedU(n.l, p);
+  var pvd = p(v, d);
+  var newRight = keepSharedU(n.r, p);
+  if (pvd) {
+    return join(newLeft, v, d, newRight);
+  } else {
+    return concat(newLeft, newRight);
+  }
+}
+
+function keepShared(n, p) {
+  return keepSharedU(n, _curry_js__WEBPACK_IMPORTED_MODULE_0__.__2(p));
+}
+
+function keepMapU(n, p) {
+  if (n === undefined) {
+    return ;
+  }
+  var v = n.k;
+  var d = n.v;
+  var newLeft = keepMapU(n.l, p);
+  var pvd = p(v, d);
+  var newRight = keepMapU(n.r, p);
+  if (pvd !== undefined) {
+    return join(newLeft, v, _caml_option_js__WEBPACK_IMPORTED_MODULE_1__.valFromOption(pvd), newRight);
+  } else {
+    return concat(newLeft, newRight);
+  }
+}
+
+function keepMap(n, p) {
+  return keepMapU(n, _curry_js__WEBPACK_IMPORTED_MODULE_0__.__2(p));
+}
+
+function partitionSharedU(n, p) {
+  if (n === undefined) {
+    return [
+            undefined,
+            undefined
+          ];
+  }
+  var key = n.k;
+  var value = n.v;
+  var match = partitionSharedU(n.l, p);
+  var lf = match[1];
+  var lt = match[0];
+  var pvd = p(key, value);
+  var match$1 = partitionSharedU(n.r, p);
+  var rf = match$1[1];
+  var rt = match$1[0];
+  if (pvd) {
+    return [
+            join(lt, key, value, rt),
+            concat(lf, rf)
+          ];
+  } else {
+    return [
+            concat(lt, rt),
+            join(lf, key, value, rf)
+          ];
+  }
+}
+
+function partitionShared(n, p) {
+  return partitionSharedU(n, _curry_js__WEBPACK_IMPORTED_MODULE_0__.__2(p));
+}
+
+function lengthNode(n) {
+  var l = n.l;
+  var r = n.r;
+  var sizeL = l !== undefined ? lengthNode(l) : 0;
+  var sizeR = r !== undefined ? lengthNode(r) : 0;
+  return (1 + sizeL | 0) + sizeR | 0;
+}
+
+function size(n) {
+  if (n !== undefined) {
+    return lengthNode(n);
+  } else {
+    return 0;
+  }
+}
+
+function toListAux(_n, _accu) {
+  while(true) {
+    var accu = _accu;
+    var n = _n;
+    if (n === undefined) {
+      return accu;
+    }
+    var k = n.k;
+    var v = n.v;
+    var l = n.l;
+    var r = n.r;
+    _accu = {
+      hd: [
+        k,
+        v
+      ],
+      tl: toListAux(r, accu)
+    };
+    _n = l;
+    continue ;
+  };
+}
+
+function toList(s) {
+  return toListAux(s, /* [] */0);
+}
+
+function checkInvariantInternal(_v) {
+  while(true) {
+    var v = _v;
+    if (v === undefined) {
+      return ;
+    }
+    var l = v.l;
+    var r = v.r;
+    var diff = treeHeight(l) - treeHeight(r) | 0;
+    if (!(diff <= 2 && diff >= -2)) {
+      throw {
+            RE_EXN_ID: "Assert_failure",
+            _1: [
+              "belt_internalAVLtree.ml",
+              373,
+              4
+            ],
+            Error: new Error()
+          };
+    }
+    checkInvariantInternal(l);
+    _v = r;
+    continue ;
+  };
+}
+
+function fillArrayKey(_n, _i, arr) {
+  while(true) {
+    var i = _i;
+    var n = _n;
+    var v = n.k;
+    var l = n.l;
+    var r = n.r;
+    var next = l !== undefined ? fillArrayKey(l, i, arr) : i;
+    arr[next] = v;
+    var rnext = next + 1 | 0;
+    if (r === undefined) {
+      return rnext;
+    }
+    _i = rnext;
+    _n = r;
+    continue ;
+  };
+}
+
+function fillArrayValue(_n, _i, arr) {
+  while(true) {
+    var i = _i;
+    var n = _n;
+    var l = n.l;
+    var r = n.r;
+    var next = l !== undefined ? fillArrayValue(l, i, arr) : i;
+    arr[next] = n.v;
+    var rnext = next + 1 | 0;
+    if (r === undefined) {
+      return rnext;
+    }
+    _i = rnext;
+    _n = r;
+    continue ;
+  };
+}
+
+function fillArray(_n, _i, arr) {
+  while(true) {
+    var i = _i;
+    var n = _n;
+    var l = n.l;
+    var v = n.k;
+    var r = n.r;
+    var next = l !== undefined ? fillArray(l, i, arr) : i;
+    arr[next] = [
+      v,
+      n.v
+    ];
+    var rnext = next + 1 | 0;
+    if (r === undefined) {
+      return rnext;
+    }
+    _i = rnext;
+    _n = r;
+    continue ;
+  };
+}
+
+function toArray(n) {
+  if (n === undefined) {
+    return [];
+  }
+  var size = lengthNode(n);
+  var v = new Array(size);
+  fillArray(n, 0, v);
+  return v;
+}
+
+function keysToArray(n) {
+  if (n === undefined) {
+    return [];
+  }
+  var size = lengthNode(n);
+  var v = new Array(size);
+  fillArrayKey(n, 0, v);
+  return v;
+}
+
+function valuesToArray(n) {
+  if (n === undefined) {
+    return [];
+  }
+  var size = lengthNode(n);
+  var v = new Array(size);
+  fillArrayValue(n, 0, v);
+  return v;
+}
+
+function fromSortedArrayRevAux(arr, off, len) {
+  switch (len) {
+    case 0 :
+        return ;
+    case 1 :
+        var match = arr[off];
+        return singleton(match[0], match[1]);
+    case 2 :
+        var match_0 = arr[off];
+        var match_1 = arr[off - 1 | 0];
+        var match$1 = match_1;
+        var match$2 = match_0;
+        return {
+                k: match$1[0],
+                v: match$1[1],
+                h: 2,
+                l: singleton(match$2[0], match$2[1]),
+                r: undefined
+              };
+    case 3 :
+        var match_0$1 = arr[off];
+        var match_1$1 = arr[off - 1 | 0];
+        var match_2 = arr[off - 2 | 0];
+        var match$3 = match_2;
+        var match$4 = match_1$1;
+        var match$5 = match_0$1;
+        return {
+                k: match$4[0],
+                v: match$4[1],
+                h: 2,
+                l: singleton(match$5[0], match$5[1]),
+                r: singleton(match$3[0], match$3[1])
+              };
+    default:
+      var nl = len / 2 | 0;
+      var left = fromSortedArrayRevAux(arr, off, nl);
+      var match$6 = arr[off - nl | 0];
+      var right = fromSortedArrayRevAux(arr, (off - nl | 0) - 1 | 0, (len - nl | 0) - 1 | 0);
+      return create(left, match$6[0], match$6[1], right);
+  }
+}
+
+function fromSortedArrayAux(arr, off, len) {
+  switch (len) {
+    case 0 :
+        return ;
+    case 1 :
+        var match = arr[off];
+        return singleton(match[0], match[1]);
+    case 2 :
+        var match_0 = arr[off];
+        var match_1 = arr[off + 1 | 0];
+        var match$1 = match_1;
+        var match$2 = match_0;
+        return {
+                k: match$1[0],
+                v: match$1[1],
+                h: 2,
+                l: singleton(match$2[0], match$2[1]),
+                r: undefined
+              };
+    case 3 :
+        var match_0$1 = arr[off];
+        var match_1$1 = arr[off + 1 | 0];
+        var match_2 = arr[off + 2 | 0];
+        var match$3 = match_2;
+        var match$4 = match_1$1;
+        var match$5 = match_0$1;
+        return {
+                k: match$4[0],
+                v: match$4[1],
+                h: 2,
+                l: singleton(match$5[0], match$5[1]),
+                r: singleton(match$3[0], match$3[1])
+              };
+    default:
+      var nl = len / 2 | 0;
+      var left = fromSortedArrayAux(arr, off, nl);
+      var match$6 = arr[off + nl | 0];
+      var right = fromSortedArrayAux(arr, (off + nl | 0) + 1 | 0, (len - nl | 0) - 1 | 0);
+      return create(left, match$6[0], match$6[1], right);
+  }
+}
+
+function fromSortedArrayUnsafe(arr) {
+  return fromSortedArrayAux(arr, 0, arr.length);
+}
+
+function cmpU(s1, s2, kcmp, vcmp) {
+  var len1 = size(s1);
+  var len2 = size(s2);
+  if (len1 === len2) {
+    var _e1 = stackAllLeft(s1, /* [] */0);
+    var _e2 = stackAllLeft(s2, /* [] */0);
+    while(true) {
+      var e2 = _e2;
+      var e1 = _e1;
+      if (!e1) {
+        return 0;
+      }
+      if (!e2) {
+        return 0;
+      }
+      var h2 = e2.hd;
+      var h1 = e1.hd;
+      var c = kcmp(h1.k, h2.k);
+      if (c !== 0) {
+        return c;
+      }
+      var cx = vcmp(h1.v, h2.v);
+      if (cx !== 0) {
+        return cx;
+      }
+      _e2 = stackAllLeft(h2.r, e2.tl);
+      _e1 = stackAllLeft(h1.r, e1.tl);
+      continue ;
+    };
+  } else if (len1 < len2) {
+    return -1;
+  } else {
+    return 1;
+  }
+}
+
+function cmp(s1, s2, kcmp, vcmp) {
+  return cmpU(s1, s2, kcmp, _curry_js__WEBPACK_IMPORTED_MODULE_0__.__2(vcmp));
+}
+
+function eqU(s1, s2, kcmp, veq) {
+  var len1 = size(s1);
+  var len2 = size(s2);
+  if (len1 === len2) {
+    var _e1 = stackAllLeft(s1, /* [] */0);
+    var _e2 = stackAllLeft(s2, /* [] */0);
+    while(true) {
+      var e2 = _e2;
+      var e1 = _e1;
+      if (!e1) {
+        return true;
+      }
+      if (!e2) {
+        return true;
+      }
+      var h2 = e2.hd;
+      var h1 = e1.hd;
+      if (!(kcmp(h1.k, h2.k) === 0 && veq(h1.v, h2.v))) {
+        return false;
+      }
+      _e2 = stackAllLeft(h2.r, e2.tl);
+      _e1 = stackAllLeft(h1.r, e1.tl);
+      continue ;
+    };
+  } else {
+    return false;
+  }
+}
+
+function eq(s1, s2, kcmp, veq) {
+  return eqU(s1, s2, kcmp, _curry_js__WEBPACK_IMPORTED_MODULE_0__.__2(veq));
+}
+
+function get(_n, x, cmp) {
+  while(true) {
+    var n = _n;
+    if (n === undefined) {
+      return ;
+    }
+    var v = n.k;
+    var c = cmp(x, v);
+    if (c === 0) {
+      return _caml_option_js__WEBPACK_IMPORTED_MODULE_1__.some(n.v);
+    }
+    _n = c < 0 ? n.l : n.r;
+    continue ;
+  };
+}
+
+function getUndefined(_n, x, cmp) {
+  while(true) {
+    var n = _n;
+    if (n === undefined) {
+      return ;
+    }
+    var v = n.k;
+    var c = cmp(x, v);
+    if (c === 0) {
+      return n.v;
+    }
+    _n = c < 0 ? n.l : n.r;
+    continue ;
+  };
+}
+
+function getExn(_n, x, cmp) {
+  while(true) {
+    var n = _n;
+    if (n !== undefined) {
+      var v = n.k;
+      var c = cmp(x, v);
+      if (c === 0) {
+        return n.v;
+      }
+      _n = c < 0 ? n.l : n.r;
+      continue ;
+    }
+    throw {
+          RE_EXN_ID: "Not_found",
+          Error: new Error()
+        };
+  };
+}
+
+function getWithDefault(_n, x, def, cmp) {
+  while(true) {
+    var n = _n;
+    if (n === undefined) {
+      return def;
+    }
+    var v = n.k;
+    var c = cmp(x, v);
+    if (c === 0) {
+      return n.v;
+    }
+    _n = c < 0 ? n.l : n.r;
+    continue ;
+  };
+}
+
+function has(_n, x, cmp) {
+  while(true) {
+    var n = _n;
+    if (n === undefined) {
+      return false;
+    }
+    var v = n.k;
+    var c = cmp(x, v);
+    if (c === 0) {
+      return true;
+    }
+    _n = c < 0 ? n.l : n.r;
+    continue ;
+  };
+}
+
+function rotateWithLeftChild(k2) {
+  var k1 = k2.l;
+  k2.l = k1.r;
+  k1.r = k2;
+  var hlk2 = treeHeight(k2.l);
+  var hrk2 = treeHeight(k2.r);
+  k2.h = (
+    hlk2 > hrk2 ? hlk2 : hrk2
+  ) + 1 | 0;
+  var hlk1 = treeHeight(k1.l);
+  var hk2 = k2.h;
+  k1.h = (
+    hlk1 > hk2 ? hlk1 : hk2
+  ) + 1 | 0;
+  return k1;
+}
+
+function rotateWithRightChild(k1) {
+  var k2 = k1.r;
+  k1.r = k2.l;
+  k2.l = k1;
+  var hlk1 = treeHeight(k1.l);
+  var hrk1 = treeHeight(k1.r);
+  k1.h = (
+    hlk1 > hrk1 ? hlk1 : hrk1
+  ) + 1 | 0;
+  var hrk2 = treeHeight(k2.r);
+  var hk1 = k1.h;
+  k2.h = (
+    hrk2 > hk1 ? hrk2 : hk1
+  ) + 1 | 0;
+  return k2;
+}
+
+function doubleWithLeftChild(k3) {
+  var x = k3.l;
+  var v = rotateWithRightChild(x);
+  k3.l = v;
+  return rotateWithLeftChild(k3);
+}
+
+function doubleWithRightChild(k2) {
+  var x = k2.r;
+  var v = rotateWithLeftChild(x);
+  k2.r = v;
+  return rotateWithRightChild(k2);
+}
+
+function heightUpdateMutate(t) {
+  var hlt = treeHeight(t.l);
+  var hrt = treeHeight(t.r);
+  t.h = (
+    hlt > hrt ? hlt : hrt
+  ) + 1 | 0;
+  return t;
+}
+
+function balMutate(nt) {
+  var l = nt.l;
+  var r = nt.r;
+  var hl = treeHeight(l);
+  var hr = treeHeight(r);
+  if (hl > (2 + hr | 0)) {
+    var ll = l.l;
+    var lr = l.r;
+    if (heightGe(ll, lr)) {
+      return heightUpdateMutate(rotateWithLeftChild(nt));
+    } else {
+      return heightUpdateMutate(doubleWithLeftChild(nt));
+    }
+  }
+  if (hr > (2 + hl | 0)) {
+    var rl = r.l;
+    var rr = r.r;
+    if (heightGe(rr, rl)) {
+      return heightUpdateMutate(rotateWithRightChild(nt));
+    } else {
+      return heightUpdateMutate(doubleWithRightChild(nt));
+    }
+  }
+  nt.h = (
+    hl > hr ? hl : hr
+  ) + 1 | 0;
+  return nt;
+}
+
+function updateMutate(t, x, data, cmp) {
+  if (t === undefined) {
+    return singleton(x, data);
+  }
+  var k = t.k;
+  var c = cmp(x, k);
+  if (c === 0) {
+    t.v = data;
+    return t;
+  }
+  var l = t.l;
+  var r = t.r;
+  if (c < 0) {
+    var ll = updateMutate(l, x, data, cmp);
+    t.l = ll;
+  } else {
+    t.r = updateMutate(r, x, data, cmp);
+  }
+  return balMutate(t);
+}
+
+function fromArray(xs, cmp) {
+  var len = xs.length;
+  if (len === 0) {
+    return ;
+  }
+  var next = _belt_SortArray_js__WEBPACK_IMPORTED_MODULE_2__.strictlySortedLengthU(xs, (function (param, param$1) {
+          return cmp(param[0], param$1[0]) < 0;
+        }));
+  var result;
+  if (next >= 0) {
+    result = fromSortedArrayAux(xs, 0, next);
+  } else {
+    next = -next | 0;
+    result = fromSortedArrayRevAux(xs, next - 1 | 0, next);
+  }
+  for(var i = next; i < len; ++i){
+    var match = xs[i];
+    result = updateMutate(result, match[0], match[1], cmp);
+  }
+  return result;
+}
+
+function removeMinAuxWithRootMutate(nt, n) {
+  var rn = n.r;
+  var ln = n.l;
+  if (ln !== undefined) {
+    n.l = removeMinAuxWithRootMutate(nt, ln);
+    return balMutate(n);
+  } else {
+    nt.k = n.k;
+    nt.v = n.v;
+    return rn;
+  }
+}
+
+
+/* No side effect */
+
+
+/***/ }),
+/* 55 */
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "$$String": () => (/* binding */ $$String),
+/* harmony export */   "Int": () => (/* binding */ Int),
+/* harmony export */   "binarySearchBy": () => (/* binding */ binarySearchBy),
+/* harmony export */   "binarySearchByU": () => (/* binding */ binarySearchByU),
+/* harmony export */   "diff": () => (/* binding */ diff),
+/* harmony export */   "diffU": () => (/* binding */ diffU),
+/* harmony export */   "intersect": () => (/* binding */ intersect),
+/* harmony export */   "intersectU": () => (/* binding */ intersectU),
+/* harmony export */   "isSorted": () => (/* binding */ isSorted),
+/* harmony export */   "isSortedU": () => (/* binding */ isSortedU),
+/* harmony export */   "stableSortBy": () => (/* binding */ stableSortBy),
+/* harmony export */   "stableSortByU": () => (/* binding */ stableSortByU),
+/* harmony export */   "stableSortInPlaceBy": () => (/* binding */ stableSortInPlaceBy),
+/* harmony export */   "stableSortInPlaceByU": () => (/* binding */ stableSortInPlaceByU),
+/* harmony export */   "strictlySortedLength": () => (/* binding */ strictlySortedLength),
+/* harmony export */   "strictlySortedLengthU": () => (/* binding */ strictlySortedLengthU),
+/* harmony export */   "union": () => (/* binding */ union),
+/* harmony export */   "unionU": () => (/* binding */ unionU)
+/* harmony export */ });
+/* harmony import */ var _curry_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
+/* harmony import */ var _belt_Array_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(27);
+
+
+
+
+
+function sortedLengthAuxMore(xs, _prec, _acc, len, lt) {
+  while(true) {
+    var acc = _acc;
+    var prec = _prec;
+    if (acc >= len) {
+      return acc;
+    }
+    var v = xs[acc];
+    if (!lt(v, prec)) {
+      return acc;
+    }
+    _acc = acc + 1 | 0;
+    _prec = v;
+    continue ;
+  };
+}
+
+function strictlySortedLengthU(xs, lt) {
+  var len = xs.length;
+  if (len === 0 || len === 1) {
+    return len;
+  }
+  var x0 = xs[0];
+  var x1 = xs[1];
+  if (lt(x0, x1)) {
+    var _prec = x1;
+    var _acc = 2;
+    while(true) {
+      var acc = _acc;
+      var prec = _prec;
+      if (acc >= len) {
+        return acc;
+      }
+      var v = xs[acc];
+      if (!lt(prec, v)) {
+        return acc;
+      }
+      _acc = acc + 1 | 0;
+      _prec = v;
+      continue ;
+    };
+  } else if (lt(x1, x0)) {
+    return -sortedLengthAuxMore(xs, x1, 2, len, lt) | 0;
+  } else {
+    return 1;
+  }
+}
+
+function strictlySortedLength(xs, lt) {
+  return strictlySortedLengthU(xs, _curry_js__WEBPACK_IMPORTED_MODULE_0__.__2(lt));
+}
+
+function isSortedU(a, cmp) {
+  var len = a.length;
+  if (len === 0) {
+    return true;
+  } else {
+    var _i = 0;
+    var last_bound = len - 1 | 0;
+    while(true) {
+      var i = _i;
+      if (i === last_bound) {
+        return true;
+      }
+      if (cmp(a[i], a[i + 1 | 0]) > 0) {
+        return false;
+      }
+      _i = i + 1 | 0;
+      continue ;
+    };
+  }
+}
+
+function isSorted(a, cmp) {
+  return isSortedU(a, _curry_js__WEBPACK_IMPORTED_MODULE_0__.__2(cmp));
+}
+
+function merge(src, src1ofs, src1len, src2, src2ofs, src2len, dst, dstofs, cmp) {
+  var src1r = src1ofs + src1len | 0;
+  var src2r = src2ofs + src2len | 0;
+  var _i1 = src1ofs;
+  var _s1 = src[src1ofs];
+  var _i2 = src2ofs;
+  var _s2 = src2[src2ofs];
+  var _d = dstofs;
+  while(true) {
+    var d = _d;
+    var s2 = _s2;
+    var i2 = _i2;
+    var s1 = _s1;
+    var i1 = _i1;
+    if (cmp(s1, s2) <= 0) {
+      dst[d] = s1;
+      var i1$1 = i1 + 1 | 0;
+      if (i1$1 >= src1r) {
+        return _belt_Array_js__WEBPACK_IMPORTED_MODULE_1__.blitUnsafe(src2, i2, dst, d + 1 | 0, src2r - i2 | 0);
+      }
+      _d = d + 1 | 0;
+      _s1 = src[i1$1];
+      _i1 = i1$1;
+      continue ;
+    }
+    dst[d] = s2;
+    var i2$1 = i2 + 1 | 0;
+    if (i2$1 >= src2r) {
+      return _belt_Array_js__WEBPACK_IMPORTED_MODULE_1__.blitUnsafe(src, i1, dst, d + 1 | 0, src1r - i1 | 0);
+    }
+    _d = d + 1 | 0;
+    _s2 = src2[i2$1];
+    _i2 = i2$1;
+    continue ;
+  };
+}
+
+function unionU(src, src1ofs, src1len, src2, src2ofs, src2len, dst, dstofs, cmp) {
+  var src1r = src1ofs + src1len | 0;
+  var src2r = src2ofs + src2len | 0;
+  var _i1 = src1ofs;
+  var _s1 = src[src1ofs];
+  var _i2 = src2ofs;
+  var _s2 = src2[src2ofs];
+  var _d = dstofs;
+  while(true) {
+    var d = _d;
+    var s2 = _s2;
+    var i2 = _i2;
+    var s1 = _s1;
+    var i1 = _i1;
+    var c = cmp(s1, s2);
+    if (c < 0) {
+      dst[d] = s1;
+      var i1$1 = i1 + 1 | 0;
+      var d$1 = d + 1 | 0;
+      if (i1$1 < src1r) {
+        _d = d$1;
+        _s1 = src[i1$1];
+        _i1 = i1$1;
+        continue ;
+      }
+      _belt_Array_js__WEBPACK_IMPORTED_MODULE_1__.blitUnsafe(src2, i2, dst, d$1, src2r - i2 | 0);
+      return (d$1 + src2r | 0) - i2 | 0;
+    }
+    if (c === 0) {
+      dst[d] = s1;
+      var i1$2 = i1 + 1 | 0;
+      var i2$1 = i2 + 1 | 0;
+      var d$2 = d + 1 | 0;
+      if (!(i1$2 < src1r && i2$1 < src2r)) {
+        if (i1$2 === src1r) {
+          _belt_Array_js__WEBPACK_IMPORTED_MODULE_1__.blitUnsafe(src2, i2$1, dst, d$2, src2r - i2$1 | 0);
+          return (d$2 + src2r | 0) - i2$1 | 0;
+        } else {
+          _belt_Array_js__WEBPACK_IMPORTED_MODULE_1__.blitUnsafe(src, i1$2, dst, d$2, src1r - i1$2 | 0);
+          return (d$2 + src1r | 0) - i1$2 | 0;
+        }
+      }
+      _d = d$2;
+      _s2 = src2[i2$1];
+      _i2 = i2$1;
+      _s1 = src[i1$2];
+      _i1 = i1$2;
+      continue ;
+    }
+    dst[d] = s2;
+    var i2$2 = i2 + 1 | 0;
+    var d$3 = d + 1 | 0;
+    if (i2$2 < src2r) {
+      _d = d$3;
+      _s2 = src2[i2$2];
+      _i2 = i2$2;
+      continue ;
+    }
+    _belt_Array_js__WEBPACK_IMPORTED_MODULE_1__.blitUnsafe(src, i1, dst, d$3, src1r - i1 | 0);
+    return (d$3 + src1r | 0) - i1 | 0;
+  };
+}
+
+function union(src, src1ofs, src1len, src2, src2ofs, src2len, dst, dstofs, cmp) {
+  return unionU(src, src1ofs, src1len, src2, src2ofs, src2len, dst, dstofs, _curry_js__WEBPACK_IMPORTED_MODULE_0__.__2(cmp));
+}
+
+function intersectU(src, src1ofs, src1len, src2, src2ofs, src2len, dst, dstofs, cmp) {
+  var src1r = src1ofs + src1len | 0;
+  var src2r = src2ofs + src2len | 0;
+  var _i1 = src1ofs;
+  var _s1 = src[src1ofs];
+  var _i2 = src2ofs;
+  var _s2 = src2[src2ofs];
+  var _d = dstofs;
+  while(true) {
+    var d = _d;
+    var s2 = _s2;
+    var i2 = _i2;
+    var s1 = _s1;
+    var i1 = _i1;
+    var c = cmp(s1, s2);
+    if (c < 0) {
+      var i1$1 = i1 + 1 | 0;
+      if (i1$1 >= src1r) {
+        return d;
+      }
+      _s1 = src[i1$1];
+      _i1 = i1$1;
+      continue ;
+    }
+    if (c === 0) {
+      dst[d] = s1;
+      var i1$2 = i1 + 1 | 0;
+      var i2$1 = i2 + 1 | 0;
+      var d$1 = d + 1 | 0;
+      if (!(i1$2 < src1r && i2$1 < src2r)) {
+        return d$1;
+      }
+      _d = d$1;
+      _s2 = src2[i2$1];
+      _i2 = i2$1;
+      _s1 = src[i1$2];
+      _i1 = i1$2;
+      continue ;
+    }
+    var i2$2 = i2 + 1 | 0;
+    if (i2$2 >= src2r) {
+      return d;
+    }
+    _s2 = src2[i2$2];
+    _i2 = i2$2;
+    continue ;
+  };
+}
+
+function intersect(src, src1ofs, src1len, src2, src2ofs, src2len, dst, dstofs, cmp) {
+  return intersectU(src, src1ofs, src1len, src2, src2ofs, src2len, dst, dstofs, _curry_js__WEBPACK_IMPORTED_MODULE_0__.__2(cmp));
+}
+
+function diffU(src, src1ofs, src1len, src2, src2ofs, src2len, dst, dstofs, cmp) {
+  var src1r = src1ofs + src1len | 0;
+  var src2r = src2ofs + src2len | 0;
+  var _i1 = src1ofs;
+  var _s1 = src[src1ofs];
+  var _i2 = src2ofs;
+  var _s2 = src2[src2ofs];
+  var _d = dstofs;
+  while(true) {
+    var d = _d;
+    var s2 = _s2;
+    var i2 = _i2;
+    var s1 = _s1;
+    var i1 = _i1;
+    var c = cmp(s1, s2);
+    if (c < 0) {
+      dst[d] = s1;
+      var d$1 = d + 1 | 0;
+      var i1$1 = i1 + 1 | 0;
+      if (i1$1 >= src1r) {
+        return d$1;
+      }
+      _d = d$1;
+      _s1 = src[i1$1];
+      _i1 = i1$1;
+      continue ;
+    }
+    if (c === 0) {
+      var i1$2 = i1 + 1 | 0;
+      var i2$1 = i2 + 1 | 0;
+      if (!(i1$2 < src1r && i2$1 < src2r)) {
+        if (i1$2 === src1r) {
+          return d;
+        } else {
+          _belt_Array_js__WEBPACK_IMPORTED_MODULE_1__.blitUnsafe(src, i1$2, dst, d, src1r - i1$2 | 0);
+          return (d + src1r | 0) - i1$2 | 0;
+        }
+      }
+      _s2 = src2[i2$1];
+      _i2 = i2$1;
+      _s1 = src[i1$2];
+      _i1 = i1$2;
+      continue ;
+    }
+    var i2$2 = i2 + 1 | 0;
+    if (i2$2 < src2r) {
+      _s2 = src2[i2$2];
+      _i2 = i2$2;
+      continue ;
+    }
+    _belt_Array_js__WEBPACK_IMPORTED_MODULE_1__.blitUnsafe(src, i1, dst, d, src1r - i1 | 0);
+    return (d + src1r | 0) - i1 | 0;
+  };
+}
+
+function diff(src, src1ofs, src1len, src2, src2ofs, src2len, dst, dstofs, cmp) {
+  return diffU(src, src1ofs, src1len, src2, src2ofs, src2len, dst, dstofs, _curry_js__WEBPACK_IMPORTED_MODULE_0__.__2(cmp));
+}
+
+function insertionSort(src, srcofs, dst, dstofs, len, cmp) {
+  for(var i = 0; i < len; ++i){
+    var e = src[srcofs + i | 0];
+    var j = (dstofs + i | 0) - 1 | 0;
+    while(j >= dstofs && cmp(dst[j], e) > 0) {
+      dst[j + 1 | 0] = dst[j];
+      j = j - 1 | 0;
+    };
+    dst[j + 1 | 0] = e;
+  }
+  
+}
+
+function sortTo(src, srcofs, dst, dstofs, len, cmp) {
+  if (len <= 5) {
+    return insertionSort(src, srcofs, dst, dstofs, len, cmp);
+  }
+  var l1 = len / 2 | 0;
+  var l2 = len - l1 | 0;
+  sortTo(src, srcofs + l1 | 0, dst, dstofs + l1 | 0, l2, cmp);
+  sortTo(src, srcofs, src, srcofs + l2 | 0, l1, cmp);
+  return merge(src, srcofs + l2 | 0, l1, dst, dstofs + l1 | 0, l2, dst, dstofs, cmp);
+}
+
+function stableSortInPlaceByU(a, cmp) {
+  var l = a.length;
+  if (l <= 5) {
+    return insertionSort(a, 0, a, 0, l, cmp);
+  }
+  var l1 = l / 2 | 0;
+  var l2 = l - l1 | 0;
+  var t = new Array(l2);
+  sortTo(a, l1, t, 0, l2, cmp);
+  sortTo(a, 0, a, l2, l1, cmp);
+  return merge(a, l2, l1, t, 0, l2, a, 0, cmp);
+}
+
+function stableSortInPlaceBy(a, cmp) {
+  return stableSortInPlaceByU(a, _curry_js__WEBPACK_IMPORTED_MODULE_0__.__2(cmp));
+}
+
+function stableSortByU(a, cmp) {
+  var b = a.slice(0);
+  stableSortInPlaceByU(b, cmp);
+  return b;
+}
+
+function stableSortBy(a, cmp) {
+  return stableSortByU(a, _curry_js__WEBPACK_IMPORTED_MODULE_0__.__2(cmp));
+}
+
+function binarySearchByU(sorted, key, cmp) {
+  var len = sorted.length;
+  if (len === 0) {
+    return -1;
+  }
+  var lo = sorted[0];
+  var c = cmp(key, lo);
+  if (c < 0) {
+    return -1;
+  }
+  var hi = sorted[len - 1 | 0];
+  var c2 = cmp(key, hi);
+  if (c2 > 0) {
+    return -(len + 1 | 0) | 0;
+  } else {
+    var _lo = 0;
+    var _hi = len - 1 | 0;
+    while(true) {
+      var hi$1 = _hi;
+      var lo$1 = _lo;
+      var mid = (lo$1 + hi$1 | 0) / 2 | 0;
+      var midVal = sorted[mid];
+      var c$1 = cmp(key, midVal);
+      if (c$1 === 0) {
+        return mid;
+      }
+      if (c$1 < 0) {
+        if (hi$1 === mid) {
+          if (cmp(sorted[lo$1], key) === 0) {
+            return lo$1;
+          } else {
+            return -(hi$1 + 1 | 0) | 0;
+          }
+        }
+        _hi = mid;
+        continue ;
+      }
+      if (lo$1 === mid) {
+        if (cmp(sorted[hi$1], key) === 0) {
+          return hi$1;
+        } else {
+          return -(hi$1 + 1 | 0) | 0;
+        }
+      }
+      _lo = mid;
+      continue ;
+    };
+  }
+}
+
+function binarySearchBy(sorted, key, cmp) {
+  return binarySearchByU(sorted, key, _curry_js__WEBPACK_IMPORTED_MODULE_0__.__2(cmp));
+}
+
+var Int;
+
+var $$String;
+
+
+/* No side effect */
+
+
+/***/ }),
+/* 56 */
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "A": () => (/* binding */ A),
+/* harmony export */   "N": () => (/* binding */ N),
+/* harmony export */   "S": () => (/* binding */ S),
+/* harmony export */   "add": () => (/* binding */ add),
+/* harmony export */   "addMutate": () => (/* binding */ addMutate),
+/* harmony export */   "cmp": () => (/* binding */ cmp),
+/* harmony export */   "cmpU": () => (/* binding */ cmpU),
+/* harmony export */   "compareAux": () => (/* binding */ compareAux),
+/* harmony export */   "eq": () => (/* binding */ eq),
+/* harmony export */   "eqAux": () => (/* binding */ eqAux),
+/* harmony export */   "eqU": () => (/* binding */ eqU),
+/* harmony export */   "fromArray": () => (/* binding */ fromArray),
+/* harmony export */   "get": () => (/* binding */ get),
+/* harmony export */   "getExn": () => (/* binding */ getExn),
+/* harmony export */   "getUndefined": () => (/* binding */ getUndefined),
+/* harmony export */   "getWithDefault": () => (/* binding */ getWithDefault),
+/* harmony export */   "has": () => (/* binding */ has),
+/* harmony export */   "merge": () => (/* binding */ merge),
+/* harmony export */   "mergeU": () => (/* binding */ mergeU),
+/* harmony export */   "remove": () => (/* binding */ remove),
+/* harmony export */   "split": () => (/* binding */ split),
+/* harmony export */   "splitAux": () => (/* binding */ splitAux)
+/* harmony export */ });
+/* harmony import */ var _caml_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(28);
+/* harmony import */ var _curry_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(22);
+/* harmony import */ var _caml_option_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(24);
+/* harmony import */ var _belt_SortArray_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(55);
+/* harmony import */ var _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(54);
+
+
+
+
+
+
+
+
+function add(t, x, data) {
+  if (t === undefined) {
+    return _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_4__.singleton(x, data);
+  }
+  var k = t.k;
+  if (x === k) {
+    return _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_4__.updateValue(t, data);
+  }
+  var v = t.v;
+  if (x < k) {
+    return _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_4__.bal(add(t.l, x, data), k, v, t.r);
+  } else {
+    return _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_4__.bal(t.l, k, v, add(t.r, x, data));
+  }
+}
+
+function get(_n, x) {
+  while(true) {
+    var n = _n;
+    if (n === undefined) {
+      return ;
+    }
+    var v = n.k;
+    if (x === v) {
+      return _caml_option_js__WEBPACK_IMPORTED_MODULE_2__.some(n.v);
+    }
+    _n = x < v ? n.l : n.r;
+    continue ;
+  };
+}
+
+function getUndefined(_n, x) {
+  while(true) {
+    var n = _n;
+    if (n === undefined) {
+      return ;
+    }
+    var v = n.k;
+    if (x === v) {
+      return n.v;
+    }
+    _n = x < v ? n.l : n.r;
+    continue ;
+  };
+}
+
+function getExn(_n, x) {
+  while(true) {
+    var n = _n;
+    if (n !== undefined) {
+      var v = n.k;
+      if (x === v) {
+        return n.v;
+      }
+      _n = x < v ? n.l : n.r;
+      continue ;
+    }
+    throw {
+          RE_EXN_ID: "Not_found",
+          Error: new Error()
+        };
+  };
+}
+
+function getWithDefault(_n, x, def) {
+  while(true) {
+    var n = _n;
+    if (n === undefined) {
+      return def;
+    }
+    var v = n.k;
+    if (x === v) {
+      return n.v;
+    }
+    _n = x < v ? n.l : n.r;
+    continue ;
+  };
+}
+
+function has(_n, x) {
+  while(true) {
+    var n = _n;
+    if (n === undefined) {
+      return false;
+    }
+    var v = n.k;
+    if (x === v) {
+      return true;
+    }
+    _n = x < v ? n.l : n.r;
+    continue ;
+  };
+}
+
+function remove(n, x) {
+  if (n === undefined) {
+    return n;
+  }
+  var v = n.k;
+  var l = n.l;
+  var r = n.r;
+  if (x !== v) {
+    if (x < v) {
+      return _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_4__.bal(remove(l, x), v, n.v, r);
+    } else {
+      return _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_4__.bal(l, v, n.v, remove(r, x));
+    }
+  }
+  if (l === undefined) {
+    return r;
+  }
+  if (r === undefined) {
+    return l;
+  }
+  var kr = {
+    contents: r.k
+  };
+  var vr = {
+    contents: r.v
+  };
+  var r$1 = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_4__.removeMinAuxWithRef(r, kr, vr);
+  return _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_4__.bal(l, kr.contents, vr.contents, r$1);
+}
+
+function splitAux(x, n) {
+  var v = n.k;
+  var d = n.v;
+  var l = n.l;
+  var r = n.r;
+  if (x === v) {
+    return [
+            l,
+            _caml_option_js__WEBPACK_IMPORTED_MODULE_2__.some(d),
+            r
+          ];
+  }
+  if (x < v) {
+    if (l === undefined) {
+      return [
+              undefined,
+              undefined,
+              n
+            ];
+    }
+    var match = splitAux(x, l);
+    return [
+            match[0],
+            match[1],
+            _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_4__.join(match[2], v, d, r)
+          ];
+  }
+  if (r === undefined) {
+    return [
+            n,
+            undefined,
+            undefined
+          ];
+  }
+  var match$1 = splitAux(x, r);
+  return [
+          _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_4__.join(l, v, d, match$1[0]),
+          match$1[1],
+          match$1[2]
+        ];
+}
+
+function split(x, n) {
+  if (n !== undefined) {
+    return splitAux(x, n);
+  } else {
+    return [
+            undefined,
+            undefined,
+            undefined
+          ];
+  }
+}
+
+function mergeU(s1, s2, f) {
+  if (s1 !== undefined) {
+    if (s1.h >= (
+        s2 !== undefined ? s2.h : 0
+      )) {
+      var v1 = s1.k;
+      var d1 = s1.v;
+      var l1 = s1.l;
+      var r1 = s1.r;
+      var match = split(v1, s2);
+      return _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_4__.concatOrJoin(mergeU(l1, match[0], f), v1, f(v1, _caml_option_js__WEBPACK_IMPORTED_MODULE_2__.some(d1), match[1]), mergeU(r1, match[2], f));
+    }
+    
+  } else if (s2 === undefined) {
+    return ;
+  }
+  var v2 = s2.k;
+  var d2 = s2.v;
+  var l2 = s2.l;
+  var r2 = s2.r;
+  var match$1 = split(v2, s1);
+  return _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_4__.concatOrJoin(mergeU(match$1[0], l2, f), v2, f(v2, match$1[1], _caml_option_js__WEBPACK_IMPORTED_MODULE_2__.some(d2)), mergeU(match$1[2], r2, f));
+}
+
+function merge(s1, s2, f) {
+  return mergeU(s1, s2, _curry_js__WEBPACK_IMPORTED_MODULE_1__.__3(f));
+}
+
+function compareAux(_e1, _e2, vcmp) {
+  while(true) {
+    var e2 = _e2;
+    var e1 = _e1;
+    if (!e1) {
+      return 0;
+    }
+    if (!e2) {
+      return 0;
+    }
+    var h2 = e2.hd;
+    var h1 = e1.hd;
+    var c = _caml_js__WEBPACK_IMPORTED_MODULE_0__.caml_string_compare(h1.k, h2.k);
+    if (c !== 0) {
+      return c;
+    }
+    var cx = vcmp(h1.v, h2.v);
+    if (cx !== 0) {
+      return cx;
+    }
+    _e2 = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_4__.stackAllLeft(h2.r, e2.tl);
+    _e1 = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_4__.stackAllLeft(h1.r, e1.tl);
+    continue ;
+  };
+}
+
+function cmpU(s1, s2, cmp) {
+  var len1 = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_4__.size(s1);
+  var len2 = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_4__.size(s2);
+  if (len1 === len2) {
+    return compareAux(_belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_4__.stackAllLeft(s1, /* [] */0), _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_4__.stackAllLeft(s2, /* [] */0), cmp);
+  } else if (len1 < len2) {
+    return -1;
+  } else {
+    return 1;
+  }
+}
+
+function cmp(s1, s2, f) {
+  return cmpU(s1, s2, _curry_js__WEBPACK_IMPORTED_MODULE_1__.__2(f));
+}
+
+function eqAux(_e1, _e2, eq) {
+  while(true) {
+    var e2 = _e2;
+    var e1 = _e1;
+    if (!e1) {
+      return true;
+    }
+    if (!e2) {
+      return true;
+    }
+    var h2 = e2.hd;
+    var h1 = e1.hd;
+    if (!(h1.k === h2.k && eq(h1.v, h2.v))) {
+      return false;
+    }
+    _e2 = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_4__.stackAllLeft(h2.r, e2.tl);
+    _e1 = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_4__.stackAllLeft(h1.r, e1.tl);
+    continue ;
+  };
+}
+
+function eqU(s1, s2, eq) {
+  var len1 = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_4__.size(s1);
+  var len2 = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_4__.size(s2);
+  if (len1 === len2) {
+    return eqAux(_belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_4__.stackAllLeft(s1, /* [] */0), _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_4__.stackAllLeft(s2, /* [] */0), eq);
+  } else {
+    return false;
+  }
+}
+
+function eq(s1, s2, f) {
+  return eqU(s1, s2, _curry_js__WEBPACK_IMPORTED_MODULE_1__.__2(f));
+}
+
+function addMutate(t, x, data) {
+  if (t === undefined) {
+    return _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_4__.singleton(x, data);
+  }
+  var k = t.k;
+  if (x === k) {
+    t.k = x;
+    t.v = data;
+    return t;
+  }
+  var l = t.l;
+  var r = t.r;
+  if (x < k) {
+    var ll = addMutate(l, x, data);
+    t.l = ll;
+  } else {
+    t.r = addMutate(r, x, data);
+  }
+  return _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_4__.balMutate(t);
+}
+
+function fromArray(xs) {
+  var len = xs.length;
+  if (len === 0) {
+    return ;
+  }
+  var next = _belt_SortArray_js__WEBPACK_IMPORTED_MODULE_3__.strictlySortedLengthU(xs, (function (param, param$1) {
+          return param[0] < param$1[0];
+        }));
+  var result;
+  if (next >= 0) {
+    result = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_4__.fromSortedArrayAux(xs, 0, next);
+  } else {
+    next = -next | 0;
+    result = _belt_internalAVLtree_js__WEBPACK_IMPORTED_MODULE_4__.fromSortedArrayRevAux(xs, next - 1 | 0, next);
+  }
+  for(var i = next; i < len; ++i){
+    var match = xs[i];
+    result = addMutate(result, match[0], match[1]);
+  }
+  return result;
+}
+
+var N;
+
+var A;
+
+var S;
+
+
+/* No side effect */
+
+
+/***/ }),
+/* 57 */,
+/* 58 */,
+/* 59 */,
+/* 60 */
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "binarySearch": () => (/* binding */ binarySearch),
+/* harmony export */   "diff": () => (/* binding */ diff),
+/* harmony export */   "intersect": () => (/* binding */ intersect),
+/* harmony export */   "isSorted": () => (/* binding */ isSorted),
+/* harmony export */   "stableSort": () => (/* binding */ stableSort),
+/* harmony export */   "stableSortInPlace": () => (/* binding */ stableSortInPlace),
+/* harmony export */   "strictlySortedLength": () => (/* binding */ strictlySortedLength),
+/* harmony export */   "union": () => (/* binding */ union)
+/* harmony export */ });
+/* harmony import */ var _belt_Array_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(27);
+
+
+
+
+function sortedLengthAuxMore(xs, _prec, _acc, len) {
+  while(true) {
+    var acc = _acc;
+    var prec = _prec;
+    if (acc >= len) {
+      return acc;
+    }
+    var v = xs[acc];
+    if (prec <= v) {
+      return acc;
+    }
+    _acc = acc + 1 | 0;
+    _prec = v;
+    continue ;
+  };
+}
+
+function strictlySortedLength(xs) {
+  var len = xs.length;
+  if (len === 0 || len === 1) {
+    return len;
+  }
+  var x0 = xs[0];
+  var x1 = xs[1];
+  if (x0 < x1) {
+    var _prec = x1;
+    var _acc = 2;
+    while(true) {
+      var acc = _acc;
+      var prec = _prec;
+      if (acc >= len) {
+        return acc;
+      }
+      var v = xs[acc];
+      if (prec >= v) {
+        return acc;
+      }
+      _acc = acc + 1 | 0;
+      _prec = v;
+      continue ;
+    };
+  } else if (x0 > x1) {
+    return -sortedLengthAuxMore(xs, x1, 2, len) | 0;
+  } else {
+    return 1;
+  }
+}
+
+function isSorted(a) {
+  var len = a.length;
+  if (len === 0) {
+    return true;
+  } else {
+    var _i = 0;
+    var last_bound = len - 1 | 0;
+    while(true) {
+      var i = _i;
+      if (i === last_bound) {
+        return true;
+      }
+      if (a[i] > a[i + 1 | 0]) {
+        return false;
+      }
+      _i = i + 1 | 0;
+      continue ;
+    };
+  }
+}
+
+function merge(src, src1ofs, src1len, src2, src2ofs, src2len, dst, dstofs) {
+  var src1r = src1ofs + src1len | 0;
+  var src2r = src2ofs + src2len | 0;
+  var _i1 = src1ofs;
+  var _s1 = src[src1ofs];
+  var _i2 = src2ofs;
+  var _s2 = src2[src2ofs];
+  var _d = dstofs;
+  while(true) {
+    var d = _d;
+    var s2 = _s2;
+    var i2 = _i2;
+    var s1 = _s1;
+    var i1 = _i1;
+    if (s1 <= s2) {
+      dst[d] = s1;
+      var i1$1 = i1 + 1 | 0;
+      if (i1$1 >= src1r) {
+        return _belt_Array_js__WEBPACK_IMPORTED_MODULE_0__.blitUnsafe(src2, i2, dst, d + 1 | 0, src2r - i2 | 0);
+      }
+      _d = d + 1 | 0;
+      _s1 = src[i1$1];
+      _i1 = i1$1;
+      continue ;
+    }
+    dst[d] = s2;
+    var i2$1 = i2 + 1 | 0;
+    if (i2$1 >= src2r) {
+      return _belt_Array_js__WEBPACK_IMPORTED_MODULE_0__.blitUnsafe(src, i1, dst, d + 1 | 0, src1r - i1 | 0);
+    }
+    _d = d + 1 | 0;
+    _s2 = src2[i2$1];
+    _i2 = i2$1;
+    continue ;
+  };
+}
+
+function union(src, src1ofs, src1len, src2, src2ofs, src2len, dst, dstofs) {
+  var src1r = src1ofs + src1len | 0;
+  var src2r = src2ofs + src2len | 0;
+  var _i1 = src1ofs;
+  var _s1 = src[src1ofs];
+  var _i2 = src2ofs;
+  var _s2 = src2[src2ofs];
+  var _d = dstofs;
+  while(true) {
+    var d = _d;
+    var s2 = _s2;
+    var i2 = _i2;
+    var s1 = _s1;
+    var i1 = _i1;
+    if (s1 < s2) {
+      dst[d] = s1;
+      var i1$1 = i1 + 1 | 0;
+      var d$1 = d + 1 | 0;
+      if (i1$1 < src1r) {
+        _d = d$1;
+        _s1 = src[i1$1];
+        _i1 = i1$1;
+        continue ;
+      }
+      _belt_Array_js__WEBPACK_IMPORTED_MODULE_0__.blitUnsafe(src2, i2, dst, d$1, src2r - i2 | 0);
+      return (d$1 + src2r | 0) - i2 | 0;
+    }
+    if (s1 === s2) {
+      dst[d] = s1;
+      var i1$2 = i1 + 1 | 0;
+      var i2$1 = i2 + 1 | 0;
+      var d$2 = d + 1 | 0;
+      if (!(i1$2 < src1r && i2$1 < src2r)) {
+        if (i1$2 === src1r) {
+          _belt_Array_js__WEBPACK_IMPORTED_MODULE_0__.blitUnsafe(src2, i2$1, dst, d$2, src2r - i2$1 | 0);
+          return (d$2 + src2r | 0) - i2$1 | 0;
+        } else {
+          _belt_Array_js__WEBPACK_IMPORTED_MODULE_0__.blitUnsafe(src, i1$2, dst, d$2, src1r - i1$2 | 0);
+          return (d$2 + src1r | 0) - i1$2 | 0;
+        }
+      }
+      _d = d$2;
+      _s2 = src2[i2$1];
+      _i2 = i2$1;
+      _s1 = src[i1$2];
+      _i1 = i1$2;
+      continue ;
+    }
+    dst[d] = s2;
+    var i2$2 = i2 + 1 | 0;
+    var d$3 = d + 1 | 0;
+    if (i2$2 < src2r) {
+      _d = d$3;
+      _s2 = src2[i2$2];
+      _i2 = i2$2;
+      continue ;
+    }
+    _belt_Array_js__WEBPACK_IMPORTED_MODULE_0__.blitUnsafe(src, i1, dst, d$3, src1r - i1 | 0);
+    return (d$3 + src1r | 0) - i1 | 0;
+  };
+}
+
+function intersect(src, src1ofs, src1len, src2, src2ofs, src2len, dst, dstofs) {
+  var src1r = src1ofs + src1len | 0;
+  var src2r = src2ofs + src2len | 0;
+  var _i1 = src1ofs;
+  var _s1 = src[src1ofs];
+  var _i2 = src2ofs;
+  var _s2 = src2[src2ofs];
+  var _d = dstofs;
+  while(true) {
+    var d = _d;
+    var s2 = _s2;
+    var i2 = _i2;
+    var s1 = _s1;
+    var i1 = _i1;
+    if (s1 < s2) {
+      var i1$1 = i1 + 1 | 0;
+      if (i1$1 >= src1r) {
+        return d;
+      }
+      _s1 = src[i1$1];
+      _i1 = i1$1;
+      continue ;
+    }
+    if (s1 === s2) {
+      dst[d] = s1;
+      var i1$2 = i1 + 1 | 0;
+      var i2$1 = i2 + 1 | 0;
+      var d$1 = d + 1 | 0;
+      if (!(i1$2 < src1r && i2$1 < src2r)) {
+        return d$1;
+      }
+      _d = d$1;
+      _s2 = src2[i2$1];
+      _i2 = i2$1;
+      _s1 = src[i1$2];
+      _i1 = i1$2;
+      continue ;
+    }
+    var i2$2 = i2 + 1 | 0;
+    if (i2$2 >= src2r) {
+      return d;
+    }
+    _s2 = src2[i2$2];
+    _i2 = i2$2;
+    continue ;
+  };
+}
+
+function diff(src, src1ofs, src1len, src2, src2ofs, src2len, dst, dstofs) {
+  var src1r = src1ofs + src1len | 0;
+  var src2r = src2ofs + src2len | 0;
+  var _i1 = src1ofs;
+  var _s1 = src[src1ofs];
+  var _i2 = src2ofs;
+  var _s2 = src2[src2ofs];
+  var _d = dstofs;
+  while(true) {
+    var d = _d;
+    var s2 = _s2;
+    var i2 = _i2;
+    var s1 = _s1;
+    var i1 = _i1;
+    if (s1 < s2) {
+      dst[d] = s1;
+      var d$1 = d + 1 | 0;
+      var i1$1 = i1 + 1 | 0;
+      if (i1$1 >= src1r) {
+        return d$1;
+      }
+      _d = d$1;
+      _s1 = src[i1$1];
+      _i1 = i1$1;
+      continue ;
+    }
+    if (s1 === s2) {
+      var i1$2 = i1 + 1 | 0;
+      var i2$1 = i2 + 1 | 0;
+      if (!(i1$2 < src1r && i2$1 < src2r)) {
+        if (i1$2 === src1r) {
+          return d;
+        } else {
+          _belt_Array_js__WEBPACK_IMPORTED_MODULE_0__.blitUnsafe(src, i1$2, dst, d, src1r - i1$2 | 0);
+          return (d + src1r | 0) - i1$2 | 0;
+        }
+      }
+      _s2 = src2[i2$1];
+      _i2 = i2$1;
+      _s1 = src[i1$2];
+      _i1 = i1$2;
+      continue ;
+    }
+    var i2$2 = i2 + 1 | 0;
+    if (i2$2 < src2r) {
+      _s2 = src2[i2$2];
+      _i2 = i2$2;
+      continue ;
+    }
+    _belt_Array_js__WEBPACK_IMPORTED_MODULE_0__.blitUnsafe(src, i1, dst, d, src1r - i1 | 0);
+    return (d + src1r | 0) - i1 | 0;
+  };
+}
+
+function insertionSort(src, srcofs, dst, dstofs, len) {
+  for(var i = 0; i < len; ++i){
+    var e = src[srcofs + i | 0];
+    var j = (dstofs + i | 0) - 1 | 0;
+    while(j >= dstofs && dst[j] > e) {
+      dst[j + 1 | 0] = dst[j];
+      j = j - 1 | 0;
+    };
+    dst[j + 1 | 0] = e;
+  }
+  
+}
+
+function sortTo(src, srcofs, dst, dstofs, len) {
+  if (len <= 5) {
+    return insertionSort(src, srcofs, dst, dstofs, len);
+  }
+  var l1 = len / 2 | 0;
+  var l2 = len - l1 | 0;
+  sortTo(src, srcofs + l1 | 0, dst, dstofs + l1 | 0, l2);
+  sortTo(src, srcofs, src, srcofs + l2 | 0, l1);
+  return merge(src, srcofs + l2 | 0, l1, dst, dstofs + l1 | 0, l2, dst, dstofs);
+}
+
+function stableSortInPlace(a) {
+  var l = a.length;
+  if (l <= 5) {
+    return insertionSort(a, 0, a, 0, l);
+  }
+  var l1 = l / 2 | 0;
+  var l2 = l - l1 | 0;
+  var t = new Array(l2);
+  sortTo(a, l1, t, 0, l2);
+  sortTo(a, 0, a, l2, l1);
+  return merge(a, l2, l1, t, 0, l2, a, 0);
+}
+
+function stableSort(a) {
+  var b = a.slice(0);
+  stableSortInPlace(b);
+  return b;
+}
+
+function binarySearch(sorted, key) {
+  var len = sorted.length;
+  if (len === 0) {
+    return -1;
+  }
+  var lo = sorted[0];
+  if (key < lo) {
+    return -1;
+  }
+  var hi = sorted[len - 1 | 0];
+  if (key > hi) {
+    return -(len + 1 | 0) | 0;
+  } else {
+    var _lo = 0;
+    var _hi = len - 1 | 0;
+    while(true) {
+      var hi$1 = _hi;
+      var lo$1 = _lo;
+      var mid = (lo$1 + hi$1 | 0) / 2 | 0;
+      var midVal = sorted[mid];
+      if (key === midVal) {
+        return mid;
+      }
+      if (key < midVal) {
+        if (hi$1 === mid) {
+          if (sorted[lo$1] === key) {
+            return lo$1;
+          } else {
+            return -(hi$1 + 1 | 0) | 0;
+          }
+        }
+        _hi = mid;
+        continue ;
+      }
+      if (lo$1 === mid) {
+        if (sorted[hi$1] === key) {
+          return hi$1;
+        } else {
+          return -(hi$1 + 1 | 0) | 0;
+        }
+      }
+      _lo = mid;
+      continue ;
+    };
+  }
 }
 
 
