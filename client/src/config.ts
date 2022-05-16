@@ -1,55 +1,33 @@
-import GM from "./gm";
+import {
+  ExamId,
+  NoLeaveCheck,
+  Server,
+  SortProblems,
+  SyncAnswers,
+  Token,
+  Username,
+} from "./Config.bs";
 
-class Optional<T> {
-  private _value: T | null = null;
+class ReValue<T> {
+  private _value: any;
 
-  constructor(init?: T) {
-    this._value = init ?? null;
+  constructor(value: any) {
+    this._value = value;
   }
 
-  get value(): T | null {
-    return this._value;
+  get value(): T | undefined {
+    return this._value.get();
   }
 
-  set value(newVal: T | null) {
-    this._value = newVal;
-  }
-}
-
-class GMEntry<T> extends Optional<T> {
-  private name: string;
-
-  constructor(name: string, init?: T) {
-    super();
-    this.name = name;
-
-    let val = GM.getValue(name);
-    if (val === undefined) {
-      val = init;
-    }
-    this.value = val ?? null;
-  }
-
-  get value(): T | null {
-    return super.value;
-  }
-
-  set value(newVal: T | null) {
-    GM.setValue(this.name, newVal);
-    super.value = newVal;
+  set value(newVal: T | undefined) {
+    this._value.set(newVal);
   }
 }
 
-export const USERNAME = new GMEntry<string>("username");
-
-export const SERVER = new GMEntry<string>("server");
-
-export const SYNC_ANSWERS = new GMEntry<boolean>("sync_answers", true);
-
-export const SORT_PROBLEMS = new GMEntry<boolean>("sort_problems", true);
-
-export const NO_LEAVE_CHECK = new GMEntry<boolean>("no_leave_check", true);
-
-export const TOKEN = new Optional<string>();
-
-export const EXAM_ID = new Optional<number>();
+export const USERNAME = new ReValue<string>(Username);
+export const SERVER = new ReValue<string>(Server);
+export const SYNC_ANSWERS = new ReValue<boolean>(SyncAnswers);
+export const SORT_PROBLEMS = new ReValue<boolean>(SortProblems);
+export const NO_LEAVE_CHECK = new ReValue<boolean>(NoLeaveCheck);
+export const TOKEN = new ReValue<string>(Token);
+export const EXAM_ID = new ReValue<number>(ExamId);

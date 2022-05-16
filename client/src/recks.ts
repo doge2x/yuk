@@ -70,6 +70,8 @@ function setDOMProps(ele: HTMLElement, props: Props) {
       default:
         if (name.startsWith("on")) {
           ele.addEventListener(name.slice(2).toLowerCase(), value);
+        } else if (name in ele) {
+          (ele as any)[name] = value;
         } else {
           ele.setAttribute(name, value);
         }

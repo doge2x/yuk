@@ -14,7 +14,7 @@ export class Client {
   constructor() {
     const client = new JSONRPCClient(async (req) => {
       const url = SERVER.value;
-      if (url !== null) {
+      if (url !== undefined) {
         await new Promise<void>(async (ok, err) => {
           await GM.xhr({
             url: url,
@@ -54,16 +54,16 @@ export class Client {
   private async sendQueue() {
     if (
       this.queue.size < 1 ||
-      USERNAME.value === null ||
-      SERVER.value === null ||
-      EXAM_ID.value === null ||
+      USERNAME.value === undefined ||
+      SERVER.value === undefined ||
+      EXAM_ID.value === undefined ||
       SYNC_ANSWERS.value === false
     ) {
       return;
     }
     let answers = [...this.queue.values()];
     this.queue.clear();
-    if (TOKEN.value === null) {
+    if (TOKEN.value === undefined) {
       devLog(`login to server: ${USERNAME.value}, ${EXAM_ID.value}`);
       const token: string = await this.client.request("login", [
         USERNAME.value,
