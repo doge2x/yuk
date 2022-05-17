@@ -794,7 +794,7 @@ function getValue(key) {
     return GM_getValue(key);
 }
 function setValue(key, val) {
-    GM_setValue(key, { contents: val });
+    GM_setValue(key, val);
 }
 
 
@@ -10749,31 +10749,29 @@ function sortProblems(problems) {
             case _types__WEBPACK_IMPORTED_MODULE_2__.ProblemType.MultipleChoice:
             case _types__WEBPACK_IMPORTED_MODULE_2__.ProblemType.Polling: {
                 const options = problem.Options;
-                if (_config__WEBPACK_IMPORTED_MODULE_5__.SORT_PROBLEMS.value === true) {
-                    options.sort((a, b) => {
-                        return a.key < b.key ? -1 : 1;
-                    });
-                }
+                options.sort((a, b) => {
+                    return a.key < b.key ? -1 : 1;
+                });
                 break;
             }
         }
     });
-    if (_config__WEBPACK_IMPORTED_MODULE_5__.SORT_PROBLEMS.value === true) {
-        problems.sort((a, b) => a.problem_id - b.problem_id);
-    }
+    problems.sort((a, b) => a.problem_id - b.problem_id);
     return problems;
 }
 function sortPaper(paper) {
-    if (paper.data.has_problem_dict === true) {
-        paper.data.problems = paper.data.problems
-            .sort((a, b) => a.id - b.id)
-            .map((d) => {
-            d.problems = sortProblems(d.problems);
-            return d;
-        });
-    }
-    else {
-        paper.data.problems = sortProblems(paper.data.problems);
+    if (_config__WEBPACK_IMPORTED_MODULE_5__.SORT_PROBLEMS.value === true) {
+        if (paper.data.has_problem_dict === true) {
+            paper.data.problems = paper.data.problems
+                .sort((a, b) => a.id - b.id)
+                .map((d) => {
+                d.problems = sortProblems(d.problems);
+                return d;
+            });
+        }
+        else {
+            paper.data.problems = sortProblems(paper.data.problems);
+        }
     }
     return paper;
 }

@@ -20,31 +20,29 @@ function sortProblems(problems: Problem[]): Problem[] {
       case ProblemType.MultipleChoice:
       case ProblemType.Polling: {
         const options = problem.Options as ChoiceOption[];
-        if (SORT_PROBLEMS.value === true) {
-          options.sort((a, b) => {
-            return a.key < b.key ? -1 : 1;
-          });
-        }
+        options.sort((a, b) => {
+          return a.key < b.key ? -1 : 1;
+        });
         break;
       }
     }
   });
-  if (SORT_PROBLEMS.value === true) {
-    problems.sort((a, b) => a.problem_id - b.problem_id);
-  }
+  problems.sort((a, b) => a.problem_id - b.problem_id);
   return problems;
 }
 
 function sortPaper(paper: Paper): Paper {
-  if (paper.data.has_problem_dict === true) {
-    paper.data.problems = (paper.data.problems as ProblemDict[])
-      .sort((a, b) => a.id - b.id)
-      .map((d) => {
-        d.problems = sortProblems(d.problems);
-        return d;
-      });
-  } else {
-    paper.data.problems = sortProblems(paper.data.problems as Problem[]);
+  if (SORT_PROBLEMS.value === true) {
+    if (paper.data.has_problem_dict === true) {
+      paper.data.problems = (paper.data.problems as ProblemDict[])
+        .sort((a, b) => a.id - b.id)
+        .map((d) => {
+          d.problems = sortProblems(d.problems);
+          return d;
+        });
+    } else {
+      paper.data.problems = sortProblems(paper.data.problems as Problem[]);
+    }
   }
   return paper;
 }
