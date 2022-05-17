@@ -53,5 +53,5 @@ export function getValue(key: string): any {
 }
 
 export function setValue(key: string, val: any) {
-  GM_setValue(key, { contents: val });
+  GM_setValue(key, val);
 }
