@@ -64,7 +64,8 @@ module Entries = {
             input
             ->React.toNode
             ->Option.flatMap(Webapi.Dom.HtmlElement.ofNode)
-            ->Option.forEach(submit),
+            ->Option.getExn
+            ->submit,
         ]),
       )
     })
@@ -164,15 +165,13 @@ module Settings = {
   }
 }
 
-let showSettings = () =>
-  Utils.openWin(~title=`设置`, ~height=300, ~width=400, ())->Option.forEach(((win, doc)) =>
-    doc
-    ->HtmlDocument.body
-    ->Option.forEach(body =>
-      <div className={[style["mainBody"], style["settings"]]->Utils.joinStrings(" ")}>
-        <Settings onSubmit={() => win->Window.close} />
-      </div>
-      ->React.toNode
-      ->Option.forEach(node => body->Element.appendChild(~child=node))
-    )
+let showSettings = () => {
+  let (win, body) = Utils.openWin(~title=`设置`, ~height=300, ~width=400, ())
+  body->Element.appendChild(
+    ~child=<div className={[style["mainBody"], style["settings"]]->Utils.joinStrings(" ")}>
+      <Settings onSubmit={() => win->Window.close} />
+    </div>
+    ->React.toNode
+    ->Option.getExn,
   )
+}

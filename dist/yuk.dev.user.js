@@ -2538,19 +2538,14 @@ var Tooltip = {
 
 function Make(T) {
   var showDetail = function ($$this, top, left) {
-    return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.openWin("详细答案", 200, 300, left, top, undefined), (function (param) {
-                  return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_8__.nullable_to_opt(param[1].body), (function (body) {
-                                return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.toNode(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
-                                                    className: _Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.joinStrings([
-                                                          style.mainBody,
-                                                          style.answerDetail
-                                                        ], " ")
-                                                  }, [$$this.detailHtml])), (function (__x) {
-                                              body.appendChild(__x);
-                                              
-                                            }));
-                              }));
-                }));
+    var match = _Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.openWin("详细答案", 200, 300, left, top, undefined);
+    match[1].appendChild(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.getExn(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.toNode(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
+                      className: _Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.joinStrings([
+                            style.mainBody,
+                            style.answerDetail
+                          ], " ")
+                    }, [$$this.detailHtml]))));
+    
   };
   var make = function (subjectItem, extra) {
     var $$this = {
@@ -2558,13 +2553,11 @@ function Make(T) {
       detailHtml: null,
       context: rescript_lib_es6_curry_js__WEBPACK_IMPORTED_MODULE_0__._2(T.make, subjectItem, extra)
     };
-    rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_8__.nullable_to_opt(subjectItem.querySelector(".item-type")), (function (el) {
-            el.classList.add(style.clickable);
-            el.addEventListener("click", (function (param) {
-                    var rect = el.getBoundingClientRect();
-                    return showDetail($$this, rect.top | 0, rect.left | 0);
-                  }));
-            
+    var itemType = rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.getExn(rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_8__.nullable_to_opt(subjectItem.querySelector(".item-type")));
+    itemType.classList.add(style.clickable);
+    itemType.addEventListener("click", (function (param) {
+            var rect = itemType.getBoundingClientRect();
+            return showDetail($$this, rect.top | 0, rect.left | 0);
           }));
     return $$this;
   };
@@ -2624,8 +2617,8 @@ function updateUI(detail, context) {
                       }))), (function (param) {
                 var users = param[1];
                 var choice = param[0];
-                rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.get(context.tooltips, choice), (function (u) {
-                        return setContent(u, percent(users.length, rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.size(detail)));
+                rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.get(context.tooltips, choice), (function (__x) {
+                        return setContent(__x, percent(users.length, rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.size(detail)));
                       }));
                 return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", undefined, [
                             _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("p", undefined, [_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("strong", undefined, [choice])]),
@@ -2639,19 +2632,14 @@ function updateUI(detail, context) {
 }
 
 function showDetail($$this, top, left) {
-  return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.openWin("详细答案", 200, 300, left, top, undefined), (function (param) {
-                return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_8__.nullable_to_opt(param[1].body), (function (body) {
-                              return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.toNode(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
-                                                  className: _Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.joinStrings([
-                                                        style.mainBody,
-                                                        style.answerDetail
-                                                      ], " ")
-                                                }, [$$this.detailHtml])), (function (__x) {
-                                            body.appendChild(__x);
-                                            
-                                          }));
-                            }));
-              }));
+  var match = _Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.openWin("详细答案", 200, 300, left, top, undefined);
+  match[1].appendChild(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.getExn(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.toNode(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
+                    className: _Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.joinStrings([
+                          style.mainBody,
+                          style.answerDetail
+                        ], " ")
+                  }, [$$this.detailHtml]))));
+  
 }
 
 function make$2(subjectItem, extra) {
@@ -2660,13 +2648,11 @@ function make$2(subjectItem, extra) {
     detailHtml: null,
     context: make$1(subjectItem, extra)
   };
-  rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_8__.nullable_to_opt(subjectItem.querySelector(".item-type")), (function (el) {
-          el.classList.add(style.clickable);
-          el.addEventListener("click", (function (param) {
-                  var rect = el.getBoundingClientRect();
-                  return showDetail($$this, rect.top | 0, rect.left | 0);
-                }));
-          
+  var itemType = rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.getExn(rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_8__.nullable_to_opt(subjectItem.querySelector(".item-type")));
+  itemType.classList.add(style.clickable);
+  itemType.addEventListener("click", (function (param) {
+          var rect = itemType.getBoundingClientRect();
+          return showDetail($$this, rect.top | 0, rect.left | 0);
         }));
   return $$this;
 }
@@ -2691,7 +2677,7 @@ var Choice = {
 function make$3(subjectItem, param) {
   return {
           tooltips: rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.reduceWithIndex(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.querySelectorAllElements(subjectItem, ".item-body .blank-item-dynamic"), undefined, (function (tooltips, ele, idx) {
-                  return rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.set(tooltips, String(idx + 1 | 0), {
+                  return rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.set(tooltips, String.fromCharCode(49 + idx | 0), {
                               ele: ele
                             });
                 }))
@@ -2711,25 +2697,23 @@ function updateUI$2(detail, context) {
                           })))), (function (param) {
                 var blank = param[0];
                 var fillToUsers = sortByKey(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.toArray(param[1]));
-                rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.get(context.tooltips, blank), (function (most) {
-                        return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.get(rescript_lib_es6_belt_SortArray_js__WEBPACK_IMPORTED_MODULE_10__.stableSortBy(rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.map(fillToUsers, (function (param) {
-                                                  return [
-                                                          param[0],
-                                                          param[1].length
-                                                        ];
-                                                })), (function (param, param$1) {
-                                              return param$1[1] - param[1] | 0;
-                                            })), 0), (function (param) {
-                                      return setContent(most, "(" + percent(param[1], rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.size(detail)) + ") " + param[0]);
-                                    }));
+                rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.get(context.tooltips, blank), (function (__x) {
+                        return setContent(__x, rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.mapWithDefault(rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.get(rescript_lib_es6_belt_SortArray_js__WEBPACK_IMPORTED_MODULE_10__.stableSortBy(rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.map(fillToUsers, (function (param) {
+                                                      return [
+                                                              param[0],
+                                                              param[1].length
+                                                            ];
+                                                    })), (function (param, param$1) {
+                                                  return param$1[1] - param[1] | 0;
+                                                })), 0), "", (function (param) {
+                                          return "(" + percent(param[1], rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_9__.size(detail)) + ") " + param[0];
+                                        })));
                       }));
                 return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", undefined, [
                             _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("p", undefined, [_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("strong", undefined, ["#" + blank])]),
                             _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.UList.make, {
                                   children: rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.map(fillToUsers, (function (param) {
-                                          return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElementVariadic(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.Fragment.make, {
-                                                      children: null
-                                                    }, [
+                                          return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", undefined, [
                                                       _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("p", undefined, [param[0]]),
                                                       _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.UList.make, {
                                                             children: rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_5__.map(rescript_lib_es6_belt_SortArrayString_js__WEBPACK_IMPORTED_MODULE_12__.stableSort(param[1]), (function (user) {
@@ -2744,19 +2728,14 @@ function updateUI$2(detail, context) {
 }
 
 function showDetail$1($$this, top, left) {
-  return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.openWin("详细答案", 200, 300, left, top, undefined), (function (param) {
-                return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_8__.nullable_to_opt(param[1].body), (function (body) {
-                              return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.toNode(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
-                                                  className: _Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.joinStrings([
-                                                        style.mainBody,
-                                                        style.answerDetail
-                                                      ], " ")
-                                                }, [$$this.detailHtml])), (function (__x) {
-                                            body.appendChild(__x);
-                                            
-                                          }));
-                            }));
-              }));
+  var match = _Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.openWin("详细答案", 200, 300, left, top, undefined);
+  match[1].appendChild(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.getExn(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.toNode(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
+                    className: _Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.joinStrings([
+                          style.mainBody,
+                          style.answerDetail
+                        ], " ")
+                  }, [$$this.detailHtml]))));
+  
 }
 
 function make$4(subjectItem, extra) {
@@ -2765,13 +2744,11 @@ function make$4(subjectItem, extra) {
     detailHtml: null,
     context: make$3(subjectItem, extra)
   };
-  rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_8__.nullable_to_opt(subjectItem.querySelector(".item-type")), (function (el) {
-          el.classList.add(style.clickable);
-          el.addEventListener("click", (function (param) {
-                  var rect = el.getBoundingClientRect();
-                  return showDetail$1($$this, rect.top | 0, rect.left | 0);
-                }));
-          
+  var itemType = rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.getExn(rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_8__.nullable_to_opt(subjectItem.querySelector(".item-type")));
+  itemType.classList.add(style.clickable);
+  itemType.addEventListener("click", (function (param) {
+          var rect = itemType.getBoundingClientRect();
+          return showDetail$1($$this, rect.top | 0, rect.left | 0);
         }));
   return $$this;
 }
@@ -2827,19 +2804,14 @@ function updateUI$4(detail, param) {
 }
 
 function showDetail$2($$this, top, left) {
-  return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.openWin("详细答案", 200, 300, left, top, undefined), (function (param) {
-                return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_8__.nullable_to_opt(param[1].body), (function (body) {
-                              return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.toNode(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
-                                                  className: _Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.joinStrings([
-                                                        style.mainBody,
-                                                        style.answerDetail
-                                                      ], " ")
-                                                }, [$$this.detailHtml])), (function (__x) {
-                                            body.appendChild(__x);
-                                            
-                                          }));
-                            }));
-              }));
+  var match = _Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.openWin("详细答案", 200, 300, left, top, undefined);
+  match[1].appendChild(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.getExn(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.toNode(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
+                    className: _Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.joinStrings([
+                          style.mainBody,
+                          style.answerDetail
+                        ], " ")
+                  }, [$$this.detailHtml]))));
+  
 }
 
 function make$6(subjectItem, extra) {
@@ -2848,13 +2820,11 @@ function make$6(subjectItem, extra) {
     detailHtml: null,
     context: make$5(subjectItem, extra)
   };
-  rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.forEach(rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_8__.nullable_to_opt(subjectItem.querySelector(".item-type")), (function (el) {
-          el.classList.add(style.clickable);
-          el.addEventListener("click", (function (param) {
-                  var rect = el.getBoundingClientRect();
-                  return showDetail$2($$this, rect.top | 0, rect.left | 0);
-                }));
-          
+  var itemType = rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_7__.getExn(rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_8__.nullable_to_opt(subjectItem.querySelector(".item-type")));
+  itemType.classList.add(style.clickable);
+  itemType.addEventListener("click", (function (param) {
+          var rect = itemType.getBoundingClientRect();
+          return showDetail$2($$this, rect.top | 0, rect.left | 0);
         }));
   return $$this;
 }
@@ -3071,46 +3041,41 @@ var UList = {
 };
 
 function openWin(title, height, width, left, top, param) {
-  return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_2__.flatMap(rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_3__.nullable_to_opt(window.open("", "", rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_1__.joinWith([
-                          [
-                            "location",
-                            "no"
-                          ],
-                          [
-                            "height",
-                            String(height)
-                          ],
-                          [
-                            "width",
-                            String(width)
-                          ],
-                          [
-                            "left",
-                            String(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_2__.getWithDefault(left, 0))
-                          ],
-                          [
-                            "top",
-                            String(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_2__.getWithDefault(top, 0))
-                          ]
-                        ], ",", (function (param) {
-                            return param[0] + "=" + param[1];
-                          })))), (function (win) {
-                return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_2__.map(rescript_webapi_src_Webapi_Dom_Webapi_Dom_Document_bs_js__WEBPACK_IMPORTED_MODULE_6__.asHtmlDocument(win.document), (function (html) {
-                              rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_2__.forEach(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.toNode(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.createElementVariadic(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.Fragment.make, {
-                                            children: null
-                                          }, [
-                                            _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.DOMRe.createDOMElementVariadic("title", undefined, [title]),
-                                            _Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.DOMRe.createDOMElementVariadic("style", undefined, [styleCss.toString()])
-                                          ])), (function (node) {
-                                      html.head.appendChild(node);
-                                      
-                                    }));
-                              return [
-                                      win,
-                                      html
-                                    ];
-                            }));
-              }));
+  var win = rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_2__.getExn(rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_3__.nullable_to_opt(window.open("", "", rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_1__.joinWith([
+                    [
+                      "location",
+                      "no"
+                    ],
+                    [
+                      "height",
+                      String(height)
+                    ],
+                    [
+                      "width",
+                      String(width)
+                    ],
+                    [
+                      "left",
+                      rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_2__.mapWithDefault(left, "0", (function (prim) {
+                              return String(prim);
+                            }))
+                    ],
+                    [
+                      "top",
+                      rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_2__.mapWithDefault(top, "0", (function (prim) {
+                              return String(prim);
+                            }))
+                    ]
+                  ], ",", (function (param) {
+                      return param[0] + "=" + param[1];
+                    })))));
+  var html = rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_2__.getExn(rescript_webapi_src_Webapi_Dom_Webapi_Dom_Document_bs_js__WEBPACK_IMPORTED_MODULE_6__.asHtmlDocument(win.document));
+  html.head.appendChild(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_2__.getExn(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.toNode(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.DOMRe.createDOMElementVariadic("title", undefined, [title]))));
+  html.head.appendChild(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_2__.getExn(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.toNode(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_0__.DOMRe.createDOMElementVariadic("style", undefined, [styleCss.toString()]))));
+  return [
+          win,
+          rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_2__.getExn(rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_3__.nullable_to_opt(html.body))
+        ];
 }
 
 var React;
@@ -9441,7 +9406,7 @@ function make(v) {
                               input
                             ])]),
                   rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_4__.concat(param[1], [(function (param) {
-                            return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_5__.forEach(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_5__.flatMap(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.toNode(input), rescript_webapi_src_Webapi_Dom_Webapi_Dom_HtmlElement_bs_js__WEBPACK_IMPORTED_MODULE_8__.ofNode), submit);
+                            return rescript_lib_es6_curry_js__WEBPACK_IMPORTED_MODULE_0__._1(submit, rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_5__.getExn(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_5__.flatMap(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.toNode(input), rescript_webapi_src_Webapi_Dom_Webapi_Dom_HtmlElement_bs_js__WEBPACK_IMPORTED_MODULE_8__.ofNode)));
                           })])
                 ];
         }));
@@ -9595,25 +9560,20 @@ var Settings = {
 };
 
 function showSettings(param) {
-  return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_5__.forEach(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.openWin("设置", 300, 400, undefined, undefined, undefined), (function (param) {
-                var win = param[0];
-                return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_5__.forEach(rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_6__.nullable_to_opt(param[1].body), (function (body) {
-                              return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_5__.forEach(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.toNode(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
-                                                  className: _Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.joinStrings([
-                                                        style.mainBody,
-                                                        style.settings
-                                                      ], " ")
-                                                }, [_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(Settings$Settings, {
-                                                        onSubmit: (function (param) {
-                                                            win.close();
-                                                            
-                                                          })
-                                                      })])), (function (node) {
-                                            body.appendChild(node);
-                                            
-                                          }));
-                            }));
-              }));
+  var match = _Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.openWin("设置", 300, 400, undefined, undefined, undefined);
+  var win = match[0];
+  match[1].appendChild(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_5__.getExn(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.toNode(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
+                    className: _Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.joinStrings([
+                          style.mainBody,
+                          style.settings
+                        ], " ")
+                  }, [_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(Settings$Settings, {
+                          onSubmit: (function (param) {
+                              win.close();
+                              
+                            })
+                        })]))));
+  
 }
 
 var React;
@@ -9777,39 +9737,34 @@ var styleCss = _style_mod_less__WEBPACK_IMPORTED_MODULE_11__["default"];
 var style = _style_mod_less__WEBPACK_IMPORTED_MODULE_11__;
 
 function showConfirmUpload(dataURL, cb) {
-  return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.map(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.openWin("上传图片", 200, 300, undefined, undefined, undefined), (function (param) {
-                var win = param[0];
-                return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.forEach(rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_9__.nullable_to_opt(param[1].body), (function (body) {
-                              return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.forEach(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.toNode(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
-                                                  className: _Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.joinStrings([
-                                                        style.mainBody,
-                                                        style.uploadImg
-                                                      ], " ")
-                                                }, [
-                                                  _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
-                                                        className: style.uploadImgConfirm
-                                                      }, [
-                                                        _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("button", {
-                                                              className: style.clickable,
-                                                              onClick: (function (param) {
-                                                                  rescript_lib_es6_curry_js__WEBPACK_IMPORTED_MODULE_0__._1(cb, undefined);
-                                                                  win.close();
-                                                                  
-                                                                })
-                                                            }, ["确认上传"]),
-                                                        _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("span", undefined, [_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("i", undefined, ["*关闭窗口以取消上传"])])
-                                                      ]),
-                                                  _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
-                                                        className: style.uploadImgImage
-                                                      }, [_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("img", {
-                                                              src: dataURL
-                                                            }, [])])
-                                                ])), (function (__x) {
-                                            body.appendChild(__x);
-                                            
-                                          }));
-                            }));
-              }));
+  var match = _Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.openWin("上传图片", 200, 300, undefined, undefined, undefined);
+  var win = match[0];
+  match[1].appendChild(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.getExn(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.toNode(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
+                    className: _Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.joinStrings([
+                          style.mainBody,
+                          style.uploadImg
+                        ], " ")
+                  }, [
+                    _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
+                          className: style.uploadImgConfirm
+                        }, [
+                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("button", {
+                                className: style.clickable,
+                                onClick: (function (param) {
+                                    rescript_lib_es6_curry_js__WEBPACK_IMPORTED_MODULE_0__._1(cb, undefined);
+                                    win.close();
+                                    
+                                  })
+                              }, ["确认上传"]),
+                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("span", undefined, [_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("i", undefined, ["*关闭窗口以取消上传"])])
+                        ]),
+                    _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
+                          className: style.uploadImgImage
+                        }, [_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("img", {
+                                src: dataURL
+                              }, [])])
+                  ]))));
+  
 }
 
 function probelmTypeToJs(param) {
