@@ -41,29 +41,11 @@ export type Problem = {
 };
 
 export enum ProblemType {
-  /**
-   * 单选题
-   */
   SingleChoice = 1,
-  /**
-   * 多选题
-   */
   MultipleChoice = 2,
-  /**
-   * 投票题
-   */
   Polling = 3,
-  /**
-   * 填空题
-   */
   FillBlank = 4,
-  /**
-   * 主观题
-   */
   ShortAnswer = 5,
-  /**
-   * 判断题
-   */
   Judgement = 6,
 }
 

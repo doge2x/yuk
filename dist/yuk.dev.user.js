@@ -2134,29 +2134,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var ProblemType;
 (function (ProblemType) {
-    /**
-     * 单选题
-     */
     ProblemType[ProblemType["SingleChoice"] = 1] = "SingleChoice";
-    /**
-     * 多选题
-     */
     ProblemType[ProblemType["MultipleChoice"] = 2] = "MultipleChoice";
-    /**
-     * 投票题
-     */
     ProblemType[ProblemType["Polling"] = 3] = "Polling";
-    /**
-     * 填空题
-     */
     ProblemType[ProblemType["FillBlank"] = 4] = "FillBlank";
-    /**
-     * 主观题
-     */
     ProblemType[ProblemType["ShortAnswer"] = 5] = "ShortAnswer";
-    /**
-     * 判断题
-     */
     ProblemType[ProblemType["Judgement"] = 6] = "Judgement";
 })(ProblemType || (ProblemType = {}));
 
@@ -2417,11 +2399,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Children": () => (/* binding */ Children),
 /* harmony export */   "DOMRe": () => (/* binding */ DOMRe),
-/* harmony export */   "Fragment": () => (/* binding */ Fragment),
 /* harmony export */   "Props": () => (/* binding */ Props),
 /* harmony export */   "createElement": () => (/* binding */ createElement),
 /* harmony export */   "createElementVariadic": () => (/* binding */ createElementVariadic),
-/* harmony export */   "recks": () => (/* binding */ recks),
 /* harmony export */   "toNode": () => (/* binding */ toNode)
 /* harmony export */ });
 /* harmony import */ var _recks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(23);
@@ -2433,14 +2413,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var recks = _recks__WEBPACK_IMPORTED_MODULE_0__;
-
-function toNode(element) {
-  return rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_1__.nullable_to_opt(recks.toNode(element));
+function toNode(prim) {
+  return rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_1__.nullable_to_opt(_recks__WEBPACK_IMPORTED_MODULE_0__.toNode(prim));
 }
 
-function toArray(ele) {
-  return recks.Children.toArray(ele);
+function toArray(prim) {
+  return _recks__WEBPACK_IMPORTED_MODULE_0__.Children.toArray(prim);
 }
 
 var Children = {
@@ -2480,21 +2458,10 @@ var DOMRe = {
   createElement: createElement$1
 };
 
-function Recks$Fragment(Props) {
-  var children = Props.children;
-  return recks.Fragment({
-              children: children
-            });
-}
-
-var Fragment = {
-  make: Recks$Fragment
-};
-
 var Props;
 
 
-/* recks Not a pure module */
+/* ./recks Not a pure module */
 
 
 /***/ }),
