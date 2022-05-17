@@ -1,6 +1,5 @@
 import { Answer, UserAnswer } from "./types";
 import { JSONRPCClient } from "json-rpc-2.0";
-import GM from "./gm";
 import { devLog } from "./utils";
 import { SERVER, USERNAME, TOKEN, EXAM_ID, SYNC_ANSWERS } from "./config";
 
@@ -13,11 +12,11 @@ export class Client {
 
   constructor() {
     const client = new JSONRPCClient(async (req) => {
-      const url = SERVER.value;
-      if (url !== undefined) {
+      const server = SERVER.value;
+      if (server !== undefined) {
         await new Promise<void>(async (ok, err) => {
-          await GM.xhr({
-            url: url,
+          GM.xmlHttpRequest({
+            url: server,
             method: "POST",
             headers: {
               "Content-Type": "application/json",

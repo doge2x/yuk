@@ -24,9 +24,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var json_rpc_2_0__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
 /* harmony import */ var json_rpc_2_0__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(json_rpc_2_0__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _gm__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(8);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(9);
-/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(14);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(9);
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(14);
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -39,17 +38,16 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 
 
-
 class Client {
     constructor() {
         this.onmsg = [];
         this.queue = new Map();
         const client = new json_rpc_2_0__WEBPACK_IMPORTED_MODULE_0__.JSONRPCClient((req) => __awaiter(this, void 0, void 0, function* () {
-            const url = _config__WEBPACK_IMPORTED_MODULE_3__.SERVER.value;
-            if (url !== undefined) {
+            const server = _config__WEBPACK_IMPORTED_MODULE_2__.SERVER.value;
+            if (server !== undefined) {
                 yield new Promise((ok, err) => __awaiter(this, void 0, void 0, function* () {
-                    yield _gm__WEBPACK_IMPORTED_MODULE_1__["default"].xhr({
-                        url: url,
+                    GM.xmlHttpRequest({
+                        url: server,
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
@@ -87,31 +85,31 @@ class Client {
     sendQueue() {
         return __awaiter(this, void 0, void 0, function* () {
             if (this.queue.size < 1 ||
-                _config__WEBPACK_IMPORTED_MODULE_3__.USERNAME.value === undefined ||
-                _config__WEBPACK_IMPORTED_MODULE_3__.SERVER.value === undefined ||
-                _config__WEBPACK_IMPORTED_MODULE_3__.EXAM_ID.value === undefined ||
-                _config__WEBPACK_IMPORTED_MODULE_3__.SYNC_ANSWERS.value === false) {
+                _config__WEBPACK_IMPORTED_MODULE_2__.USERNAME.value === undefined ||
+                _config__WEBPACK_IMPORTED_MODULE_2__.SERVER.value === undefined ||
+                _config__WEBPACK_IMPORTED_MODULE_2__.EXAM_ID.value === undefined ||
+                _config__WEBPACK_IMPORTED_MODULE_2__.SYNC_ANSWERS.value === false) {
                 return;
             }
             let answers = [...this.queue.values()];
             this.queue.clear();
-            if (_config__WEBPACK_IMPORTED_MODULE_3__.TOKEN.value === undefined) {
-                (0,_utils__WEBPACK_IMPORTED_MODULE_2__.devLog)(`login to server: ${_config__WEBPACK_IMPORTED_MODULE_3__.USERNAME.value}, ${_config__WEBPACK_IMPORTED_MODULE_3__.EXAM_ID.value}`);
+            if (_config__WEBPACK_IMPORTED_MODULE_2__.TOKEN.value === undefined) {
+                (0,_utils__WEBPACK_IMPORTED_MODULE_1__.devLog)(`login to server: ${_config__WEBPACK_IMPORTED_MODULE_2__.USERNAME.value}, ${_config__WEBPACK_IMPORTED_MODULE_2__.EXAM_ID.value}`);
                 const token = yield this.client.request("login", [
-                    _config__WEBPACK_IMPORTED_MODULE_3__.USERNAME.value,
-                    _config__WEBPACK_IMPORTED_MODULE_3__.EXAM_ID.value,
+                    _config__WEBPACK_IMPORTED_MODULE_2__.USERNAME.value,
+                    _config__WEBPACK_IMPORTED_MODULE_2__.EXAM_ID.value,
                 ]);
-                (0,_utils__WEBPACK_IMPORTED_MODULE_2__.devLog)("got token", token);
-                _config__WEBPACK_IMPORTED_MODULE_3__.TOKEN.value = token;
+                (0,_utils__WEBPACK_IMPORTED_MODULE_1__.devLog)("got token", token);
+                _config__WEBPACK_IMPORTED_MODULE_2__.TOKEN.value = token;
             }
-            this.postAnswers(_config__WEBPACK_IMPORTED_MODULE_3__.TOKEN.value, answers);
+            this.postAnswers(_config__WEBPACK_IMPORTED_MODULE_2__.TOKEN.value, answers);
         });
     }
     postAnswers(token, answers) {
         return __awaiter(this, void 0, void 0, function* () {
-            (0,_utils__WEBPACK_IMPORTED_MODULE_2__.devLog)("send answers", answers);
+            (0,_utils__WEBPACK_IMPORTED_MODULE_1__.devLog)("send answers", answers);
             const rcev = yield this.client.request("answer_problem", [token, answers]);
-            (0,_utils__WEBPACK_IMPORTED_MODULE_2__.devLog)("receive answers", rcev);
+            (0,_utils__WEBPACK_IMPORTED_MODULE_1__.devLog)("receive answers", rcev);
             this.onmsg.forEach((cb) => cb(rcev));
         });
     }
@@ -789,81 +787,15 @@ exports.JSONRPCServerAndClient = JSONRPCServerAndClient;
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */   "getValue": () => (/* binding */ getValue),
+/* harmony export */   "setValue": () => (/* binding */ setValue)
 /* harmony export */ });
-/**
- * @typedef {object} XHRDetail
- * @property {string} url
- * @property {string} [method]
- * @property {string} [user]
- * @property {string} [password]
- * @property {string} [overrideMimeType]
- * @property {{[k:string]:string}} [headers]
- * @property {string} [responseType]
- * @property {number} [timeout]
- * @property {string|FormData|Blob} [data]
- * @property {boolean} [binary]
- * @property {any} [context]
- * @property {boolean} [anonymous]
- * @property {XHRCallback} [onabort]
- * @property {XHRCallback} [onerror]
- * @property {XHRCallback} [onload]
- * @property {XHRCallback} [onloadend]
- * @property {XHRCallback} [onloadstart]
- * @property {XHRCallback} [onprogress]
- * @property {XHRCallback} [onreadystatechange]
- * @property {XHRCallback} [ontimeout]
- */
-
-/**
- * @callback XHRCallback
- * @param {XHRResponse} resp
- * @returns {void}
- */
-
-/**
- * @typedef {object} XHRResponse
- * @property {number} status
- * @property {string} statusText
- * @property {number} readyState
- * @property {string} responseHeaders
- * @property {string|Blob|ArrayBuffer|Document|object|null} response
- * @property {string|undefined} responseText
- * @property {string} finalUrl
- * @property {any} context
- */
-
-/**
- * @typedef {object} XHRControl
- * @property {() => void} abort
- */
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  /**
-   * @param {string} key
-   * @returns {any}
-   */
-  getValue(key) {
+function getValue(key) {
     return GM_getValue(key);
-  },
-
-  /**
-   * @param {string} key
-   * @param {any} val
-   * @returns {void}
-   */
-  setValue(key, val) {
-    return GM_setValue(key, val);
-  },
-
-  /**
-   * @param {XHRDetail} details
-   * @returns {Promise<XHRControl>}
-   */
-  async xhr(details) {
-    return await GM.xmlHttpRequest(details);
-  },
-});
+}
+function setValue(key, val) {
+    GM_setValue(key, { contents: val });
+}
 
 
 /***/ }),
@@ -1244,6 +1176,7 @@ const EXAM_ID = new ReValue(_Config_bs__WEBPACK_IMPORTED_MODULE_0__.ExamId);
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ExamId": () => (/* binding */ ExamId),
+/* harmony export */   "GM": () => (/* binding */ GM),
 /* harmony export */   "GMEntry": () => (/* binding */ GMEntry),
 /* harmony export */   "NoLeaveCheck": () => (/* binding */ NoLeaveCheck),
 /* harmony export */   "Option2": () => (/* binding */ Option2),
@@ -1253,36 +1186,52 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Token": () => (/* binding */ Token),
 /* harmony export */   "Username": () => (/* binding */ Username)
 /* harmony export */ });
-/* harmony import */ var rescript_lib_es6_lazy_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(16);
-/* harmony import */ var rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(21);
-/* harmony import */ var rescript_lib_es6_camlinternalLazy_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(19);
+/* harmony import */ var _gm__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
+/* harmony import */ var rescript_lib_es6_lazy_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(16);
+/* harmony import */ var rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(21);
+/* harmony import */ var rescript_lib_es6_camlinternalLazy_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(19);
 // Generated by ReScript, PLEASE EDIT WITH CARE
 
 
 
 
 
+
+function getValue(prim) {
+  return rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_2__.nullable_to_opt(_gm__WEBPACK_IMPORTED_MODULE_0__.getValue(prim));
+}
+
+function setValue(prim0, prim1) {
+  _gm__WEBPACK_IMPORTED_MODULE_0__.setValue(prim0, prim1);
+  
+}
+
+var GM = {
+  getValue: getValue,
+  setValue: setValue
+};
+
 function Make(T) {
   var v = {
     contents: {
       LAZY_DONE: false,
       VAL: (function () {
-          var cached = GM_getValue(T.name);
+          var cached = _gm__WEBPACK_IMPORTED_MODULE_0__.getValue(T.name);
           if (cached == null) {
-            GM_setValue(T.name, T.init);
+            _gm__WEBPACK_IMPORTED_MODULE_0__.setValue(T.name, T.init);
             return T.init;
           } else {
-            return rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_1__.some(cached);
+            return rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_2__.some(cached);
           }
         })
     }
   };
   var get = function (param) {
-    return rescript_lib_es6_camlinternalLazy_js__WEBPACK_IMPORTED_MODULE_2__.force(v.contents);
+    return rescript_lib_es6_camlinternalLazy_js__WEBPACK_IMPORTED_MODULE_3__.force(v.contents);
   };
   var set = function (newVal) {
-    v.contents = rescript_lib_es6_lazy_js__WEBPACK_IMPORTED_MODULE_0__.from_val(newVal);
-    GM_setValue(T.name, newVal);
+    v.contents = rescript_lib_es6_lazy_js__WEBPACK_IMPORTED_MODULE_1__.from_val(newVal);
+    _gm__WEBPACK_IMPORTED_MODULE_0__.setValue(T.name, newVal);
     
   };
   return {
@@ -1324,24 +1273,24 @@ var v = {
   contents: {
     LAZY_DONE: false,
     VAL: (function () {
-        var cached = GM_getValue(name);
+        var cached = _gm__WEBPACK_IMPORTED_MODULE_0__.getValue(name);
         if (cached == null) {
-          GM_setValue(name, undefined);
+          _gm__WEBPACK_IMPORTED_MODULE_0__.setValue(name, undefined);
           return ;
         } else {
-          return rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_1__.some(cached);
+          return rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_2__.some(cached);
         }
       })
   }
 };
 
 function get(param) {
-  return rescript_lib_es6_camlinternalLazy_js__WEBPACK_IMPORTED_MODULE_2__.force(v.contents);
+  return rescript_lib_es6_camlinternalLazy_js__WEBPACK_IMPORTED_MODULE_3__.force(v.contents);
 }
 
 function set(newVal) {
-  v.contents = rescript_lib_es6_lazy_js__WEBPACK_IMPORTED_MODULE_0__.from_val(newVal);
-  GM_setValue(name, newVal);
+  v.contents = rescript_lib_es6_lazy_js__WEBPACK_IMPORTED_MODULE_1__.from_val(newVal);
+  _gm__WEBPACK_IMPORTED_MODULE_0__.setValue(name, newVal);
   
 }
 
@@ -1357,24 +1306,24 @@ var v$1 = {
   contents: {
     LAZY_DONE: false,
     VAL: (function () {
-        var cached = GM_getValue(name$1);
+        var cached = _gm__WEBPACK_IMPORTED_MODULE_0__.getValue(name$1);
         if (cached == null) {
-          GM_setValue(name$1, undefined);
+          _gm__WEBPACK_IMPORTED_MODULE_0__.setValue(name$1, undefined);
           return ;
         } else {
-          return rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_1__.some(cached);
+          return rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_2__.some(cached);
         }
       })
   }
 };
 
 function get$1(param) {
-  return rescript_lib_es6_camlinternalLazy_js__WEBPACK_IMPORTED_MODULE_2__.force(v$1.contents);
+  return rescript_lib_es6_camlinternalLazy_js__WEBPACK_IMPORTED_MODULE_3__.force(v$1.contents);
 }
 
 function set$1(newVal) {
-  v$1.contents = rescript_lib_es6_lazy_js__WEBPACK_IMPORTED_MODULE_0__.from_val(newVal);
-  GM_setValue(name$1, newVal);
+  v$1.contents = rescript_lib_es6_lazy_js__WEBPACK_IMPORTED_MODULE_1__.from_val(newVal);
+  _gm__WEBPACK_IMPORTED_MODULE_0__.setValue(name$1, newVal);
   
 }
 
@@ -1392,24 +1341,24 @@ var v$2 = {
   contents: {
     LAZY_DONE: false,
     VAL: (function () {
-        var cached = GM_getValue(name$2);
+        var cached = _gm__WEBPACK_IMPORTED_MODULE_0__.getValue(name$2);
         if (cached == null) {
-          GM_setValue(name$2, init);
+          _gm__WEBPACK_IMPORTED_MODULE_0__.setValue(name$2, init);
           return init;
         } else {
-          return rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_1__.some(cached);
+          return rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_2__.some(cached);
         }
       })
   }
 };
 
 function get$2(param) {
-  return rescript_lib_es6_camlinternalLazy_js__WEBPACK_IMPORTED_MODULE_2__.force(v$2.contents);
+  return rescript_lib_es6_camlinternalLazy_js__WEBPACK_IMPORTED_MODULE_3__.force(v$2.contents);
 }
 
 function set$2(newVal) {
-  v$2.contents = rescript_lib_es6_lazy_js__WEBPACK_IMPORTED_MODULE_0__.from_val(newVal);
-  GM_setValue(name$2, newVal);
+  v$2.contents = rescript_lib_es6_lazy_js__WEBPACK_IMPORTED_MODULE_1__.from_val(newVal);
+  _gm__WEBPACK_IMPORTED_MODULE_0__.setValue(name$2, newVal);
   
 }
 
@@ -1427,24 +1376,24 @@ var v$3 = {
   contents: {
     LAZY_DONE: false,
     VAL: (function () {
-        var cached = GM_getValue(name$3);
+        var cached = _gm__WEBPACK_IMPORTED_MODULE_0__.getValue(name$3);
         if (cached == null) {
-          GM_setValue(name$3, init$1);
+          _gm__WEBPACK_IMPORTED_MODULE_0__.setValue(name$3, init$1);
           return init$1;
         } else {
-          return rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_1__.some(cached);
+          return rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_2__.some(cached);
         }
       })
   }
 };
 
 function get$3(param) {
-  return rescript_lib_es6_camlinternalLazy_js__WEBPACK_IMPORTED_MODULE_2__.force(v$3.contents);
+  return rescript_lib_es6_camlinternalLazy_js__WEBPACK_IMPORTED_MODULE_3__.force(v$3.contents);
 }
 
 function set$3(newVal) {
-  v$3.contents = rescript_lib_es6_lazy_js__WEBPACK_IMPORTED_MODULE_0__.from_val(newVal);
-  GM_setValue(name$3, newVal);
+  v$3.contents = rescript_lib_es6_lazy_js__WEBPACK_IMPORTED_MODULE_1__.from_val(newVal);
+  _gm__WEBPACK_IMPORTED_MODULE_0__.setValue(name$3, newVal);
   
 }
 
@@ -1462,24 +1411,24 @@ var v$4 = {
   contents: {
     LAZY_DONE: false,
     VAL: (function () {
-        var cached = GM_getValue(name$4);
+        var cached = _gm__WEBPACK_IMPORTED_MODULE_0__.getValue(name$4);
         if (cached == null) {
-          GM_setValue(name$4, init$2);
+          _gm__WEBPACK_IMPORTED_MODULE_0__.setValue(name$4, init$2);
           return init$2;
         } else {
-          return rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_1__.some(cached);
+          return rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_2__.some(cached);
         }
       })
   }
 };
 
 function get$4(param) {
-  return rescript_lib_es6_camlinternalLazy_js__WEBPACK_IMPORTED_MODULE_2__.force(v$4.contents);
+  return rescript_lib_es6_camlinternalLazy_js__WEBPACK_IMPORTED_MODULE_3__.force(v$4.contents);
 }
 
 function set$4(newVal) {
-  v$4.contents = rescript_lib_es6_lazy_js__WEBPACK_IMPORTED_MODULE_0__.from_val(newVal);
-  GM_setValue(name$4, newVal);
+  v$4.contents = rescript_lib_es6_lazy_js__WEBPACK_IMPORTED_MODULE_1__.from_val(newVal);
+  _gm__WEBPACK_IMPORTED_MODULE_0__.setValue(name$4, newVal);
   
 }
 
@@ -1528,7 +1477,7 @@ var ExamId = {
 };
 
 
-/* No side effect */
+/* ./gm Not a pure module */
 
 
 /***/ }),
