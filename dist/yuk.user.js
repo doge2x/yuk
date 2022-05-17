@@ -3,7 +3,6 @@
 // @version      0.3.3
 // @author       doge2x
 // @icon         https://www.yuketang.cn/static/images/favicon.ico
-// @namespace    https://github.com/doge2x/yuk
 // @match        https://examination.xuetangx.com/*
 // @grant        GM.xmlHttpRequest
 // @grant        GM_getValue
