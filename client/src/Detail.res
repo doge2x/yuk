@@ -18,7 +18,7 @@ module Answer = {
 
   type attachments = {filelist: option<array<file>>}
 
-  type text = {
+  type shortAnswer = {
     content: option<string>,
     attachments: option<attachments>,
   }
@@ -47,11 +47,6 @@ module Detail = {
       context: T.context,
     }
 
-    let updateAnswer = (this: t, username: string, answer: T.answer) =>
-      this.detail = this.detail->Map.String.set(username, answer)
-
-    let updateUI = (this: t) => this.detailHtml = this.detail->T.updateUI(this.context)
-
     let showDetail = (this: t, ~top: int, ~left: int) => {
       Utils.openWin(
         ~title=`详细答案`,
@@ -61,14 +56,14 @@ module Detail = {
         ~top,
         (),
       )->Option.forEach(((_, doc)) =>
-        {
+        doc
+        ->HtmlDocument.body
+        ->Option.forEach(body =>
           <div className={[style["mainBody"], style["answerDetail"]]->Utils.joinStrings(" ")}>
             this.detailHtml
           </div>
-        }
-        ->React.toNode
-        ->Option.forEach(node =>
-          doc->HtmlDocument.body->Option.forEach(body => body->Element.appendChild(~child=node))
+          ->React.toNode
+          ->Option.forEach(Element.appendChild(body, ~child=_))
         )
       )
     }
@@ -96,6 +91,11 @@ module Detail = {
 
       this
     }
+
+    let updateAnswer = (this: t, username: string, answer: T.answer) =>
+      this.detail = this.detail->Map.String.set(username, answer)
+
+    let updateUI = (this: t) => this.detailHtml = this.detail->T.updateUI(this.context)
   }
 }
 
@@ -104,7 +104,7 @@ let percent = (a: int, b: int) => `${(a * 100 / b)->Int.toString}%`
 let sortByKey = (arr: array<(string, _)>) =>
   arr->SortArray.stableSortBy(((a, _), (b, _)) => String.compare(a, b))
 
-module ChoiceDetail = Detail.Make({
+module Choice = Detail.Make({
   type extra = string => string
   type context = {
     tooltips: Map.String.t<Tooltip.t>,
@@ -112,6 +112,15 @@ module ChoiceDetail = Detail.Make({
   }
   type answer = array<string>
   type detail = Map.String.t<answer>
+
+  let make = (subjectItem: Dom.element, extra: extra) => {
+    tooltips: subjectItem
+    ->Utils.querySelectorAllElements(".item-body .checkboxInput, .item-body .radioInput")
+    ->Array.reduceWithIndex(Map.String.empty, (tooltips, ele, idx) => {
+      tooltips->Map.String.set(Js.String.fromCharCode(idx + 65), ele->Tooltip.make)
+    }),
+    choiceMap: extra,
+  }
 
   let updateUI = (detail: detail, context: context) =>
     detail
@@ -146,22 +155,21 @@ module ChoiceDetail = Detail.Make({
       </div>
     })
     ->React.array
-
-  let make = (subjectItem: Dom.element, extra: extra) => {
-    tooltips: subjectItem
-    ->Utils.querySelectorAllElements(".item-body .checkboxInput, .item-body .radioInput")
-    ->Array.reduceWithIndex(Map.String.empty, (tooltips, ele, idx) => {
-      tooltips->Map.String.set(Js.String.fromCharCode(idx + 65), ele->Tooltip.make)
-    }),
-    choiceMap: extra,
-  }
 })
 
-module BlankDetail = Detail.Make({
+module Blank = Detail.Make({
   type extra = unit
   type context = {tooltips: Map.String.t<Tooltip.t>}
   type answer = Js.Dict.t<string>
   type detail = Map.String.t<answer>
+
+  let make = (subjectItem: Dom.element, _: extra) => {
+    tooltips: subjectItem
+    ->Utils.querySelectorAllElements(".item-body .blank-item-dynamic")
+    ->Array.reduceWithIndex(Map.String.empty, (tooltips, ele, idx) =>
+      tooltips->Map.String.set((idx + 1)->Int.toString, ele->Tooltip.make)
+    ),
+  }
 
   let updateUI = (detail: detail, context: context) =>
     detail
@@ -220,21 +228,15 @@ module BlankDetail = Detail.Make({
       </div>
     })
     ->React.array
-
-  let make = (subjectItem: Dom.element, _: extra) => {
-    tooltips: subjectItem
-    ->Utils.querySelectorAllElements(".item-body .blank-item-dynamic")
-    ->Array.reduceWithIndex(Map.String.empty, (tooltips, ele, idx) =>
-      tooltips->Map.String.set((idx + 1)->Int.toString, ele->Tooltip.make)
-    ),
-  }
 })
 
-module TextDetail = Detail.Make({
+module ShortAnswer = Detail.Make({
   type extra = unit
   type context = unit
-  type answer = Answer.text
+  type answer = Answer.shortAnswer
   type detail = Map.String.t<answer>
+
+  let make = (_: Dom.element, _: extra) => ()
 
   let updateUI = (detail: detail, _: context) =>
     detail
@@ -261,6 +263,4 @@ module TextDetail = Detail.Make({
       </div>
     )
     ->React.array
-
-  let make = (_: Dom.element, _: extra) => ()
 })

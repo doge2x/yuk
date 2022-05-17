@@ -1,27 +1,11 @@
 import { Paper, Problem, ProblemDict, UserAnswer } from "./types";
-import { Detail } from "./detail";
-import Recks from "./recks";
-import { showSettings } from "./Settings.bs";
-import { Map2, openWin } from "./utils";
-import * as STYLE from "./style.mod.less";
-import styleCss from "./style.mod.less";
-
-export const CHOICE_MAP: Map2<number, Map<string, string>> = new Map2(
-  () => new Map()
-);
+import * as UIRe from "./UI.bs";
 
 export class UI {
-  private problems: Map<number, Detail>;
+  private inner: any;
 
   constructor(paper: Paper) {
-    // Header.
-    document.head.append(<style>{styleCss.toString()}</style>);
-    // document.head.append(<style>{styleCss.toString()}</style>);
-    const header = document.body.querySelector(".header-title") as HTMLElement;
-    header.classList.add(STYLE.clickable);
-    header.addEventListener("click", () => {
-      showSettings();
-    });
+    // Collect problems.
     let problems: Problem[] = [];
     if (paper.data.has_problem_dict === true) {
       (paper.data.problems as ProblemDict[]).forEach((dict) => {
@@ -30,56 +14,18 @@ export class UI {
     } else {
       problems = paper.data.problems as Problem[];
     }
-
-    // Problem cards.
-    const cards = new Map();
-    document.body
-      .querySelectorAll(".exam-main--body .subject-item")
-      .forEach((subjectItem, idx) => {
-        const prob = problems[idx];
-        const choiceMap: Map<string, string> =
-          CHOICE_MAP.get(prob.problem_id) ?? new Map();
-        cards.set(
-          prob.problem_id,
-          new Detail(prob, subjectItem, (ori) => choiceMap.get(ori) ?? ori)
-        );
-      });
-    this.problems = cards;
+    this.inner = UIRe.UI.make(problems);
   }
 
   updateAnswer({ username, problem_id, result }: UserAnswer) {
-    this.problems.get(problem_id)?.updateAnswer(username, result);
+    UIRe.UI.updateAnswer(this.inner, problem_id, username, result);
   }
 
   updateUI() {
-    this.problems.forEach((card) => card.updateUI());
+    UIRe.UI.updateUI(this.inner);
   }
 }
 
 export function showConfirmUpload(dataURL: string, cb: () => void) {
-  const win = openWin("上传图片", {
-    width: 300,
-    height: 200,
-  });
-  win.document.body.append(
-    <div className={[STYLE.uploadImg, STYLE.mainBody].join(" ")}>
-      <div className={[STYLE.uploadImgConfirm].join(" ")}>
-        <button
-          on-click={() => {
-            cb();
-            win.close();
-          }}
-          className={[STYLE.clickable].join(" ")}
-        >
-          {"确认上传"}
-        </button>
-        <span>
-          <i>{"*关闭窗口以取消上传"}</i>
-        </span>
-      </div>
-      <div className={[STYLE.uploadImgImage].join(" ")}>
-        <img src={dataURL} />
-      </div>
-    </div>
-  );
+  UIRe.showConfirmUpload(dataURL, cb);
 }

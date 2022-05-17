@@ -67,31 +67,7 @@ export enum ProblemType {
   Judgement = 6,
 }
 
-export type ChoiceResult = string[];
-
-export type BlankResult = { [key: string]: string };
-
-export type AttachedFile = {
-  fileName: string;
-  fileSize: string;
-  fileUrl: string;
-  fileType: string;
-};
-
-export type ShortAnswerResult = {
-  content: string;
-  attachments?: { filelist?: AttachedFile[] };
-};
-
 export type ChoiceOption = {
   key: string;
   value: string;
 };
-
-export function isChoice(ty: ProblemType): boolean {
-  return (
-    ty === ProblemType.SingleChoice ||
-    ty === ProblemType.MultipleChoice ||
-    ty === ProblemType.Polling
-  );
-}
