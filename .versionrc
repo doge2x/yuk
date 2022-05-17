@@ -1,8 +1,0 @@
-{
-  "bumpFiles": ["client/package.json", "server/Cargo.toml"],
-  "skip": {
-    "changelog": true,
-    "commit": true,
-    "tag": true
-  }
-}

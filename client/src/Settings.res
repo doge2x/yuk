@@ -66,6 +66,7 @@ module Entries = {
         doSubmits->Array.concat([
           () =>
             if changed.contents {
+              // Dispatch submit event.
               input
               ->React.toNode
               ->Option.flatMap(Webapi.Dom.HtmlElement.ofNode)
