@@ -1,7 +1,9 @@
-@val @return(nullable)
-external gmGetValue: string => option<'v> = "GM_getValue"
-@val
-external gmSetValue: (string, 'v) => unit = "GM_setValue"
+module GM = {
+  @module("./gm") @return(nullable)
+  external getValue: string => option<'v> = "getValue"
+  @module("./gm")
+  external setValue: (string, 'v) => unit = "setValue"
+}
 
 module GMEntry = {
   module type T = {
@@ -13,10 +15,10 @@ module GMEntry = {
   module Make = (T: T) => {
     let v = ref(
       lazy (
-        switch gmGetValue(T.name) {
+        switch GM.getValue(T.name) {
         | Some(cached) => Some(cached)
         | None => {
-            gmSetValue(T.name, T.init)
+            GM.setValue(T.name, T.init)
             T.init
           }
         }
@@ -27,7 +29,7 @@ module GMEntry = {
 
     let set = (newVal: option<T.val>) => {
       v := newVal->Lazy.from_val
-      gmSetValue(T.name, newVal)
+      GM.setValue(T.name, newVal)
     }
   }
 }
