@@ -9375,11 +9375,18 @@ function make(v) {
             ];
           }
           var submit = match[5];
+          var changed = {
+            contents: false
+          };
           var tmp = {
             title: title,
             name: name,
             required: match[4],
-            type: match[0]
+            type: match[0],
+            onChange: (function (param) {
+                changed.contents = true;
+                
+              })
           };
           var tmp$1 = match[2];
           if (tmp$1 !== undefined) {
@@ -9404,7 +9411,12 @@ function make(v) {
                               input
                             ])]),
                   rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_4__.concat(param[1], [(function (param) {
-                            return rescript_lib_es6_curry_js__WEBPACK_IMPORTED_MODULE_0__._1(submit, rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_5__.getExn(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_5__.flatMap(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.toNode(input), rescript_webapi_src_Webapi_Dom_Webapi_Dom_HtmlElement_bs_js__WEBPACK_IMPORTED_MODULE_8__.ofNode)));
+                            if (changed.contents) {
+                              rescript_lib_es6_curry_js__WEBPACK_IMPORTED_MODULE_0__._1(submit, rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_5__.getExn(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_5__.flatMap(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.toNode(input), rescript_webapi_src_Webapi_Dom_Webapi_Dom_HtmlElement_bs_js__WEBPACK_IMPORTED_MODULE_8__.ofNode)));
+                              changed.contents = false;
+                              return ;
+                            }
+                            
                           })])
                 ];
         }));
@@ -10743,7 +10755,6 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 function sortProblems(problems) {
     problems.forEach((problem) => {
-        // Options must be sorted to ensure the answers users saw are the same.
         switch (problem.ProblemType) {
             case _types__WEBPACK_IMPORTED_MODULE_2__.ProblemType.SingleChoice:
             case _types__WEBPACK_IMPORTED_MODULE_2__.ProblemType.MultipleChoice:

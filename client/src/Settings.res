@@ -52,7 +52,11 @@ module Entries = {
           ele => onSubmit(ele->Webapi.Dom.HtmlElement.checked),
         )
       }
-      let input = <input name title type_=ty ?value ?checked ?pattern required />
+      let changed = ref(false)
+      let input =
+        <input
+          name title onChange={_ => changed := true} type_=ty ?value ?checked ?pattern required
+        />
       (
         ele->Array.concat([
           <div className={style["settingsEntry"]}>
@@ -61,11 +65,14 @@ module Entries = {
         ]),
         doSubmits->Array.concat([
           () =>
-            input
-            ->React.toNode
-            ->Option.flatMap(Webapi.Dom.HtmlElement.ofNode)
-            ->Option.getExn
-            ->submit,
+            if changed.contents {
+              input
+              ->React.toNode
+              ->Option.flatMap(Webapi.Dom.HtmlElement.ofNode)
+              ->Option.getExn
+              ->submit
+              changed := false
+            },
         ]),
       )
     })

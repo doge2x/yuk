@@ -14,7 +14,6 @@ import { EXAM_ID, NO_LEAVE_CHECK, SORT_PROBLEMS } from "./config";
 
 function sortProblems(problems: Problem[]): Problem[] {
   problems.forEach((problem) => {
-    // Options must be sorted to ensure the answers users saw are the same.
     switch (problem.ProblemType) {
       case ProblemType.SingleChoice:
       case ProblemType.MultipleChoice:
