@@ -165,14 +165,14 @@ module Settings = {
 }
 
 let showSettings = () =>
-  Utils.openWin(~title=`设置`, ~height=300, ~width=400, ())->Option.map(((win, doc)) =>
+  Utils.openWin(~title=`设置`, ~height=300, ~width=400, ())->Option.forEach(((win, doc)) =>
     doc
     ->HtmlDocument.body
-    ->Option.map(body =>
+    ->Option.forEach(body =>
       <div className={[style["mainBody"], style["settings"]]->Utils.joinStrings(" ")}>
         <Settings onSubmit={() => win->Window.close} />
       </div>
       ->React.toNode
-      ->Option.map(node => body->Element.appendChild(~child=node))
+      ->Option.forEach(node => body->Element.appendChild(~child=node))
     )
   )

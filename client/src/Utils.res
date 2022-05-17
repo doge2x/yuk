@@ -56,6 +56,7 @@ let openWin = (
       </React.Fragment>
       ->React.toNode
       ->Option.forEach(node => html->HtmlDocument.head->Element.appendChild(~child=node))
+      // TODO: return body
       (win, html)
     })
   )

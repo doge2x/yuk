@@ -2,36 +2,36 @@ import { Client } from "./client";
 import { hookXHR } from "./xhr";
 import {
   Paper,
-  isChoice,
   ChoiceOption,
   CacheResults,
   Problem,
   ProblemDict,
+  ProblemType,
 } from "./types";
-import { UI, CHOICE_MAP, showConfirmUpload } from "./ui";
+import { UI, showConfirmUpload } from "./ui";
 import { devLog, newURL } from "./utils";
 import { EXAM_ID, NO_LEAVE_CHECK, SORT_PROBLEMS } from "./config";
 
 function sortProblems(problems: Problem[]): Problem[] {
+  problems.forEach((problem) => {
+    // Options must be sorted to ensure the answers users saw are the same.
+    switch (problem.ProblemType) {
+      case ProblemType.SingleChoice:
+      case ProblemType.MultipleChoice:
+      case ProblemType.Polling: {
+        const options = problem.Options as ChoiceOption[];
+        if (SORT_PROBLEMS.value === true) {
+          options.sort((a, b) => {
+            return a.key < b.key ? -1 : 1;
+          });
+        }
+        break;
+      }
+    }
+  });
   if (SORT_PROBLEMS.value === true) {
     problems.sort((a, b) => a.problem_id - b.problem_id);
   }
-  problems.forEach((problem) => {
-    // Options must be sorted to ensure the answers users saw are the same.
-    if (isChoice(problem.ProblemType)) {
-      const options = problem.Options as ChoiceOption[];
-      if (SORT_PROBLEMS.value === true) {
-        options.sort((a, b) => {
-          return a.key < b.key ? -1 : 1;
-        });
-      }
-      options.forEach((cho, idx) => {
-        CHOICE_MAP.setWith(problem.problem_id, (m) =>
-          m.set(cho.key, String.fromCharCode(65 + idx))
-        );
-      });
-    }
-  });
   return problems;
 }
 
@@ -46,7 +46,6 @@ function sortPaper(paper: Paper): Paper {
   } else {
     paper.data.problems = sortProblems(paper.data.problems as Problem[]);
   }
-  devLog(CHOICE_MAP);
   return paper;
 }
 
