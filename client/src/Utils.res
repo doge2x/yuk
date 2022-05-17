@@ -31,32 +31,30 @@ let openWin = (
   ~left: option<int>=?,
   ~top: option<int>=?,
   (),
-) =>
-  window
-  ->Window.open_(
-    ~url="",
-    ~name="",
-    ~features=[
-      ("location", "no"),
-      ("height", height->Int.toString),
-      ("width", width->Int.toString),
-      ("left", left->Option.getWithDefault(0)->Int.toString),
-      ("top", top->Option.getWithDefault(0)->Int.toString),
-    ]->Array.joinWith(",", ((k, v)) => `${k}=${v}`),
-    (),
+) => {
+  let win =
+    window
+    ->Window.open_(
+      ~url="",
+      ~name="",
+      ~features=[
+        ("location", "no"),
+        ("height", height->Int.toString),
+        ("width", width->Int.toString),
+        ("left", left->Option.mapWithDefault("0", Int.toString)),
+        ("top", top->Option.mapWithDefault("0", Int.toString)),
+      ]->Array.joinWith(",", ((k, v)) => `${k}=${v}`),
+      (),
+    )
+    ->Option.getExn
+  let html = win->Window.document->Document.asHtmlDocument->Option.getExn
+  html
+  ->HtmlDocument.head
+  ->Element.appendChild(~child=<title> {title->React.string} </title>->React.toNode->Option.getExn)
+  html
+  ->HtmlDocument.head
+  ->Element.appendChild(
+    ~child=<style> {styleCss["toString"](.)->Recks.string} </style>->React.toNode->Option.getExn,
   )
-  ->Option.flatMap(win =>
-    win
-    ->Window.document
-    ->Document.asHtmlDocument
-    ->Option.map(html => {
-      <React.Fragment>
-        <title> {title->React.string} </title>
-        <style> {styleCss["toString"](.)->Recks.string} </style>
-      </React.Fragment>
-      ->React.toNode
-      ->Option.forEach(node => html->HtmlDocument.head->Element.appendChild(~child=node))
-      // TODO: return body
-      (win, html)
-    })
-  )
+  (win, html->HtmlDocument.body->Option.getExn)
+}

@@ -10,30 +10,27 @@ external style: {..} = "./style.mod.less"
 module React = Recks
 module ReactDOMRe = Recks.DOMRe
 
-let showConfirmUpload = (dataURL: string, cb: unit => unit) =>
-  Utils.openWin(~title=`上传图片`, ~width=300, ~height=200, ())->Option.map(((win, doc)) =>
-    doc
-    ->HtmlDocument.body
-    ->Option.forEach(body =>
-      <div className={[style["mainBody"], style["uploadImg"]]->Utils.joinStrings(" ")}>
-        <div className={style["uploadImgConfirm"]}>
-          <button
-            onClick={_ => {
-              cb()
-              win->Window.close
-            }}
-            className={style["clickable"]}>
-            {`确认上传`->React.string}
-          </button>
-          <span> <i> {`*关闭窗口以取消上传`->React.string} </i> </span>
-        </div>
-        <div className={style["uploadImgImage"]}> <img src=dataURL /> </div>
+let showConfirmUpload = (dataURL: string, cb: unit => unit) => {
+  let (win, body) = Utils.openWin(~title=`上传图片`, ~width=300, ~height=200, ())
+  body->Element.appendChild(
+    ~child=<div className={[style["mainBody"], style["uploadImg"]]->Utils.joinStrings(" ")}>
+      <div className={style["uploadImgConfirm"]}>
+        <button
+          onClick={_ => {
+            cb()
+            win->Window.close
+          }}
+          className={style["clickable"]}>
+          {`确认上传`->React.string}
+        </button>
+        <span> <i> {`*关闭窗口以取消上传`->React.string} </i> </span>
       </div>
-      ->React.toNode
-      ->Option.forEach(Element.appendChild(body, ~child=_))
-    )
+      <div className={style["uploadImgImage"]}> <img src=dataURL /> </div>
+    </div>
+    ->React.toNode
+    ->Option.getExn,
   )
-
+}
 module Problem = {
   @deriving(jsConverter)
   type probelmType =

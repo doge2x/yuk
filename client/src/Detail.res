@@ -48,23 +48,13 @@ module Detail = {
     }
 
     let showDetail = (this: t, ~top: int, ~left: int) => {
-      Utils.openWin(
-        ~title=`详细答案`,
-        ~height=200,
-        ~width=300,
-        ~left,
-        ~top,
-        (),
-      )->Option.forEach(((_, doc)) =>
-        doc
-        ->HtmlDocument.body
-        ->Option.forEach(body =>
-          <div className={[style["mainBody"], style["answerDetail"]]->Utils.joinStrings(" ")}>
-            this.detailHtml
-          </div>
-          ->React.toNode
-          ->Option.forEach(Element.appendChild(body, ~child=_))
-        )
+      let (_, body) = Utils.openWin(~title=`详细答案`, ~height=200, ~width=300, ~left, ~top, ())
+      body->Element.appendChild(
+        ~child=<div className={[style["mainBody"], style["answerDetail"]]->Utils.joinStrings(" ")}>
+          this.detailHtml
+        </div>
+        ->React.toNode
+        ->Option.getExn,
       )
     }
 
@@ -76,17 +66,11 @@ module Detail = {
       }
 
       // Click problem title to show detail of answers.
-      subjectItem
-      ->Element.querySelector(".item-type")
-      ->Option.forEach(el => {
-        el->Element.classList->DomTokenList.add(style["clickable"])
-        el->Element.addClickEventListener(_ => {
-          let rect = el->Element.getBoundingClientRect
-          this->showDetail(
-            ~top=rect->DomRect.top->Float.toInt,
-            ~left=rect->DomRect.left->Float.toInt,
-          )
-        })
+      let itemType = subjectItem->Element.querySelector(".item-type")->Option.getExn
+      itemType->Element.classList->DomTokenList.add(style["clickable"])
+      itemType->Element.addClickEventListener(_ => {
+        let rect = itemType->Element.getBoundingClientRect
+        this->showDetail(~top=rect->DomRect.top->Float.toInt, ~left=rect->DomRect.left->Float.toInt)
       })
 
       this
@@ -124,6 +108,7 @@ module Choice = Detail.Make({
 
   let updateUI = (detail: detail, context: context) =>
     detail
+    // Choice => Users
     ->Map.String.reduce(Map.String.empty, (choiceToUsers, user, choices) =>
       choices->Array.reduce(choiceToUsers, (choiceToUsers, choice) =>
         choiceToUsers->Map.String.update(choice, users =>
@@ -132,15 +117,15 @@ module Choice = Detail.Make({
       )
     )
     ->Map.String.toArray
+    // Map choices to the one users see.
     ->Array.map(((choice, users)) => (choice->context.choiceMap, users))
+    // Sort by choices.
     ->sortByKey
     ->Array.map(((choice, users)) => {
       // Update tooltips to show how many users have selected the option.
       context.tooltips
       ->Map.String.get(choice)
-      ->Option.forEach(u =>
-        u->Tooltip.setContent(percent(users->Array.size, detail->Map.String.size))
-      )
+      ->Option.forEach(Tooltip.setContent(_, percent(users->Array.size, detail->Map.String.size)))
       // Choice
       //   - User1
       //   - User2
@@ -148,6 +133,7 @@ module Choice = Detail.Make({
         <p> <strong> {choice->React.string} </strong> </p>
         <UList>
           {users
+          // Sort by username.
           ->SortArray.String.stableSort
           ->Array.map(user => <p> {user->React.string} </p>)
           ->React.array}
@@ -167,12 +153,13 @@ module Blank = Detail.Make({
     tooltips: subjectItem
     ->Utils.querySelectorAllElements(".item-body .blank-item-dynamic")
     ->Array.reduceWithIndex(Map.String.empty, (tooltips, ele, idx) =>
-      tooltips->Map.String.set((idx + 1)->Int.toString, ele->Tooltip.make)
+      tooltips->Map.String.set(Js.String.fromCharCode(49 + idx), ele->Tooltip.make)
     ),
   }
 
   let updateUI = (detail: detail, context: context) =>
     detail
+    // Blank => FillText => Users
     ->Map.String.reduce(Map.String.empty, (blankToFillToUsers, user, blankToFill) =>
       blankToFill
       ->Js.Dict.entries
@@ -189,20 +176,24 @@ module Blank = Detail.Make({
       )
     )
     ->Map.String.toArray
+    // Sort by blank ID.
     ->sortByKey
     ->Array.map(((blank, fillToUsers)) => {
       let fillToUsers = fillToUsers->Map.String.toArray->sortByKey
       // Update tooltips to show the most popular answers.
       context.tooltips
       ->Map.String.get(blank)
-      ->Option.forEach(most =>
-        fillToUsers
-        ->Array.map(((fill, users)) => (fill, users->Array.size))
-        ->SortArray.stableSortBy(((_, a), (_, b)) => b - a)
-        ->Array.get(0)
-        ->Option.forEach(((text, count)) =>
-          most->Tooltip.setContent(`(${percent(count, detail->Map.String.size)}) ${text}`)
-        )
+      ->Option.forEach(
+        Tooltip.setContent(
+          _,
+          fillToUsers
+          ->Array.map(((fill, users)) => (fill, users->Array.size))
+          ->SortArray.stableSortBy(((_, a), (_, b)) => b - a)
+          ->Array.get(0)
+          ->Option.mapWithDefault("", ((text, count)) =>
+            `(${percent(count, detail->Map.String.size)}) ${text}`
+          ),
+        ),
       )
       // #Blank
       //   - result1
@@ -213,7 +204,7 @@ module Blank = Detail.Make({
         <UList>
           {fillToUsers
           ->Array.map(((text, users)) =>
-            <React.Fragment>
+            <div>
               <p> {text->React.string} </p>
               <UList>
                 {users
@@ -221,7 +212,7 @@ module Blank = Detail.Make({
                 ->Array.map(user => <p> {user->React.string} </p>)
                 ->React.array}
               </UList>
-            </React.Fragment>
+            </div>
           )
           ->React.array}
         </UList>
@@ -243,6 +234,10 @@ module ShortAnswer = Detail.Make({
     ->Map.String.toArray
     ->sortByKey
     ->Array.map(((user, text)) =>
+      // User
+      //   <content>
+      //   - File1
+      //   - File2
       <div>
         <p> <strong> {user->React.string} </strong> </p>
         {text.content->Option.mapWithDefault(React.null, htm =>
