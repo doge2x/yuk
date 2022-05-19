@@ -1,3 +1,4 @@
+use crate::Json;
 use anyhow::anyhow;
 use futures::prelude::*;
 use log::info;
@@ -7,7 +8,6 @@ use mongodb::{
     Collection, Database,
 };
 use serde::{Deserialize, Serialize};
-use serde_json::Value as Json;
 use std::fmt;
 use std::{fmt::Display, str::FromStr};
 
@@ -24,7 +24,8 @@ struct Session {
 struct Answer {
     session_id: ObjectId,
     problem_id: i64,
-    result: String,
+    result: Option<String>,
+    context: Option<AnswerContext>,
     last_update: DateTime,
 }
 
@@ -32,13 +33,23 @@ struct Answer {
 pub struct UserAnswer {
     pub username: String,
     pub problem_id: i64,
-    pub result: Json,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub result: Option<Json>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub context: Option<AnswerContext>,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct AnswerContext {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub state: Option<i32>,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct PostAnswer {
     pub problem_id: i64,
-    pub result: Json,
+    pub result: Option<Json>,
+    pub context: Option<AnswerContext>,
 }
 
 #[derive(Debug)]
@@ -58,6 +69,14 @@ impl Display for UserToken {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{}", self.0)
     }
+}
+
+fn json_to_string(json: Json) -> String {
+    serde_json::to_string(&json).unwrap_or_else(|_| unreachable!())
+}
+
+fn string_to_json(s: String) -> Json {
+    serde_json::from_str(&s).unwrap_or_else(|_| unreachable!())
 }
 
 pub struct Server {
@@ -119,27 +138,45 @@ impl Server {
         info!("update: {}, {} => {}", token, last_post, new_post);
         if !answers.is_empty() {
             // FIXME: [bulk_update](https://jira.mongodb.org/browse/RUST-531)
-            let updates = answers.into_iter().map(
-            |PostAnswer {
-                 problem_id,
-                 result,
-             }| {
-                doc! {
-                    "q": {
-                        "session_id": session_id,
-                        "problem_id": problem_id,
+            let updates = answers
+                .into_iter()
+                .map(
+                    |PostAnswer {
+                         problem_id,
+                         result,
+                         context,
+                     }| {
+                        #[derive(Debug, Serialize)]
+                        struct Set {
+                            #[serde(skip_serializing_if = "Option::is_none")]
+                            result: Option<String>,
+                            #[serde(
+                                rename = "context.state",
+                                skip_serializing_if = "Option::is_none"
+                            )]
+                            context_state: Option<i32>,
+                            last_update: DateTime,
+                        }
+                        let set = bson::to_bson(&Set {
+                            result: result.map(json_to_string),
+                            context_state: context.map(|ctx| ctx.state).flatten(),
+                            last_update: new_post,
+                        })
+                        .unwrap_or_else(|_| unreachable!());
+                        doc! {
+                            "q": {
+                                "session_id": session_id,
+                                "problem_id": problem_id,
+                            },
+                            "u": {
+                                "$set": set,
+                            },
+                            "upsert": true,
+                            "multi": false,
+                        }
                     },
-                    "u": {
-                        "$set": {
-                            "result": serde_json::to_string(&result).unwrap_or_else(|_| unreachable!()),
-                            "last_update": new_post,
-                        },
-                    },
-                    "upsert": true,
-                    "multi": false,
-                }
-            },
-        ).collect::<Vec<_>>();
+                )
+                .collect::<Vec<_>>();
             let command = doc! {
                 "update": self.answers.name(),
                 "updates": updates,
@@ -154,11 +191,14 @@ impl Server {
         exam_id: i64,
         start_time: DateTime,
     ) -> anyhow::Result<Vec<UserAnswer>> {
-        #[derive(Debug, Deserialize, Serialize)]
+        #[derive(Debug, Deserialize)]
         struct Answer2 {
             username: String,
             problem_id: i64,
-            result: String,
+            #[serde(default)]
+            result: Option<String>,
+            #[serde(default)]
+            context: Option<AnswerContext>,
         }
 
         Ok(self
@@ -187,6 +227,7 @@ impl Server {
                             "username": "$session.username",
                             "problem_id": true,
                             "result": true,
+                            "context": true,
                         },
                     },
                 ],
@@ -201,11 +242,13 @@ impl Server {
                     username,
                     problem_id,
                     result,
+                    context,
                 } = bson::from_bson(doc.into()).expect("invalid aggregate result");
                 UserAnswer {
                     username,
                     problem_id,
-                    result: serde_json::from_str(&result).unwrap_or_else(|_| unreachable!()),
+                    result: result.map(string_to_json),
+                    context,
                 }
             })
             .collect())

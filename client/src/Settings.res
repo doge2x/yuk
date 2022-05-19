@@ -1,6 +1,6 @@
 open Utils
 open Belt
-open Config
+open Shared
 open Webapi.Dom
 
 @module

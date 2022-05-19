@@ -1,4 +1,4 @@
-import { Client } from "./client";
+import { CLIENT } from "./client";
 import { hookXHR } from "./xhr";
 import {
   Paper,
@@ -7,10 +7,11 @@ import {
   Problem,
   ProblemDict,
   ProblemType,
+  PostAnswer,
 } from "./types";
 import { UI, showConfirmUpload } from "./ui";
 import { devLog, newURL } from "./utils";
-import { EXAM_ID, NO_LEAVE_CHECK, SORT_PROBLEMS } from "./config";
+import { EXAM_ID, NO_LEAVE_CHECK, SORT_PROBLEMS } from "./shared";
 
 function sortProblems(problems: Problem[]): Problem[] {
   problems.forEach((problem) => {
@@ -69,7 +70,6 @@ async function main(): Promise<void> {
   if (NO_LEAVE_CHECK.value === true) {
     removeVisibilityListener();
   }
-  const client = new Client();
   hookXHR(function (url) {
     switch (url.pathname) {
       case "/exam_room/show_paper":
@@ -95,7 +95,7 @@ async function main(): Promise<void> {
           // Login to server.
           const ui = new UI(paper);
           // Receive answers and update UI.
-          client.onmessage((msg) => {
+          CLIENT.onmessage((msg) => {
             msg.forEach((res) => ui.updateAnswer(res));
             ui.updateUI();
           });
@@ -107,7 +107,9 @@ async function main(): Promise<void> {
                 exam_id: EXAM_ID.value.toString(),
               }).toString()
             ).then((res) => res.json());
-            client.answerProblem(cacheResults.data.results);
+            cacheResults.data.results.forEach(({ problem_id, result }) =>
+              CLIENT.updateAnswer(problem_id, result)
+            );
           })().catch(devLog);
         });
         break;
@@ -130,7 +132,9 @@ async function main(): Promise<void> {
               }
             } else if ("results" in data) {
               devLog("intercept answers", data);
-              client.answerProblem(data.results ?? []).catch(devLog);
+              (data as PostAnswer).results?.forEach(({ problem_id, result }) =>
+                CLIENT.updateAnswer(problem_id, result)
+              );
             }
           }
           return body;
@@ -152,7 +156,7 @@ async function main(): Promise<void> {
         }
     }
   });
-  await client.watch(DEV_MODE ? 1 : 1e4);
+  await CLIENT.watch(DEV_MODE ? 0 : 1e4);
 }
 
 if (DEV_MODE) {
