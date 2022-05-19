@@ -1,6 +1,6 @@
 open Belt
 open Webapi.Dom
-open Detail.T
+open Detail
 
 @module("./style.mod.less")
 external styleCss: {..} = "default"

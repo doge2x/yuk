@@ -3947,13 +3947,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "about": () => (/* binding */ about),
 /* harmony export */   "answerDetail": () => (/* binding */ answerDetail),
-/* harmony export */   "answerDetailMsg": () => (/* binding */ answerDetailMsg),
-/* harmony export */   "answerDetailMsgName": () => (/* binding */ answerDetailMsgName),
-/* harmony export */   "answerDetailNotSure": () => (/* binding */ answerDetailNotSure),
 /* harmony export */   "answerDetailShortAnswer": () => (/* binding */ answerDetailShortAnswer),
-/* harmony export */   "answerDetailState": () => (/* binding */ answerDetailState),
-/* harmony export */   "answerDetailSure": () => (/* binding */ answerDetailSure),
-/* harmony export */   "answerDetailWorkingOn": () => (/* binding */ answerDetailWorkingOn),
+/* harmony export */   "answerMark": () => (/* binding */ answerMark),
+/* harmony export */   "answerMsg": () => (/* binding */ answerMsg),
+/* harmony export */   "answerMsgName": () => (/* binding */ answerMsgName),
 /* harmony export */   "clickable": () => (/* binding */ clickable),
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
 /* harmony export */   "mainBody": () => (/* binding */ mainBody),
@@ -3961,6 +3958,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "settingsEntry": () => (/* binding */ settingsEntry),
 /* harmony export */   "settingsSubmit": () => (/* binding */ settingsSubmit),
 /* harmony export */   "settingsSubmitTip": () => (/* binding */ settingsSubmitTip),
+/* harmony export */   "stateNotSure": () => (/* binding */ stateNotSure),
+/* harmony export */   "stateSure": () => (/* binding */ stateSure),
+/* harmony export */   "stateWorkingOn": () => (/* binding */ stateWorkingOn),
 /* harmony export */   "uploadImg": () => (/* binding */ uploadImg),
 /* harmony export */   "uploadImgConfirm": () => (/* binding */ uploadImgConfirm),
 /* harmony export */   "uploadImgImage": () => (/* binding */ uploadImgImage)
@@ -3974,17 +3974,17 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".KtSQfh45DkzY1g4GTjHG {\n  font-size: 0.75rem;\n  opacity: 0.5;\n}\n.KtSQfh45DkzY1g4GTjHG button {\n  font-size: 0.75rem;\n}\n.KtSQfh45DkzY1g4GTjHG input {\n  font-size: 0.75rem;\n}\n.KtSQfh45DkzY1g4GTjHG button {\n  cursor: pointer;\n}\n.nl0fbl1STsJ1E_ijRd86 {\n  cursor: pointer;\n}\n.E2WC5WHEPccqZwiUT6nE p {\n  margin: 0;\n}\n.E2WC5WHEPccqZwiUT6nE ul {\n  margin: 0;\n  padding-left: 1.5rem;\n}\n.E2WC5WHEPccqZwiUT6nE img {\n  height: auto;\n  width: 80%;\n}\n.X8Gebt6EIXLOM5lX6VsD {\n  border-style: groove;\n  border-width: thin;\n  opacity: 0.6;\n  margin-bottom: 0.5rem;\n}\n.X8Gebt6EIXLOM5lX6VsD ul {\n  padding-left: 1rem;\n}\n._hqWB_k_qtqwrnoPU5Jp {\n  font-weight: bold;\n}\n.CrkzRyvBW1KlFoKqSzWT {\n  display: flex;\n  justify-content: end;\n  align-items: center;\n  border-style: groove;\n  border-width: thin;\n  margin-bottom: 0.5rem;\n  opacity: 0.6;\n}\n.CrkzRyvBW1KlFoKqSzWT button {\n  padding: 0;\n  margin-left: 0.5rem;\n  white-space: nowrap;\n}\n.CrkzRyvBW1KlFoKqSzWT input {\n  height: max-content;\n  width: 100%;\n}\n.RBEwUXcAGRrxhh1V_OQu {\n  color: blue;\n}\n.ru9UIdhDj61Pk_GdrINg {\n  color: green;\n}\n.ESI_oe4wDTszqU4gr3Lo {\n  color: red;\n}\n.yZjHuTE6p_FgmbomqPFx {\n  border-style: groove;\n  border-width: thin;\n  margin: 0.2rem;\n  padding: 0.2rem;\n}\n._o1gebpEn7x9Td7Hes6g {\n  border-style: groove;\n  border-width: thin;\n  display: flex;\n  flex-direction: column;\n  padding: 0.5rem;\n  margin-bottom: 0.5rem;\n}\n.YalNJJWiNdYPl5FzO1a_ {\n  display: flex;\n  flex-direction: row;\n  margin-bottom: 0.5rem;\n  justify-content: space-between;\n  align-items: center;\n}\n.YalNJJWiNdYPl5FzO1a_ label {\n  font-weight: bold;\n}\n.YalNJJWiNdYPl5FzO1a_ input {\n  height: max-content;\n  text-align: right;\n}\n.GkQ9CK5Dl58odGzSBLOP {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: end;\n}\n.CY2oPnMnonyamRy15TxZ {\n  margin: 0 0.5rem 0 0;\n}\n.ssrv8ndZGNgvTL1Osr92 p {\n  margin-bottom: 0.25rem;\n}\n.ssrv8ndZGNgvTL1Osr92 ul {\n  padding-left: 1.5rem;\n  margin: 0 0 0.25rem 0;\n}\n.ssrv8ndZGNgvTL1Osr92 ul li {\n  margin-bottom: 0.25rem;\n}\n.UJVcq5yyVfeOtVL0dWlT {\n  display: flex;\n  flex-direction: column;\n}\n.UJVcq5yyVfeOtVL0dWlT img {\n  width: 100%;\n  height: auto;\n}\n.SB_KxqWR3Sju8ih5VCQj {\n  border-style: groove;\n  border-width: thin;\n  padding: 0.5rem;\n}\n.YM_eQySt5C11IITqy_br {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 0.5rem;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".KtSQfh45DkzY1g4GTjHG {\n  opacity: 0.5;\n}\n.KtSQfh45DkzY1g4GTjHG * {\n  font-size: 0.75rem;\n  margin: 0;\n}\n.KtSQfh45DkzY1g4GTjHG button {\n  cursor: pointer;\n}\n.nl0fbl1STsJ1E_ijRd86 {\n  cursor: pointer;\n}\n.RWbunk2kQrtNJ0m8aBQ1 {\n  color: blue;\n}\n.xFTx0TcOk7czFIM7Y7XU {\n  color: green;\n}\n.m13F3VKGlt0QbaYvFZwq {\n  color: red;\n}\n.G0hX28B0fzB612BG5GVh {\n  border-style: groove;\n  border-width: thin;\n  opacity: 0.75;\n  margin-bottom: 0.5rem;\n}\n.G0hX28B0fzB612BG5GVh ul {\n  padding-left: 1rem;\n}\n.AleYAgJXUjzQT0tY9tgw {\n  font-weight: bold;\n}\n.aSdxCJr5F7gYQ84HMbUA {\n  display: flex;\n  justify-content: end;\n  align-items: center;\n  border-style: groove;\n  border-width: thin;\n  margin-bottom: 0.5rem;\n  opacity: 0.75;\n}\n.aSdxCJr5F7gYQ84HMbUA button {\n  padding: 0;\n  margin-left: 0.5rem;\n  white-space: nowrap;\n}\n.aSdxCJr5F7gYQ84HMbUA input {\n  height: max-content;\n  width: 100%;\n}\n.E2WC5WHEPccqZwiUT6nE .RWbunk2kQrtNJ0m8aBQ1,\n.E2WC5WHEPccqZwiUT6nE .xFTx0TcOk7czFIM7Y7XU,\n.E2WC5WHEPccqZwiUT6nE .m13F3VKGlt0QbaYvFZwq {\n  font-weight: bold;\n}\n.E2WC5WHEPccqZwiUT6nE ul {\n  padding-left: 1.5rem;\n}\n.E2WC5WHEPccqZwiUT6nE img {\n  height: auto;\n  width: 80%;\n}\n.yZjHuTE6p_FgmbomqPFx {\n  border-style: groove;\n  border-width: thin;\n  margin: 0.2rem;\n  padding: 0.2rem;\n}\n._o1gebpEn7x9Td7Hes6g {\n  border-style: groove;\n  border-width: thin;\n  display: flex;\n  flex-direction: column;\n  padding: 0.5rem;\n  margin-bottom: 0.5rem;\n}\n.YalNJJWiNdYPl5FzO1a_ {\n  display: flex;\n  flex-direction: row;\n  margin-bottom: 0.5rem;\n  justify-content: space-between;\n  align-items: center;\n}\n.YalNJJWiNdYPl5FzO1a_ label {\n  font-weight: bold;\n}\n.YalNJJWiNdYPl5FzO1a_ input {\n  height: max-content;\n  text-align: right;\n}\n.GkQ9CK5Dl58odGzSBLOP {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: end;\n}\n.CY2oPnMnonyamRy15TxZ {\n  margin-right: 0.5rem;\n}\n.ssrv8ndZGNgvTL1Osr92 p {\n  margin-bottom: 0.25rem;\n}\n.ssrv8ndZGNgvTL1Osr92 ul {\n  padding-left: 1.5rem;\n  margin-bottom: 0.25rem;\n}\n.ssrv8ndZGNgvTL1Osr92 ul li {\n  margin-bottom: 0.25rem;\n}\n.UJVcq5yyVfeOtVL0dWlT {\n  display: flex;\n  flex-direction: column;\n}\n.UJVcq5yyVfeOtVL0dWlT img {\n  width: 100%;\n  height: auto;\n}\n.SB_KxqWR3Sju8ih5VCQj {\n  border-style: groove;\n  border-width: thin;\n  padding: 0.5rem;\n}\n.YM_eQySt5C11IITqy_br {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 0.5rem;\n}\n", ""]);
 // Exports
 var mainBody = "KtSQfh45DkzY1g4GTjHG";
 var clickable = "nl0fbl1STsJ1E_ijRd86";
+var stateWorkingOn = "RWbunk2kQrtNJ0m8aBQ1";
+var stateSure = "xFTx0TcOk7czFIM7Y7XU";
+var stateNotSure = "m13F3VKGlt0QbaYvFZwq";
+var answerMsg = "G0hX28B0fzB612BG5GVh";
+var answerMsgName = "AleYAgJXUjzQT0tY9tgw";
+var answerMark = "aSdxCJr5F7gYQ84HMbUA";
 var answerDetail = "E2WC5WHEPccqZwiUT6nE";
-var answerDetailMsg = "X8Gebt6EIXLOM5lX6VsD";
-var answerDetailMsgName = "_hqWB_k_qtqwrnoPU5Jp";
-var answerDetailState = "CrkzRyvBW1KlFoKqSzWT";
-var answerDetailWorkingOn = "RBEwUXcAGRrxhh1V_OQu";
-var answerDetailSure = "ru9UIdhDj61Pk_GdrINg";
-var answerDetailNotSure = "ESI_oe4wDTszqU4gr3Lo";
 var answerDetailShortAnswer = "yZjHuTE6p_FgmbomqPFx";
 var settings = "_o1gebpEn7x9Td7Hes6g";
 var settingsEntry = "YalNJJWiNdYPl5FzO1a_";
@@ -4798,9 +4798,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "T": () => (/* binding */ T),
 /* harmony export */   "Tooltip": () => (/* binding */ Tooltip),
 /* harmony export */   "answerState": () => (/* binding */ answerState),
+/* harmony export */   "cmpWithState": () => (/* binding */ cmpWithState),
 /* harmony export */   "percent": () => (/* binding */ percent),
 /* harmony export */   "sortByKey": () => (/* binding */ sortByKey),
+/* harmony export */   "sortByNameWithAnswerContext": () => (/* binding */ sortByNameWithAnswerContext),
+/* harmony export */   "sortByNameWithContext": () => (/* binding */ sortByNameWithContext),
 /* harmony export */   "stateClass": () => (/* binding */ stateClass),
+/* harmony export */   "stateToPriv": () => (/* binding */ stateToPriv),
 /* harmony export */   "style": () => (/* binding */ style),
 /* harmony export */   "updateMsg": () => (/* binding */ updateMsg),
 /* harmony export */   "updateState": () => (/* binding */ updateState)
@@ -4862,11 +4866,11 @@ function stateClass(state) {
   return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.map(state, (function (state) {
                 switch (state) {
                   case /* WorkingOn */0 :
-                      return style.answerDetailWorkingOn;
+                      return style.stateWorkingOn;
                   case /* Sure */1 :
-                      return style.answerDetailSure;
+                      return style.stateSure;
                   case /* NotSure */2 :
-                      return style.answerDetailNotSure;
+                      return style.stateNotSure;
                   
                 }
               }));
@@ -4876,6 +4880,66 @@ function answerState(context) {
   return stateClass(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.flatMap(context, (function (c) {
                     return c.state;
                   })));
+}
+
+function stateToPriv(state) {
+  switch (state) {
+    case /* WorkingOn */0 :
+        return 1;
+    case /* Sure */1 :
+        return 0;
+    case /* NotSure */2 :
+        return 2;
+    
+  }
+}
+
+function cmpWithState(param, param$1) {
+  var bState = param$1[1];
+  var aState = param[1];
+  if (aState !== undefined) {
+    if (bState !== undefined) {
+      return stateToPriv(bState) - stateToPriv(aState) | 0;
+    } else {
+      return -1;
+    }
+  } else if (bState !== undefined) {
+    return 1;
+  } else {
+    return rescript_lib_es6_string_js__WEBPACK_IMPORTED_MODULE_3__.compare(param[0], param$1[0]);
+  }
+}
+
+function sortByNameWithContext(arr) {
+  return rescript_lib_es6_belt_SortArray_js__WEBPACK_IMPORTED_MODULE_11__.stableSortBy(arr, (function (param, param$1) {
+                return cmpWithState([
+                            param[0],
+                            rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.flatMap(param[1], (function (ctx) {
+                                    return ctx.state;
+                                  }))
+                          ], [
+                            param$1[0],
+                            rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.flatMap(param$1[1], (function (ctx) {
+                                    return ctx.state;
+                                  }))
+                          ]);
+              }));
+}
+
+function sortByNameWithAnswerContext(arr) {
+  return rescript_lib_es6_belt_SortArray_js__WEBPACK_IMPORTED_MODULE_11__.stableSortBy(arr, (function (param, param$1) {
+                return cmpWithState([
+                            param[0],
+                            rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.flatMap(param[1].context, (function (ctx) {
+                                    return ctx.state;
+                                  }))
+                          ], [
+                            param$1[0],
+                            rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.flatMap(param$1[1].context, (function (ctx) {
+                                    return ctx.state;
+                                  }))
+                          ]);
+              }));
 }
 
 function make(ele) {
@@ -4898,13 +4962,10 @@ function Make(U) {
   var showDetail = function ($$this, top, left) {
     var match = _Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.openWin("详细答案", 200, 300, left, top, undefined);
     match[1].appendChild(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.getExn(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.toNode(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
-                      className: _Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.joinStrings([
-                            style.mainBody,
-                            style.answerDetail
-                          ], " ")
+                      className: style.mainBody
                     }, [
                       _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("fieldset", {
-                            className: style.answerDetailState
+                            className: style.answerMark
                           }, [
                             _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("legend", undefined, ["标记"]),
                             _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("input", {
@@ -4917,7 +4978,7 @@ function Make(U) {
                                     })
                                 }, []),
                             _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("button", {
-                                  className: style.answerDetailWorkingOn,
+                                  className: style.stateWorkingOn,
                                   type: "button",
                                   onClick: (function (param) {
                                       _client__WEBPACK_IMPORTED_MODULE_5__.CLIENT.updateState($$this.id, /* WorkingOn */0);
@@ -4925,7 +4986,7 @@ function Make(U) {
                                     })
                                 }, ["我正在做"]),
                             _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("button", {
-                                  className: style.answerDetailSure,
+                                  className: style.stateSure,
                                   type: "button",
                                   onClick: (function (param) {
                                       _client__WEBPACK_IMPORTED_MODULE_5__.CLIENT.updateState($$this.id, /* Sure */1);
@@ -4933,7 +4994,7 @@ function Make(U) {
                                     })
                                 }, ["我很确定"]),
                             _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("button", {
-                                  className: style.answerDetailNotSure,
+                                  className: style.stateNotSure,
                                   type: "button",
                                   onClick: (function (param) {
                                       _client__WEBPACK_IMPORTED_MODULE_5__.CLIENT.updateState($$this.id, /* NotSure */2);
@@ -4967,11 +5028,11 @@ function Make(U) {
   var updateUI = function ($$this) {
     $$this.detailHtml = _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", undefined, [
           _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("fieldset", {
-                className: style.answerDetailMsg
+                className: style.answerMsg
               }, [
                 _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("legend", undefined, ["留言"]),
                 _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.UList.make, {
-                      children: rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_6__.map(rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_6__.keepMap(sortByKey(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_10__.toArray($$this.details)), (function (param) {
+                      children: rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_6__.map(rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_6__.keepMap(sortByNameWithAnswerContext(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_10__.toArray($$this.details)), (function (param) {
                                   var user = param[0];
                                   return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.flatMap(param[1].context, (function (ctx) {
                                                 var match = ctx.state;
@@ -4992,14 +5053,16 @@ function Make(U) {
                               }
                               return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("p", rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_9__.some(tmp), [
                                           _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("span", {
-                                                className: style.answerDetailMsgName
+                                                className: style.answerMsgName
                                               }, [param[0] + ": "]),
                                           param[2]
                                         ]);
                             }))
                     })
               ]),
-          rescript_lib_es6_curry_js__WEBPACK_IMPORTED_MODULE_0__._2(U.updateUI, $$this.details, $$this.context)
+          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
+                className: style.answerDetail
+              }, [rescript_lib_es6_curry_js__WEBPACK_IMPORTED_MODULE_0__._2(U.updateUI, $$this.details, $$this.context)])
         ]);
     
   };
@@ -5053,7 +5116,7 @@ function updateUI(detail, context) {
                 return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", undefined, [
                             _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("p", undefined, [_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("strong", undefined, [choice])]),
                             _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.UList.make, {
-                                  children: rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_6__.map(sortByKey(users), (function (param) {
+                                  children: rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_6__.map(sortByNameWithContext(users), (function (param) {
                                           var tmp = {};
                                           var tmp$1 = answerState(param[1]);
                                           if (tmp$1 !== undefined) {
@@ -5069,13 +5132,10 @@ function updateUI(detail, context) {
 function showDetail($$this, top, left) {
   var match = _Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.openWin("详细答案", 200, 300, left, top, undefined);
   match[1].appendChild(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.getExn(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.toNode(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
-                    className: _Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.joinStrings([
-                          style.mainBody,
-                          style.answerDetail
-                        ], " ")
+                    className: style.mainBody
                   }, [
                     _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("fieldset", {
-                          className: style.answerDetailState
+                          className: style.answerMark
                         }, [
                           _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("legend", undefined, ["标记"]),
                           _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("input", {
@@ -5088,7 +5148,7 @@ function showDetail($$this, top, left) {
                                   })
                               }, []),
                           _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("button", {
-                                className: style.answerDetailWorkingOn,
+                                className: style.stateWorkingOn,
                                 type: "button",
                                 onClick: (function (param) {
                                     _client__WEBPACK_IMPORTED_MODULE_5__.CLIENT.updateState($$this.id, /* WorkingOn */0);
@@ -5096,7 +5156,7 @@ function showDetail($$this, top, left) {
                                   })
                               }, ["我正在做"]),
                           _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("button", {
-                                className: style.answerDetailSure,
+                                className: style.stateSure,
                                 type: "button",
                                 onClick: (function (param) {
                                     _client__WEBPACK_IMPORTED_MODULE_5__.CLIENT.updateState($$this.id, /* Sure */1);
@@ -5104,7 +5164,7 @@ function showDetail($$this, top, left) {
                                   })
                               }, ["我很确定"]),
                           _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("button", {
-                                className: style.answerDetailNotSure,
+                                className: style.stateNotSure,
                                 type: "button",
                                 onClick: (function (param) {
                                     _client__WEBPACK_IMPORTED_MODULE_5__.CLIENT.updateState($$this.id, /* NotSure */2);
@@ -5141,11 +5201,11 @@ function updateAnswer($$this, username, data) {
 function updateUI$1($$this) {
   $$this.detailHtml = _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", undefined, [
         _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("fieldset", {
-              className: style.answerDetailMsg
+              className: style.answerMsg
             }, [
               _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("legend", undefined, ["留言"]),
               _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.UList.make, {
-                    children: rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_6__.map(rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_6__.keepMap(sortByKey(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_10__.toArray($$this.details)), (function (param) {
+                    children: rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_6__.map(rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_6__.keepMap(sortByNameWithAnswerContext(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_10__.toArray($$this.details)), (function (param) {
                                 var user = param[0];
                                 return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.flatMap(param[1].context, (function (ctx) {
                                               var match = ctx.state;
@@ -5166,14 +5226,16 @@ function updateUI$1($$this) {
                             }
                             return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("p", rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_9__.some(tmp), [
                                         _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("span", {
-                                              className: style.answerDetailMsgName
+                                              className: style.answerMsgName
                                             }, [param[0] + ": "]),
                                         param[2]
                                       ]);
                           }))
                   })
             ]),
-        updateUI($$this.details, $$this.context)
+        _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
+              className: style.answerDetail
+            }, [updateUI($$this.details, $$this.context)])
       ]);
   
 }
@@ -5199,7 +5261,7 @@ function updateUI$2(detail, context) {
   return rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_6__.map(sortByKey(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_10__.toArray(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_10__.reduce(detail, undefined, (function (blankToFillToUsers, user, param) {
                             var context = param.context;
                             return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.mapWithDefault(param.answer, blankToFillToUsers, (function (blankToFill) {
-                                          return rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_6__.reduce(sortByKey(rescript_lib_es6_js_dict_js__WEBPACK_IMPORTED_MODULE_4__.entries(blankToFill)), blankToFillToUsers, (function (blankToFillToUsers, param) {
+                                          return rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_6__.reduce(rescript_lib_es6_js_dict_js__WEBPACK_IMPORTED_MODULE_4__.entries(blankToFill), blankToFillToUsers, (function (blankToFillToUsers, param) {
                                                         var fill = param[1];
                                                         return rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_10__.update(blankToFillToUsers, param[0], (function (fillToUsers) {
                                                                       return rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_9__.some(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_10__.update(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.getWithDefault(fillToUsers, undefined), fill, (function (users) {
@@ -5233,7 +5295,7 @@ function updateUI$2(detail, context) {
                                           return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", undefined, [
                                                       _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("p", undefined, [param[0]]),
                                                       _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.UList.make, {
-                                                            children: rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_6__.map(sortByKey(param[1]), (function (param) {
+                                                            children: rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_6__.map(sortByNameWithContext(param[1]), (function (param) {
                                                                     var tmp = {};
                                                                     var tmp$1 = answerState(param[1]);
                                                                     if (tmp$1 !== undefined) {
@@ -5252,13 +5314,10 @@ function updateUI$2(detail, context) {
 function showDetail$1($$this, top, left) {
   var match = _Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.openWin("详细答案", 200, 300, left, top, undefined);
   match[1].appendChild(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.getExn(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.toNode(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
-                    className: _Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.joinStrings([
-                          style.mainBody,
-                          style.answerDetail
-                        ], " ")
+                    className: style.mainBody
                   }, [
                     _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("fieldset", {
-                          className: style.answerDetailState
+                          className: style.answerMark
                         }, [
                           _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("legend", undefined, ["标记"]),
                           _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("input", {
@@ -5271,7 +5330,7 @@ function showDetail$1($$this, top, left) {
                                   })
                               }, []),
                           _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("button", {
-                                className: style.answerDetailWorkingOn,
+                                className: style.stateWorkingOn,
                                 type: "button",
                                 onClick: (function (param) {
                                     _client__WEBPACK_IMPORTED_MODULE_5__.CLIENT.updateState($$this.id, /* WorkingOn */0);
@@ -5279,7 +5338,7 @@ function showDetail$1($$this, top, left) {
                                   })
                               }, ["我正在做"]),
                           _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("button", {
-                                className: style.answerDetailSure,
+                                className: style.stateSure,
                                 type: "button",
                                 onClick: (function (param) {
                                     _client__WEBPACK_IMPORTED_MODULE_5__.CLIENT.updateState($$this.id, /* Sure */1);
@@ -5287,7 +5346,7 @@ function showDetail$1($$this, top, left) {
                                   })
                               }, ["我很确定"]),
                           _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("button", {
-                                className: style.answerDetailNotSure,
+                                className: style.stateNotSure,
                                 type: "button",
                                 onClick: (function (param) {
                                     _client__WEBPACK_IMPORTED_MODULE_5__.CLIENT.updateState($$this.id, /* NotSure */2);
@@ -5324,11 +5383,11 @@ function updateAnswer$1($$this, username, data) {
 function updateUI$3($$this) {
   $$this.detailHtml = _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", undefined, [
         _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("fieldset", {
-              className: style.answerDetailMsg
+              className: style.answerMsg
             }, [
               _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("legend", undefined, ["留言"]),
               _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.UList.make, {
-                    children: rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_6__.map(rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_6__.keepMap(sortByKey(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_10__.toArray($$this.details)), (function (param) {
+                    children: rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_6__.map(rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_6__.keepMap(sortByNameWithAnswerContext(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_10__.toArray($$this.details)), (function (param) {
                                 var user = param[0];
                                 return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.flatMap(param[1].context, (function (ctx) {
                                               var match = ctx.state;
@@ -5349,14 +5408,16 @@ function updateUI$3($$this) {
                             }
                             return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("p", rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_9__.some(tmp), [
                                         _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("span", {
-                                              className: style.answerDetailMsgName
+                                              className: style.answerMsgName
                                             }, [param[0] + ": "]),
                                         param[2]
                                       ]);
                           }))
                   })
             ]),
-        updateUI$2($$this.details, $$this.context)
+        _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
+              className: style.answerDetail
+            }, [updateUI$2($$this.details, $$this.context)])
       ]);
   
 }
@@ -5373,7 +5434,7 @@ function make$5(param, param$1) {
 }
 
 function updateUI$4(detail, param) {
-  return rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_6__.map(sortByKey(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_10__.toArray(detail)), (function (param) {
+  return rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_6__.map(sortByNameWithAnswerContext(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_10__.toArray(detail)), (function (param) {
                 var match = param[1];
                 var text = match.answer;
                 var tmp = {};
@@ -5383,29 +5444,25 @@ function updateUI$4(detail, param) {
                 }
                 return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", undefined, [
                             _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("p", rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_9__.some(tmp), [_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("strong", undefined, [param[0]])]),
-                            rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.mapWithDefault(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.flatMap(text, (function (text) {
-                                        return text.content;
-                                      })), null, (function (content) {
-                                    return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
-                                                className: style.answerDetailShortAnswer,
-                                                dangerouslySetInnerHTML: {
-                                                  __html: content
-                                                }
-                                              }, []);
-                                  })),
-                            rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.mapWithDefault(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.flatMap(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.flatMap(text, (function (text) {
-                                            return text.attachments;
-                                          })), (function (atta) {
-                                        return atta.filelist;
-                                      })), null, (function (filelist) {
-                                    return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.UList.make, {
-                                                children: rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_6__.map(filelist, (function (atta) {
-                                                        return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("a", {
-                                                                    href: atta.fileUrl
-                                                                  }, [atta.fileName]);
-                                                      }))
-                                              });
-                                  })),
+                            _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
+                                  className: style.answerDetailShortAnswer,
+                                  dangerouslySetInnerHTML: {
+                                    __html: rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.getWithDefault(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.flatMap(text, (function (text) {
+                                                return text.content;
+                                              })), "")
+                                  }
+                                }, []),
+                            _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.UList.make, {
+                                  children: rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_6__.map(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.getWithDefault(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.flatMap(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.flatMap(text, (function (text) {
+                                                      return text.attachments;
+                                                    })), (function (atta) {
+                                                  return atta.filelist;
+                                                })), []), (function (atta) {
+                                          return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("a", {
+                                                      href: atta.fileUrl
+                                                    }, [atta.fileName]);
+                                        }))
+                                }),
                             _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", undefined, [])
                           ]);
               }));
@@ -5414,13 +5471,10 @@ function updateUI$4(detail, param) {
 function showDetail$2($$this, top, left) {
   var match = _Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.openWin("详细答案", 200, 300, left, top, undefined);
   match[1].appendChild(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.getExn(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.toNode(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
-                    className: _Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.joinStrings([
-                          style.mainBody,
-                          style.answerDetail
-                        ], " ")
+                    className: style.mainBody
                   }, [
                     _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("fieldset", {
-                          className: style.answerDetailState
+                          className: style.answerMark
                         }, [
                           _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("legend", undefined, ["标记"]),
                           _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("input", {
@@ -5433,7 +5487,7 @@ function showDetail$2($$this, top, left) {
                                   })
                               }, []),
                           _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("button", {
-                                className: style.answerDetailWorkingOn,
+                                className: style.stateWorkingOn,
                                 type: "button",
                                 onClick: (function (param) {
                                     _client__WEBPACK_IMPORTED_MODULE_5__.CLIENT.updateState($$this.id, /* WorkingOn */0);
@@ -5441,7 +5495,7 @@ function showDetail$2($$this, top, left) {
                                   })
                               }, ["我正在做"]),
                           _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("button", {
-                                className: style.answerDetailSure,
+                                className: style.stateSure,
                                 type: "button",
                                 onClick: (function (param) {
                                     _client__WEBPACK_IMPORTED_MODULE_5__.CLIENT.updateState($$this.id, /* Sure */1);
@@ -5449,7 +5503,7 @@ function showDetail$2($$this, top, left) {
                                   })
                               }, ["我很确定"]),
                           _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("button", {
-                                className: style.answerDetailNotSure,
+                                className: style.stateNotSure,
                                 type: "button",
                                 onClick: (function (param) {
                                     _client__WEBPACK_IMPORTED_MODULE_5__.CLIENT.updateState($$this.id, /* NotSure */2);
@@ -5486,11 +5540,11 @@ function updateAnswer$2($$this, username, data) {
 function updateUI$5($$this) {
   $$this.detailHtml = _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", undefined, [
         _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("fieldset", {
-              className: style.answerDetailMsg
+              className: style.answerMsg
             }, [
               _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("legend", undefined, ["留言"]),
               _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.UList.make, {
-                    children: rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_6__.map(rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_6__.keepMap(sortByKey(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_10__.toArray($$this.details)), (function (param) {
+                    children: rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_6__.map(rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_6__.keepMap(sortByNameWithAnswerContext(rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_10__.toArray($$this.details)), (function (param) {
                                 var user = param[0];
                                 return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.flatMap(param[1].context, (function (ctx) {
                                               var match = ctx.state;
@@ -5511,14 +5565,16 @@ function updateUI$5($$this) {
                             }
                             return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("p", rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_9__.some(tmp), [
                                         _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("span", {
-                                              className: style.answerDetailMsgName
+                                              className: style.answerMsgName
                                             }, [param[0] + ": "]),
                                         param[2]
                                       ]);
                           }))
                   })
             ]),
-        updateUI$4($$this.details, $$this.context)
+        _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
+              className: style.answerDetail
+            }, [updateUI$4($$this.details, $$this.context)])
       ]);
   
 }
