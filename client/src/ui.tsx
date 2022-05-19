@@ -17,8 +17,11 @@ export class UI {
     this.inner = UIRe.UI.make(problems);
   }
 
-  updateAnswer({ username, problem_id, result }: UserAnswer) {
-    UIRe.UI.updateAnswer(this.inner, problem_id, username, result);
+  updateAnswer({ username, problem_id, result, context }: UserAnswer) {
+    UIRe.UI.updateAnswer(this.inner, problem_id, username, {
+      answer: result,
+      context: context,
+    });
   }
 
   updateUI() {

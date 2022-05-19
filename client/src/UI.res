@@ -1,5 +1,6 @@
 open Belt
 open Webapi.Dom
+open Detail.T
 
 @module("./style.mod.less")
 external styleCss: {..} = "default"
@@ -44,8 +45,8 @@ module Problem = {
   type choiceOption = {key: string, value: string}
 
   type t = {
-    @as("problem_id") problemId: int,
-    @as("ProblemType") problemType: int,
+    @as("problem_id") id: int,
+    @as("ProblemType") ty: int,
     @as("Options") options: option<array<choiceOption>>,
   }
 }
@@ -53,11 +54,32 @@ module Problem = {
 module UI = {
   type answer
 
-  external answerToAny: answer => _ = "%identity"
+  external unsafeConvertAnswer: answer => _ = "%identity"
 
-  type detail = {updateUI: unit => unit, updateAnswer: (string, answer) => unit}
+  type detail<'a, 'b> = {
+    updateUI: 'a => unit,
+    updateAnswer: ('a, string, answerContext<'b>) => unit,
+  }
 
-  type t = {details: Map.Int.t<detail>}
+  type updateDetail = {
+    updateUI: unit => unit,
+    updateAnswer: (string, answerContext<answer>) => unit,
+  }
+
+  let unsafeConvertUpdateDetail = (t: detail<'a, 'b>, d: 'a) => {
+    updateUI: () => t.updateUI(d),
+    updateAnswer: (username: string, data: answerContext<answer>) =>
+      t.updateAnswer(
+        d,
+        username,
+        {
+          answer: data.answer->Option.map(unsafeConvertAnswer),
+          context: data.context,
+        },
+      ),
+  }
+
+  type t = {details: Map.Int.t<updateDetail>}
 
   let make = (problems: array<Problem.t>) => {
     let (head, body) =
@@ -95,7 +117,7 @@ module UI = {
       problems
       ->Array.zip(subjectItems)
       ->Array.reduce(Map.Int.empty, (details, (prob, subjectItem)) => {
-        let ty = Problem.probelmTypeFromJs(prob.problemType)->Option.getExn
+        let ty = Problem.probelmTypeFromJs(prob.ty)->Option.getExn
         let detail = switch ty {
         | Problem.SingleChoice
         | Problem.MultipleChoice
@@ -106,38 +128,33 @@ module UI = {
               ->Option.getExn
               ->Array.mapWithIndex((i, o) => (o.key, Js.String.fromCharCode(65 + i)))
               ->Map.String.fromArray
-            let detail = Detail.Choice.make(subjectItem, s => choiceMap->Map.String.getExn(s))
             {
-              updateAnswer: (username, answer) =>
-                detail->Detail.Choice.updateAnswer(username, answer->answerToAny),
-              updateUI: () => detail->Detail.Choice.updateUI,
-            }
+              updateAnswer: Detail.Choice.updateAnswer,
+              updateUI: Detail.Choice.updateUI,
+            }->unsafeConvertUpdateDetail(
+              Detail.Choice.make(prob.id, subjectItem, s => choiceMap->Map.String.getExn(s)),
+            )
           }
-        | Problem.FillBlank => {
-            let detail = Detail.Blank.make(subjectItem, ())
-            {
-              updateAnswer: (username, answer) =>
-                detail->Detail.Blank.updateAnswer(username, answer->answerToAny),
-              updateUI: () => detail->Detail.Blank.updateUI,
-            }
-          }
-        | Problem.ShortAnswer => {
-            let detail = Detail.ShortAnswer.make(subjectItem, ())
-            {
-              updateAnswer: (username, answer) =>
-                detail->Detail.ShortAnswer.updateAnswer(username, answer->answerToAny),
-              updateUI: () => detail->Detail.ShortAnswer.updateUI,
-            }
-          }
+        | Problem.FillBlank =>
+          {
+            updateAnswer: Detail.Blank.updateAnswer,
+            updateUI: Detail.Blank.updateUI,
+          }->unsafeConvertUpdateDetail(Detail.Blank.make(prob.id, subjectItem, ()))
+
+        | Problem.ShortAnswer =>
+          {
+            updateAnswer: Detail.ShortAnswer.updateAnswer,
+            updateUI: Detail.ShortAnswer.updateUI,
+          }->unsafeConvertUpdateDetail(Detail.ShortAnswer.make(prob.id, subjectItem, ()))
         }
-        details->Map.Int.set(prob.problemId, detail)
+        details->Map.Int.set(prob.id, detail)
       })
 
     {details: detials}
   }
 
-  let updateAnswer = (this: t, problemId: int, username: string, answer: answer) =>
-    this.details->Map.Int.get(problemId)->Option.forEach(d => d.updateAnswer(username, answer))
+  let updateAnswer = (this: t, problemId: int, username: string, data: answerContext<answer>) =>
+    this.details->Map.Int.get(problemId)->Option.forEach(d => d.updateAnswer(username, data))
 
   let updateUI = (this: t) => this.details->Map.Int.forEach((_, d) => d.updateUI())
 }

@@ -47,6 +47,7 @@ let openWin = (
       (),
     )
     ->Option.getExn
+  window->Window.addUnloadEventListener(_ => win->Window.close)
   let html = win->Window.document->Document.asHtmlDocument->Option.getExn
   html
   ->HtmlDocument.head

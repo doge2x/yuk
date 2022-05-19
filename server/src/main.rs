@@ -7,6 +7,7 @@ use jsonrpsee::{
 };
 use log::info;
 use mongodb::{bson::doc, Client};
+use serde_json::Value as Json;
 use server::{PostAnswer, Server, UserAnswer};
 use std::{env, net::SocketAddr};
 use tokio::signal::{
@@ -34,7 +35,8 @@ struct YukServer {
 #[async_trait]
 impl YukRpcServer for YukServer {
     async fn login(&self, username: String, exam_id: i64) -> RpcResult<String> {
-        Ok(self.server.login(username, exam_id).await?.to_string())
+        let token = self.server.login(username, exam_id).await?;
+        Ok(token.to_string())
     }
 
     async fn answer_problem(

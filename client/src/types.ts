@@ -6,7 +6,26 @@ export type Answer = {
 export type UserAnswer = {
   username: string;
   problem_id: number;
-  result: any;
+  result?: ChoiceAnswer | BlankAnswer | ShortAnswerResult;
+  context?: AnswerContext;
+};
+
+export type ChoiceAnswer = string[];
+
+export type BlankAnswer = { [k: string]: string };
+
+export type AttachedFile = {
+  fileName: string;
+  fileSize: string;
+  fileUrl: string;
+  fileType: string;
+};
+
+export type ShortAnswerResult = {
+  content?: string;
+  attachments?: {
+    filelist?: AttachedFile[];
+  };
 };
 
 export type PostAnswer = {
@@ -52,4 +71,8 @@ export enum ProblemType {
 export type ChoiceOption = {
   key: string;
   value: string;
+};
+
+export type AnswerContext = {
+  state?: number;
 };
