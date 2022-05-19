@@ -88,11 +88,11 @@ class Client {
     }
     sendQueue() {
         return __awaiter(this, void 0, void 0, function* () {
-            if (this.queue.size < 1 ||
+            if (_shared__WEBPACK_IMPORTED_MODULE_2__.SYNC_ANSWERS.value !== true ||
+                this.queue.size < 1 ||
                 _shared__WEBPACK_IMPORTED_MODULE_2__.SERVER.value === undefined ||
                 _shared__WEBPACK_IMPORTED_MODULE_2__.USERNAME.value === undefined ||
-                _shared__WEBPACK_IMPORTED_MODULE_2__.EXAM_ID.value === undefined ||
-                _shared__WEBPACK_IMPORTED_MODULE_2__.SYNC_ANSWERS.value !== true) {
+                _shared__WEBPACK_IMPORTED_MODULE_2__.EXAM_ID.value === undefined) {
                 return;
             }
             // Clear queue, we do this first to avoid a queue be sent multi times.
@@ -842,7 +842,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "SERVER": () => (/* binding */ SERVER),
 /* harmony export */   "SORT_PROBLEMS": () => (/* binding */ SORT_PROBLEMS),
 /* harmony export */   "SYNC_ANSWERS": () => (/* binding */ SYNC_ANSWERS),
-/* harmony export */   "TOKEN": () => (/* binding */ TOKEN),
 /* harmony export */   "USERNAME": () => (/* binding */ USERNAME)
 /* harmony export */ });
 /* harmony import */ var _Shared_bs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
@@ -854,8 +853,13 @@ class ReValue {
     get value() {
         return this._value.get();
     }
-    set value(newVal) {
-        this._value.set(newVal);
+}
+class Option2 {
+    get value() {
+        return this._value;
+    }
+    set value(v) {
+        this._value = v;
     }
 }
 const USERNAME = new ReValue(_Shared_bs__WEBPACK_IMPORTED_MODULE_0__.Username);
@@ -863,8 +867,7 @@ const SERVER = new ReValue(_Shared_bs__WEBPACK_IMPORTED_MODULE_0__.Server);
 const SYNC_ANSWERS = new ReValue(_Shared_bs__WEBPACK_IMPORTED_MODULE_0__.SyncAnswers);
 const SORT_PROBLEMS = new ReValue(_Shared_bs__WEBPACK_IMPORTED_MODULE_0__.SortProblems);
 const NO_LEAVE_CHECK = new ReValue(_Shared_bs__WEBPACK_IMPORTED_MODULE_0__.NoLeaveCheck);
-const TOKEN = new ReValue(_Shared_bs__WEBPACK_IMPORTED_MODULE_0__.Token);
-const EXAM_ID = new ReValue(_Shared_bs__WEBPACK_IMPORTED_MODULE_0__.ExamId);
+const EXAM_ID = new Option2();
 
 
 /***/ }),
@@ -873,7 +876,6 @@ const EXAM_ID = new ReValue(_Shared_bs__WEBPACK_IMPORTED_MODULE_0__.ExamId);
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "ExamId": () => (/* binding */ ExamId),
 /* harmony export */   "GM": () => (/* binding */ GM),
 /* harmony export */   "GMEntry": () => (/* binding */ GMEntry),
 /* harmony export */   "NoLeaveCheck": () => (/* binding */ NoLeaveCheck),
@@ -881,7 +883,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Server": () => (/* binding */ Server),
 /* harmony export */   "SortProblems": () => (/* binding */ SortProblems),
 /* harmony export */   "SyncAnswers": () => (/* binding */ SyncAnswers),
-/* harmony export */   "Token": () => (/* binding */ Token),
 /* harmony export */   "Username": () => (/* binding */ Username)
 /* harmony export */ });
 /* harmony import */ var _gm__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(11);
@@ -928,8 +929,9 @@ function Make(T) {
     return rescript_lib_es6_camlinternalLazy_js__WEBPACK_IMPORTED_MODULE_3__.force(v.contents);
   };
   var set = function (newVal) {
-    v.contents = rescript_lib_es6_lazy_js__WEBPACK_IMPORTED_MODULE_1__.from_val(newVal);
-    _gm__WEBPACK_IMPORTED_MODULE_0__.setValue(T.name, newVal);
+    var newVal$1 = rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_2__.some(newVal);
+    v.contents = rescript_lib_es6_lazy_js__WEBPACK_IMPORTED_MODULE_1__.from_val(newVal$1);
+    _gm__WEBPACK_IMPORTED_MODULE_0__.setValue(T.name, newVal$1);
     
   };
   return {
@@ -951,7 +953,7 @@ function Make$1(T) {
     return v.contents;
   };
   var set = function (newVal) {
-    v.contents = newVal;
+    v.contents = rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_2__.some(newVal);
     
   };
   return {
@@ -987,8 +989,9 @@ function get(param) {
 }
 
 function set(newVal) {
-  v.contents = rescript_lib_es6_lazy_js__WEBPACK_IMPORTED_MODULE_1__.from_val(newVal);
-  _gm__WEBPACK_IMPORTED_MODULE_0__.setValue(name, newVal);
+  var newVal$1 = rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_2__.some(newVal);
+  v.contents = rescript_lib_es6_lazy_js__WEBPACK_IMPORTED_MODULE_1__.from_val(newVal$1);
+  _gm__WEBPACK_IMPORTED_MODULE_0__.setValue(name, newVal$1);
   
 }
 
@@ -1020,8 +1023,9 @@ function get$1(param) {
 }
 
 function set$1(newVal) {
-  v$1.contents = rescript_lib_es6_lazy_js__WEBPACK_IMPORTED_MODULE_1__.from_val(newVal);
-  _gm__WEBPACK_IMPORTED_MODULE_0__.setValue(name$1, newVal);
+  var newVal$1 = rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_2__.some(newVal);
+  v$1.contents = rescript_lib_es6_lazy_js__WEBPACK_IMPORTED_MODULE_1__.from_val(newVal$1);
+  _gm__WEBPACK_IMPORTED_MODULE_0__.setValue(name$1, newVal$1);
   
 }
 
@@ -1055,8 +1059,9 @@ function get$2(param) {
 }
 
 function set$2(newVal) {
-  v$2.contents = rescript_lib_es6_lazy_js__WEBPACK_IMPORTED_MODULE_1__.from_val(newVal);
-  _gm__WEBPACK_IMPORTED_MODULE_0__.setValue(name$2, newVal);
+  var newVal$1 = rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_2__.some(newVal);
+  v$2.contents = rescript_lib_es6_lazy_js__WEBPACK_IMPORTED_MODULE_1__.from_val(newVal$1);
+  _gm__WEBPACK_IMPORTED_MODULE_0__.setValue(name$2, newVal$1);
   
 }
 
@@ -1090,8 +1095,9 @@ function get$3(param) {
 }
 
 function set$3(newVal) {
-  v$3.contents = rescript_lib_es6_lazy_js__WEBPACK_IMPORTED_MODULE_1__.from_val(newVal);
-  _gm__WEBPACK_IMPORTED_MODULE_0__.setValue(name$3, newVal);
+  var newVal$1 = rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_2__.some(newVal);
+  v$3.contents = rescript_lib_es6_lazy_js__WEBPACK_IMPORTED_MODULE_1__.from_val(newVal$1);
+  _gm__WEBPACK_IMPORTED_MODULE_0__.setValue(name$3, newVal$1);
   
 }
 
@@ -1125,8 +1131,9 @@ function get$4(param) {
 }
 
 function set$4(newVal) {
-  v$4.contents = rescript_lib_es6_lazy_js__WEBPACK_IMPORTED_MODULE_1__.from_val(newVal);
-  _gm__WEBPACK_IMPORTED_MODULE_0__.setValue(name$4, newVal);
+  var newVal$1 = rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_2__.some(newVal);
+  v$4.contents = rescript_lib_es6_lazy_js__WEBPACK_IMPORTED_MODULE_1__.from_val(newVal$1);
+  _gm__WEBPACK_IMPORTED_MODULE_0__.setValue(name$4, newVal$1);
   
 }
 
@@ -1134,44 +1141,6 @@ var SortProblems = {
   v: v$4,
   get: get$4,
   set: set$4
-};
-
-var v$5 = {
-  contents: undefined
-};
-
-function get$5(param) {
-  return v$5.contents;
-}
-
-function set$5(newVal) {
-  v$5.contents = newVal;
-  
-}
-
-var Token = {
-  v: v$5,
-  get: get$5,
-  set: set$5
-};
-
-var v$6 = {
-  contents: undefined
-};
-
-function get$6(param) {
-  return v$6.contents;
-}
-
-function set$6(newVal) {
-  v$6.contents = newVal;
-  
-}
-
-var ExamId = {
-  v: v$6,
-  get: get$6,
-  set: set$6
 };
 
 
@@ -6297,7 +6266,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".KtSQfh45DkzY1g4GTjHG {\n  font-size: 0.75rem;\n  opacity: 0.5;\n}\n.KtSQfh45DkzY1g4GTjHG button {\n  cursor: pointer;\n}\n.nl0fbl1STsJ1E_ijRd86 {\n  cursor: pointer;\n}\n.E2WC5WHEPccqZwiUT6nE p {\n  margin: 0;\n}\n.E2WC5WHEPccqZwiUT6nE ul {\n  margin: 0;\n  padding-left: 1.5rem;\n}\n.E2WC5WHEPccqZwiUT6nE img {\n  height: auto;\n  width: 80%;\n}\n.X8Gebt6EIXLOM5lX6VsD {\n  border-style: groove;\n  border-width: thin;\n  opacity: 0.6;\n  margin-bottom: 0.5rem;\n}\n.X8Gebt6EIXLOM5lX6VsD ul {\n  padding-left: 1rem;\n}\n._hqWB_k_qtqwrnoPU5Jp {\n  font-weight: bold;\n}\n.CrkzRyvBW1KlFoKqSzWT {\n  display: flex;\n  justify-content: end;\n  align-items: center;\n  border-style: groove;\n  border-width: thin;\n  margin-bottom: 0.5rem;\n  opacity: 0.6;\n}\n.CrkzRyvBW1KlFoKqSzWT button {\n  padding: 0;\n  margin-left: 0.5rem;\n  white-space: nowrap;\n  font-size: 0.5rem;\n}\n.CrkzRyvBW1KlFoKqSzWT input {\n  height: max-content;\n  width: 100%;\n  font-size: 0.5rem;\n}\n.RBEwUXcAGRrxhh1V_OQu {\n  color: blue;\n}\n.ru9UIdhDj61Pk_GdrINg {\n  color: green;\n}\n.ESI_oe4wDTszqU4gr3Lo {\n  color: red;\n}\n.yZjHuTE6p_FgmbomqPFx {\n  border-style: groove;\n  border-width: thin;\n  margin: 0.2rem;\n  padding: 0.2rem;\n}\n._o1gebpEn7x9Td7Hes6g {\n  display: flex;\n  flex-direction: column;\n}\n.YalNJJWiNdYPl5FzO1a_ {\n  display: flex;\n  flex-direction: row;\n  margin-bottom: 0.5rem;\n  justify-content: space-between;\n  align-items: center;\n}\n.YalNJJWiNdYPl5FzO1a_ label {\n  font-weight: bold;\n}\n.YalNJJWiNdYPl5FzO1a_ input {\n  height: max-content;\n  text-align: right;\n}\n.GkQ9CK5Dl58odGzSBLOP {\n  display: flex;\n  flex-direction: column;\n  justify-content: end;\n  align-items: end;\n}\n.CY2oPnMnonyamRy15TxZ {\n  margin-bottom: 0.5rem;\n}\n.ssrv8ndZGNgvTL1Osr92 p {\n  margin-bottom: 0.25rem;\n}\n.ssrv8ndZGNgvTL1Osr92 ul {\n  padding-left: 1.5rem;\n  margin: 0 0 0.25rem 0;\n}\n.ssrv8ndZGNgvTL1Osr92 ul li {\n  margin-bottom: 0.25rem;\n}\n.UJVcq5yyVfeOtVL0dWlT {\n  display: flex;\n  flex-direction: column;\n}\n.UJVcq5yyVfeOtVL0dWlT img {\n  width: 100%;\n  height: auto;\n}\n.SB_KxqWR3Sju8ih5VCQj {\n  border-style: groove;\n  border-width: thin;\n  padding: 0.5rem;\n}\n.YM_eQySt5C11IITqy_br {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 0.5rem;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".KtSQfh45DkzY1g4GTjHG {\n  font-size: 0.75rem;\n  opacity: 0.5;\n}\n.KtSQfh45DkzY1g4GTjHG button {\n  font-size: 0.75rem;\n}\n.KtSQfh45DkzY1g4GTjHG input {\n  font-size: 0.75rem;\n}\n.KtSQfh45DkzY1g4GTjHG button {\n  cursor: pointer;\n}\n.nl0fbl1STsJ1E_ijRd86 {\n  cursor: pointer;\n}\n.E2WC5WHEPccqZwiUT6nE p {\n  margin: 0;\n}\n.E2WC5WHEPccqZwiUT6nE ul {\n  margin: 0;\n  padding-left: 1.5rem;\n}\n.E2WC5WHEPccqZwiUT6nE img {\n  height: auto;\n  width: 80%;\n}\n.X8Gebt6EIXLOM5lX6VsD {\n  border-style: groove;\n  border-width: thin;\n  opacity: 0.6;\n  margin-bottom: 0.5rem;\n}\n.X8Gebt6EIXLOM5lX6VsD ul {\n  padding-left: 1rem;\n}\n._hqWB_k_qtqwrnoPU5Jp {\n  font-weight: bold;\n}\n.CrkzRyvBW1KlFoKqSzWT {\n  display: flex;\n  justify-content: end;\n  align-items: center;\n  border-style: groove;\n  border-width: thin;\n  margin-bottom: 0.5rem;\n  opacity: 0.6;\n}\n.CrkzRyvBW1KlFoKqSzWT button {\n  padding: 0;\n  margin-left: 0.5rem;\n  white-space: nowrap;\n}\n.CrkzRyvBW1KlFoKqSzWT input {\n  height: max-content;\n  width: 100%;\n}\n.RBEwUXcAGRrxhh1V_OQu {\n  color: blue;\n}\n.ru9UIdhDj61Pk_GdrINg {\n  color: green;\n}\n.ESI_oe4wDTszqU4gr3Lo {\n  color: red;\n}\n.yZjHuTE6p_FgmbomqPFx {\n  border-style: groove;\n  border-width: thin;\n  margin: 0.2rem;\n  padding: 0.2rem;\n}\n._o1gebpEn7x9Td7Hes6g {\n  border-style: groove;\n  border-width: thin;\n  display: flex;\n  flex-direction: column;\n  padding: 0.5rem;\n  margin-bottom: 0.5rem;\n}\n.YalNJJWiNdYPl5FzO1a_ {\n  display: flex;\n  flex-direction: row;\n  margin-bottom: 0.5rem;\n  justify-content: space-between;\n  align-items: center;\n}\n.YalNJJWiNdYPl5FzO1a_ label {\n  font-weight: bold;\n}\n.YalNJJWiNdYPl5FzO1a_ input {\n  height: max-content;\n  text-align: right;\n}\n.GkQ9CK5Dl58odGzSBLOP {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: end;\n}\n.CY2oPnMnonyamRy15TxZ {\n  margin: 0 0.5rem 0 0;\n}\n.ssrv8ndZGNgvTL1Osr92 p {\n  margin-bottom: 0.25rem;\n}\n.ssrv8ndZGNgvTL1Osr92 ul {\n  padding-left: 1.5rem;\n  margin: 0 0 0.25rem 0;\n}\n.ssrv8ndZGNgvTL1Osr92 ul li {\n  margin-bottom: 0.25rem;\n}\n.UJVcq5yyVfeOtVL0dWlT {\n  display: flex;\n  flex-direction: column;\n}\n.UJVcq5yyVfeOtVL0dWlT img {\n  width: 100%;\n  height: auto;\n}\n.SB_KxqWR3Sju8ih5VCQj {\n  border-style: groove;\n  border-width: thin;\n  padding: 0.5rem;\n}\n.YM_eQySt5C11IITqy_br {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 0.5rem;\n}\n", ""]);
 // Exports
 var mainBody = "KtSQfh45DkzY1g4GTjHG";
 var clickable = "nl0fbl1STsJ1E_ijRd86";
@@ -10275,7 +10244,6 @@ var $$Error$1 = _caml_js_exceptions_js__WEBPACK_IMPORTED_MODULE_0__.$$Error;
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Entries": () => (/* binding */ Entries),
 /* harmony export */   "React": () => (/* binding */ React),
 /* harmony export */   "ReactDOMRe": () => (/* binding */ ReactDOMRe),
 /* harmony export */   "Settings": () => (/* binding */ Settings),
@@ -10286,11 +10254,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(30);
 /* harmony import */ var _Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(33);
 /* harmony import */ var _Shared_bs_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(10);
-/* harmony import */ var rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(22);
-/* harmony import */ var rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(34);
-/* harmony import */ var rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(18);
-/* harmony import */ var _style_mod_less__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(35);
-/* harmony import */ var rescript_webapi_src_Webapi_Dom_Webapi_Dom_HtmlElement_bs_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(62);
+/* harmony import */ var rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(34);
+/* harmony import */ var rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(18);
+/* harmony import */ var _style_mod_less__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(35);
 // Generated by ReScript, PLEASE EDIT WITH CARE
 
 
@@ -10301,180 +10267,27 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-var style = _style_mod_less__WEBPACK_IMPORTED_MODULE_7__;
-
-function make(v) {
-  var match = rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_4__.reduce(v, [
-        [],
-        []
-      ], (function (param, param$1) {
-          var ty = param$1.ty;
-          var title = param$1.title;
-          var name = param$1.name;
-          var match;
-          if (ty.TAG === /* Text */0) {
-            var match$1 = ty._0;
-            var onSubmit = match$1.onSubmit;
-            match = [
-              "text",
-              match$1.value,
-              undefined,
-              match$1.pattern,
-              true,
-              (function (ele) {
-                  return rescript_lib_es6_curry_js__WEBPACK_IMPORTED_MODULE_0__._1(onSubmit, ele.value);
-                })
-            ];
-          } else {
-            var match$2 = ty._0;
-            var onSubmit$1 = match$2.onSubmit;
-            match = [
-              "checkbox",
-              undefined,
-              match$2.checked,
-              undefined,
-              false,
-              (function (ele) {
-                  return rescript_lib_es6_curry_js__WEBPACK_IMPORTED_MODULE_0__._1(onSubmit$1, ele.checked);
-                })
-            ];
-          }
-          var submit = match[5];
-          var changed = {
-            contents: false
-          };
-          var tmp = {
-            title: title,
-            name: name,
-            required: match[4],
-            type: match[0],
-            onChange: (function (param) {
-                changed.contents = true;
-                
-              })
-          };
-          var tmp$1 = match[2];
-          if (tmp$1 !== undefined) {
-            tmp.checked = rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_6__.valFromOption(tmp$1);
-          }
-          var tmp$2 = match[3];
-          if (tmp$2 !== undefined) {
-            tmp.pattern = rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_6__.valFromOption(tmp$2);
-          }
-          var tmp$3 = match[1];
-          if (tmp$3 !== undefined) {
-            tmp.value = rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_6__.valFromOption(tmp$3);
-          }
-          var input = _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("input", rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_6__.some(tmp), []);
-          return [
-                  rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_4__.concat(param[0], [_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
-                              className: style.settingsEntry
-                            }, [
-                              _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("label", {
-                                    htmlFor: name
-                                  }, [title]),
-                              input
-                            ])]),
-                  rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_4__.concat(param[1], [(function (param) {
-                            if (changed.contents) {
-                              rescript_lib_es6_curry_js__WEBPACK_IMPORTED_MODULE_0__._1(submit, rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_5__.getExn(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_5__.flatMap(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.toNode(input), rescript_webapi_src_Webapi_Dom_Webapi_Dom_HtmlElement_bs_js__WEBPACK_IMPORTED_MODULE_8__.ofNode)));
-                              changed.contents = false;
-                              return ;
-                            }
-                            
-                          })])
-                ];
-        }));
-  var doSubmits = match[1];
-  return [
-          match[0],
-          (function (param) {
-              return rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_4__.forEach(doSubmits, (function (f) {
-                            return rescript_lib_es6_curry_js__WEBPACK_IMPORTED_MODULE_0__._1(f, undefined);
-                          }));
-            })
-        ];
-}
-
-var Entries = {
-  make: make
-};
+var style = _style_mod_less__WEBPACK_IMPORTED_MODULE_6__;
 
 function Settings$Settings(Props) {
   var onSubmit = Props.onSubmit;
-  var match = make([
-        {
-          name: "username",
-          title: "用户名",
-          ty: {
-            TAG: /* Text */0,
-            _0: {
-              value: _Shared_bs_js__WEBPACK_IMPORTED_MODULE_3__.Username.get(undefined),
-              pattern: "[a-z][_a-z0-9]*",
-              onSubmit: (function (s) {
-                  return _Shared_bs_js__WEBPACK_IMPORTED_MODULE_3__.Username.set(s);
-                })
-            }
-          }
-        },
-        {
-          name: "server",
-          title: "服务器",
-          ty: {
-            TAG: /* Text */0,
-            _0: {
-              value: _Shared_bs_js__WEBPACK_IMPORTED_MODULE_3__.Server.get(undefined),
-              pattern: "https?://.+",
-              onSubmit: (function (s) {
-                  return _Shared_bs_js__WEBPACK_IMPORTED_MODULE_3__.Server.set(s);
-                })
-            }
-          }
-        },
-        {
-          name: "sync_answers",
-          title: "同步答案",
-          ty: {
-            TAG: /* Checkbox */1,
-            _0: {
-              checked: _Shared_bs_js__WEBPACK_IMPORTED_MODULE_3__.SyncAnswers.get(undefined),
-              onSubmit: (function (c) {
-                  return _Shared_bs_js__WEBPACK_IMPORTED_MODULE_3__.SyncAnswers.set(c);
-                })
-            }
-          }
-        },
-        {
-          name: "sort_problems",
-          title: "排序答案",
-          ty: {
-            TAG: /* Checkbox */1,
-            _0: {
-              checked: _Shared_bs_js__WEBPACK_IMPORTED_MODULE_3__.SortProblems.get(undefined),
-              onSubmit: (function (c) {
-                  return _Shared_bs_js__WEBPACK_IMPORTED_MODULE_3__.SortProblems.set(c);
-                })
-            }
-          }
-        },
-        {
-          name: "no_leave_check",
-          title: "拦截切屏检测",
-          ty: {
-            TAG: /* Checkbox */1,
-            _0: {
-              checked: _Shared_bs_js__WEBPACK_IMPORTED_MODULE_3__.NoLeaveCheck.get(undefined),
-              onSubmit: (function (c) {
-                  return _Shared_bs_js__WEBPACK_IMPORTED_MODULE_3__.NoLeaveCheck.set(c);
-                })
-            }
-          }
-        }
-      ]);
-  var doSubmit = match[1];
   var Settings$Settings$1 = function (Props) {
+    var name = Props.name;
+    var title = Props.title;
+    var props = Props.props;
+    var props$1 = Object.assign(props, {
+          name: name
+        });
+    return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
+                className: style.settingsEntry
+              }, [
+                _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("label", {
+                      htmlFor: name
+                    }, [title]),
+                _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("input", rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_5__.some(props$1), [])
+              ]);
+  };
+  var Settings$Settings$2 = function (Props) {
     var title = Props.title;
     var content = Props.content;
     return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("p", undefined, [
@@ -10482,22 +10295,118 @@ function Settings$Settings(Props) {
                 content
               ]);
   };
+  var form = {};
+  var tmp = {
+    title: "小写字母、数字、下划线",
+    pattern: "^[a-z][a-z0-9_]*$",
+    required: true,
+    type: "text",
+    onChange: (function (param) {
+        var param$1 = param.target.value;
+        form.username = param$1;
+        
+      })
+  };
+  var tmp$1 = _Shared_bs_js__WEBPACK_IMPORTED_MODULE_3__.Username.get(undefined);
+  if (tmp$1 !== undefined) {
+    tmp.value = rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_5__.valFromOption(tmp$1);
+  }
+  var tmp$2 = {
+    required: true,
+    type: "url",
+    onChange: (function (param) {
+        var param$1 = param.target.value;
+        form.server = param$1;
+        
+      })
+  };
+  var tmp$3 = _Shared_bs_js__WEBPACK_IMPORTED_MODULE_3__.Server.get(undefined);
+  if (tmp$3 !== undefined) {
+    tmp$2.value = rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_5__.valFromOption(tmp$3);
+  }
+  var tmp$4 = {
+    type: "checkbox",
+    onChange: (function (param) {
+        var param$1 = param.target.checked;
+        form.syncAnswers = param$1;
+        
+      })
+  };
+  var tmp$5 = _Shared_bs_js__WEBPACK_IMPORTED_MODULE_3__.SyncAnswers.get(undefined);
+  if (tmp$5 !== undefined) {
+    tmp$4.checked = rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_5__.valFromOption(tmp$5);
+  }
+  var tmp$6 = {
+    type: "checkbox",
+    onChange: (function (param) {
+        var param$1 = param.target.checked;
+        form.sortProblems = param$1;
+        
+      })
+  };
+  var tmp$7 = _Shared_bs_js__WEBPACK_IMPORTED_MODULE_3__.SortProblems.get(undefined);
+  if (tmp$7 !== undefined) {
+    tmp$6.checked = rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_5__.valFromOption(tmp$7);
+  }
+  var tmp$8 = {
+    type: "checkbox",
+    onChange: (function (param) {
+        var param$1 = param.target.checked;
+        form.noLeaveCheck = param$1;
+        
+      })
+  };
+  var tmp$9 = _Shared_bs_js__WEBPACK_IMPORTED_MODULE_3__.NoLeaveCheck.get(undefined);
+  if (tmp$9 !== undefined) {
+    tmp$8.checked = rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_5__.valFromOption(tmp$9);
+  }
   return _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", undefined, [
               _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("form", {
+                    className: style.settings,
                     onSubmit: (function (ev) {
                         ev.preventDefault();
-                        rescript_lib_es6_curry_js__WEBPACK_IMPORTED_MODULE_0__._1(onSubmit, undefined);
-                        return rescript_lib_es6_curry_js__WEBPACK_IMPORTED_MODULE_0__._1(doSubmit, undefined);
+                        rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_4__.forEach(rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_5__.undefined_to_opt(form.username), _Shared_bs_js__WEBPACK_IMPORTED_MODULE_3__.Username.set);
+                        rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_4__.forEach(rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_5__.undefined_to_opt(form.server), _Shared_bs_js__WEBPACK_IMPORTED_MODULE_3__.Server.set);
+                        rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_4__.forEach(rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_5__.undefined_to_opt(form.syncAnswers), _Shared_bs_js__WEBPACK_IMPORTED_MODULE_3__.SyncAnswers.set);
+                        rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_4__.forEach(rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_5__.undefined_to_opt(form.noLeaveCheck), _Shared_bs_js__WEBPACK_IMPORTED_MODULE_3__.NoLeaveCheck.set);
+                        rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_4__.forEach(rescript_lib_es6_caml_option_js__WEBPACK_IMPORTED_MODULE_5__.undefined_to_opt(form.sortProblems), _Shared_bs_js__WEBPACK_IMPORTED_MODULE_3__.SortProblems.set);
+                        return rescript_lib_es6_curry_js__WEBPACK_IMPORTED_MODULE_0__._1(onSubmit, undefined);
                       })
                   }, [
-                    _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", undefined, [match[0]]),
+                    _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(Settings$Settings$1, {
+                          name: "username",
+                          title: "用户名",
+                          props: tmp
+                        }),
+                    _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(Settings$Settings$1, {
+                          name: "server",
+                          title: "服务器",
+                          props: tmp$2
+                        }),
+                    _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(Settings$Settings$1, {
+                          name: "sync_answers",
+                          title: "同步答案",
+                          props: tmp$4
+                        }),
+                    _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(Settings$Settings$1, {
+                          name: "sort_problems",
+                          title: "排序题目",
+                          props: tmp$6
+                        }),
+                    _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(Settings$Settings$1, {
+                          name: "no_leave_check",
+                          title: "拦截切屏检测",
+                          props: tmp$8
+                        }),
                     _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
                           className: style.settingsSubmit
                         }, [
-                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
+                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("p", {
                                 className: style.settingsSubmitTip
                               }, [_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("i", undefined, ["*更改设置后请刷新页面"])]),
-                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", undefined, [_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("button", undefined, ["提交"])])
+                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("button", {
+                                type: "submit"
+                              }, ["提交"])
                         ])
                   ]),
               _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
@@ -10507,23 +10416,23 @@ function Settings$Settings(Props) {
                     _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElementVariadic(_Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.UList.make, {
                           children: null
                         }, [
-                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(Settings$Settings$1, {
+                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(Settings$Settings$2, {
                                 title: "同步答案：",
                                 content: "点击题目显示详细答案，在选项/填空处悬停显示简略答案"
                               }),
-                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(Settings$Settings$1, {
+                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(Settings$Settings$2, {
                                 title: "排序题目：",
                                 content: "根据 ID 对题目和选项进行重新排序"
                               }),
-                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(Settings$Settings$1, {
+                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(Settings$Settings$2, {
                                 title: "拦截切屏检测：",
                                 content: "随意切换页面、窗口不会被发现"
                               }),
-                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(Settings$Settings$1, {
+                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(Settings$Settings$2, {
                                 title: "拦截上传截图：",
                                 content: "仅当用户确认后，才会上传截图"
                               }),
-                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(Settings$Settings$1, {
+                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(Settings$Settings$2, {
                                 title: "拦截异常状态：",
                                 content: "即使本地显示异常也不会推送到服务器"
                               })
@@ -10539,11 +10448,8 @@ var Settings = {
 function showSettings(param) {
   var match = _Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.openWin("设置", 300, 400, undefined, undefined, undefined);
   var win = match[0];
-  match[1].appendChild(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_5__.getExn(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.toNode(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
-                    className: _Utils_bs_js__WEBPACK_IMPORTED_MODULE_2__.joinStrings([
-                          style.mainBody,
-                          style.settings
-                        ], " ")
+  match[1].appendChild(rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_4__.getExn(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.toNode(_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("div", {
+                    className: style.mainBody
                   }, [_Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.createElement(Settings$Settings, {
                           onSubmit: (function (param) {
                               win.close();

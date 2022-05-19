@@ -9,122 +9,36 @@ external style: {..} = "./style.mod.less"
 module React = Recks
 module ReactDOMRe = Recks.DOMRe
 
-module Entries = {
-  type text = {
-    value: option<string>,
-    pattern: option<string>,
-    onSubmit: string => unit,
-  }
-
-  type checkbox = {checked: option<bool>, onSubmit: bool => unit}
-
-  type entryType =
-    | Text(text)
-    | Checkbox(checkbox)
-
-  type entrySchema = {
-    name: string,
-    title: string,
-    ty: entryType,
-  }
-
-  module type T = {
-    let v: array<entrySchema>
-  }
-
-  let make = (v: array<entrySchema>) => {
-    let (ele, doSubmits) = v->Array.reduce(([], []), ((ele, doSubmits), {name, title, ty}) => {
-      let (ty, value, checked, pattern, required, submit) = switch ty {
-      | Text({value, pattern, onSubmit}) => (
-          "text",
-          value,
-          None,
-          pattern,
-          true,
-          ele => onSubmit(ele->Webapi.Dom.HtmlElement.value),
-        )
-      | Checkbox({checked, onSubmit}) => (
-          "checkbox",
-          None,
-          checked,
-          None,
-          false,
-          ele => onSubmit(ele->Webapi.Dom.HtmlElement.checked),
-        )
-      }
-      let changed = ref(false)
-      let input =
-        <input
-          name title onChange={_ => changed := true} type_=ty ?value ?checked ?pattern required
-        />
-      (
-        ele->Array.concat([
-          <div className={style["settingsEntry"]}>
-            <label htmlFor={name}> {React.string(title)} </label> input
-          </div>,
-        ]),
-        doSubmits->Array.concat([
-          () =>
-            if changed.contents {
-              // Dispatch submit event.
-              input
-              ->React.toNode
-              ->Option.flatMap(Webapi.Dom.HtmlElement.ofNode)
-              ->Option.getExn
-              ->submit
-              changed := false
-            },
-        ]),
-      )
-    })
-    (ele, () => doSubmits->Array.forEach(f => f()))
-  }
-}
+external unsafeToObj: 'a => {..} = "%identity"
+external unsafeObjTo: {..} => 'a = "%identity"
 
 module Settings = {
+  @deriving(abstract)
+  type form = {
+    @optional
+    mutable username: string,
+    @optional
+    mutable server: string,
+    @optional
+    mutable syncAnswers: bool,
+    @optional
+    mutable sortProblems: bool,
+    @optional
+    mutable noLeaveCheck: bool,
+  }
+
   @react.component
   let make = (~onSubmit: unit => unit) => {
-    let (entries, doSubmit) = Entries.make([
-      {
-        name: "username",
-        title: `用户名`,
-        ty: Entries.Text({
-          value: Username.get(),
-          pattern: Some("[a-z][_a-z0-9]*"),
-          onSubmit: s => Username.set(Some(s)),
-        }),
-      },
-      {
-        name: "server",
-        title: `服务器`,
-        ty: Entries.Text({
-          value: Server.get(),
-          pattern: Some("https?://.+"),
-          onSubmit: s => Server.set(Some(s)),
-        }),
-      },
-      {
-        name: "sync_answers",
-        title: `同步答案`,
-        ty: Entries.Checkbox({checked: SyncAnswers.get(), onSubmit: c => SyncAnswers.set(c->Some)}),
-      },
-      {
-        name: "sort_problems",
-        title: `排序答案`,
-        ty: Entries.Checkbox({
-          checked: SortProblems.get(),
-          onSubmit: c => SortProblems.set(c->Some),
-        }),
-      },
-      {
-        name: "no_leave_check",
-        title: `拦截切屏检测`,
-        ty: Entries.Checkbox({
-          checked: NoLeaveCheck.get(),
-          onSubmit: c => NoLeaveCheck.set(c->Some),
-        }),
-      },
-    ])
+    module Entry = {
+      @react.component
+      let make = (~name: string, ~title: string, ~props: ReactDOMRe.domProps) => {
+        let props = props->unsafeToObj->Js.Obj.assign({"name": name})->unsafeObjTo
+        <div className={style["settingsEntry"]}>
+          <label htmlFor={name}> {React.string(title)} </label>
+          {ReactDOMRe.createDOMElementVariadic("input", ~props, [])}
+        </div>
+      }
+    }
 
     module TitleText = {
       @react.component
@@ -132,20 +46,88 @@ module Settings = {
         <p> <strong> {React.string(title)} </strong> {content->React.string} </p>
     }
 
+    let form = form()
+
+    let formValue = (cb: string => unit, ev: ReactEvent.Form.t) =>
+      (ev->ReactEvent.Form.target)["value"]->cb
+
+    let formChecked = (cb: bool => unit, ev: ReactEvent.Form.t) =>
+      (ev->ReactEvent.Form.target)["checked"]->cb
+
     <div>
       <form
         onSubmit={ev => {
-          ReactEvent.Form.preventDefault(ev)
+          ev->ReactEvent.Form.preventDefault
+          form->usernameGet->Option.forEach(Username.set)
+          form->serverGet->Option.forEach(Server.set)
+          form->syncAnswersGet->Option.forEach(SyncAnswers.set)
+          form->noLeaveCheckGet->Option.forEach(NoLeaveCheck.set)
+          form->sortProblemsGet->Option.forEach(SortProblems.set)
           onSubmit()
-          doSubmit()
-        }}>
-        <div> {entries->React.array} </div>
+        }}
+        className={style["settings"]}>
+        {
+          let pattern = "^[a-z][a-z0-9_]*$"
+          <Entry
+            name="username"
+            title=`用户名`
+            props={ReactDOMRe.domProps(
+              ~type_="text",
+              ~pattern,
+              ~title=`小写字母、数字、下划线`,
+              ~required=true,
+              ~value=?{Username.get()},
+              ~onChange=formValue(usernameSet(form)),
+              (),
+            )}
+          />
+        }
+        <Entry
+          name="server"
+          title=`服务器`
+          props={ReactDOMRe.domProps(
+            ~type_="url",
+            ~required=true,
+            ~value=?{Server.get()},
+            ~onChange=formValue(serverSet(form)),
+            (),
+          )}
+        />
+        <Entry
+          name="sync_answers"
+          title=`同步答案`
+          props={ReactDOMRe.domProps(
+            ~type_="checkbox",
+            ~checked=?{SyncAnswers.get()},
+            ~onChange=formChecked(syncAnswersSet(form)),
+            (),
+          )}
+        />
+        <Entry
+          name="sort_problems"
+          title=`排序题目`
+          props={ReactDOMRe.domProps(
+            ~type_="checkbox",
+            ~checked=?{SortProblems.get()},
+            ~onChange=formChecked(sortProblemsSet(form)),
+            (),
+          )}
+        />
+        <Entry
+          name="no_leave_check"
+          title=`拦截切屏检测`
+          props={ReactDOMRe.domProps(
+            ~type_="checkbox",
+            ~checked=?{NoLeaveCheck.get()},
+            ~onChange=formChecked(noLeaveCheckSet(form)),
+            (),
+          )}
+        />
         <div className={style["settingsSubmit"]}>
-          <div className={style["settingsSubmitTip"]}>
+          <p className={style["settingsSubmitTip"]}>
             <i> {React.string(`*更改设置后请刷新页面`)} </i>
-          </div>
-          // Remove submit button.
-          <div> <button> {React.string(`提交`)} </button> </div>
+          </p>
+          <button type_="submit"> {`提交`->React.string} </button>
         </div>
       </form>
       <div className={style["about"]}>
@@ -177,7 +159,7 @@ module Settings = {
 let showSettings = () => {
   let (win, body) = Utils.openWin(~title=`设置`, ~height=300, ~width=400, ())
   body->Element.appendChild(
-    ~child=<div className={[style["mainBody"], style["settings"]]->Utils.joinStrings(" ")}>
+    ~child=<div className={style["mainBody"]}>
       <Settings onSubmit={() => win->Window.close} />
     </div>
     ->React.toNode
