@@ -144,6 +144,7 @@ module Settings = {
           <div className={style["settingsSubmitTip"]}>
             <i> {React.string(`*更改设置后请刷新页面`)} </i>
           </div>
+          // Remove submit button.
           <div> <button> {React.string(`提交`)} </button> </div>
         </div>
       </form>

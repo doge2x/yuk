@@ -28,11 +28,13 @@ module Answer = {
     | Sure
     | NotSure
 
-  type context = {state: option<state>}
+  type context = {state: option<state>, msg: option<string>}
 }
 
 @module("./client") @scope("CLIENT")
 external updateState: (int, Answer.state) => unit = "updateState"
+@module("./client") @scope("CLIENT")
+external updateMsg: (int, string) => unit = "updateMsg"
 
 let percent = (a: int, b: int) => `${(a * 100 / b)->Int.toString}%`
 
@@ -85,7 +87,12 @@ module T = {
       body->Element.appendChild(
         ~child=<div className={[style["mainBody"], style["answerDetail"]]->Utils.joinStrings(" ")}>
           <fieldset className={style["answerDetailState"]}>
-            <legend> {`标记此题`->React.string} </legend>
+            <legend> {`标记`->React.string} </legend>
+            <input
+              type_="text"
+              placeholder=`输入留言`
+              onChange={ev => updateMsg(this.id, (ev->ReactEvent.Form.target)["value"])}
+            />
             <button
               type_="button"
               className={style["answerDetailWorkingOn"]}
@@ -145,8 +152,8 @@ module T = {
             ->Array.keepMap(((user, data)) =>
               data.context->Option.flatMap(ctx => {
                 let msg = switch ctx.state {
-                | Some(Answer.WorkingOn) => Some(`(我正在做)`)
-                | _ => None
+                | Some(Answer.WorkingOn) => ctx.msg->Option.getWithDefault(`我正在做`)->Some
+                | _ => ctx.msg
                 }
                 msg->Option.map(msg => (user, ctx.state, msg))
               })
