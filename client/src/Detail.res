@@ -36,6 +36,11 @@ external updateState: (int, Answer.state) => unit = "updateState"
 @module("./client") @scope("CLIENT")
 external updateMsg: (int, string) => unit = "updateMsg"
 
+type answerContext<'a> = {
+  context: option<Answer.context>,
+  answer: option<'a>,
+}
+
 let percent = (a: int, b: int) => `${(a * 100 / b)->Int.toString}%`
 
 let sortByKey = (arr: array<(string, _)>) =>
@@ -44,14 +49,48 @@ let sortByKey = (arr: array<(string, _)>) =>
 let stateClass = (state: option<Answer.state>) =>
   state->Option.map(state =>
     switch state {
-    | Answer.WorkingOn => style["answerDetailWorkingOn"]
-    | Answer.Sure => style["answerDetailSure"]
-    | Answer.NotSure => style["answerDetailNotSure"]
+    | Answer.WorkingOn => style["stateWorkingOn"]
+    | Answer.Sure => style["stateSure"]
+    | Answer.NotSure => style["stateNotSure"]
     }
   )
 
 let answerState = (context: option<Answer.context>) =>
   context->Option.flatMap(c => c.state)->stateClass
+
+let stateToPriv = (state: Answer.state) =>
+  switch state {
+  | Answer.Sure => 0
+  | Answer.WorkingOn => 1
+  | Answer.NotSure => 2
+  }
+
+let cmpWithState = (
+  (aName, aState): (string, option<Answer.state>),
+  (bName, bState): (string, option<Answer.state>),
+) =>
+  switch (aState, bState) {
+  | (None, None) => String.compare(aName, bName)
+  | (None, Some(_)) => 1
+  | (Some(_), None) => -1
+  | (Some(aState), Some(bState)) => stateToPriv(bState) - stateToPriv(aState)
+  }
+
+let sortByNameWithContext = (arr: array<(string, option<Answer.context>)>) =>
+  arr->SortArray.stableSortBy(((a1, a2), (b1, b2)) =>
+    cmpWithState(
+      (a1, a2->Option.flatMap(ctx => ctx.state)),
+      (b1, b2->Option.flatMap(ctx => ctx.state)),
+    )
+  )
+
+let sortByNameWithAnswerContext = (arr: array<(string, answerContext<'a>)>) =>
+  arr->SortArray.stableSortBy(((a1, a2), (b1, b2)) =>
+    cmpWithState(
+      (a1, a2.context->Option.flatMap(ctx => ctx.state)),
+      (b1, b2.context->Option.flatMap(ctx => ctx.state)),
+    )
+  )
 
 module Tooltip = {
   type t = {ele: Dom.element}
@@ -60,11 +99,6 @@ module Tooltip = {
 }
 
 module T = {
-  type answerContext<'a> = {
-    context: option<Answer.context>,
-    answer: option<'a>,
-  }
-
   module type U = {
     type extra
     type context
@@ -85,8 +119,9 @@ module T = {
     let showDetail = (this: t, ~top: int, ~left: int) => {
       let (_, body) = Utils.openWin(~title=`详细答案`, ~height=200, ~width=300, ~left, ~top, ())
       body->Element.appendChild(
-        ~child=<div className={[style["mainBody"], style["answerDetail"]]->Utils.joinStrings(" ")}>
-          <fieldset className={style["answerDetailState"]}>
+        ~child=<div className={style["mainBody"]}>
+          // Marks.
+          <fieldset className={style["answerMark"]}>
             <legend> {`标记`->React.string} </legend>
             <input
               type_="text"
@@ -95,19 +130,19 @@ module T = {
             />
             <button
               type_="button"
-              className={style["answerDetailWorkingOn"]}
+              className={style["stateWorkingOn"]}
               onClick={_ => updateState(this.id, Answer.WorkingOn)}>
               {`我正在做`->React.string}
             </button>
             <button
               type_="button"
-              className={style["answerDetailSure"]}
+              className={style["stateSure"]}
               onClick={_ => updateState(this.id, Answer.Sure)}>
               {`我很确定`->React.string}
             </button>
             <button
               type_="button"
-              className={style["answerDetailNotSure"]}
+              className={style["stateNotSure"]}
               onClick={_ => updateState(this.id, Answer.NotSure)}>
               {`我不确定`->React.string}
             </button>
@@ -143,12 +178,14 @@ module T = {
 
     let updateUI = (this: t) =>
       this.detailHtml = <div>
-        <fieldset className={style["answerDetailMsg"]}>
+        // Message board.
+        <fieldset className={style["answerMsg"]}>
           <legend> {`留言`->React.string} </legend>
           <UList>
             {this.details
             ->Map.String.toArray
-            ->sortByKey
+            // Sort by username with state.
+            ->sortByNameWithAnswerContext
             ->Array.keepMap(((user, data)) =>
               data.context->Option.flatMap(ctx => {
                 let msg = switch ctx.state {
@@ -160,14 +197,15 @@ module T = {
             )
             ->Array.map(((user, state, msg)) => {
               <p className=?{state->stateClass}>
-                <span className={style["answerDetailMsgName"]}> {`${user}: `->React.string} </span>
+                <span className={style["answerMsgName"]}> {`${user}: `->React.string} </span>
                 {msg->React.string}
               </p>
             })
             ->React.array}
           </UList>
         </fieldset>
-        {this.details->U.updateUI(this.context)}
+        // Answer details.
+        <div className={style["answerDetail"]}> {this.details->U.updateUI(this.context)} </div>
       </div>
   }
 }
@@ -179,7 +217,7 @@ module Choice = T.Make({
     choiceMap: extra,
   }
   type answer = array<string>
-  type details = Map.String.t<T.answerContext<answer>>
+  type details = Map.String.t<answerContext<answer>>
 
   let make = (subjectItem: Dom.element, extra: extra) => {
     tooltips: subjectItem
@@ -219,8 +257,8 @@ module Choice = T.Make({
         <p> <strong> {choice->React.string} </strong> </p>
         <UList>
           {users
-          // Sort by username.
-          ->sortByKey
+          // Sort by username with context.
+          ->sortByNameWithContext
           ->Array.map(((user, context)) =>
             <p className=?{context->answerState}> {user->React.string} </p>
           )
@@ -235,7 +273,7 @@ module Blank = T.Make({
   type extra = unit
   type context = {tooltips: Map.String.t<Tooltip.t>}
   type answer = Js.Dict.t<string>
-  type details = Map.String.t<T.answerContext<answer>>
+  type details = Map.String.t<answerContext<answer>>
 
   let make = (subjectItem: Dom.element, _: extra) => {
     tooltips: subjectItem
@@ -256,7 +294,6 @@ module Blank = T.Make({
       blankToFill->Option.mapWithDefault(blankToFillToUsers, blankToFill =>
         blankToFill
         ->Js.Dict.entries
-        ->sortByKey
         ->Array.reduce(blankToFillToUsers, (blankToFillToUsers, (blank, fill)) =>
           blankToFillToUsers->Map.String.update(blank, fillToUsers =>
             fillToUsers
@@ -273,6 +310,7 @@ module Blank = T.Make({
     // Sort by blank ID.
     ->sortByKey
     ->Array.map(((blank, fillToUsers)) => {
+      // Sort by filled text.
       let fillToUsers = fillToUsers->Map.String.toArray->sortByKey
       // Update tooltips to show the most popular answers.
       context.tooltips
@@ -302,7 +340,7 @@ module Blank = T.Make({
               <p> {text->React.string} </p>
               <UList>
                 {users
-                ->sortByKey
+                ->sortByNameWithContext
                 ->Array.map(((user, context)) =>
                   <p className=?{context->answerState}> {user->React.string} </p>
                 )
@@ -321,14 +359,14 @@ module ShortAnswer = T.Make({
   type extra = unit
   type context = unit
   type answer = Answer.shortAnswer
-  type details = Map.String.t<T.answerContext<answer>>
+  type details = Map.String.t<answerContext<answer>>
 
   let make = (_: Dom.element, _: extra) => ()
 
   let updateUI = (detail: details, _: context) =>
     detail
     ->Map.String.toArray
-    ->sortByKey
+    ->sortByNameWithAnswerContext
     ->Array.map(((user, {answer: text, context})) =>
       // User
       //   <content>
@@ -336,23 +374,20 @@ module ShortAnswer = T.Make({
       //   - File2
       <div>
         <p className=?{context->answerState}> <strong> {user->React.string} </strong> </p>
-        {text
-        ->Option.flatMap(text => text.content)
-        ->Option.mapWithDefault(React.null, content =>
-          <div
-            className={style["answerDetailShortAnswer"]} dangerouslySetInnerHTML={"__html": content}
-          />
-        )}
-        {text
-        ->Option.flatMap(text => text.attachments)
-        ->Option.flatMap(atta => atta.filelist)
-        ->Option.mapWithDefault(React.null, filelist =>
-          <UList>
-            {filelist
-            ->Array.map(atta => <a href={atta.fileUrl}> {atta.fileName->React.string} </a>)
-            ->React.array}
-          </UList>
-        )}
+        {<div
+          className={style["answerDetailShortAnswer"]}
+          dangerouslySetInnerHTML={
+            "__html": text->Option.flatMap(text => text.content)->Option.getWithDefault(""),
+          }
+        />}
+        {<UList>
+          {text
+          ->Option.flatMap(text => text.attachments)
+          ->Option.flatMap(atta => atta.filelist)
+          ->Option.getWithDefault([])
+          ->Array.map(atta => <a href={atta.fileUrl}> {atta.fileName->React.string} </a>)
+          ->React.array}
+        </UList>}
         <div />
       </div>
     )
