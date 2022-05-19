@@ -43,6 +43,8 @@ pub struct UserAnswer {
 pub struct AnswerContext {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub state: Option<i32>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub msg: Option<String>,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -155,11 +157,19 @@ impl Server {
                                 skip_serializing_if = "Option::is_none"
                             )]
                             context_state: Option<i32>,
+                            #[serde(
+                                rename = "context.msg",
+                                skip_serializing_if = "Option::is_none"
+                            )]
+                            context_msg: Option<String>,
                             last_update: DateTime,
                         }
+                        let (context_state, context_msg) =
+                            context.map(|ctx| (ctx.state, ctx.msg)).unwrap_or_default();
                         let set = bson::to_bson(&Set {
                             result: result.map(json_to_string),
-                            context_state: context.map(|ctx| ctx.state).flatten(),
+                            context_state,
+                            context_msg,
                             last_update: new_post,
                         })
                         .unwrap_or_else(|_| unreachable!());

@@ -40,6 +40,13 @@ class Client {
     });
   }
 
+  updateMsg(id: number, msg: string) {
+    this.updateQueue(id, (v) => {
+      v.context = v.context ?? {};
+      v.context.msg = msg;
+    });
+  }
+
   async watch(ms: number): Promise<void> {
     return new Promise((_, err) => {
       const timer = setInterval(() => {

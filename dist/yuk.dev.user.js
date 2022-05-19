@@ -66,6 +66,13 @@ class Client {
             v.context.state = state;
         });
     }
+    updateMsg(id, msg) {
+        this.updateQueue(id, (v) => {
+            var _a;
+            v.context = (_a = v.context) !== null && _a !== void 0 ? _a : {};
+            v.context.msg = msg;
+        });
+    }
     watch(ms) {
         return __awaiter(this, void 0, void 0, function* () {
             return new Promise((_, err) => {
@@ -6290,7 +6297,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".KtSQfh45DkzY1g4GTjHG {\n  font-size: 0.75rem;\n  opacity: 0.5;\n}\n.KtSQfh45DkzY1g4GTjHG button {\n  cursor: pointer;\n}\n.nl0fbl1STsJ1E_ijRd86 {\n  cursor: pointer;\n}\n.E2WC5WHEPccqZwiUT6nE p {\n  margin: 0;\n}\n.E2WC5WHEPccqZwiUT6nE ul {\n  margin: 0;\n  padding-left: 1.5rem;\n}\n.E2WC5WHEPccqZwiUT6nE img {\n  height: auto;\n  width: 80%;\n}\n.X8Gebt6EIXLOM5lX6VsD {\n  border-style: groove;\n  border-width: thin;\n  opacity: 0.6;\n  margin-bottom: 0.5rem;\n}\n.X8Gebt6EIXLOM5lX6VsD ul {\n  padding-left: 1rem;\n}\n._hqWB_k_qtqwrnoPU5Jp {\n  font-weight: bold;\n}\n.CrkzRyvBW1KlFoKqSzWT {\n  display: flex;\n  justify-content: end;\n  border-style: groove;\n  border-width: thin;\n  margin-bottom: 0.5rem;\n  opacity: 0.6;\n}\n.CrkzRyvBW1KlFoKqSzWT button {\n  padding: 0;\n  margin-left: 0.5rem;\n  font-size: 0.5rem;\n}\n.RBEwUXcAGRrxhh1V_OQu {\n  color: blue;\n}\n.ru9UIdhDj61Pk_GdrINg {\n  color: green;\n}\n.ESI_oe4wDTszqU4gr3Lo {\n  color: red;\n}\n.yZjHuTE6p_FgmbomqPFx {\n  border-style: groove;\n  border-width: thin;\n  margin: 0.2rem;\n  padding: 0.2rem;\n}\n._o1gebpEn7x9Td7Hes6g {\n  display: flex;\n  flex-direction: column;\n}\n.YalNJJWiNdYPl5FzO1a_ {\n  display: flex;\n  flex-direction: row;\n  margin-bottom: 0.5rem;\n  justify-content: space-between;\n  align-items: center;\n}\n.YalNJJWiNdYPl5FzO1a_ label {\n  font-weight: bold;\n}\n.YalNJJWiNdYPl5FzO1a_ input {\n  height: max-content;\n  text-align: right;\n}\n.GkQ9CK5Dl58odGzSBLOP {\n  display: flex;\n  flex-direction: column;\n  justify-content: end;\n  align-items: end;\n}\n.CY2oPnMnonyamRy15TxZ {\n  margin-bottom: 0.5rem;\n}\n.ssrv8ndZGNgvTL1Osr92 p {\n  margin-bottom: 0.25rem;\n}\n.ssrv8ndZGNgvTL1Osr92 ul {\n  padding-left: 1.5rem;\n  margin: 0 0 0.25rem 0;\n}\n.ssrv8ndZGNgvTL1Osr92 ul li {\n  margin-bottom: 0.25rem;\n}\n.UJVcq5yyVfeOtVL0dWlT {\n  display: flex;\n  flex-direction: column;\n}\n.UJVcq5yyVfeOtVL0dWlT img {\n  width: 100%;\n  height: auto;\n}\n.SB_KxqWR3Sju8ih5VCQj {\n  border-style: groove;\n  border-width: thin;\n  padding: 0.5rem;\n}\n.YM_eQySt5C11IITqy_br {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 0.5rem;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".KtSQfh45DkzY1g4GTjHG {\n  font-size: 0.75rem;\n  opacity: 0.5;\n}\n.KtSQfh45DkzY1g4GTjHG button {\n  cursor: pointer;\n}\n.nl0fbl1STsJ1E_ijRd86 {\n  cursor: pointer;\n}\n.E2WC5WHEPccqZwiUT6nE p {\n  margin: 0;\n}\n.E2WC5WHEPccqZwiUT6nE ul {\n  margin: 0;\n  padding-left: 1.5rem;\n}\n.E2WC5WHEPccqZwiUT6nE img {\n  height: auto;\n  width: 80%;\n}\n.X8Gebt6EIXLOM5lX6VsD {\n  border-style: groove;\n  border-width: thin;\n  opacity: 0.6;\n  margin-bottom: 0.5rem;\n}\n.X8Gebt6EIXLOM5lX6VsD ul {\n  padding-left: 1rem;\n}\n._hqWB_k_qtqwrnoPU5Jp {\n  font-weight: bold;\n}\n.CrkzRyvBW1KlFoKqSzWT {\n  display: flex;\n  justify-content: end;\n  align-items: center;\n  border-style: groove;\n  border-width: thin;\n  margin-bottom: 0.5rem;\n  opacity: 0.6;\n}\n.CrkzRyvBW1KlFoKqSzWT button {\n  padding: 0;\n  margin-left: 0.5rem;\n  white-space: nowrap;\n  font-size: 0.5rem;\n}\n.CrkzRyvBW1KlFoKqSzWT input {\n  height: max-content;\n  width: 100%;\n  font-size: 0.5rem;\n}\n.RBEwUXcAGRrxhh1V_OQu {\n  color: blue;\n}\n.ru9UIdhDj61Pk_GdrINg {\n  color: green;\n}\n.ESI_oe4wDTszqU4gr3Lo {\n  color: red;\n}\n.yZjHuTE6p_FgmbomqPFx {\n  border-style: groove;\n  border-width: thin;\n  margin: 0.2rem;\n  padding: 0.2rem;\n}\n._o1gebpEn7x9Td7Hes6g {\n  display: flex;\n  flex-direction: column;\n}\n.YalNJJWiNdYPl5FzO1a_ {\n  display: flex;\n  flex-direction: row;\n  margin-bottom: 0.5rem;\n  justify-content: space-between;\n  align-items: center;\n}\n.YalNJJWiNdYPl5FzO1a_ label {\n  font-weight: bold;\n}\n.YalNJJWiNdYPl5FzO1a_ input {\n  height: max-content;\n  text-align: right;\n}\n.GkQ9CK5Dl58odGzSBLOP {\n  display: flex;\n  flex-direction: column;\n  justify-content: end;\n  align-items: end;\n}\n.CY2oPnMnonyamRy15TxZ {\n  margin-bottom: 0.5rem;\n}\n.ssrv8ndZGNgvTL1Osr92 p {\n  margin-bottom: 0.25rem;\n}\n.ssrv8ndZGNgvTL1Osr92 ul {\n  padding-left: 1.5rem;\n  margin: 0 0 0.25rem 0;\n}\n.ssrv8ndZGNgvTL1Osr92 ul li {\n  margin-bottom: 0.25rem;\n}\n.UJVcq5yyVfeOtVL0dWlT {\n  display: flex;\n  flex-direction: column;\n}\n.UJVcq5yyVfeOtVL0dWlT img {\n  width: 100%;\n  height: auto;\n}\n.SB_KxqWR3Sju8ih5VCQj {\n  border-style: groove;\n  border-width: thin;\n  padding: 0.5rem;\n}\n.YM_eQySt5C11IITqy_br {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 0.5rem;\n}\n", ""]);
 // Exports
 var mainBody = "KtSQfh45DkzY1g4GTjHG";
 var clickable = "nl0fbl1STsJ1E_ijRd86";
@@ -7118,6 +7125,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "sortByKey": () => (/* binding */ sortByKey),
 /* harmony export */   "stateClass": () => (/* binding */ stateClass),
 /* harmony export */   "style": () => (/* binding */ style),
+/* harmony export */   "updateMsg": () => (/* binding */ updateMsg),
 /* harmony export */   "updateState": () => (/* binding */ updateState)
 /* harmony export */ });
 /* harmony import */ var rescript_lib_es6_curry_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
@@ -7155,6 +7163,11 @@ var Answer = {};
 
 function updateState(prim0, prim1) {
   _client__WEBPACK_IMPORTED_MODULE_5__.CLIENT.updateState(prim0, prim1);
+  
+}
+
+function updateMsg(prim0, prim1) {
+  _client__WEBPACK_IMPORTED_MODULE_5__.CLIENT.updateMsg(prim0, prim1);
   
 }
 
@@ -7216,7 +7229,16 @@ function Make(U) {
                       _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("fieldset", {
                             className: style.answerDetailState
                           }, [
-                            _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("legend", undefined, ["标记此题"]),
+                            _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("legend", undefined, ["标记"]),
+                            _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("input", {
+                                  placeholder: "输入留言",
+                                  type: "text",
+                                  onChange: (function (ev) {
+                                      var prim1 = ev.target.value;
+                                      _client__WEBPACK_IMPORTED_MODULE_5__.CLIENT.updateMsg($$this.id, prim1);
+                                      
+                                    })
+                                }, []),
                             _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("button", {
                                   className: style.answerDetailWorkingOn,
                                   type: "button",
@@ -7276,7 +7298,7 @@ function Make(U) {
                                   var user = param[0];
                                   return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.flatMap(param[1].context, (function (ctx) {
                                                 var match = ctx.state;
-                                                var msg = match === 0 ? "(我正在做)" : undefined;
+                                                var msg = match === 0 ? rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.getWithDefault(ctx.msg, "我正在做") : ctx.msg;
                                                 return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.map(msg, (function (msg) {
                                                               return [
                                                                       user,
@@ -7378,7 +7400,16 @@ function showDetail($$this, top, left) {
                     _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("fieldset", {
                           className: style.answerDetailState
                         }, [
-                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("legend", undefined, ["标记此题"]),
+                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("legend", undefined, ["标记"]),
+                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("input", {
+                                placeholder: "输入留言",
+                                type: "text",
+                                onChange: (function (ev) {
+                                    var prim1 = ev.target.value;
+                                    _client__WEBPACK_IMPORTED_MODULE_5__.CLIENT.updateMsg($$this.id, prim1);
+                                    
+                                  })
+                              }, []),
                           _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("button", {
                                 className: style.answerDetailWorkingOn,
                                 type: "button",
@@ -7441,7 +7472,7 @@ function updateUI$1($$this) {
                                 var user = param[0];
                                 return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.flatMap(param[1].context, (function (ctx) {
                                               var match = ctx.state;
-                                              var msg = match === 0 ? "(我正在做)" : undefined;
+                                              var msg = match === 0 ? rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.getWithDefault(ctx.msg, "我正在做") : ctx.msg;
                                               return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.map(msg, (function (msg) {
                                                             return [
                                                                     user,
@@ -7552,7 +7583,16 @@ function showDetail$1($$this, top, left) {
                     _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("fieldset", {
                           className: style.answerDetailState
                         }, [
-                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("legend", undefined, ["标记此题"]),
+                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("legend", undefined, ["标记"]),
+                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("input", {
+                                placeholder: "输入留言",
+                                type: "text",
+                                onChange: (function (ev) {
+                                    var prim1 = ev.target.value;
+                                    _client__WEBPACK_IMPORTED_MODULE_5__.CLIENT.updateMsg($$this.id, prim1);
+                                    
+                                  })
+                              }, []),
                           _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("button", {
                                 className: style.answerDetailWorkingOn,
                                 type: "button",
@@ -7615,7 +7655,7 @@ function updateUI$3($$this) {
                                 var user = param[0];
                                 return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.flatMap(param[1].context, (function (ctx) {
                                               var match = ctx.state;
-                                              var msg = match === 0 ? "(我正在做)" : undefined;
+                                              var msg = match === 0 ? rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.getWithDefault(ctx.msg, "我正在做") : ctx.msg;
                                               return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.map(msg, (function (msg) {
                                                             return [
                                                                     user,
@@ -7705,7 +7745,16 @@ function showDetail$2($$this, top, left) {
                     _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("fieldset", {
                           className: style.answerDetailState
                         }, [
-                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("legend", undefined, ["标记此题"]),
+                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("legend", undefined, ["标记"]),
+                          _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("input", {
+                                placeholder: "输入留言",
+                                type: "text",
+                                onChange: (function (ev) {
+                                    var prim1 = ev.target.value;
+                                    _client__WEBPACK_IMPORTED_MODULE_5__.CLIENT.updateMsg($$this.id, prim1);
+                                    
+                                  })
+                              }, []),
                           _Recks_bs_js__WEBPACK_IMPORTED_MODULE_1__.DOMRe.createDOMElementVariadic("button", {
                                 className: style.answerDetailWorkingOn,
                                 type: "button",
@@ -7768,7 +7817,7 @@ function updateUI$5($$this) {
                                 var user = param[0];
                                 return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.flatMap(param[1].context, (function (ctx) {
                                               var match = ctx.state;
-                                              var msg = match === 0 ? "(我正在做)" : undefined;
+                                              var msg = match === 0 ? rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.getWithDefault(ctx.msg, "我正在做") : ctx.msg;
                                               return rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.map(msg, (function (msg) {
                                                             return [
                                                                     user,

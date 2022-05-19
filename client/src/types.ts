@@ -75,4 +75,5 @@ export type ChoiceOption = {
 
 export type AnswerContext = {
   state?: number;
+  msg?: string;
 };
