@@ -27,7 +27,8 @@ module GMEntry = {
 
     let get = () => v.contents->Lazy.force
 
-    let set = (newVal: option<T.val>) => {
+    let set = (newVal: T.val) => {
+      let newVal = newVal->Some
       v := newVal->Lazy.from_val
       GM.setValue(T.name, newVal)
     }
@@ -42,7 +43,7 @@ module Option2 = {
   module Make = (T: T) => {
     let v: ref<option<T.val>> = ref(None)
     let get = () => v.contents
-    let set = (newVal: option<T.val>) => v := newVal
+    let set = (newVal: T.val) => v := Some(newVal)
   }
 }
 
@@ -74,12 +75,4 @@ module SortProblems = GMEntry.Make({
   type val = bool
   let name = "sort_problems"
   let init = Some(false)
-})
-
-module Token = Option2.Make({
-  type val = string
-})
-
-module ExamId = Option2.Make({
-  type val = int
 })

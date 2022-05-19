@@ -61,11 +61,11 @@ class Client {
 
   private async sendQueue() {
     if (
+      SYNC_ANSWERS.value !== true ||
       this.queue.size < 1 ||
       SERVER.value === undefined ||
       USERNAME.value === undefined ||
-      EXAM_ID.value === undefined ||
-      SYNC_ANSWERS.value !== true
+      EXAM_ID.value === undefined
     ) {
       return;
     }
