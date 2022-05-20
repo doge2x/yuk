@@ -46,7 +46,7 @@ module Problem = {
 
   type t = {
     @as("problem_id") id: int,
-    @as("ProblemType") ty: int,
+    @as("problem_type") ty: int,
     @as("Options") options: option<array<choiceOption>>,
   }
 }

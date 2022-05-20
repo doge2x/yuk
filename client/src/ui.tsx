@@ -4,16 +4,7 @@ import * as UIRe from "./UI.bs";
 export class UI {
   private inner: any;
 
-  constructor(paper: Paper) {
-    // Collect problems.
-    let problems: Problem[] = [];
-    if (paper.data.has_problem_dict === true) {
-      (paper.data.problems as ProblemDict[]).forEach((dict) => {
-        problems = problems.concat(dict.problems);
-      });
-    } else {
-      problems = paper.data.problems as Problem[];
-    }
+  constructor(problems: Problem[]) {
     this.inner = UIRe.UI.make(problems);
   }
 

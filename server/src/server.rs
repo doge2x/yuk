@@ -3,12 +3,12 @@ use anyhow::anyhow;
 use futures::prelude::*;
 use log::info;
 use mongodb::{
-    bson::{self, doc, oid::ObjectId, DateTime},
+    bson::{self, doc, oid::ObjectId, Bson, DateTime},
     options::{FindOneAndUpdateOptions, ReturnDocument},
     Collection, Database,
 };
 use serde::{Deserialize, Serialize};
-use std::fmt;
+use std::{collections::HashMap, fmt};
 use std::{fmt::Display, str::FromStr};
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -30,6 +30,33 @@ struct Answer {
 }
 
 #[derive(Debug, Deserialize, Serialize)]
+struct Paper {
+    exam_id: i64,
+    title: String,
+    problems: Vec<BinProblem>,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+struct BinProblem {
+    id: i64,
+    extra: BinData,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct PostPaper {
+    pub title: String,
+    pub problems: Vec<Problem>,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct Problem {
+    #[serde(rename = "problem_id")]
+    pub id: i64,
+    #[serde(flatten)]
+    pub extra: HashMap<String, Json>,
+}
+
+#[derive(Debug, Serialize)]
 pub struct UserAnswer {
     pub username: String,
     pub problem_id: i64,
@@ -47,11 +74,34 @@ pub struct AnswerContext {
     pub msg: Option<String>,
 }
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize)]
 pub struct PostAnswer {
     pub problem_id: i64,
     pub result: Option<Json>,
     pub context: Option<AnswerContext>,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+#[serde(transparent)]
+struct BinData(bson::Binary);
+
+impl BinData {
+    fn se<T: Serialize>(t: T) -> Self {
+        Self(bson::Binary {
+            subtype: bson::spec::BinarySubtype::Generic,
+            bytes: bincode::serialize(&t).unwrap_or_else(|_| unreachable!()),
+        })
+    }
+
+    fn _de<'de, T: Deserialize<'de>>(&'de self) -> T {
+        bincode::deserialize(&self.0.bytes).unwrap_or_else(|_| unreachable!())
+    }
+}
+
+impl From<BinData> for Bson {
+    fn from(t: BinData) -> Self {
+        Bson::from(t.0)
+    }
 }
 
 #[derive(Debug)]
@@ -86,6 +136,7 @@ pub struct Server {
     db: Database,
     sessions: Collection<Session>,
     answers: Collection<Answer>,
+    papers: Collection<Paper>,
 }
 
 impl Server {
@@ -93,6 +144,7 @@ impl Server {
         Self {
             sessions: db.collection("sessions"),
             answers: db.collection("answers"),
+            papers: db.collection("papers"),
             db,
         }
     }
@@ -115,6 +167,69 @@ impl Server {
             .await?
             .expect("no return document");
         Ok(UserToken(id))
+    }
+
+    pub async fn update_paper(&self, exam_id: i64, paper: PostPaper) -> anyhow::Result<()> {
+        let PostPaper {
+            title,
+            mut problems,
+        } = paper;
+        problems.sort_by_key(|p| p.id);
+        if let Some(old_paper) = self
+            .papers
+            .find_one(doc! {"exam_id": exam_id}, None)
+            .await?
+        {
+            // Remove present problems.
+            let mut slice = old_paper.problems.as_slice();
+            problems.retain(|p| match slice.binary_search_by_key(&p.id, |p| p.id) {
+                Ok(i) => {
+                    slice = &slice[i + 1..];
+                    false
+                }
+                Err(i) => {
+                    slice = &slice[i..];
+                    true
+                }
+            });
+            // Extend problems.
+            if !problems.is_empty() {
+                let problems = problems
+                    .into_iter()
+                    .map(|Problem { id, extra }| {
+                        doc! {
+                            "id": id,
+                            "extra":BinData::se(&extra),
+                        }
+                    })
+                    .collect::<Vec<_>>();
+                self.papers
+                    .update_one(
+                        doc! { "exam_id": exam_id },
+                        doc! { "$push": { "problems": { "$each": problems  } } },
+                        None,
+                    )
+                    .await?;
+            }
+        } else {
+            self.papers
+                .insert_one(
+                    Paper {
+                        exam_id,
+                        title,
+                        problems: problems
+                            .into_iter()
+                            .map(|Problem { id, extra }| BinProblem {
+                                id,
+                                extra: BinData::se(extra),
+                            })
+                            .collect(),
+                    },
+                    None,
+                )
+                .await?;
+        }
+        Ok(())
     }
 
     pub async fn update_answer(
@@ -166,7 +281,7 @@ impl Server {
                         }
                         let (context_state, context_msg) =
                             context.map(|ctx| (ctx.state, ctx.msg)).unwrap_or_default();
-                        let set = bson::to_bson(&Set {
+                        let set = bson::to_document(&Set {
                             result: result.map(json_to_string),
                             context_state,
                             context_msg,
@@ -253,7 +368,7 @@ impl Server {
                     problem_id,
                     result,
                     context,
-                } = bson::from_bson(doc.into()).expect("invalid aggregate result");
+                } = bson::from_document(doc).expect("invalid aggregate result");
                 UserAnswer {
                     username,
                     problem_id,
