@@ -86,13 +86,20 @@ class Client {
             });
         });
     }
+    login(examId, paper) {
+        return __awaiter(this, void 0, void 0, function* () {
+            this.examId = examId;
+            this.paper = paper;
+        });
+    }
     sendQueue() {
         return __awaiter(this, void 0, void 0, function* () {
             if (_shared__WEBPACK_IMPORTED_MODULE_2__.SYNC_ANSWERS.value !== true ||
                 this.queue.size < 1 ||
                 _shared__WEBPACK_IMPORTED_MODULE_2__.SERVER.value === undefined ||
                 _shared__WEBPACK_IMPORTED_MODULE_2__.USERNAME.value === undefined ||
-                _shared__WEBPACK_IMPORTED_MODULE_2__.EXAM_ID.value === undefined) {
+                this.examId === undefined ||
+                this.paper === undefined) {
                 return;
             }
             // Clear queue, we do this first to avoid a queue be sent multi times.
@@ -127,10 +134,11 @@ class Client {
             }
             // Login to server.
             if (this.token === undefined) {
-                (0,_utils__WEBPACK_IMPORTED_MODULE_1__.devLog)(`login to server: ${_shared__WEBPACK_IMPORTED_MODULE_2__.USERNAME.value}, ${_shared__WEBPACK_IMPORTED_MODULE_2__.EXAM_ID.value}`);
+                (0,_utils__WEBPACK_IMPORTED_MODULE_1__.devLog)(`login to server: ${_shared__WEBPACK_IMPORTED_MODULE_2__.USERNAME.value}, ${this.examId}`);
                 const token = yield this.client.request("login", [
                     _shared__WEBPACK_IMPORTED_MODULE_2__.USERNAME.value,
-                    _shared__WEBPACK_IMPORTED_MODULE_2__.EXAM_ID.value,
+                    this.examId,
+                    this.paper,
                 ]);
                 (0,_utils__WEBPACK_IMPORTED_MODULE_1__.devLog)("got token", token);
                 this.token = token;
@@ -837,7 +845,6 @@ function newURL(url, params) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "EXAM_ID": () => (/* binding */ EXAM_ID),
 /* harmony export */   "NO_LEAVE_CHECK": () => (/* binding */ NO_LEAVE_CHECK),
 /* harmony export */   "SERVER": () => (/* binding */ SERVER),
 /* harmony export */   "SORT_PROBLEMS": () => (/* binding */ SORT_PROBLEMS),
@@ -854,20 +861,11 @@ class ReValue {
         return this._value.get();
     }
 }
-class Option2 {
-    get value() {
-        return this._value;
-    }
-    set value(v) {
-        this._value = v;
-    }
-}
 const USERNAME = new ReValue(_Shared_bs__WEBPACK_IMPORTED_MODULE_0__.Username);
 const SERVER = new ReValue(_Shared_bs__WEBPACK_IMPORTED_MODULE_0__.Server);
 const SYNC_ANSWERS = new ReValue(_Shared_bs__WEBPACK_IMPORTED_MODULE_0__.SyncAnswers);
 const SORT_PROBLEMS = new ReValue(_Shared_bs__WEBPACK_IMPORTED_MODULE_0__.SortProblems);
 const NO_LEAVE_CHECK = new ReValue(_Shared_bs__WEBPACK_IMPORTED_MODULE_0__.NoLeaveCheck);
-const EXAM_ID = new Option2();
 
 
 /***/ }),
@@ -2152,17 +2150,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _UI_bs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(21);
 
 class UI {
-    constructor(paper) {
-        // Collect problems.
-        let problems = [];
-        if (paper.data.has_problem_dict === true) {
-            paper.data.problems.forEach((dict) => {
-                problems = problems.concat(dict.problems);
-            });
-        }
-        else {
-            problems = paper.data.problems;
-        }
+    constructor(problems) {
         this.inner = _UI_bs__WEBPACK_IMPORTED_MODULE_0__.UI.make(problems);
     }
     updateAnswer({ username, problem_id, result, context }) {
@@ -2320,7 +2308,7 @@ function make(problems) {
   var detials = rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_6__.reduce(rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_6__.zip(problems, subjectItems), undefined, (function (details, param) {
           var subjectItem = param[1];
           var prob = param[0];
-          var ty = rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.getExn(probelmTypeFromJs(prob.ProblemType));
+          var ty = rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.getExn(probelmTypeFromJs(prob.problem_type));
           var detail;
           var exit = 0;
           if (ty >= 3) {
@@ -10719,7 +10707,7 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 function sortProblems(problems) {
     problems.forEach((problem) => {
-        switch (problem.ProblemType) {
+        switch (problem.problem_type) {
             case _types__WEBPACK_IMPORTED_MODULE_2__.ProblemType.SingleChoice:
             case _types__WEBPACK_IMPORTED_MODULE_2__.ProblemType.MultipleChoice:
             case _types__WEBPACK_IMPORTED_MODULE_2__.ProblemType.Polling: {
@@ -10785,21 +10773,33 @@ function main() {
                     this.addEventListener("load", () => {
                         const paper = JSON.parse(this.responseText);
                         (0,_utils__WEBPACK_IMPORTED_MODULE_4__.devLog)("intercept paper", paper);
+                        // Collect problems.
+                        let problems = [];
+                        if (paper.data.has_problem_dict === true) {
+                            paper.data.problems.forEach((dict) => {
+                                problems = problems.concat(dict.problems);
+                            });
+                        }
+                        else {
+                            problems = paper.data.problems;
+                        }
                         // Login to server.
-                        const ui = new _ui__WEBPACK_IMPORTED_MODULE_3__.UI(paper);
+                        const ui = new _ui__WEBPACK_IMPORTED_MODULE_3__.UI(problems);
                         // Receive answers and update UI.
                         _client__WEBPACK_IMPORTED_MODULE_0__.CLIENT.onmessage((msg) => {
                             msg.forEach((res) => ui.updateAnswer(res));
                             ui.updateUI();
                         });
-                        (() => __awaiter(this, void 0, void 0, function* () {
-                            // Fetch cached results.
-                            _shared__WEBPACK_IMPORTED_MODULE_5__.EXAM_ID.value = parseInt(url.searchParams.get("exam_id"));
-                            const cacheResults = yield fetch((0,_utils__WEBPACK_IMPORTED_MODULE_4__.newURL)("/exam_room/cache_results", {
-                                exam_id: _shared__WEBPACK_IMPORTED_MODULE_5__.EXAM_ID.value.toString(),
-                            }).toString()).then((res) => res.json());
-                            cacheResults.data.results.forEach(({ problem_id, result }) => _client__WEBPACK_IMPORTED_MODULE_0__.CLIENT.updateAnswer(problem_id, result));
-                        }))().catch(_utils__WEBPACK_IMPORTED_MODULE_4__.devLog);
+                        const examId = parseInt(url.searchParams.get("exam_id"));
+                        // Login to server.
+                        _client__WEBPACK_IMPORTED_MODULE_0__.CLIENT.login(examId, { title: paper.data.title, problems: problems });
+                        // Fetch cached results.
+                        fetch((0,_utils__WEBPACK_IMPORTED_MODULE_4__.newURL)("/exam_room/cache_results", {
+                            exam_id: examId.toString(),
+                        }).toString())
+                            .then((res) => res.json())
+                            .then((cacheResults) => cacheResults.data.results.forEach(({ problem_id, result }) => _client__WEBPACK_IMPORTED_MODULE_0__.CLIENT.updateAnswer(problem_id, result)))
+                            .catch(_utils__WEBPACK_IMPORTED_MODULE_4__.devLog);
                     });
                     break;
                 case "/exam_room/answer_problem":

@@ -8,17 +8,23 @@ use jsonrpsee::{
 use log::info;
 use mongodb::{bson::doc, Client};
 use serde_json::Value as Json;
-use server::{PostAnswer, Server, UserAnswer};
+use server::{PostAnswer, PostPaper, Server, UserAnswer};
 use std::{env, net::SocketAddr};
 use tokio::signal::{
     ctrl_c,
     unix::{signal, SignalKind},
 };
 
+// TODO: list papers and get details of a paper
 #[rpc(server)]
 trait YukRpc {
     #[method(name = "login")]
-    async fn login(&self, username: String, exam_id: i64) -> RpcResult<String>;
+    async fn login(
+        &self,
+        username: String,
+        exam_id: i64,
+        paper: Option<PostPaper>,
+    ) -> RpcResult<String>;
 
     #[method(name = "answer_problem")]
     async fn answer_problem(
@@ -34,7 +40,15 @@ struct YukServer {
 
 #[async_trait]
 impl YukRpcServer for YukServer {
-    async fn login(&self, username: String, exam_id: i64) -> RpcResult<String> {
+    async fn login(
+        &self,
+        username: String,
+        exam_id: i64,
+        paper: Option<PostPaper>,
+    ) -> RpcResult<String> {
+        if let Some(paper) = paper {
+            self.server.update_paper(exam_id, paper).await?;
+        }
         let token = self.server.login(username, exam_id).await?;
         Ok(token.to_string())
     }

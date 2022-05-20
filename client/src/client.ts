@@ -1,16 +1,23 @@
-import { AnswerContext, UserAnswer } from "./types";
+import { AnswerContext, Problem, UserAnswer } from "./types";
 import { JSONRPCClient } from "json-rpc-2.0";
 import { devLog } from "./utils";
-import { SERVER, USERNAME, EXAM_ID, SYNC_ANSWERS } from "./shared";
+import { SERVER, USERNAME, SYNC_ANSWERS } from "./shared";
 
 type AnswerAndContext = {
   result?: any;
   context?: AnswerContext;
 };
 
+type PaperData = {
+  title: string;
+  problems: Problem[];
+};
+
 class Client {
   private token?: string;
   private client?: JSONRPCClient;
+  private examId?: number;
+  private paper?: PaperData;
   private queue: Map<number, AnswerAndContext> = new Map();
   private onmsg: ((msg: UserAnswer[]) => void)[] = [];
 
@@ -59,13 +66,19 @@ class Client {
     });
   }
 
+  async login(examId: number, paper: PaperData) {
+    this.examId = examId;
+    this.paper = paper;
+  }
+
   private async sendQueue() {
     if (
       SYNC_ANSWERS.value !== true ||
       this.queue.size < 1 ||
       SERVER.value === undefined ||
       USERNAME.value === undefined ||
-      EXAM_ID.value === undefined
+      this.examId === undefined ||
+      this.paper === undefined
     ) {
       return;
     }
@@ -100,10 +113,11 @@ class Client {
     }
     // Login to server.
     if (this.token === undefined) {
-      devLog(`login to server: ${USERNAME.value}, ${EXAM_ID.value}`);
+      devLog(`login to server: ${USERNAME.value}, ${this.examId}`);
       const token: string = await this.client.request("login", [
         USERNAME.value,
-        EXAM_ID.value,
+        this.examId,
+        this.paper,
       ]);
       devLog("got token", token);
       this.token = token;

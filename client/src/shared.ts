@@ -12,21 +12,8 @@ class ReValue<T> {
   }
 }
 
-class Option2<T> {
-  private _value?: T;
-
-  get value(): T | undefined {
-    return this._value;
-  }
-
-  set value(v: T | undefined) {
-    this._value = v;
-  }
-}
-
 export const USERNAME = new ReValue<string>(Shared.Username);
 export const SERVER = new ReValue<string>(Shared.Server);
 export const SYNC_ANSWERS = new ReValue<boolean>(Shared.SyncAnswers);
 export const SORT_PROBLEMS = new ReValue<boolean>(Shared.SortProblems);
 export const NO_LEAVE_CHECK = new ReValue<boolean>(Shared.NoLeaveCheck);
-export const EXAM_ID = new Option2<number>();

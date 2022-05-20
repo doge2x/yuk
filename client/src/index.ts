@@ -11,11 +11,11 @@ import {
 } from "./types";
 import { UI, showConfirmUpload } from "./ui";
 import { devLog, newURL } from "./utils";
-import { EXAM_ID, NO_LEAVE_CHECK, SORT_PROBLEMS } from "./shared";
+import { NO_LEAVE_CHECK, SORT_PROBLEMS } from "./shared";
 
 function sortProblems(problems: Problem[]): Problem[] {
   problems.forEach((problem) => {
-    switch (problem.ProblemType) {
+    switch (problem.problem_type) {
       case ProblemType.SingleChoice:
       case ProblemType.MultipleChoice:
       case ProblemType.Polling: {
@@ -90,27 +90,40 @@ async function main(): Promise<void> {
           }
         });
         this.addEventListener("load", () => {
-          const paper = JSON.parse(this.responseText);
+          const paper: Paper = JSON.parse(this.responseText);
           devLog("intercept paper", paper);
+          // Collect problems.
+          let problems: Problem[] = [];
+          if (paper.data.has_problem_dict === true) {
+            (paper.data.problems as ProblemDict[]).forEach((dict) => {
+              problems = problems.concat(dict.problems);
+            });
+          } else {
+            problems = paper.data.problems as Problem[];
+          }
           // Login to server.
-          const ui = new UI(paper);
+          const ui = new UI(problems);
           // Receive answers and update UI.
           CLIENT.onmessage((msg) => {
             msg.forEach((res) => ui.updateAnswer(res));
             ui.updateUI();
           });
-          (async () => {
-            // Fetch cached results.
-            EXAM_ID.value = parseInt(url.searchParams.get("exam_id")!);
-            const cacheResults: CacheResults = await fetch(
-              newURL("/exam_room/cache_results", {
-                exam_id: EXAM_ID.value.toString(),
-              }).toString()
-            ).then((res) => res.json());
-            cacheResults.data.results.forEach(({ problem_id, result }) =>
-              CLIENT.updateAnswer(problem_id, result)
-            );
-          })().catch(devLog);
+          const examId = parseInt(url.searchParams.get("exam_id")!);
+          // Login to server.
+          CLIENT.login(examId, { title: paper.data.title, problems: problems });
+          // Fetch cached results.
+          fetch(
+            newURL("/exam_room/cache_results", {
+              exam_id: examId.toString(),
+            }).toString()
+          )
+            .then((res) => res.json())
+            .then((cacheResults: CacheResults) =>
+              cacheResults.data.results.forEach(({ problem_id, result }) =>
+                CLIENT.updateAnswer(problem_id, result)
+              )
+            )
+            .catch(devLog);
         });
         break;
       case "/exam_room/answer_problem":
