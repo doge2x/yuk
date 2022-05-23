@@ -84,6 +84,12 @@ pub struct PostAnswer {
 }
 
 #[derive(Debug, Deserialize, Serialize)]
+pub struct GetPaper {
+    pub title: String,
+    pub problems: Vec<Problem>,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
 #[serde(transparent)]
 struct JsonData(bson::Binary);
 
@@ -123,6 +129,12 @@ impl Display for UserToken {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{}", self.0)
     }
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct ListPaper {
+    pub exam_id: i64,
+    pub title: String,
 }
 
 pub struct Server {
@@ -228,6 +240,45 @@ impl Server {
                 .await?;
         }
         Ok(())
+    }
+
+    pub async fn list_papers(&self) -> anyhow::Result<Vec<ListPaper>> {
+        let papers = self
+            .papers
+            .aggregate(
+                [doc! {
+                    "$project": {
+                        "exam_id": true,
+                        "title": true,
+                    },
+                }],
+                None,
+            )
+            .await?
+            .map_ok(|d| bson::from_document::<ListPaper>(d).unwrap())
+            .try_collect::<Vec<_>>()
+            .await?;
+        Ok(papers)
+    }
+
+    pub async fn get_paper(&self, exam_id: i64) -> anyhow::Result<GetPaper> {
+        let Paper {
+            title, problems, ..
+        } = self
+            .papers
+            .find_one(doc! {"exam_id": exam_id}, None)
+            .await?
+            .ok_or_else(|| anyhow!("undefined exam: {}", exam_id))?;
+        Ok(GetPaper {
+            title,
+            problems: problems
+                .into_iter()
+                .map(|BinProblem { id, extra }| Problem {
+                    id,
+                    extra: JsonData::de(extra),
+                })
+                .collect(),
+        })
     }
 
     pub async fn update_answer(
@@ -357,10 +408,7 @@ impl Server {
                 None,
             )
             .await?
-            .try_collect::<Vec<_>>()
-            .await?
-            .into_iter()
-            .map(|doc| {
+            .map_ok(|doc| {
                 let Answer2 {
                     username,
                     problem_id,
@@ -374,6 +422,7 @@ impl Server {
                     context,
                 }
             })
-            .collect())
+            .try_collect::<Vec<_>>()
+            .await?)
     }
 }

@@ -41,11 +41,8 @@ impl Migration for M202205231231 {
                 None,
             )
             .await?
-            .try_collect::<Vec<_>>()
-            .await?
-            .into_iter()
-            .map(|d| bson::from_document::<Answer2>(d).expect("bad aggregate document"))
-            .map(
+            .map_ok(|d| bson::from_document::<Answer2>(d).expect("bad aggregate document"))
+            .map_ok(
                 |Answer2 {
                      session_id,
                      problem_id,
@@ -66,7 +63,8 @@ impl Migration for M202205231231 {
                     }
                 },
             )
-            .collect::<Vec<_>>();
+            .try_collect::<Vec<_>>()
+            .await?;
         if !updates.is_empty() {
             let command = doc! {
                 "update": server.answers.name(),

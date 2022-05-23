@@ -8,14 +8,13 @@ use jsonrpsee::{
 use log::info;
 use mongodb::{bson::doc, Client};
 use serde_json::Value as Json;
-use server::{PostAnswer, PostPaper, Server, UserAnswer};
+use server::{GetPaper, ListPaper, PostAnswer, PostPaper, Server, UserAnswer};
 use std::{env, net::SocketAddr};
 use tokio::signal::{
     ctrl_c,
     unix::{signal, SignalKind},
 };
 
-// TODO: list papers and get details of a paper
 #[rpc(server)]
 trait YukRpc {
     #[method(name = "login")]
@@ -32,6 +31,10 @@ trait YukRpc {
         token: String,
         answers: Vec<PostAnswer>,
     ) -> RpcResult<Vec<UserAnswer>>;
+    #[method(name = "list_papers")]
+    async fn list_papers(&self) -> RpcResult<Vec<ListPaper>>;
+    #[method(name = "get_paper")]
+    async fn get_paper(&self, exam_id: i64) -> RpcResult<GetPaper>;
 }
 
 struct YukServer {
@@ -60,6 +63,14 @@ impl YukRpcServer for YukServer {
     ) -> RpcResult<Vec<UserAnswer>> {
         let (exam_id, last_post) = self.server.update_answer(token.parse()?, answers).await?;
         Ok(self.server.fetch_answers(exam_id, last_post).await?)
+    }
+
+    async fn list_papers(&self) -> RpcResult<Vec<ListPaper>> {
+        Ok(self.server.list_papers().await?)
+    }
+
+    async fn get_paper(&self, exam_id: i64) -> RpcResult<GetPaper> {
+        Ok(self.server.get_paper(exam_id).await?)
     }
 }
 
