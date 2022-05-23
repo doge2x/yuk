@@ -78,22 +78,20 @@ async fn main() -> anyhow::Result<()> {
     let db = Client::with_uri_str(db_uri).await?.database("yuk");
     db.run_command(doc! { "ping": 1 }, None).await?;
 
+    // Apply migrations.
+    let server = Server::new(db);
+    info!("apply migrations");
+    server.migrate().await?;
+
     // Start server.
     info!("start server at: {}", addr);
-    let server = HttpServerBuilder::new().build(addr).await.unwrap();
-    let handler = server
-        .start(
-            YukServer {
-                server: Server::new(db),
-            }
-            .into_rpc(),
-        )
-        .unwrap();
+    let rpc_server = HttpServerBuilder::new().build(addr).await.unwrap();
+    let handler = rpc_server.start(YukServer { server }.into_rpc()).unwrap();
 
     let mut sig_int = signal(SignalKind::interrupt()).unwrap();
     let mut sig_term = signal(SignalKind::terminate()).unwrap();
     tokio::select! {
-        _ = sig_int.recv() => info!("receive SININT"),
+        _ = sig_int.recv() => info!("receive SIGINT"),
         _ = sig_term.recv() => info!("receive SIGTERM"),
         _ = ctrl_c() => info!("receive CTRL_C"),
     }
