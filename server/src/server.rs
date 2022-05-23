@@ -1,3 +1,5 @@
+mod migration;
+
 use crate::Json;
 use anyhow::anyhow;
 use futures::prelude::*;
@@ -7,7 +9,7 @@ use mongodb::{
     options::{FindOneAndUpdateOptions, ReturnDocument},
     Collection, Database,
 };
-use serde::{Deserialize, Serialize};
+use serde::{de::DeserializeOwned, Deserialize, Serialize};
 use std::{collections::HashMap, fmt};
 use std::{fmt::Display, str::FromStr};
 
@@ -24,7 +26,7 @@ struct Session {
 struct Answer {
     session_id: ObjectId,
     problem_id: i64,
-    result: Option<String>,
+    result: Option<JsonData>,
     context: Option<AnswerContext>,
     last_update: DateTime,
 }
@@ -39,7 +41,7 @@ struct Paper {
 #[derive(Debug, Deserialize, Serialize)]
 struct BinProblem {
     id: i64,
-    extra: BinData,
+    extra: JsonData,
 }
 
 #[derive(Debug, Deserialize)]
@@ -83,23 +85,23 @@ pub struct PostAnswer {
 
 #[derive(Debug, Deserialize, Serialize)]
 #[serde(transparent)]
-struct BinData(bson::Binary);
+struct JsonData(bson::Binary);
 
-impl BinData {
+impl JsonData {
     fn se<T: Serialize>(t: T) -> Self {
         Self(bson::Binary {
             subtype: bson::spec::BinarySubtype::Generic,
-            bytes: bincode::serialize(&t).unwrap_or_else(|_| unreachable!()),
+            bytes: serde_json::to_vec(&t).unwrap(),
         })
     }
 
-    fn _de<'de, T: Deserialize<'de>>(&'de self) -> T {
-        bincode::deserialize(&self.0.bytes).unwrap_or_else(|_| unreachable!())
+    fn de<T: DeserializeOwned>(self) -> T {
+        serde_json::from_slice(&self.0.bytes).unwrap()
     }
 }
 
-impl From<BinData> for Bson {
-    fn from(t: BinData) -> Self {
+impl From<JsonData> for Bson {
+    fn from(t: JsonData) -> Self {
         Bson::from(t.0)
     }
 }
@@ -123,14 +125,6 @@ impl Display for UserToken {
     }
 }
 
-fn json_to_string(json: Json) -> String {
-    serde_json::to_string(&json).unwrap_or_else(|_| unreachable!())
-}
-
-fn string_to_json(s: String) -> Json {
-    serde_json::from_str(&s).unwrap_or_else(|_| unreachable!())
-}
-
 pub struct Server {
     // FIXME: used for bulk_update
     db: Database,
@@ -147,6 +141,10 @@ impl Server {
             papers: db.collection("papers"),
             db,
         }
+    }
+
+    pub async fn migrate(&self) -> anyhow::Result<()> {
+        migration::migrate(self).await
     }
 
     pub async fn login(&self, username: String, exam_id: i64) -> anyhow::Result<UserToken> {
@@ -199,7 +197,7 @@ impl Server {
                     .map(|Problem { id, extra }| {
                         doc! {
                             "id": id,
-                            "extra":BinData::se(&extra),
+                            "extra":JsonData::se(&extra),
                         }
                     })
                     .collect::<Vec<_>>();
@@ -221,7 +219,7 @@ impl Server {
                             .into_iter()
                             .map(|Problem { id, extra }| BinProblem {
                                 id,
-                                extra: BinData::se(extra),
+                                extra: JsonData::se(extra),
                             })
                             .collect(),
                     },
@@ -266,7 +264,7 @@ impl Server {
                         #[derive(Debug, Serialize)]
                         struct Set {
                             #[serde(skip_serializing_if = "Option::is_none")]
-                            result: Option<String>,
+                            result: Option<JsonData>,
                             #[serde(
                                 rename = "context.state",
                                 skip_serializing_if = "Option::is_none"
@@ -282,12 +280,12 @@ impl Server {
                         let (context_state, context_msg) =
                             context.map(|ctx| (ctx.state, ctx.msg)).unwrap_or_default();
                         let set = bson::to_document(&Set {
-                            result: result.map(json_to_string),
+                            result: result.map(JsonData::se),
                             context_state,
                             context_msg,
                             last_update: new_post,
                         })
-                        .unwrap_or_else(|_| unreachable!());
+                        .unwrap();
                         doc! {
                             "q": {
                                 "session_id": session_id,
@@ -321,7 +319,7 @@ impl Server {
             username: String,
             problem_id: i64,
             #[serde(default)]
-            result: Option<String>,
+            result: Option<JsonData>,
             #[serde(default)]
             context: Option<AnswerContext>,
         }
@@ -372,7 +370,7 @@ impl Server {
                 UserAnswer {
                     username,
                     problem_id,
-                    result: result.map(string_to_json),
+                    result: result.map(JsonData::de),
                     context,
                 }
             })
