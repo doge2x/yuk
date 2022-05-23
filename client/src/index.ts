@@ -12,6 +12,7 @@ import {
 import { UI, showConfirmUpload } from "./ui";
 import { devLog, newURL } from "./utils";
 import { NO_LEAVE_CHECK, SORT_PROBLEMS } from "./shared";
+import { migrate } from "./gm";
 
 function sortProblems(problems: Problem[]): Problem[] {
   problems.forEach((problem) => {
@@ -67,6 +68,7 @@ function removeVisibilityListener() {
 }
 
 async function main(): Promise<void> {
+  migrate();
   if (NO_LEAVE_CHECK.value === true) {
     removeVisibilityListener();
   }
