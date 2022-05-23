@@ -1067,7 +1067,7 @@ var SyncAnswers = {
   set: set$2
 };
 
-var name$3 = "nol_eavecheck";
+var name$3 = "no_leave_check";
 
 var init$1 = true;
 
@@ -1150,13 +1150,50 @@ var SortProblems = {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getValue": () => (/* binding */ getValue),
+/* harmony export */   "migrate": () => (/* binding */ migrate),
 /* harmony export */   "setValue": () => (/* binding */ setValue)
 /* harmony export */ });
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
+
 function getValue(key) {
-    return GM_getValue(key);
+    const val = GM_getValue(key);
+    if (val !== undefined) {
+        return val.contents;
+    }
 }
 function setValue(key, val) {
-    GM_setValue(key, val);
+    GM_setValue(key, { contents: val });
+}
+function migrate() {
+    var _a;
+    const migrations = [
+        {
+            name: "202205231915_gm_value",
+            up() {
+                setValue("no_leave_check", GM_getValue("nol_eavecheck"));
+                GM_setValue("nol_eavecheck", undefined);
+                for (const k of [
+                    "username",
+                    "server",
+                    "sync_answers",
+                    "sort_problems",
+                ]) {
+                    setValue(k, GM_getValue(k));
+                }
+            },
+        },
+    ];
+    const db_migrations = (_a = getValue("migrations")) !== null && _a !== void 0 ? _a : [];
+    for (const { name, idx } of db_migrations) {
+        if (!(name === migrations[idx].name)) {
+            throw new Error("bad migrations");
+        }
+    }
+    for (const { name, up } of migrations.slice(db_migrations.length)) {
+        (0,_utils__WEBPACK_IMPORTED_MODULE_0__.devLog)(`apply migration: ${name}`);
+        up();
+    }
+    setValue("migrations", migrations.map((v, i) => ({ name: v.name, idx: i })));
 }
 
 
@@ -10688,6 +10725,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ui__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(20);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(8);
 /* harmony import */ var _shared__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(9);
+/* harmony import */ var _gm__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(11);
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -10697,6 +10735,7 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+
 
 
 
@@ -10748,6 +10787,7 @@ function removeVisibilityListener() {
 }
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
+        (0,_gm__WEBPACK_IMPORTED_MODULE_6__.migrate)();
         if (_shared__WEBPACK_IMPORTED_MODULE_5__.NO_LEAVE_CHECK.value === true) {
             removeVisibilityListener();
         }

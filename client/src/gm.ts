@@ -1,3 +1,5 @@
+import { devLog } from "./utils";
+
 interface XHRResponse {
   status: number;
   statusText: string;
@@ -49,9 +51,56 @@ declare global {
 }
 
 export function getValue(key: string): any {
-  return GM_getValue(key);
+  const val = GM_getValue(key);
+  if (val !== undefined) {
+    return val.contents;
+  }
 }
 
 export function setValue(key: string, val: any) {
-  GM_setValue(key, val);
+  GM_setValue(key, { contents: val });
+}
+
+export function migrate() {
+  interface Migration {
+    name: string;
+    up(): void;
+  }
+
+  interface DbMigration {
+    name: string;
+    idx: number;
+  }
+
+  const migrations: Migration[] = [
+    {
+      name: "202205231915_gm_value",
+      up() {
+        setValue("no_leave_check", GM_getValue("nol_eavecheck"));
+        GM_setValue("nol_eavecheck", undefined);
+        for (const k of [
+          "username",
+          "server",
+          "sync_answers",
+          "sort_problems",
+        ]) {
+          setValue(k, GM_getValue(k));
+        }
+      },
+    },
+  ];
+  const db_migrations: DbMigration[] = getValue("migrations") ?? [];
+  for (const { name, idx } of db_migrations) {
+    if (!(name === migrations[idx].name)) {
+      throw new Error("bad migrations");
+    }
+  }
+  for (const { name, up } of migrations.slice(db_migrations.length)) {
+    devLog(`apply migration: ${name}`);
+    up();
+  }
+  setValue(
+    "migrations",
+    migrations.map((v, i) => ({ name: v.name, idx: i }))
+  );
 }
