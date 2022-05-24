@@ -16,7 +16,7 @@ import { migrate } from "./gm";
 
 function sortProblems(problems: Problem[]): Problem[] {
   problems.forEach((problem) => {
-    switch (problem.problem_type) {
+    switch (problem.ProblemType) {
       case ProblemType.SingleChoice:
       case ProblemType.MultipleChoice:
       case ProblemType.Polling: {
@@ -28,7 +28,7 @@ function sortProblems(problems: Problem[]): Problem[] {
       }
     }
   });
-  problems.sort((a, b) => a.problem_id - b.problem_id);
+  problems.sort((a, b) => a.ProblemID - b.ProblemID);
   return problems;
 }
 

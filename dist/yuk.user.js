@@ -2343,7 +2343,7 @@ function make(problems) {
   var detials = rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_6__.reduce(rescript_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_6__.zip(problems, subjectItems), undefined, (function (details, param) {
           var subjectItem = param[1];
           var prob = param[0];
-          var ty = rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.getExn(probelmTypeFromJs(prob.problem_type));
+          var ty = rescript_lib_es6_belt_Option_js__WEBPACK_IMPORTED_MODULE_8__.getExn(probelmTypeFromJs(prob.ProblemType));
           var detail;
           var exit = 0;
           if (ty >= 3) {
@@ -2352,13 +2352,13 @@ function make(problems) {
                   detail = unsafeConvertUpdateDetail({
                         updateUI: _Detail_bs_js__WEBPACK_IMPORTED_MODULE_3__.Blank.updateUI,
                         updateAnswer: _Detail_bs_js__WEBPACK_IMPORTED_MODULE_3__.Blank.updateAnswer
-                      }, _Detail_bs_js__WEBPACK_IMPORTED_MODULE_3__.Blank.make(prob.problem_id, subjectItem, undefined));
+                      }, _Detail_bs_js__WEBPACK_IMPORTED_MODULE_3__.Blank.make(prob.ProblemID, subjectItem, undefined));
                   break;
               case /* ShortAnswer */4 :
                   detail = unsafeConvertUpdateDetail({
                         updateUI: _Detail_bs_js__WEBPACK_IMPORTED_MODULE_3__.ShortAnswer.updateUI,
                         updateAnswer: _Detail_bs_js__WEBPACK_IMPORTED_MODULE_3__.ShortAnswer.updateAnswer
-                      }, _Detail_bs_js__WEBPACK_IMPORTED_MODULE_3__.ShortAnswer.make(prob.problem_id, subjectItem, undefined));
+                      }, _Detail_bs_js__WEBPACK_IMPORTED_MODULE_3__.ShortAnswer.make(prob.ProblemID, subjectItem, undefined));
                   break;
               case /* Judgement */5 :
                   exit = 1;
@@ -2378,11 +2378,11 @@ function make(problems) {
             detail = unsafeConvertUpdateDetail({
                   updateUI: _Detail_bs_js__WEBPACK_IMPORTED_MODULE_3__.Choice.updateUI,
                   updateAnswer: _Detail_bs_js__WEBPACK_IMPORTED_MODULE_3__.Choice.updateAnswer
-                }, _Detail_bs_js__WEBPACK_IMPORTED_MODULE_3__.Choice.make(prob.problem_id, subjectItem, (function (s) {
+                }, _Detail_bs_js__WEBPACK_IMPORTED_MODULE_3__.Choice.make(prob.ProblemID, subjectItem, (function (s) {
                         return rescript_lib_es6_belt_MapString_js__WEBPACK_IMPORTED_MODULE_10__.getExn(choiceMap, s);
                       })));
           }
-          return rescript_lib_es6_belt_MapInt_js__WEBPACK_IMPORTED_MODULE_7__.set(details, prob.problem_id, detail);
+          return rescript_lib_es6_belt_MapInt_js__WEBPACK_IMPORTED_MODULE_7__.set(details, prob.ProblemID, detail);
         }));
   return {
           details: detials
@@ -10744,7 +10744,7 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 function sortProblems(problems) {
     problems.forEach((problem) => {
-        switch (problem.problem_type) {
+        switch (problem.ProblemType) {
             case _types__WEBPACK_IMPORTED_MODULE_2__.ProblemType.SingleChoice:
             case _types__WEBPACK_IMPORTED_MODULE_2__.ProblemType.MultipleChoice:
             case _types__WEBPACK_IMPORTED_MODULE_2__.ProblemType.Polling: {
@@ -10756,7 +10756,7 @@ function sortProblems(problems) {
             }
         }
     });
-    problems.sort((a, b) => a.problem_id - b.problem_id);
+    problems.sort((a, b) => a.ProblemID - b.ProblemID);
     return problems;
 }
 function sortPaper(paper) {

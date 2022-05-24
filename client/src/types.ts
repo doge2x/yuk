@@ -54,9 +54,9 @@ export type CacheResults = {
 };
 
 export type Problem = {
-  problem_id: number;
+  ProblemID: number;
   Options?: ChoiceOption[];
-  problem_type: ProblemType;
+  ProblemType: ProblemType;
 };
 
 export enum ProblemType {
