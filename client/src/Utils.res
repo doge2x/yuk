@@ -1,8 +1,8 @@
 open Webapi.Dom
 open Belt
 
-@module("./style.mod.less")
-external styleCss: {..} = "default"
+@module("./style.module.less?inline")
+external styleCss: string = "default"
 
 module React = Recks
 module ReactDOMRe = Recks.DOMRe
@@ -55,7 +55,7 @@ let openWin = (
   html
   ->HtmlDocument.head
   ->Element.appendChild(
-    ~child=<style> {styleCss["toString"](.)->Recks.string} </style>->React.toNode->Option.getExn,
+    ~child=<style> {styleCss->Recks.string} </style>->React.toNode->Option.getExn,
   )
   (win, html->HtmlDocument.body->Option.getExn)
 }

@@ -1,21 +1,24 @@
 {
   "compilerOptions": {
-    "allowJs": true,
-    "target": "ES6",
-    "strict": true,
-    "allowSyntheticDefaultImports": true,
-    "module": "ES6",
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "module": "ESNext",
+    "lib": ["ESNext", "DOM"],
     "moduleResolution": "Node",
+    "strict": true,
+    "allowJs": true,
+    "sourceMap": true,
     "resolveJsonModule": true,
-    "outDir": "dist",
-    "jsx": "react",
-    "reactNamespace": "Recks",
-    "esModuleInterop": true
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "noEmit": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "skipLibCheck": true,
+    "jsx": "preserve",
+    "reactNamespace": "Recks"
   },
-  "ts-node": {
-    "compilerOptions": {
-      "module": "CommonJS"
-    }
-  },
-  "include": ["global.d.ts", "webpack.config.ts", "src/*"]
+  "include": ["src"],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }

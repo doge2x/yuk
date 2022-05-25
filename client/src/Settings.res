@@ -4,7 +4,7 @@ open Shared
 open Webapi.Dom
 
 @module
-external style: {..} = "./style.mod.less"
+external style: {..} = "./style.module.less"
 
 module React = Recks
 module ReactDOMRe = Recks.DOMRe

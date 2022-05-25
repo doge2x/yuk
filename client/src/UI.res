@@ -2,11 +2,11 @@ open Belt
 open Webapi.Dom
 open Detail
 
-@module("./style.mod.less")
-external styleCss: {..} = "default"
+@module("./style.module.less?inline")
+external styleCss: string = "default"
 
 @module
-external style: {..} = "./style.mod.less"
+external style: {..} = "./style.module.less"
 
 module React = Recks
 module ReactDOMRe = Recks.DOMRe
@@ -92,7 +92,7 @@ module UI = {
 
     // Inject CSS rules.
     head->Element.appendChild(
-      ~child=<style> {styleCss["toString"](.)->React.string} </style>->React.toNode->Option.getExn,
+      ~child=<style> {styleCss->React.string} </style>->React.toNode->Option.getExn,
     )
 
     // Inject settings.

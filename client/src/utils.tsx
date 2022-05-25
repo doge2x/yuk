@@ -1,5 +1,9 @@
+export function isDevMode(): boolean {
+  return import.meta.env.DEV;
+}
+
 export function devLog(msg?: any, ...params: any[]) {
-  if (DEV_MODE) {
+  if (isDevMode()) {
     console.log(msg, ...params);
   }
 }

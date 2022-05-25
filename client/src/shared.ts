@@ -1,4 +1,4 @@
-import * as Shared from "./Shared.bs";
+import * as Shared from "./Shared.bs.js";
 
 class ReValue<T> {
   private _value: any;
