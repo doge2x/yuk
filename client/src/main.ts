@@ -10,7 +10,7 @@ import {
   PostAnswer,
 } from "./types";
 import { UI, showConfirmUpload } from "./ui";
-import { devLog, newURL } from "./utils";
+import { devLog, isDevMode, newURL } from "./utils";
 import { NO_LEAVE_CHECK, SORT_PROBLEMS } from "./shared";
 import { migrate } from "./gm";
 
@@ -127,7 +127,7 @@ async function main(): Promise<void> {
             )
             .catch(devLog);
         });
-        break;
+        return;
       case "/exam_room/answer_problem":
         return async (body) => {
           // Upload answers.
@@ -169,12 +169,13 @@ async function main(): Promise<void> {
             return body;
           };
         }
+        return;
     }
   });
-  await CLIENT.watch(DEV_MODE ? 0 : 1e4);
+  await CLIENT.watch(isDevMode() ? 0 : 1e4);
 }
 
-if (DEV_MODE) {
+if (isDevMode()) {
   console.warn("IN DEV_MODE");
 }
 main().catch(console.error);

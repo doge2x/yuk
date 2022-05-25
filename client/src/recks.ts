@@ -1,3 +1,5 @@
+// Use Lit.
+
 declare global {
   namespace Recks {
     export type PropWithChildren<T> = T & { children?: any };

@@ -3,7 +3,7 @@ open Belt
 open Utils
 
 @module
-external style: {..} = "./style.mod.less"
+external style: {..} = "./style.module.less"
 
 module React = Recks
 module ReactDOMRe = Recks.DOMRe

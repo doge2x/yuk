@@ -1,5 +1,5 @@
-import { Paper, Problem, ProblemDict, UserAnswer } from "./types";
-import * as UIRe from "./UI.bs";
+import { Problem, UserAnswer } from "./types";
+import * as UIRe from "./UI.bs.js";
 
 export class UI {
   private inner: any;
