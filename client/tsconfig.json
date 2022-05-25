@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
+    "target": "esnext",
     "useDefineForClassFields": true,
-    "module": "ESNext",
-    "lib": ["ESNext", "DOM"],
-    "moduleResolution": "Node",
+    "module": "esnext",
+    "lib": ["esnext", "dom"],
+    "moduleResolution": "node",
     "strict": true,
     "allowJs": true,
     "sourceMap": true,
@@ -16,8 +16,9 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "skipLibCheck": true,
+    "experimentalDecorators": true,
     "jsx": "preserve",
-    "reactNamespace": "Recks"
+    "jsxImportSource": "solid-js"
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
