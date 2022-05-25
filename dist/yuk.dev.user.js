@@ -873,6 +873,625 @@ var __publicField = (obj, key, value) => {
     __exportStar(server, exports);
     __exportStar(serverAndClient, exports);
   })(dist);
+  const sharedConfig = {};
+  let runEffects = runQueue;
+  const NOTPENDING = {};
+  const STALE = 1;
+  const PENDING = 2;
+  const UNOWNED = {
+    owned: null,
+    cleanups: null,
+    context: null,
+    owner: null
+  };
+  var Owner = null;
+  let Transition = null;
+  let Pending = null;
+  let Updates = null;
+  let Effects = null;
+  let ExecCount = 0;
+  let rootCount = 0;
+  function createRoot(fn, detachedOwner) {
+    const owner = Owner, root = fn.length === 0 && false ? UNOWNED : {
+      owned: null,
+      cleanups: null,
+      context: null,
+      owner: detachedOwner || owner
+    };
+    if (owner)
+      root.name = `${owner.name}-r${rootCount++}`;
+    Owner = root;
+    try {
+      return runUpdates(() => fn(() => cleanNode(root)), true);
+    } finally {
+      Owner = owner;
+    }
+  }
+  function createRenderEffect(fn, value, options) {
+    const c = createComputation(fn, value, false, STALE, options);
+    updateComputation(c);
+  }
+  function batch(fn) {
+    if (Pending)
+      return fn();
+    let result;
+    const q = Pending = [];
+    try {
+      result = fn();
+    } finally {
+      Pending = null;
+    }
+    runUpdates(() => {
+      for (let i = 0; i < q.length; i += 1) {
+        const data = q[i];
+        if (data.pending !== NOTPENDING) {
+          const pending = data.pending;
+          data.pending = NOTPENDING;
+          writeSignal(data, pending);
+        }
+      }
+    }, false);
+    return result;
+  }
+  function untrack(fn) {
+    let result;
+    result = fn();
+    return result;
+  }
+  function writeSignal(node, value, isComp) {
+    if (Pending) {
+      if (node.pending === NOTPENDING)
+        Pending.push(node);
+      node.pending = value;
+      return value;
+    }
+    if (node.comparator) {
+      if (node.comparator(node.value, value))
+        return value;
+    }
+    let TransitionRunning = false;
+    node.value = value;
+    if (node.observers && node.observers.length) {
+      runUpdates(() => {
+        for (let i = 0; i < node.observers.length; i += 1) {
+          const o = node.observers[i];
+          if (TransitionRunning && Transition.disposed.has(o))
+            ;
+          if (TransitionRunning && !o.tState || !TransitionRunning && !o.state) {
+            if (o.pure)
+              Updates.push(o);
+            else
+              Effects.push(o);
+            if (o.observers)
+              markDownstream(o);
+          }
+          if (TransitionRunning)
+            ;
+          else
+            o.state = STALE;
+        }
+        if (Updates.length > 1e6) {
+          Updates = [];
+          if ("_SOLID_DEV_")
+            throw new Error("Potential Infinite Loop Detected.");
+          throw new Error();
+        }
+      }, false);
+    }
+    return value;
+  }
+  function updateComputation(node) {
+    if (!node.fn)
+      return;
+    cleanNode(node);
+    const owner = Owner, time = ExecCount;
+    Owner = node;
+    runComputation(node, node.value, time);
+    Owner = owner;
+  }
+  function runComputation(node, value, time) {
+    let nextValue;
+    try {
+      nextValue = node.fn(value);
+    } catch (err) {
+      handleError(err);
+    }
+    if (!node.updatedAt || node.updatedAt <= time) {
+      if (node.observers && node.observers.length) {
+        writeSignal(node, nextValue);
+      } else
+        node.value = nextValue;
+      node.updatedAt = time;
+    }
+  }
+  function createComputation(fn, init2, pure, state = STALE, options) {
+    const c = {
+      fn,
+      state,
+      updatedAt: null,
+      owned: null,
+      sources: null,
+      sourceSlots: null,
+      cleanups: null,
+      value: init2,
+      owner: Owner,
+      context: null,
+      pure
+    };
+    if (Owner === null)
+      console.warn("computations created outside a `createRoot` or `render` will never be disposed");
+    else if (Owner !== UNOWNED) {
+      {
+        if (!Owner.owned)
+          Owner.owned = [c];
+        else
+          Owner.owned.push(c);
+      }
+      c.name = options && options.name || `${Owner.name || "c"}-${(Owner.owned || Owner.tOwned).length}`;
+    }
+    return c;
+  }
+  function runTop(node) {
+    const runningTransition = Transition;
+    if (node.state === 0 || runningTransition)
+      return;
+    if (node.state === PENDING || runningTransition)
+      return lookUpstream(node);
+    if (node.suspense && untrack(node.suspense.inFallback))
+      return node.suspense.effects.push(node);
+    const ancestors = [node];
+    while ((node = node.owner) && (!node.updatedAt || node.updatedAt < ExecCount)) {
+      if (node.state || runningTransition)
+        ancestors.push(node);
+    }
+    for (let i = ancestors.length - 1; i >= 0; i--) {
+      node = ancestors[i];
+      if (node.state === STALE || runningTransition) {
+        updateComputation(node);
+      } else if (node.state === PENDING || runningTransition) {
+        const updates = Updates;
+        Updates = null;
+        lookUpstream(node, ancestors[0]);
+        Updates = updates;
+      }
+    }
+  }
+  function runUpdates(fn, init2) {
+    if (Updates)
+      return fn();
+    let wait = false;
+    if (!init2)
+      Updates = [];
+    if (Effects)
+      wait = true;
+    else
+      Effects = [];
+    ExecCount++;
+    try {
+      const res = fn();
+      completeUpdates(wait);
+      return res;
+    } catch (err) {
+      handleError(err);
+    } finally {
+      Updates = null;
+      if (!wait)
+        Effects = null;
+    }
+  }
+  function completeUpdates(wait) {
+    if (Updates) {
+      runQueue(Updates);
+      Updates = null;
+    }
+    if (wait)
+      return;
+    if (Effects.length)
+      batch(() => {
+        runEffects(Effects);
+        Effects = null;
+      });
+    else {
+      Effects = null;
+      globalThis._$afterUpdate && globalThis._$afterUpdate();
+    }
+  }
+  function runQueue(queue) {
+    for (let i = 0; i < queue.length; i++)
+      runTop(queue[i]);
+  }
+  function lookUpstream(node, ignore) {
+    const runningTransition = Transition;
+    node.state = 0;
+    for (let i = 0; i < node.sources.length; i += 1) {
+      const source = node.sources[i];
+      if (source.sources) {
+        if (source.state === STALE || runningTransition) {
+          if (source !== ignore)
+            runTop(source);
+        } else if (source.state === PENDING || runningTransition)
+          lookUpstream(source, ignore);
+      }
+    }
+  }
+  function markDownstream(node) {
+    const runningTransition = Transition;
+    for (let i = 0; i < node.observers.length; i += 1) {
+      const o = node.observers[i];
+      if (!o.state || runningTransition) {
+        o.state = PENDING;
+        if (o.pure)
+          Updates.push(o);
+        else
+          Effects.push(o);
+        o.observers && markDownstream(o);
+      }
+    }
+  }
+  function cleanNode(node) {
+    let i;
+    if (node.sources) {
+      while (node.sources.length) {
+        const source = node.sources.pop(), index = node.sourceSlots.pop(), obs = source.observers;
+        if (obs && obs.length) {
+          const n = obs.pop(), s = source.observerSlots.pop();
+          if (index < obs.length) {
+            n.sourceSlots[s] = index;
+            obs[index] = n;
+            source.observerSlots[index] = s;
+          }
+        }
+      }
+    }
+    if (node.owned) {
+      for (i = 0; i < node.owned.length; i++)
+        cleanNode(node.owned[i]);
+      node.owned = null;
+    }
+    if (node.cleanups) {
+      for (i = 0; i < node.cleanups.length; i++)
+        node.cleanups[i]();
+      node.cleanups = null;
+    }
+    node.state = 0;
+    node.context = null;
+  }
+  function handleError(err) {
+    throw err;
+  }
+  if (globalThis) {
+    if (!globalThis.Solid$$)
+      globalThis.Solid$$ = true;
+    else
+      console.warn("You appear to have multiple instances of Solid. This can lead to unexpected behavior.");
+  }
+  function reconcileArrays(parentNode, a, b) {
+    let bLength = b.length, aEnd = a.length, bEnd = bLength, aStart = 0, bStart = 0, after = a[aEnd - 1].nextSibling, map2 = null;
+    while (aStart < aEnd || bStart < bEnd) {
+      if (a[aStart] === b[bStart]) {
+        aStart++;
+        bStart++;
+        continue;
+      }
+      while (a[aEnd - 1] === b[bEnd - 1]) {
+        aEnd--;
+        bEnd--;
+      }
+      if (aEnd === aStart) {
+        const node = bEnd < bLength ? bStart ? b[bStart - 1].nextSibling : b[bEnd - bStart] : after;
+        while (bStart < bEnd)
+          parentNode.insertBefore(b[bStart++], node);
+      } else if (bEnd === bStart) {
+        while (aStart < aEnd) {
+          if (!map2 || !map2.has(a[aStart]))
+            a[aStart].remove();
+          aStart++;
+        }
+      } else if (a[aStart] === b[bEnd - 1] && b[bStart] === a[aEnd - 1]) {
+        const node = a[--aEnd].nextSibling;
+        parentNode.insertBefore(b[bStart++], a[aStart++].nextSibling);
+        parentNode.insertBefore(b[--bEnd], node);
+        a[aEnd] = b[bEnd];
+      } else {
+        if (!map2) {
+          map2 = /* @__PURE__ */ new Map();
+          let i = bStart;
+          while (i < bEnd)
+            map2.set(b[i], i++);
+        }
+        const index = map2.get(a[aStart]);
+        if (index != null) {
+          if (bStart < index && index < bEnd) {
+            let i = aStart, sequence = 1, t;
+            while (++i < aEnd && i < bEnd) {
+              if ((t = map2.get(a[i])) == null || t !== index + sequence)
+                break;
+              sequence++;
+            }
+            if (sequence > index - bStart) {
+              const node = a[aStart];
+              while (bStart < index)
+                parentNode.insertBefore(b[bStart++], node);
+            } else
+              parentNode.replaceChild(b[bStart++], a[aStart++]);
+          } else
+            aStart++;
+        } else
+          a[aStart++].remove();
+      }
+    }
+  }
+  const $$EVENTS = "_$DX_DELEGATE";
+  function render(code, element, init2) {
+    let disposer;
+    createRoot((dispose) => {
+      disposer = dispose;
+      element === document ? code() : insert(element, code(), element.firstChild ? null : void 0, init2);
+    });
+    return () => {
+      disposer();
+      element.textContent = "";
+    };
+  }
+  function template(html, check, isSVG) {
+    const t = document.createElement("template");
+    t.innerHTML = html;
+    if (check && t.innerHTML.split("<").length - 1 !== check)
+      throw `The browser resolved template HTML does not match JSX input:
+${t.innerHTML}
+
+${html}. Is your HTML properly formed?`;
+    let node = t.content.firstChild;
+    if (isSVG)
+      node = node.firstChild;
+    return node;
+  }
+  function delegateEvents(eventNames, document2 = window.document) {
+    const e = document2[$$EVENTS] || (document2[$$EVENTS] = /* @__PURE__ */ new Set());
+    for (let i = 0, l = eventNames.length; i < l; i++) {
+      const name2 = eventNames[i];
+      if (!e.has(name2)) {
+        e.add(name2);
+        document2.addEventListener(name2, eventHandler);
+      }
+    }
+  }
+  function setAttribute(node, name2, value) {
+    if (value == null)
+      node.removeAttribute(name2);
+    else
+      node.setAttribute(name2, value);
+  }
+  function className(node, value) {
+    if (value == null)
+      node.removeAttribute("class");
+    else
+      node.className = value;
+  }
+  function classList(node, value, prev = {}) {
+    const classKeys = Object.keys(value || {}), prevKeys = Object.keys(prev);
+    let i, len;
+    for (i = 0, len = prevKeys.length; i < len; i++) {
+      const key = prevKeys[i];
+      if (!key || key === "undefined" || value[key])
+        continue;
+      toggleClassKey(node, key, false);
+      delete prev[key];
+    }
+    for (i = 0, len = classKeys.length; i < len; i++) {
+      const key = classKeys[i], classValue = !!value[key];
+      if (!key || key === "undefined" || prev[key] === classValue || !classValue)
+        continue;
+      toggleClassKey(node, key, true);
+      prev[key] = classValue;
+    }
+    return prev;
+  }
+  function insert(parent, accessor, marker, initial) {
+    if (marker !== void 0 && !initial)
+      initial = [];
+    if (typeof accessor !== "function")
+      return insertExpression(parent, accessor, initial, marker);
+    createRenderEffect((current) => insertExpression(parent, accessor(), current, marker), initial);
+  }
+  function toggleClassKey(node, key, value) {
+    const classNames = key.trim().split(/\s+/);
+    for (let i = 0, nameLen = classNames.length; i < nameLen; i++)
+      node.classList.toggle(classNames[i], value);
+  }
+  function eventHandler(e) {
+    const key = `$$${e.type}`;
+    let node = e.composedPath && e.composedPath()[0] || e.target;
+    if (e.target !== node) {
+      Object.defineProperty(e, "target", {
+        configurable: true,
+        value: node
+      });
+    }
+    Object.defineProperty(e, "currentTarget", {
+      configurable: true,
+      get() {
+        return node || document;
+      }
+    });
+    if (sharedConfig.registry && !sharedConfig.done) {
+      sharedConfig.done = true;
+      document.querySelectorAll("[id^=pl-]").forEach((elem) => elem.remove());
+    }
+    while (node !== null) {
+      const handler = node[key];
+      if (handler && !node.disabled) {
+        const data = node[`${key}Data`];
+        data !== void 0 ? handler(data, e) : handler(e);
+        if (e.cancelBubble)
+          return;
+      }
+      node = node.host && node.host !== node && node.host instanceof Node ? node.host : node.parentNode;
+    }
+  }
+  function insertExpression(parent, value, current, marker, unwrapArray) {
+    if (sharedConfig.context && !current)
+      current = [...parent.childNodes];
+    while (typeof current === "function")
+      current = current();
+    if (value === current)
+      return current;
+    const t = typeof value, multi = marker !== void 0;
+    parent = multi && current[0] && current[0].parentNode || parent;
+    if (t === "string" || t === "number") {
+      if (sharedConfig.context)
+        return current;
+      if (t === "number")
+        value = value.toString();
+      if (multi) {
+        let node = current[0];
+        if (node && node.nodeType === 3) {
+          node.data = value;
+        } else
+          node = document.createTextNode(value);
+        current = cleanChildren(parent, current, marker, node);
+      } else {
+        if (current !== "" && typeof current === "string") {
+          current = parent.firstChild.data = value;
+        } else
+          current = parent.textContent = value;
+      }
+    } else if (value == null || t === "boolean") {
+      if (sharedConfig.context)
+        return current;
+      current = cleanChildren(parent, current, marker);
+    } else if (t === "function") {
+      createRenderEffect(() => {
+        let v2 = value();
+        while (typeof v2 === "function")
+          v2 = v2();
+        current = insertExpression(parent, v2, current, marker);
+      });
+      return () => current;
+    } else if (Array.isArray(value)) {
+      const array = [];
+      if (normalizeIncomingArray(array, value, unwrapArray)) {
+        createRenderEffect(() => current = insertExpression(parent, array, current, marker, true));
+        return () => current;
+      }
+      if (sharedConfig.context) {
+        for (let i = 0; i < array.length; i++) {
+          if (array[i].parentNode)
+            return current = array;
+        }
+      }
+      if (array.length === 0) {
+        current = cleanChildren(parent, current, marker);
+        if (multi)
+          return current;
+      } else if (Array.isArray(current)) {
+        if (current.length === 0) {
+          appendNodes(parent, array, marker);
+        } else
+          reconcileArrays(parent, current, array);
+      } else {
+        current && cleanChildren(parent);
+        appendNodes(parent, array);
+      }
+      current = array;
+    } else if (value instanceof Node) {
+      if (sharedConfig.context && value.parentNode)
+        return current = multi ? [value] : value;
+      if (Array.isArray(current)) {
+        if (multi)
+          return current = cleanChildren(parent, current, marker, value);
+        cleanChildren(parent, current, null, value);
+      } else if (current == null || current === "" || !parent.firstChild) {
+        parent.appendChild(value);
+      } else
+        parent.replaceChild(value, parent.firstChild);
+      current = value;
+    } else
+      console.warn(`Unrecognized value. Skipped inserting`, value);
+    return current;
+  }
+  function normalizeIncomingArray(normalized, array, unwrap) {
+    let dynamic = false;
+    for (let i = 0, len = array.length; i < len; i++) {
+      let item = array[i], t;
+      if (item instanceof Node) {
+        normalized.push(item);
+      } else if (item == null || item === true || item === false)
+        ;
+      else if (Array.isArray(item)) {
+        dynamic = normalizeIncomingArray(normalized, item) || dynamic;
+      } else if ((t = typeof item) === "string") {
+        normalized.push(document.createTextNode(item));
+      } else if (t === "function") {
+        if (unwrap) {
+          while (typeof item === "function")
+            item = item();
+          dynamic = normalizeIncomingArray(normalized, Array.isArray(item) ? item : [item]) || dynamic;
+        } else {
+          normalized.push(item);
+          dynamic = true;
+        }
+      } else
+        normalized.push(document.createTextNode(item.toString()));
+    }
+    return dynamic;
+  }
+  function appendNodes(parent, array, marker) {
+    for (let i = 0, len = array.length; i < len; i++)
+      parent.insertBefore(array[i], marker);
+  }
+  function cleanChildren(parent, current, marker, replacement) {
+    if (marker === void 0)
+      return parent.textContent = "";
+    const node = replacement || document.createTextNode("");
+    if (current.length) {
+      let inserted = false;
+      for (let i = current.length - 1; i >= 0; i--) {
+        const el = current[i];
+        if (node !== el) {
+          const isParent = el.parentNode === parent;
+          if (!inserted && !i)
+            isParent ? parent.replaceChild(node, el) : parent.insertBefore(node, marker);
+          else
+            isParent && el.remove();
+        } else
+          inserted = true;
+      }
+    } else
+      parent.insertBefore(node, marker);
+    return [node];
+  }
+  var StyleModuleLessinline = "._mainBody_8f6zw_1 {\n  opacity: 0.5;\n}\n._mainBody_8f6zw_1 * {\n  font-size: 0.75rem;\n  margin: 0;\n}\n._mainBody_8f6zw_1 button {\n  cursor: pointer;\n}\n._clickable_8f6zw_11 {\n  cursor: pointer;\n}\n._stateWorkingOn_8f6zw_14 {\n  color: blue;\n}\n._stateSure_8f6zw_17 {\n  color: green;\n}\n._stateNotSure_8f6zw_20 {\n  color: red;\n}\n._answerMsg_8f6zw_23 {\n  border-style: groove;\n  border-width: thin;\n  opacity: 0.75;\n  margin-bottom: 0.5rem;\n}\n._answerMsg_8f6zw_23 ul {\n  padding-left: 1rem;\n}\n._answerMsgName_8f6zw_32 {\n  font-weight: bold;\n}\n._answerMark_8f6zw_35 {\n  display: flex;\n  justify-content: end;\n  align-items: center;\n  border-style: groove;\n  border-width: thin;\n  margin-bottom: 0.5rem;\n  opacity: 0.75;\n}\n._answerMark_8f6zw_35 button {\n  padding: 0;\n  margin-left: 0.5rem;\n  white-space: nowrap;\n}\n._answerMark_8f6zw_35 input {\n  height: max-content;\n  width: 100%;\n}\n._answerDetail_8f6zw_53 ._stateWorkingOn_8f6zw_14,\n._answerDetail_8f6zw_53 ._stateSure_8f6zw_17,\n._answerDetail_8f6zw_53 ._stateNotSure_8f6zw_20 {\n  font-weight: bold;\n}\n._answerDetail_8f6zw_53 ul {\n  padding-left: 1.5rem;\n}\n._answerDetail_8f6zw_53 img {\n  height: auto;\n  width: 80%;\n}\n._answerDetailShortAnswer_8f6zw_65 {\n  border-style: groove;\n  border-width: thin;\n  margin: 0.2rem;\n  padding: 0.2rem;\n}\n._settings_8f6zw_71 {\n  border-style: groove;\n  border-width: thin;\n  display: flex;\n  flex-direction: column;\n  padding: 0.5rem;\n  margin-bottom: 0.5rem;\n}\n._settingsEntry_8f6zw_79 {\n  display: flex;\n  flex-direction: row;\n  margin-bottom: 0.5rem;\n  justify-content: space-between;\n  align-items: center;\n}\n._settingsEntry_8f6zw_79 label {\n  font-weight: bold;\n}\n._settingsEntry_8f6zw_79 input {\n  height: max-content;\n  text-align: right;\n}\n._settingsSubmit_8f6zw_93 {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: end;\n}\n._settingsSubmitTip_8f6zw_99 {\n  margin-right: 0.5rem;\n}\n._about_8f6zw_102 p {\n  margin-bottom: 0.25rem;\n}\n._about_8f6zw_102 ul {\n  padding-left: 1.5rem;\n  margin-bottom: 0.25rem;\n}\n._about_8f6zw_102 ul li {\n  margin-bottom: 0.25rem;\n}\n._uploadImg_8f6zw_112 {\n  display: flex;\n  flex-direction: column;\n}\n._uploadImg_8f6zw_112 img {\n  width: 100%;\n  height: auto;\n}\n._uploadImgImage_8f6zw_120 {\n  border-style: groove;\n  border-width: thin;\n  padding: 0.5rem;\n}\n._uploadImgConfirm_8f6zw_125 {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 0.5rem;\n}\n";
+  const _tmpl$$1 = /* @__PURE__ */ template(`<title></title>`, 2), _tmpl$2 = /* @__PURE__ */ template(`<style></style>`, 2);
+  function assertNonNull(value, message) {
+    if (value === null || value === void 0) {
+      throw Error(message != null ? message : "value cannot be null");
+    }
+  }
+  const openedWindows = [];
+  window.addEventListener("unload", () => openedWindows.forEach((ref) => {
+    var _a;
+    (_a = ref.value) == null ? void 0 : _a.close();
+  }));
+  function openWin$1(opts) {
+    const win = window.open("", "", Object.entries(opts).map(([k, v2]) => `${k}=${v2}`).join(","));
+    assertNonNull(win);
+    const ref = {
+      value: win
+    };
+    openedWindows.push(ref);
+    win.addEventListener("close", () => ref.value = void 0);
+    render(() => [(() => {
+      const _el$ = _tmpl$$1.cloneNode(true);
+      insert(_el$, () => opts.title);
+      return _el$;
+    })(), (() => {
+      const _el$2 = _tmpl$2.cloneNode(true);
+      insert(_el$2, StyleModuleLessinline);
+      return _el$2;
+    })()], win.document.head);
+    return win;
+  }
   function devLog(msg, ...params) {
     {
       console.log(msg, ...params);
@@ -1480,6 +2099,66 @@ var __publicField = (obj, key, value) => {
     ProblemType2[ProblemType2["Judgement"] = 6] = "Judgement";
     return ProblemType2;
   })(ProblemType || {});
+  const mainBody = "_mainBody_8f6zw_1";
+  const clickable = "_clickable_8f6zw_11";
+  const stateWorkingOn = "_stateWorkingOn_8f6zw_14";
+  const stateSure = "_stateSure_8f6zw_17";
+  const stateNotSure = "_stateNotSure_8f6zw_20";
+  const answerMsg = "_answerMsg_8f6zw_23";
+  const answerMsgName = "_answerMsgName_8f6zw_32";
+  const answerMark = "_answerMark_8f6zw_35";
+  const answerDetail = "_answerDetail_8f6zw_53";
+  const answerDetailShortAnswer = "_answerDetailShortAnswer_8f6zw_65";
+  const settings = "_settings_8f6zw_71";
+  const settingsEntry = "_settingsEntry_8f6zw_79";
+  const settingsSubmit = "_settingsSubmit_8f6zw_93";
+  const settingsSubmitTip = "_settingsSubmitTip_8f6zw_99";
+  const about = "_about_8f6zw_102";
+  const uploadImg = "_uploadImg_8f6zw_112";
+  const uploadImgImage = "_uploadImgImage_8f6zw_120";
+  const uploadImgConfirm = "_uploadImgConfirm_8f6zw_125";
+  var classes = {
+    mainBody,
+    clickable,
+    stateWorkingOn,
+    stateSure,
+    stateNotSure,
+    answerMsg,
+    answerMsgName,
+    answerMark,
+    answerDetail,
+    answerDetailShortAnswer,
+    settings,
+    settingsEntry,
+    settingsSubmit,
+    settingsSubmitTip,
+    about,
+    uploadImg,
+    uploadImgImage,
+    uploadImgConfirm
+  };
+  var StyleModuleLess = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+    __proto__: null,
+    mainBody,
+    clickable,
+    stateWorkingOn,
+    stateSure,
+    stateNotSure,
+    answerMsg,
+    answerMsgName,
+    answerMark,
+    answerDetail,
+    answerDetailShortAnswer,
+    settings,
+    settingsEntry,
+    settingsSubmit,
+    settingsSubmitTip,
+    about,
+    uploadImg,
+    uploadImgImage,
+    uploadImgConfirm,
+    "default": classes
+  }, Symbol.toStringTag, { value: "Module" }));
   function childrenToArray(children) {
     if (Array.isArray(children)) {
       return new Array().concat(...children.map(childrenToArray));
@@ -1815,13 +2494,7 @@ var __publicField = (obj, key, value) => {
       }
     }
   };
-  var StyleModuleLessinline = "._mainBody_8f6zw_1 {\n  opacity: 0.5;\n}\n._mainBody_8f6zw_1 * {\n  font-size: 0.75rem;\n  margin: 0;\n}\n._mainBody_8f6zw_1 button {\n  cursor: pointer;\n}\n._clickable_8f6zw_11 {\n  cursor: pointer;\n}\n._stateWorkingOn_8f6zw_14 {\n  color: blue;\n}\n._stateSure_8f6zw_17 {\n  color: green;\n}\n._stateNotSure_8f6zw_20 {\n  color: red;\n}\n._answerMsg_8f6zw_23 {\n  border-style: groove;\n  border-width: thin;\n  opacity: 0.75;\n  margin-bottom: 0.5rem;\n}\n._answerMsg_8f6zw_23 ul {\n  padding-left: 1rem;\n}\n._answerMsgName_8f6zw_32 {\n  font-weight: bold;\n}\n._answerMark_8f6zw_35 {\n  display: flex;\n  justify-content: end;\n  align-items: center;\n  border-style: groove;\n  border-width: thin;\n  margin-bottom: 0.5rem;\n  opacity: 0.75;\n}\n._answerMark_8f6zw_35 button {\n  padding: 0;\n  margin-left: 0.5rem;\n  white-space: nowrap;\n}\n._answerMark_8f6zw_35 input {\n  height: max-content;\n  width: 100%;\n}\n._answerDetail_8f6zw_53 ._stateWorkingOn_8f6zw_14,\n._answerDetail_8f6zw_53 ._stateSure_8f6zw_17,\n._answerDetail_8f6zw_53 ._stateNotSure_8f6zw_20 {\n  font-weight: bold;\n}\n._answerDetail_8f6zw_53 ul {\n  padding-left: 1.5rem;\n}\n._answerDetail_8f6zw_53 img {\n  height: auto;\n  width: 80%;\n}\n._answerDetailShortAnswer_8f6zw_65 {\n  border-style: groove;\n  border-width: thin;\n  margin: 0.2rem;\n  padding: 0.2rem;\n}\n._settings_8f6zw_71 {\n  border-style: groove;\n  border-width: thin;\n  display: flex;\n  flex-direction: column;\n  padding: 0.5rem;\n  margin-bottom: 0.5rem;\n}\n._settingsEntry_8f6zw_79 {\n  display: flex;\n  flex-direction: row;\n  margin-bottom: 0.5rem;\n  justify-content: space-between;\n  align-items: center;\n}\n._settingsEntry_8f6zw_79 label {\n  font-weight: bold;\n}\n._settingsEntry_8f6zw_79 input {\n  height: max-content;\n  text-align: right;\n}\n._settingsSubmit_8f6zw_93 {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: end;\n}\n._settingsSubmitTip_8f6zw_99 {\n  margin-right: 0.5rem;\n}\n._about_8f6zw_102 p {\n  margin-bottom: 0.25rem;\n}\n._about_8f6zw_102 ul {\n  padding-left: 1.5rem;\n  margin-bottom: 0.25rem;\n}\n._about_8f6zw_102 ul li {\n  margin-bottom: 0.25rem;\n}\n._uploadImg_8f6zw_112 {\n  display: flex;\n  flex-direction: column;\n}\n._uploadImg_8f6zw_112 img {\n  width: 100%;\n  height: auto;\n}\n._uploadImgImage_8f6zw_120 {\n  border-style: groove;\n  border-width: thin;\n  padding: 0.5rem;\n}\n._uploadImgConfirm_8f6zw_125 {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 0.5rem;\n}\n";
   var styleCss$1 = StyleModuleLessinline;
-  function joinStrings(s, sep) {
-    return joinWith(s, sep, function(s2) {
-      return s2;
-    });
-  }
   function querySelectorAllElements(t, q) {
     return keepMap(Array.prototype.slice.call(t.querySelectorAll(q)), ofNode);
   }
@@ -2484,66 +3157,6 @@ var __publicField = (obj, key, value) => {
   var fromArray = fromArray$1;
   var get$2 = get$3;
   var getExn = getExn$1;
-  const mainBody = "_mainBody_8f6zw_1";
-  const clickable = "_clickable_8f6zw_11";
-  const stateWorkingOn = "_stateWorkingOn_8f6zw_14";
-  const stateSure = "_stateSure_8f6zw_17";
-  const stateNotSure = "_stateNotSure_8f6zw_20";
-  const answerMsg = "_answerMsg_8f6zw_23";
-  const answerMsgName = "_answerMsgName_8f6zw_32";
-  const answerMark = "_answerMark_8f6zw_35";
-  const answerDetail = "_answerDetail_8f6zw_53";
-  const answerDetailShortAnswer = "_answerDetailShortAnswer_8f6zw_65";
-  const settings = "_settings_8f6zw_71";
-  const settingsEntry = "_settingsEntry_8f6zw_79";
-  const settingsSubmit = "_settingsSubmit_8f6zw_93";
-  const settingsSubmitTip = "_settingsSubmitTip_8f6zw_99";
-  const about = "_about_8f6zw_102";
-  const uploadImg = "_uploadImg_8f6zw_112";
-  const uploadImgImage = "_uploadImgImage_8f6zw_120";
-  const uploadImgConfirm = "_uploadImgConfirm_8f6zw_125";
-  var style_module = {
-    mainBody,
-    clickable,
-    stateWorkingOn,
-    stateSure,
-    stateNotSure,
-    answerMsg,
-    answerMsgName,
-    answerMark,
-    answerDetail,
-    answerDetailShortAnswer,
-    settings,
-    settingsEntry,
-    settingsSubmit,
-    settingsSubmitTip,
-    about,
-    uploadImg,
-    uploadImgImage,
-    uploadImgConfirm
-  };
-  var StyleModuleLess = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
-    __proto__: null,
-    mainBody,
-    clickable,
-    stateWorkingOn,
-    stateSure,
-    stateNotSure,
-    answerMsg,
-    answerMsgName,
-    answerMark,
-    answerDetail,
-    answerDetailShortAnswer,
-    settings,
-    settingsEntry,
-    settingsSubmit,
-    settingsSubmitTip,
-    about,
-    uploadImg,
-    uploadImgImage,
-    uploadImgConfirm,
-    "default": style_module
-  }, Symbol.toStringTag, { value: "Module" }));
   var style$2 = StyleModuleLess;
   function percent(a, b) {
     return String(div(Math.imul(a, 100), b)) + "%";
@@ -3308,34 +3921,6 @@ var __publicField = (obj, key, value) => {
   var ofElement = asHtmlElement;
   var styleCss = StyleModuleLessinline;
   var style = StyleModuleLess;
-  function showConfirmUpload$1(dataURL, cb) {
-    var match = openWin("\u4E0A\u4F20\u56FE\u7247", 200, 300, void 0, void 0);
-    var win = match[0];
-    match[1].appendChild(getExn$2(toNode(DOMRe.createDOMElementVariadic("div", {
-      className: joinStrings([
-        style.mainBody,
-        style.uploadImg
-      ], " ")
-    }, [
-      DOMRe.createDOMElementVariadic("div", {
-        className: style.uploadImgConfirm
-      }, [
-        DOMRe.createDOMElementVariadic("button", {
-          className: style.clickable,
-          onClick: function(param) {
-            _1(cb, void 0);
-            win.close();
-          }
-        }, ["\u786E\u8BA4\u4E0A\u4F20"]),
-        DOMRe.createDOMElementVariadic("span", void 0, [DOMRe.createDOMElementVariadic("i", void 0, ["*\u5173\u95ED\u7A97\u53E3\u4EE5\u53D6\u6D88\u4E0A\u4F20"])])
-      ]),
-      DOMRe.createDOMElementVariadic("div", {
-        className: style.uploadImgImage
-      }, [DOMRe.createDOMElementVariadic("img", {
-        src: dataURL
-      }, [])])
-    ]))));
-  }
   function probelmTypeFromJs(param) {
     if (param <= 6 && 1 <= param) {
       return param - 1 | 0;
@@ -3441,12 +4026,17 @@ var __publicField = (obj, key, value) => {
     updateAnswer,
     updateUI
   };
+  const _tmpl$ = /* @__PURE__ */ template(`<div><div><button>\u786E\u8BA4\u4E0A\u4F20</button><span><i>*\u5173\u95ED\u7A97\u53E3\u4EE5\u53D6\u6D88\u4E0A\u4F20</i></span></div><div><img></div></div>`, 13);
   class UI {
     constructor(problems) {
-      __publicField(this, "inner");
       this.inner = UI$1.make(problems);
     }
-    updateAnswer({ username, problem_id, result, context }) {
+    updateAnswer({
+      username,
+      problem_id,
+      result,
+      context
+    }) {
       UI$1.updateAnswer(this.inner, problem_id, username, {
         answer: result,
         context
@@ -3457,8 +4047,36 @@ var __publicField = (obj, key, value) => {
     }
   }
   function showConfirmUpload(dataURL, cb) {
-    showConfirmUpload$1(dataURL, cb);
+    const win = openWin$1({
+      title: "\u4E0A\u4F20\u56FE\u7247",
+      width: 400,
+      height: 300
+    });
+    render(() => (() => {
+      const _el$ = _tmpl$.cloneNode(true), _el$2 = _el$.firstChild, _el$3 = _el$2.firstChild, _el$4 = _el$2.nextSibling, _el$5 = _el$4.firstChild;
+      _el$3.$$click = () => {
+        win.close();
+        cb();
+      };
+      setAttribute(_el$5, "src", dataURL);
+      createRenderEffect((_p$) => {
+        const _v$ = {
+          [classes.mainBody]: true,
+          [classes.uploadImg]: true
+        }, _v$2 = classes.uploadImgConfirm, _v$3 = classes.uploadImgImage;
+        _p$._v$ = classList(_el$, _v$, _p$._v$);
+        _v$2 !== _p$._v$2 && className(_el$2, _p$._v$2 = _v$2);
+        _v$3 !== _p$._v$3 && className(_el$4, _p$._v$3 = _v$3);
+        return _p$;
+      }, {
+        _v$: void 0,
+        _v$2: void 0,
+        _v$3: void 0
+      });
+      return _el$;
+    })(), win.document.body);
   }
+  delegateEvents(["click"]);
   function sortProblems(problems) {
     problems.forEach((problem) => {
       switch (problem.ProblemType) {

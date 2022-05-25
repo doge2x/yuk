@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import pkg from "./package.json";
 import path from "path";
+import solidPlugin from "vite-plugin-solid";
 
 const NAME = pkg.name;
 const VERSION = pkg.version;
@@ -48,6 +49,7 @@ export default defineConfig(({ mode }) => {
       },
     },
     plugins: [
+      solidPlugin(),
       {
         name: "no-css",
         apply: "build",

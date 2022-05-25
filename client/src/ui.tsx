@@ -1,5 +1,8 @@
 import { Problem, UserAnswer } from "./types";
+import classes from "./style.module.less";
+import { openWin } from "./utils";
 import * as UIRe from "./UI.bs.js";
+import { render } from "solid-js/web";
 
 export class UI {
   private inner: any;
@@ -21,5 +24,33 @@ export class UI {
 }
 
 export function showConfirmUpload(dataURL: string, cb: () => void) {
-  UIRe.showConfirmUpload(dataURL, cb);
+  const win = openWin({ title: "上传图片", width: 400, height: 300 });
+  render(
+    () => (
+      <div
+        classList={{
+          [classes.mainBody]: true,
+          [classes.uploadImg]: true,
+        }}
+      >
+        <div class={classes.uploadImgConfirm}>
+          <button
+            onClick={() => {
+              win.close();
+              cb();
+            }}
+          >
+            确认上传
+          </button>
+          <span>
+            <i>*关闭窗口以取消上传</i>
+          </span>
+        </div>
+        <div class={classes.uploadImgImage}>
+          <img src={dataURL} />
+        </div>
+      </div>
+    ),
+    win.document.body
+  );
 }
