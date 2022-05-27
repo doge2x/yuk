@@ -9,10 +9,12 @@ import {
   ProblemType,
   PostAnswer,
 } from "./types";
-import { UI, showConfirmUpload } from "./ui";
+import { UI, showConfirmUpload } from "./UI";
 import { devLog, isDevMode, newURL } from "./utils";
 import { NO_LEAVE_CHECK, SORT_PROBLEMS } from "./shared";
+import { DelegatedEvents } from "solid-js/web";
 import { migrate } from "./gm";
+import * as It from "./itertools";
 
 function sortProblems(problems: Problem[]): Problem[] {
   problems.forEach((problem) => {
@@ -33,7 +35,7 @@ function sortProblems(problems: Problem[]): Problem[] {
 }
 
 function sortPaper(paper: Paper): Paper {
-  if (SORT_PROBLEMS.value === true) {
+  if (SORT_PROBLEMS.get() === true) {
     if (paper.data.has_problem_dict === true) {
       paper.data.problems = (paper.data.problems as ProblemDict[])
         .sort((a, b) => a.id - b.id)
@@ -68,10 +70,16 @@ function removeVisibilityListener() {
 }
 
 async function main(): Promise<void> {
+  It.then([1, 2, 3, 4, 5, 6])
+    .then(It.filter((x) => x > 2))
+    .then(It.forEach(console.log));
+
+  DelegatedEvents.clear();
   migrate();
-  if (NO_LEAVE_CHECK.value === true) {
+  if (NO_LEAVE_CHECK.get() === true) {
     removeVisibilityListener();
   }
+
   hookXHR(function (url) {
     switch (url.pathname) {
       case "/exam_room/show_paper":
