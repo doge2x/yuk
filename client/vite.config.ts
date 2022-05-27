@@ -49,7 +49,7 @@ export default defineConfig(({ mode }) => {
       },
     },
     plugins: [
-      solidPlugin(),
+      solidPlugin({ solid: { delegateEvents: false } }),
       {
         name: "no-css",
         apply: "build",

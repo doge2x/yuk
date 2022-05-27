@@ -1,16 +1,28 @@
 import styleCss from "./style.module.less?inline";
 import { render } from "solid-js/web";
 
-interface Ref<T> {
-  value?: T;
+export function assertNonNull<T>(
+  value: T,
+  msg?: string
+): asserts value is NonNullable<T> {
+  assert(value !== undefined && value !== null, msg ?? "null value");
 }
 
-function assertNonNull<T>(
-  value: T,
-  message?: string
-): asserts value is NonNullable<T> {
-  if (value === null || value === undefined) {
-    throw Error(message ?? "value cannot be null");
+export type KeyOfType<T, V> = keyof {
+  [P in keyof T as T[P] extends V ? P : never]: any;
+};
+
+export function assertIs<T>(
+  ty: { new (): T },
+  value: any,
+  msg?: string
+): asserts value is T {
+  assert(value instanceof ty, msg ?? "not HTMLElement");
+}
+
+export function assert(value: boolean, msg?: string) {
+  if (value !== true) {
+    throw Error(msg ?? "assertion failed");
   }
 }
 
@@ -18,12 +30,9 @@ export function isDevMode(): boolean {
   return import.meta.env.DEV;
 }
 
-const openedWindows: Ref<Window>[] = [];
-window.addEventListener("unload", () =>
-  openedWindows.forEach((ref) => {
-    ref.value?.close();
-  })
-);
+export function tuple<T extends ReadonlyArray<any>>(...t: T): T {
+  return t;
+}
 
 export function openWin(opts: {
   title: string;
@@ -40,11 +49,16 @@ export function openWin(opts: {
       .join(",")
   );
   assertNonNull(win);
-  const ref: Ref<Window> = { value: win };
-  openedWindows.push(ref);
-  win.addEventListener("close", () => (ref.value = undefined));
+  const close = () => win.close();
+  window.addEventListener("unload", close);
+  win.addEventListener("close", () =>
+    window.removeEventListener("unload", close)
+  );
   render(
-    () => [<title>{opts.title}</title>, <style>{styleCss}</style>],
+    () => [
+      <title textContent={opts.title} />,
+      <style textContent={styleCss} />,
+    ],
     win.document.head
   );
   return win;

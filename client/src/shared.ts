@@ -1,19 +1,39 @@
-import * as Shared from "./Shared.bs.js";
+import * as gm from "./gm";
 
-class ReValue<T> {
-  private _value: any;
+class GMEntry<T extends NonNullable<any>> {
+  private readonly _name: string;
+  private readonly _init?: T;
+  private inited: boolean = false;
+  private _cached?: T;
 
-  constructor(value: any) {
-    this._value = value;
+  constructor(name: string, init?: T) {
+    this._name = name;
+    this._init = init;
   }
 
-  get value(): T | undefined {
-    return this._value.get();
+  get(): T | undefined {
+    if (!this.inited) {
+      const val = gm.getValue(this._name);
+      if (val === undefined && this._init !== undefined) {
+        gm.setValue(this._name, this._init);
+      }
+      this._cached = val ?? this._init;
+      this.inited = true;
+    }
+    return this._cached;
+  }
+
+  set(val: T | undefined) {
+    if (val === undefined) {
+      return;
+    }
+    gm.setValue(this._name, val);
+    this._cached = val;
   }
 }
 
-export const USERNAME = new ReValue<string>(Shared.Username);
-export const SERVER = new ReValue<string>(Shared.Server);
-export const SYNC_ANSWERS = new ReValue<boolean>(Shared.SyncAnswers);
-export const SORT_PROBLEMS = new ReValue<boolean>(Shared.SortProblems);
-export const NO_LEAVE_CHECK = new ReValue<boolean>(Shared.NoLeaveCheck);
+export const USERNAME = new GMEntry<string>("username");
+export const SERVER = new GMEntry<string>("server");
+export const SYNC_ANSWERS = new GMEntry<boolean>("sync_answers", true);
+export const SORT_PROBLEMS = new GMEntry<boolean>("sort_problems", false);
+export const NO_LEAVE_CHECK = new GMEntry<boolean>("no_leave_check", true);

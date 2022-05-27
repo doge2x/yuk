@@ -72,11 +72,14 @@ class Client {
   }
 
   private async sendQueue() {
+    const syncAnswers = SYNC_ANSWERS.get();
+    const server = SERVER.get();
+    const username = USERNAME.get();
     if (
-      SYNC_ANSWERS.value !== true ||
+      syncAnswers !== true ||
       this.queue.size < 1 ||
-      SERVER.value === undefined ||
-      USERNAME.value === undefined ||
+      server === undefined ||
+      username === undefined ||
       this.examId === undefined ||
       this.paper === undefined
     ) {
@@ -87,7 +90,6 @@ class Client {
     this.queue.clear();
     // Create a new JSON RPC client.
     if (this.client === undefined) {
-      const server = SERVER.value;
       const client = new JSONRPCClient((req) => {
         return new Promise<void>((ok, err) => {
           GM.xmlHttpRequest({
@@ -113,9 +115,9 @@ class Client {
     }
     // Login to server.
     if (this.token === undefined) {
-      devLog(`login to server: ${USERNAME.value}, ${this.examId}`);
+      devLog(`login to server: ${username}, ${this.examId}`);
       const token: string = await this.client.request("login", [
-        USERNAME.value,
+        username,
         this.examId,
         this.paper,
       ]);

@@ -6,13 +6,15 @@ export type Answer = {
 export type UserAnswer = {
   username: string;
   problem_id: number;
-  result?: ChoiceAnswer | BlankAnswer | ShortAnswerResult;
+  result?: Result;
   context?: AnswerContext;
 };
 
-export type ChoiceAnswer = string[];
+export type Result = ChoiceResult | BlankResult | ShortResult;
 
-export type BlankAnswer = { [k: string]: string };
+export type ChoiceResult = string[];
+
+export type BlankResult = { [k: string]: string };
 
 export type AttachedFile = {
   fileName: string;
@@ -21,7 +23,7 @@ export type AttachedFile = {
   fileType: string;
 };
 
-export type ShortAnswerResult = {
+export type ShortResult = {
   content?: string;
   attachments?: {
     filelist?: AttachedFile[];
@@ -74,6 +76,12 @@ export type ChoiceOption = {
 };
 
 export type AnswerContext = {
-  state?: number;
+  state?: AnswerState;
   msg?: string;
 };
+
+export enum AnswerState {
+  WorkingOn = 0,
+  Sure = 1,
+  NotSure = 2,
+}
