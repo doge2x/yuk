@@ -145,7 +145,7 @@ function Settings(props: { onSubmit: () => void }) {
 }
 
 export function showSettings() {
-  const win = openWin({ title: "设置", width: 400, height: 300 });
+  const win = openWin({ title: "设置", width: 350, height: 300 });
   render(
     () => (
       <div class={style.mainBody}>

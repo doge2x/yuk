@@ -15,12 +15,10 @@ import {
   ChoiceResult,
   ShortResult,
 } from "./types";
-import { match, P } from "ts-pattern";
 import { assertIs, openWin, tuple } from "./utils";
 import { render } from "solid-js/web";
 import { CLIENT } from "./client";
 import * as It from "./itertools";
-import { Map as ImmMap } from "immutable";
 
 export interface AnswerAndContext<A> {
   context?: AnswerContext;
@@ -52,15 +50,17 @@ function cmpNameWithState(
   [aName, aState]: [string, AnswerState | undefined],
   [bName, bState]: [string, AnswerState | undefined]
 ): number {
-  return match(tuple(aState, bState))
-    .with(tuple(undefined, undefined), () => strCmp(aName, bName))
-    .with(tuple(undefined, P.not(undefined)), () => 1)
-    .with(tuple(P.not(undefined), undefined), () => -1)
-    .with(tuple(P.not(undefined), P.not(undefined)), ([aState, bState]) => {
-      const ord = stateToPriv(bState) - stateToPriv(aState);
-      return ord === 0 ? strCmp(aName, bName) : ord;
-    })
-    .exhaustive();
+  if (aState === undefined) {
+    if (bState === undefined) {
+      return strCmp(aName, bName);
+    }
+    return 1;
+  } else if (bState === undefined) {
+    return -1;
+  } else {
+    const ord = stateToPriv(bState) - stateToPriv(aState);
+    return ord === 0 ? strCmp(aName, bName) : ord;
+  }
 }
 
 function cmpNameWithAnswerAndCtx<A>(
@@ -102,10 +102,10 @@ function cmpByKey<V>([a]: [string, V], [b]: [string, V]) {
   return strCmp(a, b);
 }
 
-type DetailsData<A> = ImmMap<string, AnswerAndContext<A>>;
+type DetailsData<A> = Map<string, AnswerAndContext<A>>;
 
 export class Details<A> {
-  private _details: DetailsData<A> = ImmMap();
+  private readonly _details: DetailsData<A> = new Map();
   readonly updateUI: () => void;
 
   protected constructor(
@@ -114,7 +114,9 @@ export class Details<A> {
     makeRender: (details: Accessor<DetailsData<A>>) => () => JSX.Element
   ) {
     this.updateUI = createRoot(() => {
-      const [details, setDetails] = createSignal<DetailsData<A>>(ImmMap(), {});
+      const [details, setDetails] = createSignal<DetailsData<A>>(new Map(), {
+        equals: false,
+      });
       const updateUI = () => setDetails(this._details);
       const DetailsRender = makeRender(details);
 
@@ -126,8 +128,8 @@ export class Details<A> {
         let rect = itemType?.getBoundingClientRect();
         const win = openWin({
           title: "详细答案",
-          height: 200,
-          width: 300,
+          height: 300,
+          width: 350,
           top: rect?.top,
           left: rect?.left,
         });
@@ -213,7 +215,7 @@ export class Details<A> {
   }
 
   updateAnswer(username: string, data: AnswerAndContext<A>) {
-    this._details = this._details.set(username, data);
+    this._details.set(username, data);
   }
 }
 
