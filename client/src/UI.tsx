@@ -64,7 +64,7 @@ export class UI {
                 detail = new ShortAnswer(prob.ProblemID, subjectItem);
                 break;
             }
-            return details.set(prob.ProblemID, detail);
+            return details.set(prob.ProblemID, detail as any);
           }
         )
       ).t;

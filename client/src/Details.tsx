@@ -1,4 +1,12 @@
-import { JSX } from "solid-js";
+import {
+  Accessor,
+  createEffect,
+  createMemo,
+  createRoot,
+  createSignal,
+  For,
+  JSX,
+} from "solid-js";
 import style from "./style.module.less";
 import {
   AnswerContext,
@@ -12,10 +20,21 @@ import { assertIs, openWin, tuple } from "./utils";
 import { render } from "solid-js/web";
 import { CLIENT } from "./client";
 import * as It from "./itertools";
+import { Map as ImmMap } from "immutable";
 
 export interface AnswerAndContext<A> {
   context?: AnswerContext;
   answer?: A;
+}
+
+function strCmp(a: string, b: string): number {
+  if (a === b) {
+    return 0;
+  } else if (a < b) {
+    return -1;
+  } else {
+    return 1;
+  }
 }
 
 function stateToPriv(state: AnswerState): number {
@@ -34,13 +53,13 @@ function cmpNameWithState(
   [bName, bState]: [string, AnswerState | undefined]
 ): number {
   return match(tuple(aState, bState))
-    .with(tuple(undefined, undefined), () => aName.localeCompare(bName))
+    .with(tuple(undefined, undefined), () => strCmp(aName, bName))
     .with(tuple(undefined, P.not(undefined)), () => 1)
     .with(tuple(P.not(undefined), undefined), () => -1)
-    .with(
-      tuple(P.not(undefined), P.not(undefined)),
-      ([aState, bState]) => stateToPriv(bState) - stateToPriv(aState)
-    )
+    .with(tuple(P.not(undefined), P.not(undefined)), ([aState, bState]) => {
+      const ord = stateToPriv(bState) - stateToPriv(aState);
+      return ord === 0 ? strCmp(aName, bName) : ord;
+    })
     .exhaustive();
 }
 
@@ -80,85 +99,84 @@ function percent(a: number, b: number) {
 }
 
 function sortByKey<V>([a]: [string, V], [b]: [string, V]) {
-  return a.localeCompare(b);
+  return strCmp(a, b);
 }
 
-export abstract class Details<A> {
-  private _details: Map<string, AnswerAndContext<A>> = new Map();
-  private _id: number;
-  private _renderUI: () => JSX.Element = () => undefined;
+type DetailsData<A> = ImmMap<string, AnswerAndContext<A>>;
 
-  protected abstract renderUI(): () => JSX.Element;
+export class Details<A> {
+  private _details: DetailsData<A> = ImmMap();
+  readonly updateUI: () => void;
 
-  protected get details(): Map<string, AnswerAndContext<A>> {
-    return this._details;
-  }
+  protected constructor(
+    id: number,
+    subjectItem: Element,
+    makeRender: (details: Accessor<DetailsData<A>>) => () => JSX.Element
+  ) {
+    this.updateUI = createRoot(() => {
+      const [details, setDetails] = createSignal<DetailsData<A>>(ImmMap(), {});
+      const updateUI = () => setDetails(this._details);
+      const DetailsRender = makeRender(details);
 
-  constructor(id: number, subjectItem: Element) {
-    this._id = id;
-
-    // Click problem title to show detail of answers.
-    let itemType = subjectItem.querySelector(".item-type");
-    assertIs(HTMLElement, itemType);
-    itemType.classList.add(style.clickable);
-    itemType.addEventListener("click", () => {
-      let rect = itemType?.getBoundingClientRect();
-      this.showDetail({ top: rect?.top, left: rect?.left });
-    });
-  }
-
-  showDetail(opts: { top?: number; left?: number }) {
-    const win = openWin({
-      title: "详细答案",
-      height: 200,
-      width: 300,
-      ...opts,
-    });
-    render(
-      () => (
-        <div class={style.mainBody}>
-          <fieldset class={style.answerMark}>
-            <legend>标记</legend>
-            <input
-              type="text"
-              placeholder="留言"
-              onchange={(ev) =>
-                CLIENT.updateMsg(this._id, ev.currentTarget.value)
-              }
-            />
-            <button
-              type="button"
-              class={style.stateWorkingOn}
-              onClick={() =>
-                CLIENT.updateState(this._id, AnswerState.WorkingOn)
-              }
-            >
-              我正在做
-            </button>
-            <button
-              type="button"
-              class={style.stateSure}
-              onClick={() => CLIENT.updateState(this._id, AnswerState.Sure)}
-            >
-              我很确定
-            </button>
-            <button
-              type="button"
-              class={style.stateNotSure}
-              onClick={() => CLIENT.updateState(this._id, AnswerState.NotSure)}
-            >
-              我不确定
-            </button>
-          </fieldset>
-          <div>
-            <fieldset classList={{ [style.answerMsg]: true }}>
-              <legend> 留言 </legend>
-              <ul>
-                {
-                  It.then(this.details)
-                    .then(It.sort(cmpNameWithAnswerAndCtx))
-                    .then(
-                      It.filterMap(([user, { context }]) => {
+      // Click problem title to show detail of answers.
+      let itemType = subjectItem.querySelector(".item-type");
+      assertIs(HTMLElement, itemType);
+      itemType.classList.add(style.clickable);
+      itemType.addEventListener("click", () => {
+        let rect = itemType?.getBoundingClientRect();
+        const win = openWin({
+          title: "详细答案",
+          height: 200,
+          width: 300,
+          top: rect?.top,
+          left: rect?.left,
+        });
+        render(
+          () => (
+            <div class={style.mainBody}>
+              <fieldset class={style.answerMark}>
+                <legend>标记</legend>
+                <input
+                  type="text"
+                  placeholder="留言"
+                  onchange={(ev) =>
+                    CLIENT.updateMsg(id, ev.currentTarget.value)
+                  }
+                />
+                <button
+                  type="button"
+                  class={style.stateWorkingOn}
+                  onClick={() => CLIENT.updateState(id, AnswerState.WorkingOn)}
+                >
+                  我正在做
+                </button>
+                <button
+                  type="button"
+                  class={style.stateSure}
+                  onClick={() => CLIENT.updateState(id, AnswerState.Sure)}
+                >
+                  我很确定
+                </button>
+                <button
+                  type="button"
+                  class={style.stateNotSure}
+                  onClick={() => CLIENT.updateState(id, AnswerState.NotSure)}
+                >
+                  我不确定
+                </button>
+              </fieldset>
+              <div>
+                <fieldset classList={{ [style.answerMsg]: true }}>
+                  <legend> 留言 </legend>
+                  <ul>
+                    <For
+                      each={
+                        It.then(details())
+                          .then(It.sort(cmpNameWithAnswerAndCtx))
+                          .then(It.collectArray).t
+                      }
+                    >
+                      {([user, { context }]) => {
                         if (context === undefined) {
                           return;
                         }
@@ -177,28 +195,26 @@ export abstract class Details<A> {
                             {msg}
                           </li>
                         );
-                      })
-                    )
-                    .then(It.collectArray).t
-                }
-              </ul>
-            </fieldset>
-            <div classList={{ [style.answerDetail]: true }}>
-              {this._renderUI()}
+                      }}
+                    </For>
+                  </ul>
+                </fieldset>
+                <div classList={{ [style.answerDetail]: true }}>
+                  <DetailsRender />
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      ),
-      win.document.body
-    );
-  }
+          ),
+          win.document.body
+        );
+      });
 
-  updateUI() {
-    this._renderUI = this.renderUI();
+      return updateUI;
+    });
   }
 
   updateAnswer(username: string, data: AnswerAndContext<A>) {
-    this._details.set(username, data);
+    this._details = this._details.set(username, data);
   }
 }
 
@@ -214,18 +230,15 @@ class Tooltip {
   }
 }
 
-export class Choice extends Details<ChoiceResult> {
-  private readonly _choiceMap: (c: string) => string;
-  private readonly _tooltips: Map<string, Tooltip>;
+type Users = Array<[string, AnswerContext | undefined]>;
 
+export class Choice extends Details<ChoiceResult> {
   constructor(
     id: number,
     subjectItem: Element,
-    choiceMap: (c: string) => string
+    choiceMap: (s: string) => string
   ) {
-    super(id, subjectItem);
-    this._choiceMap = choiceMap;
-    this._tooltips = It.then(
+    const tooltips = It.then(
       subjectItem.querySelectorAll(
         ".item-body .checkboxInput, .item-body .radioInput"
       )
@@ -237,73 +250,70 @@ export class Choice extends Details<ChoiceResult> {
           tooltips.set(String.fromCharCode(idx + 65), new Tooltip(ele))
         )
       ).t;
-  }
 
-  protected renderUI(): () => JSX.Element {
-    // choice => [user, context?][]
-    const choiceToUsers = It.then(this.details)
-      .then(
-        It.fold(
-          new Map<string, [string, AnswerContext | undefined][]>(),
-          (choiceToUsers, [user, { answer, context }]) => {
-            if (answer !== undefined) {
-              for (let choice of answer) {
-                choice = this._choiceMap(choice);
-                const users = choiceToUsers.get(choice) ?? [];
-                users.push([user, context]);
-                return choiceToUsers.set(choice, users);
+    super(id, subjectItem, (details) => {
+      // (choice, (user, context?)[])[]
+      const choiceToUsers = createMemo(() =>
+        It.then(details())
+          .then(
+            It.fold(
+              new Map<string, Users>(),
+              (choiceToUsers, [user, { answer, context }]) => {
+                if (answer !== undefined) {
+                  for (let choice of answer) {
+                    choice = choiceMap(choice);
+                    const users = choiceToUsers.get(choice) ?? [];
+                    users.push([user, context]);
+                    return choiceToUsers.set(choice, users);
+                  }
+                }
+                return choiceToUsers;
               }
-            }
-            return choiceToUsers;
-          }
-        )
-      )
-      .then(It.collectArray)
-      // Sort by choice.
-      .t.sort(sortByKey);
+            )
+          )
+          .then(It.collectArray)
+          // Sort by choice.
+          .t.sort(sortByKey)
+      );
 
-    // Update tooltips to show how many users have selected the choice.
-    It.then(choiceToUsers).then(
-      It.forEach(([choice, users]) => {
-        this._tooltips
-          .get(choice)
-          ?.setContent(percent(users.length, this.details.size));
-      })
-    );
+      // Update tooltips to show how many users select the choices.
+      createEffect(() => {
+        It.then(choiceToUsers()).then(
+          It.forEach(([choice, users]) => {
+            tooltips
+              .get(choice)
+              ?.setContent(percent(users.length, details().size));
+          })
+        );
+      });
 
-    return () =>
-      It.then(choiceToUsers)
-        .then(
-          It.map(([choice, users]) => (
+      return () => (
+        // choice
+        // - user
+        <For each={choiceToUsers()}>
+          {([choice, users]) => (
             <div>
               <p>
                 <strong>{choice}</strong>
               </p>
               <ul>
-                {
-                  It.then(users)
-                    .then(It.sort(cmpNameWithCtx))
-                    .then(
-                      It.map(([user, ctx]) => (
-                        <li class={stateToClass(ctx?.state)}>{user}</li>
-                      ))
-                    )
-                    .then(It.collectArray).t
-                }
+                <For each={users.sort(cmpNameWithCtx)}>
+                  {([user, ctx]) => (
+                    <li class={stateToClass(ctx?.state)}>{user}</li>
+                  )}
+                </For>
               </ul>
             </div>
-          ))
-        )
-        .then(It.collectArray).t;
+          )}
+        </For>
+      );
+    });
   }
 }
 
 export class Blank extends Details<BlankResult> {
-  private readonly _tooltips: Map<string, Tooltip>;
-
   constructor(id: number, subjectItem: Element) {
-    super(id, subjectItem);
-    this._tooltips = It.then(
+    const tooltips = It.then(
       subjectItem.querySelectorAll(".item-body .blank-item-dynamic")
     )
       .then<Element[]>(Array.from)
@@ -313,122 +323,121 @@ export class Blank extends Details<BlankResult> {
           tooltips.set(String.fromCharCode(idx + 49), new Tooltip(ele))
         )
       ).t;
-  }
 
-  protected renderUI(): () => JSX.Element {
-    // blank => [fill, [user, context?]][]
-    const blankToFillAndUsers = It.then(this.details)
-      .then(
-        It.fold(
-          new Map<string, Map<string, [string, AnswerContext | undefined][]>>(),
-          (blankToFillToUsers, [user, { answer, context }]) => {
-            if (answer === undefined) {
-              return blankToFillToUsers;
-            }
-            return It.then(answer)
-              .then(Object.entries)
-              .then(
-                It.fold(
-                  blankToFillToUsers,
-                  (blankToFillToUsers, [blank, fill]) => {
-                    // Trim spaces.
-                    fill = fill.trim();
-                    const fillToUsers =
-                      blankToFillToUsers.get(blank) ?? new Map();
-                    const users = fillToUsers.get(fill) ?? [];
-                    users.push([user, context]);
-                    return blankToFillToUsers.set(
-                      blank,
-                      fillToUsers.set(fill, users)
-                    );
-                  }
-                )
-              ).t;
-          }
-        )
-      )
-      .then(
-        It.map(([blank, fillToUsers]) =>
-          tuple(
-            blank,
-            // Sory by filled text.
-            It.then(fillToUsers).then(It.sort(sortByKey)).t
+    super(id, subjectItem, (details) => {
+      // (blank, (fill, Users)[])[]
+      const blankToFillToUsers = () =>
+        It.then(details())
+          .then(
+            It.fold(
+              new Map<
+                string,
+                Map<string, [string, AnswerContext | undefined][]>
+              >(),
+              (blankToFillToUsers, [user, { answer, context }]) => {
+                if (answer === undefined) {
+                  return blankToFillToUsers;
+                }
+                return It.then(answer)
+                  .then(Object.entries)
+                  .then(
+                    It.fold(
+                      blankToFillToUsers,
+                      (blankToFillToUsers, [blank, fill]) => {
+                        // Trim spaces.
+                        fill = fill.trim();
+                        const fillToUsers =
+                          blankToFillToUsers.get(blank) ?? new Map();
+                        const users = fillToUsers.get(fill) ?? [];
+                        users.push([user, context]);
+                        return blankToFillToUsers.set(
+                          blank,
+                          fillToUsers.set(fill, users)
+                        );
+                      }
+                    )
+                  ).t;
+              }
+            )
           )
-        )
-      )
-      .then(It.collectArray)
-      // Sort by blank ID.
-      .t.sort(sortByKey);
+          .then(
+            It.map(([blank, fillToUsers]) =>
+              tuple(
+                blank,
+                // Sory by filled text.
+                It.then(fillToUsers).then(It.collectArray).t.sort(sortByKey)
+              )
+            )
+          )
+          .then(It.collectArray)
+          // Sort by blank ID.
+          .t.sort(sortByKey);
 
-    It.then(blankToFillAndUsers).then(
-      It.forEach(([blank, fillAndUsers]) => {
-        const most = It.then(fillAndUsers)
-          .then(It.map(([fill, users]) => tuple(fill, users.length)))
-          .then(It.sort(([_1, a], [_2, b]) => b - a))
-          .then(It.first).t;
-        // Update tooltips to show the most popular answers.
-        this._tooltips
-          .get(blank)
-          ?.setContent(
-            most === undefined
-              ? ""
-              : `(${percent(most[1], this.details.size)}) ${most[0]}`
-          );
-      })
-    );
+      // Update tooltips to show the most popular answers.
+      createEffect(() => {
+        It.then(blankToFillToUsers()).then(
+          It.forEach(([blank, fillToUsers]) => {
+            const most = It.then(fillToUsers)
+              .then(It.map(([fill, users]) => tuple(fill, users.length)))
+              .then(It.sort(([_1, a], [_2, b]) => b - a))
+              .then(It.first).t;
+            tooltips
+              .get(blank)
+              ?.setContent(
+                most === undefined
+                  ? ""
+                  : `(${percent(most[1], details().size)}) ${most[0]}`
+              );
+          })
+        );
+      });
 
-    return () =>
-      It.then(blankToFillAndUsers)
-        .then(
-          It.map(([blank, fillAndUsers]) => (
-            // **#blank**
-            //   - fill
-            //     - user
+      return () => (
+        // #blank
+        // - fill
+        //   - user
+        <For each={blankToFillToUsers()}>
+          {([blank, fillToUsers]) => (
             <div>
               <p>
                 <strong>{`#${blank}`}</strong>
               </p>
               <ul>
-                {
-                  It.then(fillAndUsers)
-                    .then(
-                      It.map(([fill, users]) => (
-                        <li>
-                          <pre>{fill}</pre>
-                          <ul>
-                            {
-                              It.then(users)
-                                .then(It.sort(cmpNameWithCtx))
-                                .then(
-                                  It.map(([user, ctx]) => (
-                                    <li class={stateToClass(ctx?.state)}>
-                                      {user}
-                                    </li>
-                                  ))
-                                )
-                                .then(It.collectArray).t
-                            }
-                          </ul>
-                        </li>
-                      ))
-                    )
-                    .then(It.collectArray).t
-                }
+                <For each={fillToUsers}>
+                  {([fill, users]) => (
+                    <li>
+                      <pre>{fill}</pre>
+                      <ul>
+                        <For each={users.sort(cmpNameWithCtx)}>
+                          {([user, ctx]) => (
+                            <li class={stateToClass(ctx?.state)}>{user}</li>
+                          )}
+                        </For>
+                      </ul>
+                    </li>
+                  )}
+                </For>
               </ul>
             </div>
-          ))
-        )
-        .then(It.collectArray).t;
+          )}
+        </For>
+      );
+    });
   }
 }
 
 export class ShortAnswer extends Details<ShortResult> {
-  protected renderUI(): () => JSX.Element {
-    return () =>
-      It.then(this.details)
-        .then(It.sort(cmpNameWithAnswerAndCtx))
-        .then(
-          It.map(([user, { answer, context }]) => {
+  constructor(id: number, subjectItem: Element) {
+    super(id, subjectItem, (details) => {
+      const userToAnswers = createMemo(() =>
+        It.then(details()).then(It.collectArray).t.sort(cmpNameWithAnswerAndCtx)
+      );
+      return () => (
+        // user
+        // <content>
+        // - filelist
+        <For each={userToAnswers()}>
+          {([user, { answer, context }]) => {
             const content = answer?.content;
             const filelist = answer?.attachments?.filelist;
             let contentHtml;
@@ -444,26 +453,19 @@ export class ShortAnswer extends Details<ShortResult> {
             if (filelist !== undefined) {
               filelistHtml = (
                 <ul>
-                  {
-                    It.then(filelist)
-                      .then(
-                        It.map(({ fileUrl, fileName }) => (
-                          <li>
-                            <a href={fileUrl}>{fileName}</a>
-                          </li>
-                        ))
-                      )
-                      .then(It.collectArray).t
-                  }
+                  <For each={filelist}>
+                    {({ fileUrl, fileName }) => (
+                      <li>
+                        <a href={fileUrl}>{fileName}</a>
+                      </li>
+                    )}
+                  </For>
                 </ul>
               );
             }
             if (contentHtml === undefined && filelistHtml === undefined) {
               return;
             }
-            // **user**
-            // <content>
-            //   - filelist
             return (
               <>
                 <p class={stateToClass(context?.state)}>
@@ -473,8 +475,9 @@ export class ShortAnswer extends Details<ShortResult> {
                 {filelistHtml}
               </>
             );
-          })
-        )
-        .then(It.collectArray).t;
+          }}
+        </For>
+      );
+    });
   }
 }
