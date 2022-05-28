@@ -1,17 +1,25 @@
 class Pipe<T> {
-  readonly t: T;
+  private readonly _lazy: () => T;
 
-  constructor(t: T) {
-    this.t = t;
+  constructor(lazy: () => T) {
+    this._lazy = lazy;
+  }
+
+  static from<T>(t: T) {
+    return new Pipe(() => t);
   }
 
   then<U>(f: (t: T) => U): Pipe<U> {
-    return new Pipe(f(this.t));
+    return new Pipe(() => f(this.exec()));
+  }
+
+  exec(): T {
+    return this._lazy();
   }
 }
 
-export function then<T>(t: T): Pipe<T> {
-  return new Pipe(t);
+export function pipe<T>(t: T): Pipe<T> {
+  return Pipe.from(t);
 }
 
 export function iter<T>(it: Iterator<T>): IterableIterator<T> {
