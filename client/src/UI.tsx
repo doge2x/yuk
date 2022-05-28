@@ -28,7 +28,7 @@ export class UI {
       subjectItems.length === problems.length,
       "number subject items mismatches problems"
     );
-    this._details = It.then(subjectItems)
+    this._details = It.pipe(subjectItems)
       .then(It.zip(problems))
       .then(
         It.fold(
@@ -38,19 +38,26 @@ export class UI {
             switch (prob.ProblemType) {
               case ProblemType.SingleChoice:
               case ProblemType.MultipleChoice:
-              case ProblemType.Judgement:
               case ProblemType.Polling:
+              case ProblemType.Judgement:
                 assertNonNull(prob.Options, "null choices");
                 // Map answers to what user sees.
-                const choiceMap = It.then(prob.Options)
-                  .then(It.enumerate)
-                  .then(
-                    It.fold(
-                      new Map<string, string>(),
-                      (choiceMap, [idx, { key }]) =>
-                        choiceMap.set(key, String.fromCharCode(65 + idx))
-                    )
-                  ).t;
+                const choiceMap =
+                  prob.ProblemType === ProblemType.Judgement
+                    ? new Map([
+                        ["true", "正确"],
+                        ["false", "错误"],
+                      ])
+                    : It.pipe(prob.Options)
+                        .then(It.enumerate)
+                        .then(
+                          It.fold(
+                            new Map<string, string>(),
+                            (choiceMap, [idx, { key }]) =>
+                              choiceMap.set(key, String.fromCharCode(65 + idx))
+                          )
+                        )
+                        .exec();
                 detail = new Choice(
                   prob.ProblemID,
                   subjectItem,
@@ -67,7 +74,8 @@ export class UI {
             return details.set(prob.ProblemID, detail as any);
           }
         )
-      ).t;
+      )
+      .exec();
   }
 
   updateAnswer({ username, problem_id, result, context }: UserAnswer) {

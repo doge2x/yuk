@@ -98,7 +98,7 @@ function percent(a: number, b: number) {
   return `${Math.floor((a * 100) / b)}%`;
 }
 
-function sortByKey<V>([a]: [string, V], [b]: [string, V]) {
+function cmpByKey<V>([a]: [string, V], [b]: [string, V]) {
   return strCmp(a, b);
 }
 
@@ -170,11 +170,10 @@ export class Details<A> {
                   <legend> 留言 </legend>
                   <ul>
                     <For
-                      each={
-                        It.then(details())
-                          .then(It.sort(cmpNameWithAnswerAndCtx))
-                          .then(It.collectArray).t
-                      }
+                      each={It.pipe(details())
+                        .then(It.sort(cmpNameWithAnswerAndCtx))
+                        .then(It.collectArray)
+                        .exec()}
                     >
                       {([user, { context }]) => {
                         if (context === undefined) {
@@ -238,7 +237,7 @@ export class Choice extends Details<ChoiceResult> {
     subjectItem: Element,
     choiceMap: (s: string) => string
   ) {
-    const tooltips = It.then(
+    const tooltips = It.pipe(
       subjectItem.querySelectorAll(
         ".item-body .checkboxInput, .item-body .radioInput"
       )
@@ -249,12 +248,13 @@ export class Choice extends Details<ChoiceResult> {
         It.fold(new Map<string, Tooltip>(), (tooltips, [idx, ele]) =>
           tooltips.set(String.fromCharCode(idx + 65), new Tooltip(ele))
         )
-      ).t;
+      )
+      .exec();
 
     super(id, subjectItem, (details) => {
       // (choice, (user, context?)[])[]
       const choiceToUsers = createMemo(() =>
-        It.then(details())
+        It.pipe(details())
           .then(
             It.fold(
               new Map<string, Users>(),
@@ -264,21 +264,22 @@ export class Choice extends Details<ChoiceResult> {
                     choice = choiceMap(choice);
                     const users = choiceToUsers.get(choice) ?? [];
                     users.push([user, context]);
-                    return choiceToUsers.set(choice, users);
+                    choiceToUsers.set(choice, users);
                   }
                 }
                 return choiceToUsers;
               }
             )
           )
-          .then(It.collectArray)
           // Sort by choice.
-          .t.sort(sortByKey)
+          .then(It.sort(cmpByKey))
+          .then(It.collectArray)
+          .exec()
       );
 
       // Update tooltips to show how many users select the choices.
       createEffect(() => {
-        It.then(choiceToUsers()).then(
+        It.pipe(choiceToUsers()).then(
           It.forEach(([choice, users]) => {
             tooltips
               .get(choice)
@@ -313,7 +314,7 @@ export class Choice extends Details<ChoiceResult> {
 
 export class Blank extends Details<BlankResult> {
   constructor(id: number, subjectItem: Element) {
-    const tooltips = It.then(
+    const tooltips = It.pipe(
       subjectItem.querySelectorAll(".item-body .blank-item-dynamic")
     )
       .then<Element[]>(Array.from)
@@ -322,12 +323,13 @@ export class Blank extends Details<BlankResult> {
         It.fold(new Map(), (tooltips, [idx, ele]) =>
           tooltips.set(String.fromCharCode(idx + 49), new Tooltip(ele))
         )
-      ).t;
+      )
+      .exec();
 
     super(id, subjectItem, (details) => {
       // (blank, (fill, Users)[])[]
       const blankToFillToUsers = () =>
-        It.then(details())
+        It.pipe(details())
           .then(
             It.fold(
               new Map<
@@ -338,7 +340,7 @@ export class Blank extends Details<BlankResult> {
                 if (answer === undefined) {
                   return blankToFillToUsers;
                 }
-                return It.then(answer)
+                return It.pipe(answer)
                   .then(Object.entries)
                   .then(
                     It.fold(
@@ -356,7 +358,8 @@ export class Blank extends Details<BlankResult> {
                         );
                       }
                     )
-                  ).t;
+                  )
+                  .exec();
               }
             )
           )
@@ -365,22 +368,27 @@ export class Blank extends Details<BlankResult> {
               tuple(
                 blank,
                 // Sory by filled text.
-                It.then(fillToUsers).then(It.collectArray).t.sort(sortByKey)
+                It.pipe(fillToUsers)
+                  .then(It.sort(cmpByKey))
+                  .then(It.collectArray)
+                  .exec()
               )
             )
           )
-          .then(It.collectArray)
           // Sort by blank ID.
-          .t.sort(sortByKey);
+          .then(It.sort(cmpByKey))
+          .then(It.collectArray)
+          .exec();
 
       // Update tooltips to show the most popular answers.
       createEffect(() => {
-        It.then(blankToFillToUsers()).then(
+        It.pipe(blankToFillToUsers()).then(
           It.forEach(([blank, fillToUsers]) => {
-            const most = It.then(fillToUsers)
+            const most = It.pipe(fillToUsers)
               .then(It.map(([fill, users]) => tuple(fill, users.length)))
               .then(It.sort(([_1, a], [_2, b]) => b - a))
-              .then(It.first).t;
+              .then(It.first)
+              .exec();
             tooltips
               .get(blank)
               ?.setContent(
@@ -404,18 +412,23 @@ export class Blank extends Details<BlankResult> {
               </p>
               <ul>
                 <For each={fillToUsers}>
-                  {([fill, users]) => (
-                    <li>
-                      <pre>{fill}</pre>
-                      <ul>
-                        <For each={users.sort(cmpNameWithCtx)}>
-                          {([user, ctx]) => (
-                            <li class={stateToClass(ctx?.state)}>{user}</li>
-                          )}
-                        </For>
-                      </ul>
-                    </li>
-                  )}
+                  {([fill, users]) => {
+                    if (fill === "") {
+                      return;
+                    }
+                    return (
+                      <li>
+                        <p class={style.answerDetailFill}>{fill}</p>
+                        <ul>
+                          <For each={users.sort(cmpNameWithCtx)}>
+                            {([user, ctx]) => (
+                              <li class={stateToClass(ctx?.state)}>{user}</li>
+                            )}
+                          </For>
+                        </ul>
+                      </li>
+                    );
+                  }}
                 </For>
               </ul>
             </div>
@@ -430,7 +443,10 @@ export class ShortAnswer extends Details<ShortResult> {
   constructor(id: number, subjectItem: Element) {
     super(id, subjectItem, (details) => {
       const userToAnswers = createMemo(() =>
-        It.then(details()).then(It.collectArray).t.sort(cmpNameWithAnswerAndCtx)
+        It.pipe(details())
+          .then(It.sort(cmpNameWithAnswerAndCtx))
+          .then(It.collectArray)
+          .exec()
       );
       return () => (
         // user

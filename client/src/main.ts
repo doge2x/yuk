@@ -12,9 +12,7 @@ import {
 import { UI, showConfirmUpload } from "./UI";
 import { devLog, isDevMode, newURL } from "./utils";
 import { NO_LEAVE_CHECK, SORT_PROBLEMS } from "./shared";
-import { DelegatedEvents } from "solid-js/web";
 import { migrate } from "./gm";
-import * as It from "./itertools";
 
 function sortProblems(problems: Problem[]): Problem[] {
   problems.forEach((problem) => {
@@ -70,11 +68,6 @@ function removeVisibilityListener() {
 }
 
 async function main(): Promise<void> {
-  It.then([1, 2, 3, 4, 5, 6])
-    .then(It.filter((x) => x > 2))
-    .then(It.forEach(console.log));
-
-  DelegatedEvents.clear();
   migrate();
   if (NO_LEAVE_CHECK.get() === true) {
     removeVisibilityListener();

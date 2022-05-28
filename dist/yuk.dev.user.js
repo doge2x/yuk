@@ -1855,7 +1855,7 @@ ${html}. Is your HTML properly formed?`;
       parent.insertBefore(node, marker);
     return [node];
   }
-  var styleCss = "._mainBody_8f6zw_1 {\n  opacity: 0.5;\n}\n._mainBody_8f6zw_1 * {\n  font-size: 0.75rem;\n  margin: 0;\n}\n._mainBody_8f6zw_1 button {\n  cursor: pointer;\n}\n._clickable_8f6zw_11 {\n  cursor: pointer;\n}\n._stateWorkingOn_8f6zw_14 {\n  color: blue;\n}\n._stateSure_8f6zw_17 {\n  color: green;\n}\n._stateNotSure_8f6zw_20 {\n  color: red;\n}\n._answerMsg_8f6zw_23 {\n  border-style: groove;\n  border-width: thin;\n  opacity: 0.75;\n  margin-bottom: 0.5rem;\n}\n._answerMsg_8f6zw_23 ul {\n  padding-left: 1rem;\n}\n._answerMsgName_8f6zw_32 {\n  font-weight: bold;\n}\n._answerMark_8f6zw_35 {\n  display: flex;\n  justify-content: end;\n  align-items: center;\n  border-style: groove;\n  border-width: thin;\n  margin-bottom: 0.5rem;\n  opacity: 0.75;\n}\n._answerMark_8f6zw_35 button {\n  padding: 0;\n  margin-left: 0.5rem;\n  white-space: nowrap;\n}\n._answerMark_8f6zw_35 input {\n  height: max-content;\n  width: 100%;\n}\n._answerDetail_8f6zw_53 ._stateWorkingOn_8f6zw_14,\n._answerDetail_8f6zw_53 ._stateSure_8f6zw_17,\n._answerDetail_8f6zw_53 ._stateNotSure_8f6zw_20 {\n  font-weight: bold;\n}\n._answerDetail_8f6zw_53 ul {\n  padding-left: 1.5rem;\n}\n._answerDetail_8f6zw_53 img {\n  height: auto;\n  width: 80%;\n}\n._answerDetailShortAnswer_8f6zw_65 {\n  border-style: groove;\n  border-width: thin;\n  margin: 0.2rem;\n  padding: 0.2rem;\n}\n._settings_8f6zw_71 {\n  border-style: groove;\n  border-width: thin;\n  display: flex;\n  flex-direction: column;\n  padding: 0.5rem;\n  margin-bottom: 0.5rem;\n}\n._settingsEntry_8f6zw_79 {\n  display: flex;\n  flex-direction: row;\n  margin-bottom: 0.5rem;\n  justify-content: space-between;\n  align-items: center;\n}\n._settingsEntry_8f6zw_79 label {\n  font-weight: bold;\n}\n._settingsEntry_8f6zw_79 input {\n  height: max-content;\n  text-align: right;\n}\n._settingsSubmit_8f6zw_93 {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: end;\n}\n._settingsSubmitTip_8f6zw_99 {\n  margin-right: 0.5rem;\n}\n._about_8f6zw_102 p {\n  margin-bottom: 0.25rem;\n}\n._about_8f6zw_102 ul {\n  padding-left: 1.5rem;\n  margin-bottom: 0.25rem;\n}\n._about_8f6zw_102 ul li {\n  margin-bottom: 0.25rem;\n}\n._uploadImg_8f6zw_112 {\n  display: flex;\n  flex-direction: column;\n}\n._uploadImg_8f6zw_112 img {\n  width: 100%;\n  height: auto;\n}\n._uploadImgImage_8f6zw_120 {\n  border-style: groove;\n  border-width: thin;\n  padding: 0.5rem;\n}\n._uploadImgConfirm_8f6zw_125 {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 0.5rem;\n}\n";
+  var styleCss = "._mainBody_o6t0e_1 {\n  opacity: 0.5;\n}\n._mainBody_o6t0e_1 * {\n  font-size: 0.75rem;\n  margin: 0;\n}\n._mainBody_o6t0e_1 button {\n  cursor: pointer;\n}\n._clickable_o6t0e_11 {\n  cursor: pointer;\n}\n._stateWorkingOn_o6t0e_14 {\n  color: blue;\n}\n._stateSure_o6t0e_17 {\n  color: green;\n}\n._stateNotSure_o6t0e_20 {\n  color: red;\n}\n._answerMsg_o6t0e_23 {\n  border-style: groove;\n  border-width: thin;\n  opacity: 0.75;\n  margin-bottom: 0.5rem;\n}\n._answerMsg_o6t0e_23 ul {\n  padding-left: 1rem;\n}\n._answerMsgName_o6t0e_32 {\n  font-weight: bold;\n}\n._answerMark_o6t0e_35 {\n  display: flex;\n  justify-content: end;\n  align-items: center;\n  border-style: groove;\n  border-width: thin;\n  margin-bottom: 0.5rem;\n  opacity: 0.75;\n}\n._answerMark_o6t0e_35 button {\n  padding: 0;\n  margin-left: 0.5rem;\n  white-space: nowrap;\n}\n._answerMark_o6t0e_35 input {\n  height: max-content;\n  width: 100%;\n}\n._answerDetail_o6t0e_53 ._stateWorkingOn_o6t0e_14,\n._answerDetail_o6t0e_53 ._stateSure_o6t0e_17,\n._answerDetail_o6t0e_53 ._stateNotSure_o6t0e_20 {\n  font-weight: bold;\n}\n._answerDetail_o6t0e_53 ul {\n  padding-left: 1.5rem;\n}\n._answerDetail_o6t0e_53 img {\n  height: auto;\n  width: 80%;\n}\n._answerDetailShortAnswer_o6t0e_65 {\n  border-style: groove;\n  border-width: thin;\n  margin: 0.2rem;\n  padding: 0.2rem;\n}\n._answerDetailFill_o6t0e_71 {\n  white-space: pre;\n}\n._settings_o6t0e_74 {\n  border-style: groove;\n  border-width: thin;\n  display: flex;\n  flex-direction: column;\n  padding: 0.5rem;\n  margin-bottom: 0.5rem;\n}\n._settingsEntry_o6t0e_82 {\n  display: flex;\n  flex-direction: row;\n  margin-bottom: 0.5rem;\n  justify-content: space-between;\n  align-items: center;\n}\n._settingsEntry_o6t0e_82 label {\n  font-weight: bold;\n}\n._settingsEntry_o6t0e_82 input {\n  height: max-content;\n  text-align: right;\n}\n._settingsSubmit_o6t0e_96 {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: end;\n}\n._settingsSubmitTip_o6t0e_102 {\n  margin-right: 0.5rem;\n}\n._about_o6t0e_105 p {\n  margin-bottom: 0.25rem;\n}\n._about_o6t0e_105 ul {\n  padding-left: 1.5rem;\n  margin-bottom: 0.25rem;\n}\n._about_o6t0e_105 ul li {\n  margin-bottom: 0.25rem;\n}\n._uploadImg_o6t0e_115 {\n  display: flex;\n  flex-direction: column;\n}\n._uploadImg_o6t0e_115 img {\n  width: 100%;\n  height: auto;\n}\n._uploadImgImage_o6t0e_123 {\n  border-style: groove;\n  border-width: thin;\n  padding: 0.5rem;\n}\n._uploadImgConfirm_o6t0e_128 {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 0.5rem;\n}\n";
   const _tmpl$$3 = /* @__PURE__ */ template(`<title> </title>`, 2), _tmpl$2$3 = /* @__PURE__ */ template(`<style></style>`, 2);
   function assertNonNull(value, msg) {
     assert(value !== void 0 && value !== null, msg != null ? msg : "null value");
@@ -2118,24 +2118,25 @@ ${html}. Is your HTML properly formed?`;
     AnswerState2[AnswerState2["NotSure"] = 2] = "NotSure";
     return AnswerState2;
   })(AnswerState || {});
-  const mainBody = "_mainBody_8f6zw_1";
-  const clickable = "_clickable_8f6zw_11";
-  const stateWorkingOn = "_stateWorkingOn_8f6zw_14";
-  const stateSure = "_stateSure_8f6zw_17";
-  const stateNotSure = "_stateNotSure_8f6zw_20";
-  const answerMsg = "_answerMsg_8f6zw_23";
-  const answerMsgName = "_answerMsgName_8f6zw_32";
-  const answerMark = "_answerMark_8f6zw_35";
-  const answerDetail = "_answerDetail_8f6zw_53";
-  const answerDetailShortAnswer = "_answerDetailShortAnswer_8f6zw_65";
-  const settings = "_settings_8f6zw_71";
-  const settingsEntry = "_settingsEntry_8f6zw_79";
-  const settingsSubmit = "_settingsSubmit_8f6zw_93";
-  const settingsSubmitTip = "_settingsSubmitTip_8f6zw_99";
-  const about = "_about_8f6zw_102";
-  const uploadImg = "_uploadImg_8f6zw_112";
-  const uploadImgImage = "_uploadImgImage_8f6zw_120";
-  const uploadImgConfirm = "_uploadImgConfirm_8f6zw_125";
+  const mainBody = "_mainBody_o6t0e_1";
+  const clickable = "_clickable_o6t0e_11";
+  const stateWorkingOn = "_stateWorkingOn_o6t0e_14";
+  const stateSure = "_stateSure_o6t0e_17";
+  const stateNotSure = "_stateNotSure_o6t0e_20";
+  const answerMsg = "_answerMsg_o6t0e_23";
+  const answerMsgName = "_answerMsgName_o6t0e_32";
+  const answerMark = "_answerMark_o6t0e_35";
+  const answerDetail = "_answerDetail_o6t0e_53";
+  const answerDetailShortAnswer = "_answerDetailShortAnswer_o6t0e_65";
+  const answerDetailFill = "_answerDetailFill_o6t0e_71";
+  const settings = "_settings_o6t0e_74";
+  const settingsEntry = "_settingsEntry_o6t0e_82";
+  const settingsSubmit = "_settingsSubmit_o6t0e_96";
+  const settingsSubmitTip = "_settingsSubmitTip_o6t0e_102";
+  const about = "_about_o6t0e_105";
+  const uploadImg = "_uploadImg_o6t0e_115";
+  const uploadImgImage = "_uploadImgImage_o6t0e_123";
+  const uploadImgConfirm = "_uploadImgConfirm_o6t0e_128";
   var style = {
     mainBody,
     clickable,
@@ -2147,6 +2148,7 @@ ${html}. Is your HTML properly formed?`;
     answerMark,
     answerDetail,
     answerDetailShortAnswer,
+    answerDetailFill,
     settings,
     settingsEntry,
     settingsSubmit,
@@ -2312,16 +2314,22 @@ ${html}. Is your HTML properly formed?`;
     }
   }
   class Pipe {
-    constructor(t2) {
-      __publicField(this, "t");
-      this.t = t2;
+    constructor(lazy) {
+      __publicField(this, "_lazy");
+      this._lazy = lazy;
+    }
+    static from(t2) {
+      return new Pipe(() => t2);
     }
     then(f2) {
-      return new Pipe(f2(this.t));
+      return new Pipe(() => f2(this.exec()));
+    }
+    exec() {
+      return this._lazy();
     }
   }
-  function then(t2) {
-    return new Pipe(t2);
+  function pipe(t2) {
+    return Pipe.from(t2);
   }
   function map(op) {
     return function* (it) {
@@ -2335,15 +2343,6 @@ ${html}. Is your HTML properly formed?`;
     for (const a2 of it) {
       yield [i2++, a2];
     }
-  }
-  function filter(p2) {
-    return function* (it) {
-      for (const a2 of it) {
-        if (p2(a2)) {
-          yield a2;
-        }
-      }
-    };
   }
   function zip(b2) {
     return function* (a2) {
@@ -5978,7 +5977,7 @@ ${html}. Is your HTML properly formed?`;
       });
       return returnValue;
     },
-    filter: function filter2(predicate, context) {
+    filter: function filter(predicate, context) {
       return reify(this, filterFactory(this, predicate, context, true));
     },
     find: function find(predicate, context, notSetValue) {
@@ -6221,7 +6220,7 @@ ${html}. Is your HTML properly formed?`;
     toKeyedSeq: function toKeyedSeq() {
       return new ToKeyedSequence(this, false);
     },
-    filter: function filter2(predicate, context) {
+    filter: function filter(predicate, context) {
       return reify(this, filterFactory(this, predicate, context, false));
     },
     findIndex: function findIndex(predicate, context) {
@@ -6618,7 +6617,7 @@ ${html}. Is your HTML properly formed?`;
     } catch (error) {
     }
   }
-  const _tmpl$$2 = /* @__PURE__ */ template(`<div><fieldset><legend>\u6807\u8BB0</legend><input type="text" placeholder="\u7559\u8A00"><button type="button">\u6211\u6B63\u5728\u505A</button><button type="button">\u6211\u5F88\u786E\u5B9A</button><button type="button">\u6211\u4E0D\u786E\u5B9A</button></fieldset><div><fieldset><legend> \u7559\u8A00 </legend><ul></ul></fieldset><div></div></div></div>`, 23), _tmpl$2$2 = /* @__PURE__ */ template(`<li><span></span></li>`, 4), _tmpl$3$1 = /* @__PURE__ */ template(`<div><p><strong></strong></p><ul></ul></div>`, 8), _tmpl$4$1 = /* @__PURE__ */ template(`<li></li>`, 2), _tmpl$5 = /* @__PURE__ */ template(`<li><pre></pre><ul></ul></li>`, 6), _tmpl$6 = /* @__PURE__ */ template(`<div></div>`, 2), _tmpl$7 = /* @__PURE__ */ template(`<ul></ul>`, 2), _tmpl$8 = /* @__PURE__ */ template(`<li><a></a></li>`, 4), _tmpl$9 = /* @__PURE__ */ template(`<p><strong></strong></p>`, 4);
+  const _tmpl$$2 = /* @__PURE__ */ template(`<div><fieldset><legend>\u6807\u8BB0</legend><input type="text" placeholder="\u7559\u8A00"><button type="button">\u6211\u6B63\u5728\u505A</button><button type="button">\u6211\u5F88\u786E\u5B9A</button><button type="button">\u6211\u4E0D\u786E\u5B9A</button></fieldset><div><fieldset><legend> \u7559\u8A00 </legend><ul></ul></fieldset><div></div></div></div>`, 23), _tmpl$2$2 = /* @__PURE__ */ template(`<li><span></span></li>`, 4), _tmpl$3$1 = /* @__PURE__ */ template(`<div><p><strong></strong></p><ul></ul></div>`, 8), _tmpl$4$1 = /* @__PURE__ */ template(`<li></li>`, 2), _tmpl$5 = /* @__PURE__ */ template(`<li><p></p><ul></ul></li>`, 6), _tmpl$6 = /* @__PURE__ */ template(`<div></div>`, 2), _tmpl$7 = /* @__PURE__ */ template(`<ul></ul>`, 2), _tmpl$8 = /* @__PURE__ */ template(`<li><a></a></li>`, 4), _tmpl$9 = /* @__PURE__ */ template(`<p><strong></strong></p>`, 4);
   function strCmp(a2, b2) {
     if (a2 === b2) {
       return 0;
@@ -6667,7 +6666,7 @@ ${html}. Is your HTML properly formed?`;
   function percent(a2, b2) {
     return `${Math.floor(a2 * 100 / b2)}%`;
   }
-  function sortByKey([a2], [b2]) {
+  function cmpByKey([a2], [b2]) {
     return strCmp(a2, b2);
   }
   class Details {
@@ -6697,7 +6696,7 @@ ${html}. Is your HTML properly formed?`;
             _el$7.addEventListener("click", () => CLIENT.updateState(id, AnswerState.NotSure));
             insert(_el$11, createComponent(For, {
               get each() {
-                return then(details()).then(sort(cmpNameWithAnswerAndCtx)).then(collectArray).t;
+                return pipe(details()).then(sort(cmpNameWithAnswerAndCtx)).then(collectArray).exec();
               },
               children: ([user, {
                 context
@@ -6773,9 +6772,9 @@ ${html}. Is your HTML properly formed?`;
   }
   class Choice extends Details {
     constructor(id, subjectItem, choiceMap) {
-      const tooltips = then(subjectItem.querySelectorAll(".item-body .checkboxInput, .item-body .radioInput")).then((t2) => Array.from(t2)).then(enumerate).then(fold(/* @__PURE__ */ new Map(), (tooltips2, [idx, ele]) => tooltips2.set(String.fromCharCode(idx + 65), new Tooltip(ele)))).t;
+      const tooltips = pipe(subjectItem.querySelectorAll(".item-body .checkboxInput, .item-body .radioInput")).then((t2) => Array.from(t2)).then(enumerate).then(fold(/* @__PURE__ */ new Map(), (tooltips2, [idx, ele]) => tooltips2.set(String.fromCharCode(idx + 65), new Tooltip(ele)))).exec();
       super(id, subjectItem, (details) => {
-        const choiceToUsers = createMemo(() => then(details()).then(fold(/* @__PURE__ */ new Map(), (choiceToUsers2, [user, {
+        const choiceToUsers = createMemo(() => pipe(details()).then(fold(/* @__PURE__ */ new Map(), (choiceToUsers2, [user, {
           answer,
           context
         }]) => {
@@ -6785,13 +6784,13 @@ ${html}. Is your HTML properly formed?`;
               choice = choiceMap(choice);
               const users = (_a = choiceToUsers2.get(choice)) != null ? _a : [];
               users.push([user, context]);
-              return choiceToUsers2.set(choice, users);
+              choiceToUsers2.set(choice, users);
             }
           }
           return choiceToUsers2;
-        })).then(collectArray).t.sort(sortByKey));
+        })).then(sort(cmpByKey)).then(collectArray).exec());
         createEffect(() => {
-          then(choiceToUsers()).then(forEach(([choice, users]) => {
+          pipe(choiceToUsers()).then(forEach(([choice, users]) => {
             var _a;
             (_a = tooltips.get(choice)) == null ? void 0 : _a.setContent(percent(users.length, details().size));
           }));
@@ -6822,28 +6821,28 @@ ${html}. Is your HTML properly formed?`;
   }
   class Blank extends Details {
     constructor(id, subjectItem) {
-      const tooltips = then(subjectItem.querySelectorAll(".item-body .blank-item-dynamic")).then(Array.from).then(enumerate).then(fold(/* @__PURE__ */ new Map(), (tooltips2, [idx, ele]) => tooltips2.set(String.fromCharCode(idx + 49), new Tooltip(ele)))).t;
+      const tooltips = pipe(subjectItem.querySelectorAll(".item-body .blank-item-dynamic")).then(Array.from).then(enumerate).then(fold(/* @__PURE__ */ new Map(), (tooltips2, [idx, ele]) => tooltips2.set(String.fromCharCode(idx + 49), new Tooltip(ele)))).exec();
       super(id, subjectItem, (details) => {
-        const blankToFillToUsers = () => then(details()).then(fold(/* @__PURE__ */ new Map(), (blankToFillToUsers2, [user, {
+        const blankToFillToUsers = () => pipe(details()).then(fold(/* @__PURE__ */ new Map(), (blankToFillToUsers2, [user, {
           answer,
           context
         }]) => {
           if (answer === void 0) {
             return blankToFillToUsers2;
           }
-          return then(answer).then(Object.entries).then(fold(blankToFillToUsers2, (blankToFillToUsers3, [blank, fill]) => {
+          return pipe(answer).then(Object.entries).then(fold(blankToFillToUsers2, (blankToFillToUsers3, [blank, fill]) => {
             var _a, _b;
             fill = fill.trim();
             const fillToUsers = (_a = blankToFillToUsers3.get(blank)) != null ? _a : /* @__PURE__ */ new Map();
             const users = (_b = fillToUsers.get(fill)) != null ? _b : [];
             users.push([user, context]);
             return blankToFillToUsers3.set(blank, fillToUsers.set(fill, users));
-          })).t;
-        })).then(map(([blank, fillToUsers]) => tuple(blank, then(fillToUsers).then(collectArray).t.sort(sortByKey)))).then(collectArray).t.sort(sortByKey);
+          })).exec();
+        })).then(map(([blank, fillToUsers]) => tuple(blank, pipe(fillToUsers).then(sort(cmpByKey)).then(collectArray).exec()))).then(sort(cmpByKey)).then(collectArray).exec();
         createEffect(() => {
-          then(blankToFillToUsers()).then(forEach(([blank, fillToUsers]) => {
+          pipe(blankToFillToUsers()).then(forEach(([blank, fillToUsers]) => {
             var _a;
-            const most = then(fillToUsers).then(map(([fill, users]) => tuple(fill, users.length))).then(sort(([_1, a2], [_2, b2]) => b2 - a2)).then(first).t;
+            const most = pipe(fillToUsers).then(map(([fill, users]) => tuple(fill, users.length))).then(sort(([_1, a2], [_2, b2]) => b2 - a2)).then(first).exec();
             (_a = tooltips.get(blank)) == null ? void 0 : _a.setContent(most === void 0 ? "" : `(${percent(most[1], details().size)}) ${most[0]}`);
           }));
         });
@@ -6856,22 +6855,28 @@ ${html}. Is your HTML properly formed?`;
             insert(_el$22, `#${blank}`);
             insert(_el$23, createComponent(For, {
               each: fillToUsers,
-              children: ([fill, users]) => (() => {
-                const _el$24 = _tmpl$5.cloneNode(true), _el$25 = _el$24.firstChild, _el$26 = _el$25.nextSibling;
-                insert(_el$25, fill);
-                insert(_el$26, createComponent(For, {
-                  get each() {
-                    return users.sort(cmpNameWithCtx);
-                  },
-                  children: ([user, ctx]) => (() => {
-                    const _el$27 = _tmpl$4$1.cloneNode(true);
-                    insert(_el$27, user);
-                    createRenderEffect(() => className(_el$27, stateToClass(ctx == null ? void 0 : ctx.state)));
-                    return _el$27;
-                  })()
-                }));
-                return _el$24;
-              })()
+              children: ([fill, users]) => {
+                if (fill === "") {
+                  return;
+                }
+                return (() => {
+                  const _el$24 = _tmpl$5.cloneNode(true), _el$25 = _el$24.firstChild, _el$26 = _el$25.nextSibling;
+                  insert(_el$25, fill);
+                  insert(_el$26, createComponent(For, {
+                    get each() {
+                      return users.sort(cmpNameWithCtx);
+                    },
+                    children: ([user, ctx]) => (() => {
+                      const _el$27 = _tmpl$4$1.cloneNode(true);
+                      insert(_el$27, user);
+                      createRenderEffect(() => className(_el$27, stateToClass(ctx == null ? void 0 : ctx.state)));
+                      return _el$27;
+                    })()
+                  }));
+                  createRenderEffect(() => className(_el$25, style.answerDetailFill));
+                  return _el$24;
+                })();
+              }
             }));
             return _el$20;
           })()
@@ -6882,7 +6887,7 @@ ${html}. Is your HTML properly formed?`;
   class ShortAnswer extends Details {
     constructor(id, subjectItem) {
       super(id, subjectItem, (details) => {
-        const userToAnswers = createMemo(() => then(details()).then(collectArray).t.sort(cmpNameWithAnswerAndCtx));
+        const userToAnswers = createMemo(() => pipe(details()).then(sort(cmpNameWithAnswerAndCtx)).then(collectArray).exec());
         return () => createComponent(For, {
           get each() {
             return userToAnswers();
@@ -7084,17 +7089,17 @@ ${html}. Is your HTML properly formed?`;
       header.addEventListener("click", () => showSettings());
       let subjectItems = Array.from(document.body.querySelectorAll(".exam-main--body .subject-item"));
       assert(subjectItems.length === problems.length, "number subject items mismatches problems");
-      this._details = then(subjectItems).then(zip(problems)).then(fold(/* @__PURE__ */ new Map(), (details, [subjectItem, prob]) => {
+      this._details = pipe(subjectItems).then(zip(problems)).then(fold(/* @__PURE__ */ new Map(), (details, [subjectItem, prob]) => {
         let detail;
         switch (prob.ProblemType) {
           case ProblemType.SingleChoice:
           case ProblemType.MultipleChoice:
-          case ProblemType.Judgement:
           case ProblemType.Polling:
+          case ProblemType.Judgement:
             assertNonNull(prob.Options, "null choices");
-            const choiceMap = then(prob.Options).then(enumerate).then(fold(/* @__PURE__ */ new Map(), (choiceMap2, [idx, {
+            const choiceMap = prob.ProblemType === ProblemType.Judgement ? /* @__PURE__ */ new Map([["true", "\u6B63\u786E"], ["false", "\u9519\u8BEF"]]) : pipe(prob.Options).then(enumerate).then(fold(/* @__PURE__ */ new Map(), (choiceMap2, [idx, {
               key
-            }]) => choiceMap2.set(key, String.fromCharCode(65 + idx)))).t;
+            }]) => choiceMap2.set(key, String.fromCharCode(65 + idx)))).exec();
             detail = new Choice(prob.ProblemID, subjectItem, (s2) => {
               var _a;
               return (_a = choiceMap.get(s2)) != null ? _a : s2;
@@ -7108,7 +7113,7 @@ ${html}. Is your HTML properly formed?`;
             break;
         }
         return details.set(prob.ProblemID, detail);
-      })).t;
+      })).exec();
     }
     updateAnswer({
       username,
@@ -7197,8 +7202,6 @@ ${html}. Is your HTML properly formed?`;
     }, true);
   }
   async function main() {
-    then([1, 2, 3, 4, 5, 6]).then(filter((x) => x > 2)).then(forEach(console.log));
-    DelegatedEvents.clear();
     migrate();
     if (NO_LEAVE_CHECK.get() === true) {
       removeVisibilityListener();
