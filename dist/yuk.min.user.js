@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         yuk-client
-// @version      0.6.1
+// @version      0.7.0
 // @author       doge2x
 // @icon         https://www.yuketang.cn/static/images/favicon.ico
 // @match        https://examination.xuetangx.com/*
