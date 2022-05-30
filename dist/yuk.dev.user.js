@@ -874,6 +874,9 @@ var __publicField = (obj, key, value) => {
     __exportStar(serverAndClient, exports);
   })(dist);
   const sharedConfig = {};
+  function setHydrateContext(context) {
+    sharedConfig.context = context;
+  }
   const equalFn = (a, b) => a === b;
   const $TRACK = Symbol("solid-track");
   const $DEVCOMP = Symbol("solid-dev-component");
@@ -935,13 +938,15 @@ var __publicField = (obj, key, value) => {
     };
     return [readSignal.bind(s), setter];
   }
-  function createComputed(fn, value, options) {
-    const c = createComputation(fn, value, true, STALE, options);
-    updateComputation(c);
-  }
   function createRenderEffect(fn, value, options) {
     const c = createComputation(fn, value, false, STALE, options);
     updateComputation(c);
+  }
+  function createEffect(fn, value, options) {
+    runEffects = runUserEffects;
+    const c = createComputation(fn, value, false, STALE, options);
+    c.user = true;
+    Effects ? Effects.push(c) : updateComputation(c);
   }
   function createMemo(fn, value, options) {
     options = options ? Object.assign({}, signalOptions, options) : signalOptions;
@@ -1230,6 +1235,23 @@ var __publicField = (obj, key, value) => {
     for (let i = 0; i < queue.length; i++)
       runTop(queue[i]);
   }
+  function runUserEffects(queue) {
+    let i, userLength = 0;
+    for (i = 0; i < queue.length; i++) {
+      const e = queue[i];
+      if (!e.user)
+        runTop(e);
+      else
+        queue[userLength++] = e;
+    }
+    if (sharedConfig.context)
+      setHydrateContext();
+    const resume = queue.length;
+    for (i = 0; i < userLength; i++)
+      runTop(queue[i]);
+    for (i = resume; i < queue.length; i++)
+      runTop(queue[i]);
+  }
   function lookUpstream(node, ignore) {
     const runningTransition = Transition;
     node.state = 0;
@@ -1293,36 +1315,6 @@ var __publicField = (obj, key, value) => {
     for (var i = 0, h = 9; i < s.length; )
       h = Math.imul(h ^ s.charCodeAt(i++), 9 ** 9);
     return `${h ^ h >>> 9}`;
-  }
-  function getSymbol() {
-    const SymbolCopy = Symbol;
-    return SymbolCopy.observable || "@@observable";
-  }
-  function observable(input) {
-    const $$observable = getSymbol();
-    return {
-      subscribe(observer) {
-        if (!(observer instanceof Object) || observer == null) {
-          throw new TypeError("Expected the observer to be an object.");
-        }
-        const handler = "next" in observer ? observer.next.bind(observer) : observer;
-        let complete = false;
-        createComputed(() => {
-          if (complete)
-            return;
-          const v = input();
-          untrack(() => handler(v));
-        });
-        return {
-          unsubscribe() {
-            complete = true;
-          }
-        };
-      },
-      [$$observable]() {
-        return this;
-      }
-    };
   }
   const FALLBACK = Symbol("fallback");
   function dispose(d) {
@@ -1427,6 +1419,20 @@ var __publicField = (obj, key, value) => {
       fallback: () => props.fallback
     };
     return createMemo(mapArray(() => props.each, props.children, fallback ? fallback : void 0));
+  }
+  function Show(props) {
+    let strictEqual = false;
+    const condition = createMemo(() => props.when, void 0, {
+      equals: (a, b) => strictEqual ? a === b : !a === !b
+    });
+    return createMemo(() => {
+      const c = condition();
+      if (c) {
+        const child = props.children;
+        return (strictEqual = typeof child === "function" && child.length > 0) ? untrack(() => child(c)) : child;
+      }
+      return props.fallback;
+    });
   }
   if (globalThis) {
     if (!globalThis.Solid$$)
@@ -1877,6 +1883,16 @@ ${html}. Is your HTML properly formed?`;
       return t;
     };
   }
+  function map$1(f) {
+    return function(a) {
+      return a !== void 0 ? f(a) : void 0;
+    };
+  }
+  function or2(b) {
+    return function(a) {
+      return a !== void 0 || b !== void 0 ? [a, b] : void 0;
+    };
+  }
   function map(op) {
     return function* (it) {
       for (const a of it) {
@@ -1889,6 +1905,25 @@ ${html}. Is your HTML properly formed?`;
     for (const a of it) {
       yield [i++, a];
     }
+  }
+  function filter(p) {
+    return function* (it) {
+      for (const a of it) {
+        if (p(a)) {
+          yield a;
+        }
+      }
+    };
+  }
+  function filterMap(f) {
+    return function* (it) {
+      for (const a of it) {
+        const t = f(a);
+        if (t !== void 0) {
+          yield t;
+        }
+      }
+    };
   }
   function zip(b) {
     return function* (a) {
@@ -1924,6 +1959,13 @@ ${html}. Is your HTML properly formed?`;
       }
       return b;
     };
+  }
+  function count(it) {
+    let i = 0;
+    for (const _ of it) {
+      i++;
+    }
+    return i;
   }
   function collectArray(it) {
     return Array.from(it);
@@ -1978,7 +2020,7 @@ ${html}. Is your HTML properly formed?`;
       return this._t;
     }
   }
-  var styleCss = "._mainBody_1tr7e_1 {\n  opacity: 0.5;\n}\n._mainBody_1tr7e_1 * {\n  font-size: 0.75rem;\n  margin: 0;\n}\n._mainBody_1tr7e_1 button {\n  cursor: pointer;\n}\n._clickable_1tr7e_11 {\n  cursor: pointer;\n}\n._stateWorkingOn_1tr7e_14 {\n  color: blue;\n}\n._stateSure_1tr7e_17 {\n  color: green;\n}\n._stateNotSure_1tr7e_20 {\n  color: red;\n}\n._answerMsg_1tr7e_23 {\n  border-style: groove;\n  border-width: thin;\n  opacity: 0.75;\n  margin-bottom: 0.5rem;\n}\n._answerMsg_1tr7e_23 ul {\n  padding-left: 1rem;\n}\n._answerMsgName_1tr7e_32 {\n  font-weight: bold;\n}\n._answerMark_1tr7e_35 {\n  display: flex;\n  justify-content: end;\n  align-items: center;\n  border-style: groove;\n  border-width: thin;\n  margin-bottom: 0.5rem;\n  opacity: 0.75;\n}\n._answerMark_1tr7e_35 button {\n  padding: 0;\n  margin-left: 0.5rem;\n  white-space: nowrap;\n}\n._answerMark_1tr7e_35 input {\n  height: max-content;\n  width: 100%;\n}\n._answerDetail_1tr7e_53 ._stateWorkingOn_1tr7e_14,\n._answerDetail_1tr7e_53 ._stateSure_1tr7e_17,\n._answerDetail_1tr7e_53 ._stateNotSure_1tr7e_20 {\n  font-weight: bold;\n}\n._answerDetail_1tr7e_53 ul {\n  padding-left: 1.5rem;\n}\n._answerDetail_1tr7e_53 img {\n  height: auto;\n  width: 80%;\n}\n._answerDetailShortAnswer_1tr7e_65 {\n  border-style: groove;\n  border-width: thin;\n  margin: 0.2rem;\n  padding: 0.2rem;\n  min-width: min-content;\n}\n._answerDetailFill_1tr7e_72 {\n  white-space: pre;\n}\n._settings_1tr7e_75 {\n  border-style: groove;\n  border-width: thin;\n  display: flex;\n  flex-direction: column;\n  padding: 0.5rem;\n  margin-bottom: 0.5rem;\n}\n._settingsEntry_1tr7e_83 {\n  display: flex;\n  flex-direction: row;\n  margin-bottom: 0.5rem;\n  justify-content: space-between;\n  align-items: center;\n}\n._settingsEntry_1tr7e_83 label {\n  font-weight: bold;\n}\n._settingsEntry_1tr7e_83 input {\n  height: max-content;\n  text-align: right;\n}\n._settingsSubmit_1tr7e_97 {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: end;\n}\n._settingsSubmitTip_1tr7e_103 {\n  margin-right: 0.5rem;\n}\n._about_1tr7e_106 p {\n  margin-bottom: 0.25rem;\n}\n._about_1tr7e_106 ul {\n  padding-left: 1.5rem;\n  margin-bottom: 0.25rem;\n}\n._about_1tr7e_106 ul li {\n  margin-bottom: 0.25rem;\n}\n._uploadImg_1tr7e_116 {\n  display: flex;\n  flex-direction: column;\n}\n._uploadImg_1tr7e_116 img {\n  width: 100%;\n  height: auto;\n}\n._uploadImgImage_1tr7e_124 {\n  border-style: groove;\n  border-width: thin;\n  padding: 0.5rem;\n}\n._uploadImgConfirm_1tr7e_129 {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 0.5rem;\n}\n";
+  var styleCss = "._mainBody_bsm4g_1 {\n  opacity: 0.5;\n}\n._mainBody_bsm4g_1 * {\n  font-size: 0.75rem;\n  margin: 0;\n}\n._mainBody_bsm4g_1 button {\n  cursor: pointer;\n}\n._clickable_bsm4g_11 {\n  cursor: pointer;\n}\n._stateWorkingOn_bsm4g_14 {\n  color: blue;\n}\n._stateSure_bsm4g_17 {\n  color: green;\n}\n._stateNotSure_bsm4g_20 {\n  color: red;\n}\n._answerMsg_bsm4g_23 {\n  border-style: groove;\n  border-width: thin;\n  opacity: 0.75;\n  margin-bottom: 0.5rem;\n}\n._answerMsg_bsm4g_23 ul {\n  padding-left: 1rem;\n}\n._answerMsgName_bsm4g_32 {\n  font-weight: bold;\n}\n._answerMark_bsm4g_35 {\n  display: flex;\n  justify-content: end;\n  align-items: center;\n  border-style: groove;\n  border-width: thin;\n  margin-bottom: 0.5rem;\n  opacity: 0.75;\n}\n._answerMark_bsm4g_35 button {\n  padding: 0;\n  margin-left: 0.5rem;\n  white-space: nowrap;\n}\n._answerMark_bsm4g_35 input {\n  height: max-content;\n  width: 100%;\n}\n._answerDetail_bsm4g_53 ._stateWorkingOn_bsm4g_14,\n._answerDetail_bsm4g_53 ._stateSure_bsm4g_17,\n._answerDetail_bsm4g_53 ._stateNotSure_bsm4g_20 {\n  font-weight: bold;\n}\n._answerDetail_bsm4g_53 ul {\n  padding-left: 1.5rem;\n}\n._answerDetail_bsm4g_53 ul ul {\n  padding-left: 1rem;\n}\n._answerDetail_bsm4g_53 img {\n  height: auto;\n  width: 80%;\n}\n._answerDetailShortAnswer_bsm4g_68 {\n  border-style: groove;\n  border-width: thin;\n  margin: 0.2rem;\n  padding: 0.2rem;\n  min-width: min-content;\n}\n._answerDetailFill_bsm4g_75 {\n  white-space: pre;\n}\n._settings_bsm4g_78 {\n  border-style: groove;\n  border-width: thin;\n  display: flex;\n  flex-direction: column;\n  padding: 0.5rem;\n  margin-bottom: 0.5rem;\n}\n._settingsEntry_bsm4g_86 {\n  display: flex;\n  flex-direction: row;\n  margin-bottom: 0.5rem;\n  justify-content: space-between;\n  align-items: center;\n}\n._settingsEntry_bsm4g_86 label {\n  font-weight: bold;\n}\n._settingsEntry_bsm4g_86 input {\n  height: max-content;\n  text-align: right;\n}\n._settingsSubmit_bsm4g_100 {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: end;\n}\n._settingsSubmitTip_bsm4g_106 {\n  margin-right: 0.5rem;\n}\n._about_bsm4g_109 p {\n  margin-bottom: 0.25rem;\n}\n._about_bsm4g_109 ul {\n  padding-left: 1.5rem;\n  margin-bottom: 0.25rem;\n}\n._about_bsm4g_109 ul li {\n  margin-bottom: 0.25rem;\n}\n._uploadImg_bsm4g_119 {\n  display: flex;\n  flex-direction: column;\n}\n._uploadImg_bsm4g_119 img {\n  width: 100%;\n  height: auto;\n}\n._uploadImgImage_bsm4g_127 {\n  border-style: groove;\n  border-width: thin;\n  padding: 0.5rem;\n}\n._uploadImgConfirm_bsm4g_132 {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 0.5rem;\n}\n";
   const _tmpl$$3 = /* @__PURE__ */ template(`<title> </title>`, 2), _tmpl$2$3 = /* @__PURE__ */ template(`<style></style>`, 2);
   function assertIs(ty, value, msg) {
     assert(value instanceof ty, msg != null ? msg : "not HTMLElement");
@@ -2235,25 +2277,25 @@ ${html}. Is your HTML properly formed?`;
     AnswerState2[AnswerState2["NotSure"] = 2] = "NotSure";
     return AnswerState2;
   })(AnswerState || {});
-  const mainBody = "_mainBody_1tr7e_1";
-  const clickable = "_clickable_1tr7e_11";
-  const stateWorkingOn = "_stateWorkingOn_1tr7e_14";
-  const stateSure = "_stateSure_1tr7e_17";
-  const stateNotSure = "_stateNotSure_1tr7e_20";
-  const answerMsg = "_answerMsg_1tr7e_23";
-  const answerMsgName = "_answerMsgName_1tr7e_32";
-  const answerMark = "_answerMark_1tr7e_35";
-  const answerDetail = "_answerDetail_1tr7e_53";
-  const answerDetailShortAnswer = "_answerDetailShortAnswer_1tr7e_65";
-  const answerDetailFill = "_answerDetailFill_1tr7e_72";
-  const settings = "_settings_1tr7e_75";
-  const settingsEntry = "_settingsEntry_1tr7e_83";
-  const settingsSubmit = "_settingsSubmit_1tr7e_97";
-  const settingsSubmitTip = "_settingsSubmitTip_1tr7e_103";
-  const about = "_about_1tr7e_106";
-  const uploadImg = "_uploadImg_1tr7e_116";
-  const uploadImgImage = "_uploadImgImage_1tr7e_124";
-  const uploadImgConfirm = "_uploadImgConfirm_1tr7e_129";
+  const mainBody = "_mainBody_bsm4g_1";
+  const clickable = "_clickable_bsm4g_11";
+  const stateWorkingOn = "_stateWorkingOn_bsm4g_14";
+  const stateSure = "_stateSure_bsm4g_17";
+  const stateNotSure = "_stateNotSure_bsm4g_20";
+  const answerMsg = "_answerMsg_bsm4g_23";
+  const answerMsgName = "_answerMsgName_bsm4g_32";
+  const answerMark = "_answerMark_bsm4g_35";
+  const answerDetail = "_answerDetail_bsm4g_53";
+  const answerDetailShortAnswer = "_answerDetailShortAnswer_bsm4g_68";
+  const answerDetailFill = "_answerDetailFill_bsm4g_75";
+  const settings = "_settings_bsm4g_78";
+  const settingsEntry = "_settingsEntry_bsm4g_86";
+  const settingsSubmit = "_settingsSubmit_bsm4g_100";
+  const settingsSubmitTip = "_settingsSubmitTip_bsm4g_106";
+  const about = "_about_bsm4g_109";
+  const uploadImg = "_uploadImg_bsm4g_119";
+  const uploadImgImage = "_uploadImgImage_bsm4g_127";
+  const uploadImgConfirm = "_uploadImgConfirm_bsm4g_132";
   var style = {
     mainBody,
     clickable,
@@ -2275,7 +2317,7 @@ ${html}. Is your HTML properly formed?`;
     uploadImgImage,
     uploadImgConfirm
   };
-  const _tmpl$$2 = /* @__PURE__ */ template(`<div><fieldset><legend>\u6807\u8BB0</legend><input type="text" placeholder="\u7559\u8A00"><button type="button">\u6211\u6B63\u5728\u505A</button><button type="button">\u6211\u5F88\u786E\u5B9A</button><button type="button">\u6211\u4E0D\u786E\u5B9A</button></fieldset><div><fieldset><legend> \u7559\u8A00 </legend><ul></ul></fieldset><div></div></div></div>`, 23), _tmpl$2$2 = /* @__PURE__ */ template(`<li><span></span></li>`, 4), _tmpl$3$1 = /* @__PURE__ */ template(`<div><p><strong></strong></p><ul></ul></div>`, 8), _tmpl$4$1 = /* @__PURE__ */ template(`<li></li>`, 2), _tmpl$5 = /* @__PURE__ */ template(`<li><p></p><ul></ul></li>`, 6), _tmpl$6 = /* @__PURE__ */ template(`<div></div>`, 2), _tmpl$7 = /* @__PURE__ */ template(`<ul></ul>`, 2), _tmpl$8 = /* @__PURE__ */ template(`<li><a></a></li>`, 4), _tmpl$9 = /* @__PURE__ */ template(`<p><strong></strong></p>`, 4);
+  const _tmpl$$2 = /* @__PURE__ */ template(`<div><fieldset><legend>\u6807\u8BB0</legend><input type="text" placeholder="\u7559\u8A00"><button type="button">\u6211\u6B63\u5728\u505A</button><button type="button">\u6211\u5F88\u786E\u5B9A</button><button type="button">\u6211\u4E0D\u786E\u5B9A</button></fieldset><div><div></div></div></div>`, 17), _tmpl$2$2 = /* @__PURE__ */ template(`<fieldset><legend> \u7559\u8A00 </legend><ul></ul></fieldset>`, 6), _tmpl$3$1 = /* @__PURE__ */ template(`<li><span></span></li>`, 4), _tmpl$4$1 = /* @__PURE__ */ template(`<ul></ul>`, 2), _tmpl$5 = /* @__PURE__ */ template(`<li></li>`, 2), _tmpl$6 = /* @__PURE__ */ template(`<div><p><strong></strong></p></div>`, 6), _tmpl$7 = /* @__PURE__ */ template(`<div><p><strong></strong></p><ul></ul></div>`, 8), _tmpl$8 = /* @__PURE__ */ template(`<li><p></p></li>`, 4), _tmpl$9 = /* @__PURE__ */ template(`<p><strong></strong></p>`, 4), _tmpl$10 = /* @__PURE__ */ template(`<pre></pre>`, 2), _tmpl$11 = /* @__PURE__ */ template(`<li><a></a></li>`, 4);
   function strCmp(a, b) {
     if (a === b) {
       return 0;
@@ -2356,55 +2398,55 @@ ${html}. Is your HTML properly formed?`;
             left: rect == null ? void 0 : rect.left
           });
           render(() => (() => {
-            const _el$ = _tmpl$$2.cloneNode(true), _el$2 = _el$.firstChild, _el$3 = _el$2.firstChild, _el$4 = _el$3.nextSibling, _el$5 = _el$4.nextSibling, _el$6 = _el$5.nextSibling, _el$7 = _el$6.nextSibling, _el$8 = _el$2.nextSibling, _el$9 = _el$8.firstChild, _el$10 = _el$9.firstChild, _el$11 = _el$10.nextSibling, _el$12 = _el$9.nextSibling;
+            const _el$ = _tmpl$$2.cloneNode(true), _el$2 = _el$.firstChild, _el$3 = _el$2.firstChild, _el$4 = _el$3.nextSibling, _el$5 = _el$4.nextSibling, _el$6 = _el$5.nextSibling, _el$7 = _el$6.nextSibling, _el$8 = _el$2.nextSibling, _el$9 = _el$8.firstChild;
             _el$4.addEventListener("change", (ev) => CLIENT.updateMsg(id, ev.currentTarget.value));
             _el$5.addEventListener("click", () => CLIENT.updateState(id, AnswerState.WorkingOn));
             _el$6.addEventListener("click", () => CLIENT.updateState(id, AnswerState.Sure));
             _el$7.addEventListener("click", () => CLIENT.updateState(id, AnswerState.NotSure));
-            insert(_el$11, createComponent(For, {
-              get each() {
-                return Pipe.from(details()).then(sort(cmpNameWithAnswerAndCtx)).then(collectArray).unwrap();
+            insert(_el$8, () => Pipe.from(details()).then(sort(cmpNameWithAnswerAndCtx)).then(filterMap(([user, {
+              context
+            }]) => Pipe.from(context == null ? void 0 : context.state).then(or2(context == null ? void 0 : context.msg)).then(map$1(([state, msg]) => {
+              const m = state === AnswerState.WorkingOn ? msg != null ? msg : "\u6211\u6B63\u5728\u505A" : msg;
+              return m === void 0 || m === "" ? void 0 : tuple(user, state, m);
+            })).unwrap())).then(collectArray).then((messages) => createComponent(Show, {
+              get when() {
+                return messages.length > 0;
               },
-              children: ([user, {
-                context
-              }]) => {
-                if (context === void 0) {
-                  return;
-                }
-                let msg = context.msg;
-                if (context.state === AnswerState.WorkingOn) {
-                  msg = msg != null ? msg : "\u6211\u6B63\u5728\u505A";
-                }
-                if (msg === void 0) {
-                  return;
-                }
+              get children() {
                 return (() => {
-                  const _el$13 = _tmpl$2$2.cloneNode(true), _el$14 = _el$13.firstChild;
-                  insert(_el$14, `${user}: `);
-                  insert(_el$13, msg, null);
-                  createRenderEffect((_p$) => {
-                    const _v$8 = stateToClass(context.state), _v$9 = style.answerMsgName;
-                    _v$8 !== _p$._v$8 && className(_el$13, _p$._v$8 = _v$8);
-                    _v$9 !== _p$._v$9 && className(_el$14, _p$._v$9 = _v$9);
-                    return _p$;
-                  }, {
-                    _v$8: void 0,
-                    _v$9: void 0
-                  });
-                  return _el$13;
+                  const _el$10 = _tmpl$2$2.cloneNode(true), _el$11 = _el$10.firstChild, _el$12 = _el$11.nextSibling;
+                  insert(_el$12, createComponent(For, {
+                    each: messages,
+                    children: ([user, state, msg]) => (() => {
+                      const _el$13 = _tmpl$3$1.cloneNode(true), _el$14 = _el$13.firstChild;
+                      insert(_el$14, `${user}: `);
+                      insert(_el$13, msg, null);
+                      createRenderEffect((_p$) => {
+                        const _v$7 = stateToClass(state), _v$8 = style.answerMsgName;
+                        _v$7 !== _p$._v$7 && className(_el$13, _p$._v$7 = _v$7);
+                        _v$8 !== _p$._v$8 && className(_el$14, _p$._v$8 = _v$8);
+                        return _p$;
+                      }, {
+                        _v$7: void 0,
+                        _v$8: void 0
+                      });
+                      return _el$13;
+                    })()
+                  }));
+                  createRenderEffect(() => className(_el$10, style.answerMsg));
+                  return _el$10;
                 })();
               }
-            }));
-            insert(_el$12, createComponent(DetailsRender, {}));
+            })).unwrap(), _el$9);
+            insert(_el$9, createComponent(DetailsRender, {}));
             createRenderEffect((_p$) => {
-              const _v$ = style.mainBody, _v$2 = style.answerMark, _v$3 = style.stateWorkingOn, _v$4 = style.stateSure, _v$5 = style.stateNotSure, _v$6 = style.answerMsg, _v$7 = style.answerDetail;
+              const _v$ = style.mainBody, _v$2 = style.answerMark, _v$3 = style.stateWorkingOn, _v$4 = style.stateSure, _v$5 = style.stateNotSure, _v$6 = style.answerDetail;
               _v$ !== _p$._v$ && className(_el$, _p$._v$ = _v$);
               _v$2 !== _p$._v$2 && className(_el$2, _p$._v$2 = _v$2);
               _v$3 !== _p$._v$3 && className(_el$5, _p$._v$3 = _v$3);
               _v$4 !== _p$._v$4 && className(_el$6, _p$._v$4 = _v$4);
               _v$5 !== _p$._v$5 && className(_el$7, _p$._v$5 = _v$5);
               _v$6 !== _p$._v$6 && className(_el$9, _p$._v$6 = _v$6);
-              _v$7 !== _p$._v$7 && className(_el$12, _p$._v$7 = _v$7);
               return _p$;
             }, {
               _v$: void 0,
@@ -2412,8 +2454,7 @@ ${html}. Is your HTML properly formed?`;
               _v$3: void 0,
               _v$4: void 0,
               _v$5: void 0,
-              _v$6: void 0,
-              _v$7: void 0
+              _v$6: void 0
             });
             return _el$;
           })(), win.document.body);
@@ -2433,9 +2474,34 @@ ${html}. Is your HTML properly formed?`;
       this._ele.setAttribute("title", txt);
     }
   }
+  function clearTooltips(t) {
+    t.forEach((t2) => t2.setContent(""));
+  }
+  function totalUser(t) {
+    return Pipe.from(t).then(filter(([, x]) => x.answer !== void 0)).then(count).unwrap();
+  }
+  function Users({
+    children
+  }) {
+    return (() => {
+      const _el$15 = _tmpl$4$1.cloneNode(true);
+      insert(_el$15, createComponent(For, {
+        get each() {
+          return children.sort(cmpNameWithCtx);
+        },
+        children: ([user, ctx]) => (() => {
+          const _el$16 = _tmpl$5.cloneNode(true);
+          insert(_el$16, user);
+          createRenderEffect(() => className(_el$16, stateToClass(ctx == null ? void 0 : ctx.state)));
+          return _el$16;
+        })()
+      }));
+      return _el$15;
+    })();
+  }
   class Choice extends Details {
-    constructor(id, subjectItem, choiceMap) {
-      const tooltips = Pipe.from(subjectItem.querySelectorAll(".item-body .checkboxInput, .item-body .radioInput")).then((t) => Array.from(t).entries()).then(fold(/* @__PURE__ */ new Map(), (tooltips2, [idx, ele]) => tooltips2.set(String.fromCharCode(idx + 65), new Tooltip(ele)))).unwrap();
+    constructor(id, subjectItem, index2choice, choiceMap) {
+      const tooltips = Pipe.from(subjectItem.querySelectorAll(".item-body .checkboxInput, .item-body .radioInput")).then((t) => Array.from(t).entries()).then(fold(/* @__PURE__ */ new Map(), (tooltips2, [idx, ele]) => tooltips2.set(index2choice(idx), new Tooltip(ele)))).unwrap();
       super(id, subjectItem, (details) => {
         const choiceToUsers = createMemo(() => Pipe.from(details()).then(fold(/* @__PURE__ */ new Map(), (choiceToUsers2, [user, {
           answer,
@@ -2452,29 +2518,25 @@ ${html}. Is your HTML properly formed?`;
           }
           return choiceToUsers2;
         })).then(sort(cmpByKey)).then(collectArray).unwrap());
-        observable(choiceToUsers).subscribe((choiceToUsers2) => Pipe.from(choiceToUsers2).then(forEach(([choice, users]) => {
-          var _a;
-          (_a = tooltips.get(choice)) == null ? void 0 : _a.setContent(percent(users.length, details().size));
-        })));
+        createEffect(() => {
+          const total = totalUser(details());
+          clearTooltips(tooltips);
+          Pipe.from(choiceToUsers()).then(forEach(([choice, users]) => {
+            var _a;
+            (_a = tooltips.get(choice)) == null ? void 0 : _a.setContent(percent(users.length, total));
+          })).unwrap();
+        });
         return () => createComponent(For, {
           get each() {
             return choiceToUsers();
           },
           children: ([choice, users]) => (() => {
-            const _el$15 = _tmpl$3$1.cloneNode(true), _el$16 = _el$15.firstChild, _el$17 = _el$16.firstChild, _el$18 = _el$16.nextSibling;
-            insert(_el$17, choice);
-            insert(_el$18, createComponent(For, {
-              get each() {
-                return users.sort(cmpNameWithCtx);
-              },
-              children: ([user, ctx]) => (() => {
-                const _el$19 = _tmpl$4$1.cloneNode(true);
-                insert(_el$19, user);
-                createRenderEffect(() => className(_el$19, stateToClass(ctx == null ? void 0 : ctx.state)));
-                return _el$19;
-              })()
-            }));
-            return _el$15;
+            const _el$17 = _tmpl$6.cloneNode(true), _el$18 = _el$17.firstChild, _el$19 = _el$18.firstChild;
+            insert(_el$19, choice);
+            insert(_el$17, createComponent(Users, {
+              children: users
+            }), null);
+            return _el$17;
           })()
         });
       });
@@ -2500,44 +2562,36 @@ ${html}. Is your HTML properly formed?`;
             return blankToFillToUsers3.set(blank, fillToUsers.set(fill, users));
           })).unwrap();
         })).then(map(([blank, fillToUsers]) => tuple(blank, Pipe.from(fillToUsers).then(sort(cmpByKey)).then(collectArray).unwrap()))).then(sort(cmpByKey)).then(collectArray).unwrap();
-        observable(blankToFillToUsers).subscribe((blankToFillToUsers2) => {
-          Pipe.from(blankToFillToUsers2).then(forEach(([blank, fillToUsers]) => {
+        createEffect(() => {
+          const total = totalUser(details());
+          clearTooltips(tooltips);
+          Pipe.from(blankToFillToUsers()).then(forEach(([blank, fillToUsers]) => {
             var _a;
             const most = Pipe.from(fillToUsers).then(map(([fill, users]) => tuple(fill, users.length))).then(sort(([, a], [, b]) => b - a)).then(first).unwrap();
-            (_a = tooltips.get(blank)) == null ? void 0 : _a.setContent(most === void 0 ? "" : `(${percent(most[1], details().size)}) ${most[0]}`);
-          }));
+            (_a = tooltips.get(blank)) == null ? void 0 : _a.setContent(most === void 0 ? "" : `(${percent(most[1], total)}) ${most[0]}`);
+          })).unwrap();
         });
         return () => createComponent(For, {
           get each() {
             return blankToFillToUsers();
           },
           children: ([blank, fillToUsers]) => (() => {
-            const _el$20 = _tmpl$3$1.cloneNode(true), _el$21 = _el$20.firstChild, _el$22 = _el$21.firstChild, _el$23 = _el$21.nextSibling;
+            const _el$20 = _tmpl$7.cloneNode(true), _el$21 = _el$20.firstChild, _el$22 = _el$21.firstChild, _el$23 = _el$21.nextSibling;
             insert(_el$22, `#${blank}`);
             insert(_el$23, createComponent(For, {
               each: fillToUsers,
-              children: ([fill, users]) => {
-                if (fill === "") {
-                  return;
-                }
-                return (() => {
-                  const _el$24 = _tmpl$5.cloneNode(true), _el$25 = _el$24.firstChild, _el$26 = _el$25.nextSibling;
+              children: ([fill, users]) => createComponent(Show, {
+                when: fill !== "",
+                get children() {
+                  const _el$24 = _tmpl$8.cloneNode(true), _el$25 = _el$24.firstChild;
                   insert(_el$25, fill);
-                  insert(_el$26, createComponent(For, {
-                    get each() {
-                      return users.sort(cmpNameWithCtx);
-                    },
-                    children: ([user, ctx]) => (() => {
-                      const _el$27 = _tmpl$4$1.cloneNode(true);
-                      insert(_el$27, user);
-                      createRenderEffect(() => className(_el$27, stateToClass(ctx == null ? void 0 : ctx.state)));
-                      return _el$27;
-                    })()
-                  }));
+                  insert(_el$24, createComponent(Users, {
+                    children: users
+                  }), null);
                   createRenderEffect(() => className(_el$25, style.answerDetailFill));
                   return _el$24;
-                })();
-              }
+                }
+              })
             }));
             return _el$20;
           })()
@@ -2551,53 +2605,46 @@ ${html}. Is your HTML properly formed?`;
         const userToAnswers = createMemo(() => Pipe.from(details()).then(sort(cmpNameWithAnswerAndCtx)).then(collectArray).unwrap());
         return () => createComponent(For, {
           get each() {
-            return userToAnswers();
+            return Pipe.from(userToAnswers()).then(filterMap(([user, {
+              answer,
+              context
+            }]) => {
+              var _a;
+              return Pipe.from(answer == null ? void 0 : answer.content).then(or2((_a = answer == null ? void 0 : answer.attachments) == null ? void 0 : _a.filelist)).then(map$1(([c, f]) => tuple(user, c, f, context == null ? void 0 : context.state))).unwrap();
+            })).then(collectArray).unwrap();
           },
-          children: ([user, {
-            answer,
-            context
-          }]) => {
-            var _a;
-            const content = answer == null ? void 0 : answer.content;
-            const filelist = (_a = answer == null ? void 0 : answer.attachments) == null ? void 0 : _a.filelist;
-            let contentHtml;
-            let filelistHtml;
-            if (content !== void 0) {
-              contentHtml = (() => {
-                const _el$28 = _tmpl$6.cloneNode(true);
-                _el$28.innerHTML = content;
-                createRenderEffect(() => className(_el$28, style.answerDetailShortAnswer));
-                return _el$28;
-              })();
-            }
-            if (filelist !== void 0) {
-              filelistHtml = (() => {
-                const _el$29 = _tmpl$7.cloneNode(true);
-                insert(_el$29, createComponent(For, {
-                  each: filelist,
-                  children: ({
-                    fileUrl,
-                    fileName
-                  }) => (() => {
-                    const _el$30 = _tmpl$8.cloneNode(true), _el$31 = _el$30.firstChild;
-                    setAttribute(_el$31, "href", fileUrl);
-                    insert(_el$31, fileName);
-                    return _el$30;
-                  })()
-                }));
-                return _el$29;
-              })();
-            }
-            if (contentHtml === void 0 && filelistHtml === void 0) {
-              return;
-            }
-            return [(() => {
-              const _el$32 = _tmpl$9.cloneNode(true), _el$33 = _el$32.firstChild;
-              insert(_el$33, user);
-              createRenderEffect(() => className(_el$32, stateToClass(context == null ? void 0 : context.state)));
-              return _el$32;
-            })(), contentHtml, filelistHtml];
-          }
+          children: ([user, content, filelist, state]) => [(() => {
+            const _el$26 = _tmpl$9.cloneNode(true), _el$27 = _el$26.firstChild;
+            insert(_el$27, user);
+            createRenderEffect(() => className(_el$26, stateToClass(state)));
+            return _el$26;
+          })(), createComponent(Show, {
+            when: content,
+            children: (content2) => (() => {
+              const _el$28 = _tmpl$10.cloneNode(true);
+              _el$28.innerHTML = content2;
+              createRenderEffect(() => className(_el$28, style.answerDetailShortAnswer));
+              return _el$28;
+            })()
+          }), createComponent(Show, {
+            when: filelist,
+            children: (filelist2) => (() => {
+              const _el$29 = _tmpl$4$1.cloneNode(true);
+              insert(_el$29, createComponent(For, {
+                each: filelist2,
+                children: ({
+                  fileUrl,
+                  fileName
+                }) => (() => {
+                  const _el$30 = _tmpl$11.cloneNode(true), _el$31 = _el$30.firstChild;
+                  setAttribute(_el$31, "href", fileUrl);
+                  insert(_el$31, fileName);
+                  return _el$30;
+                })()
+              }));
+              return _el$29;
+            })()
+          })]
         });
       });
     }
@@ -2757,10 +2804,11 @@ ${html}. Is your HTML properly formed?`;
           case ProblemType.MultipleChoice:
           case ProblemType.Polling:
           case ProblemType.Judgement: {
+            const index2choice = prob.ProblemType === ProblemType.Judgement ? (i) => ["\u6B63\u786E", "\u9519\u8BEF"][i] : (i) => String.fromCharCode(65 + i);
             const choiceMap = prob.ProblemType === ProblemType.Judgement ? /* @__PURE__ */ new Map([["true", "\u6B63\u786E"], ["false", "\u9519\u8BEF"]]) : Pipe.from(prob.Options).then(expect("no Options")).then(enumerate).then(fold(/* @__PURE__ */ new Map(), (choiceMap2, [idx, {
               key
             }]) => choiceMap2.set(key, String.fromCharCode(65 + idx)))).unwrap();
-            detail = new Choice(prob.ProblemID, subjectItem, (s) => {
+            detail = new Choice(prob.ProblemID, subjectItem, index2choice, (s) => {
               var _a;
               return (_a = choiceMap.get(s)) != null ? _a : s;
             });

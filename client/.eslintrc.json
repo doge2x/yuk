@@ -5,16 +5,11 @@
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:prettier/recommended"
+    "prettier"
   ],
   "ignorePatterns": ["dist"],
   "rules": {
-    // "no-unused-vars": [
-    //   {
-    //     "varsIgnorePattern": "^_",
-    //     "argsIgnorePattern": "^_"
-    //   }
-    // ]
+    "@typescript-eslint/no-unused-vars": ["warn", { "varsIgnorePattern": "^_" }]
   },
   "env": {
     "browser": true,

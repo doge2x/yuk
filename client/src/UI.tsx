@@ -40,6 +40,10 @@ export class UI {
               case ProblemType.MultipleChoice:
               case ProblemType.Polling:
               case ProblemType.Judgement: {
+                const index2choice: (i: number) => string =
+                  prob.ProblemType === ProblemType.Judgement
+                    ? (i) => ["正确", "错误"][i]
+                    : (i) => String.fromCharCode(65 + i);
                 // Map answers to what user sees.
                 const choiceMap =
                   prob.ProblemType === ProblemType.Judgement
@@ -61,6 +65,7 @@ export class UI {
                 detail = new Choice(
                   prob.ProblemID,
                   subjectItem,
+                  index2choice,
                   (s) => choiceMap.get(s) ?? s
                 );
                 break;

@@ -1,11 +1,12 @@
 import {
   Accessor,
+  createEffect,
   createMemo,
   createRoot,
   createSignal,
   For,
   JSX,
-  observable,
+  Show,
 } from "solid-js";
 import style from "./style.module.less";
 import {
@@ -15,7 +16,7 @@ import {
   ChoiceResult,
   ShortResult,
 } from "./types";
-import { assertIs, openWin, tuple } from "./utils";
+import { assertIs, openWin, Opt, tuple } from "./utils";
 import { render } from "solid-js/web";
 import { CLIENT } from "./client";
 import { It, Pipe } from "./utils";
@@ -168,38 +169,49 @@ export class Details<A> {
                 </button>
               </fieldset>
               <div>
-                <fieldset class={style.answerMsg}>
-                  <legend> 留言 </legend>
-                  <ul>
-                    <For
-                      each={Pipe.from(details())
-                        .then(It.sort(cmpNameWithAnswerAndCtx))
-                        .then(It.collectArray)
-                        .unwrap()}
-                    >
-                      {([user, { context }]) => {
-                        if (context === undefined) {
-                          return;
-                        }
-                        let msg = context.msg;
-                        if (context.state === AnswerState.WorkingOn) {
-                          msg = msg ?? "我正在做";
-                        }
-                        if (msg === undefined) {
-                          return;
-                        }
-                        return (
-                          <li class={stateToClass(context.state)}>
-                            <span
-                              class={style.answerMsgName}
-                            >{`${user}: `}</span>
-                            {msg}
-                          </li>
-                        );
-                      }}
-                    </For>
-                  </ul>
-                </fieldset>
+                {Pipe.from(details())
+                  .then(It.sort(cmpNameWithAnswerAndCtx))
+                  .then(
+                    It.filterMap(([user, { context }]) =>
+                      Pipe.from(context?.state)
+                        .then(Opt.or2(context?.msg))
+                        .then(
+                          Opt.map(([state, msg]) => {
+                            const m =
+                              state === AnswerState.WorkingOn
+                                ? msg ?? "我正在做"
+                                : msg;
+                            return m === undefined || m === ""
+                              ? undefined
+                              : tuple(user, state, m);
+                          })
+                        )
+                        .unwrap()
+                    )
+                  )
+                  .then(It.collectArray)
+                  .then((messages) => (
+                    <Show when={messages.length > 0}>
+                      {
+                        <fieldset class={style.answerMsg}>
+                          <legend> 留言 </legend>
+                          <ul>
+                            <For each={messages}>
+                              {([user, state, msg]) => (
+                                <li class={stateToClass(state)}>
+                                  <span
+                                    class={style.answerMsgName}
+                                  >{`${user}: `}</span>
+                                  {msg}
+                                </li>
+                              )}
+                            </For>
+                          </ul>
+                        </fieldset>
+                      }
+                    </Show>
+                  ))
+                  .unwrap()}
                 <div class={style.answerDetail}>
                   <DetailsRender />
                 </div>
@@ -233,10 +245,32 @@ class Tooltip {
 
 type Users = Array<[string, AnswerContext | undefined]>;
 
+function clearTooltips(t: Map<string, Tooltip>) {
+  t.forEach((t) => t.setContent(""));
+}
+
+function totalUser<T>(t: DetailsData<T>): number {
+  return Pipe.from(t)
+    .then(It.filter(([, x]) => x.answer !== undefined))
+    .then(It.count)
+    .unwrap();
+}
+
+function Users({ children }: { children: Users }): JSX.Element {
+  return (
+    <ul>
+      <For each={children.sort(cmpNameWithCtx)}>
+        {([user, ctx]) => <li class={stateToClass(ctx?.state)}>{user}</li>}
+      </For>
+    </ul>
+  );
+}
+
 export class Choice extends Details<ChoiceResult> {
   constructor(
     id: number,
     subjectItem: Element,
+    index2choice: (i: number) => string,
     choiceMap: (s: string) => string
   ) {
     const tooltips = Pipe.from(
@@ -246,9 +280,8 @@ export class Choice extends Details<ChoiceResult> {
     )
       .then((t) => Array.from(t).entries())
       .then(
-        // FIXME: show for Judgement
         It.fold(new Map<string, Tooltip>(), (tooltips, [idx, ele]) =>
-          tooltips.set(String.fromCharCode(idx + 65), new Tooltip(ele))
+          tooltips.set(index2choice(idx), new Tooltip(ele))
         )
       )
       .unwrap();
@@ -280,15 +313,17 @@ export class Choice extends Details<ChoiceResult> {
       );
 
       // Update tooltips to show how many users select the choices.
-      observable(choiceToUsers).subscribe((choiceToUsers) =>
-        Pipe.from(choiceToUsers).then(
-          It.forEach(([choice, users]) => {
-            tooltips
-              .get(choice)
-              ?.setContent(percent(users.length, details().size));
-          })
-        )
-      );
+      createEffect(() => {
+        const total = totalUser(details());
+        clearTooltips(tooltips);
+        Pipe.from(choiceToUsers())
+          .then(
+            It.forEach(([choice, users]) => {
+              tooltips.get(choice)?.setContent(percent(users.length, total));
+            })
+          )
+          .unwrap();
+      });
 
       return () => (
         // choice
@@ -299,13 +334,7 @@ export class Choice extends Details<ChoiceResult> {
               <p>
                 <strong>{choice}</strong>
               </p>
-              <ul>
-                <For each={users.sort(cmpNameWithCtx)}>
-                  {([user, ctx]) => (
-                    <li class={stateToClass(ctx?.state)}>{user}</li>
-                  )}
-                </For>
-              </ul>
+              <Users>{users}</Users>
             </div>
           )}
         </For>
@@ -322,7 +351,7 @@ export class Blank extends Details<BlankResult> {
       .then<Element[]>(Array.from)
       .then(It.enumerate)
       .then(
-        It.fold(new Map(), (tooltips, [idx, ele]) =>
+        It.fold(new Map<string, Tooltip>(), (tooltips, [idx, ele]) =>
           tooltips.set(String.fromCharCode(idx + 49), new Tooltip(ele))
         )
       )
@@ -383,23 +412,27 @@ export class Blank extends Details<BlankResult> {
           .unwrap();
 
       // Update tooltips to show the most popular answers.
-      observable(blankToFillToUsers).subscribe((blankToFillToUsers) => {
-        Pipe.from(blankToFillToUsers).then(
-          It.forEach(([blank, fillToUsers]) => {
-            const most = Pipe.from(fillToUsers)
-              .then(It.map(([fill, users]) => tuple(fill, users.length)))
-              .then(It.sort(([, a], [, b]) => b - a))
-              .then(It.first)
-              .unwrap();
-            tooltips
-              .get(blank)
-              ?.setContent(
-                most === undefined
-                  ? ""
-                  : `(${percent(most[1], details().size)}) ${most[0]}`
-              );
-          })
-        );
+      createEffect(() => {
+        const total = totalUser(details());
+        clearTooltips(tooltips);
+        Pipe.from(blankToFillToUsers())
+          .then(
+            It.forEach(([blank, fillToUsers]) => {
+              const most = Pipe.from(fillToUsers)
+                .then(It.map(([fill, users]) => tuple(fill, users.length)))
+                .then(It.sort(([, a], [, b]) => b - a))
+                .then(It.first)
+                .unwrap();
+              tooltips
+                .get(blank)
+                ?.setContent(
+                  most === undefined
+                    ? ""
+                    : `(${percent(most[1], total)}) ${most[0]}`
+                );
+            })
+          )
+          .unwrap();
       });
 
       return () => (
@@ -414,23 +447,14 @@ export class Blank extends Details<BlankResult> {
               </p>
               <ul>
                 <For each={fillToUsers}>
-                  {([fill, users]) => {
-                    if (fill === "") {
-                      return;
-                    }
-                    return (
+                  {([fill, users]) => (
+                    <Show when={fill !== ""}>
                       <li>
                         <p class={style.answerDetailFill}>{fill}</p>
-                        <ul>
-                          <For each={users.sort(cmpNameWithCtx)}>
-                            {([user, ctx]) => (
-                              <li class={stateToClass(ctx?.state)}>{user}</li>
-                            )}
-                          </For>
-                        </ul>
+                        <Users>{users}</Users>
                       </li>
-                    );
-                  }}
+                    </Show>
+                  )}
                 </For>
               </ul>
             </div>
@@ -454,46 +478,47 @@ export class ShortAnswer extends Details<ShortResult> {
         // user
         // <content>
         // - filelist
-        <For each={userToAnswers()}>
-          {([user, { answer, context }]) => {
-            const content = answer?.content;
-            const filelist = answer?.attachments?.filelist;
-            let contentHtml;
-            let filelistHtml;
-            if (content !== undefined) {
-              contentHtml = (
-                <div
-                  class={style.answerDetailShortAnswer}
-                  innerHTML={content}
-                />
-              );
-            }
-            if (filelist !== undefined) {
-              filelistHtml = (
-                <ul>
-                  <For each={filelist}>
-                    {({ fileUrl, fileName }) => (
-                      <li>
-                        <a href={fileUrl}>{fileName}</a>
-                      </li>
-                    )}
-                  </For>
-                </ul>
-              );
-            }
-            if (contentHtml === undefined && filelistHtml === undefined) {
-              return;
-            }
-            return (
-              <>
-                <p class={stateToClass(context?.state)}>
-                  <strong>{user}</strong>
-                </p>
-                {contentHtml}
-                {filelistHtml}
-              </>
-            );
-          }}
+        <For
+          each={Pipe.from(userToAnswers())
+            .then(
+              It.filterMap(([user, { answer, context }]) =>
+                Pipe.from(answer?.content)
+                  .then(Opt.or2(answer?.attachments?.filelist))
+                  .then(Opt.map(([c, f]) => tuple(user, c, f, context?.state)))
+                  .unwrap()
+              )
+            )
+            .then(It.collectArray)
+            .unwrap()}
+        >
+          {([user, content, filelist, state]) => (
+            <>
+              <p class={stateToClass(state)}>
+                <strong>{user}</strong>
+              </p>
+              <Show when={content}>
+                {(content) => (
+                  <pre
+                    class={style.answerDetailShortAnswer}
+                    innerHTML={content}
+                  />
+                )}
+              </Show>
+              <Show when={filelist}>
+                {(filelist) => (
+                  <ul>
+                    <For each={filelist}>
+                      {({ fileUrl, fileName }) => (
+                        <li>
+                          <a href={fileUrl}>{fileName}</a>
+                        </li>
+                      )}
+                    </For>
+                  </ul>
+                )}
+              </Show>
+            </>
+          )}
         </For>
       );
     });
