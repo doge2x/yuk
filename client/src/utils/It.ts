@@ -94,6 +94,14 @@ export function fold<A, B = A>(
   };
 }
 
+export function count<T>(it: Iterable<T>): number {
+  let i = 0;
+  for (const _ of it) {
+    i++;
+  }
+  return i;
+}
+
 export function collect<A, B = A>(
   f: (iter: Iterable<A>) => B
 ): (it: Iterable<A>) => B {
