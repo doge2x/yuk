@@ -10,7 +10,7 @@ import {
   PostAnswer,
 } from "./types";
 import { UI, showConfirmUpload } from "./UI";
-import { devLog, isDevMode, newURL } from "./utils";
+import { devLog, isDevMode, newURL, Opt, Pipe } from "./utils";
 import { NO_LEAVE_CHECK, SORT_PROBLEMS } from "./shared";
 import { migrate } from "./gm";
 
@@ -111,7 +111,12 @@ async function main(): Promise<void> {
             msg.forEach((res) => ui.updateAnswer(res));
             ui.updateUI();
           });
-          const examId = parseInt(url.searchParams.get("exam_id")!);
+          const examId = parseInt(
+            Pipe.from(url.searchParams.get("exam_id"))
+              .then(Opt.from)
+              .then(Opt.expect("cannot found exam_id"))
+              .unwrap()
+          );
           // Login to server.
           CLIENT.login(examId, { title: paper.data.title, problems: problems });
           // Fetch cached results.
@@ -137,10 +142,8 @@ async function main(): Promise<void> {
             // Dont report abnormal behavior.
             if ("action" in data) {
               switch (data.action) {
-                // 上传截图
-                case 1:
-                // 上传桌面截屏
-                case 17:
+                case 1: // 上传截图
+                case 17: // 上传桌面截屏
                   break;
                 default:
                   console.log("intercept action", data);

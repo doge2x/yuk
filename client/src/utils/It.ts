@@ -1,28 +1,4 @@
-class Pipe<T> {
-  private readonly _lazy: () => T;
-
-  constructor(lazy: () => T) {
-    this._lazy = lazy;
-  }
-
-  static from<T>(t: T) {
-    return new Pipe(() => t);
-  }
-
-  then<U>(f: (t: T) => U): Pipe<U> {
-    return new Pipe(() => f(this.exec()));
-  }
-
-  exec(): T {
-    return this._lazy();
-  }
-}
-
-export function pipe<T>(t: T): Pipe<T> {
-  return Pipe.from(t);
-}
-
-export function iter<T>(it: Iterator<T>): IterableIterator<T> {
+export function from<T>(it: Iterator<T>): IterableIterator<T> {
   const iter = {
     [Symbol.iterator]: () => iter,
     next: () => it.next(),
@@ -30,7 +6,9 @@ export function iter<T>(it: Iterator<T>): IterableIterator<T> {
   return iter;
 }
 
-export function map<A, B>(op: (a: A) => B): (it: Iterable<A>) => Iterable<B> {
+export function map<A, B = A>(
+  op: (a: A) => B
+): (it: Iterable<A>) => Iterable<B> {
   return function* (it) {
     for (const a of it) {
       yield op(a);
@@ -57,7 +35,7 @@ export function filter<T>(
   };
 }
 
-export function filterMap<A, B>(
+export function filterMap<A, B = A>(
   f: (a: A) => B | undefined
 ): (it: Iterable<A>) => Iterable<B> {
   return function* (it) {
@@ -72,7 +50,7 @@ export function filterMap<A, B>(
 
 export function zip<B>(
   b: Iterable<B>
-): <A>(a: Iterable<A>) => Iterable<[A, B]> {
+): <A = B>(a: Iterable<A>) => Iterable<[A, B]> {
   return function* (a) {
     const it1 = a[Symbol.iterator]();
     const it2 = b[Symbol.iterator]();
@@ -103,7 +81,7 @@ export function first<T>(it: Iterable<T>): T | undefined {
   return;
 }
 
-export function fold<A, B>(
+export function fold<A, B = A>(
   init: B,
   f: (b: B, a: A) => B
 ): (it: Iterable<A>) => B {
@@ -116,7 +94,7 @@ export function fold<A, B>(
   };
 }
 
-export function collect<A, B>(
+export function collect<A, B = A>(
   f: (iter: Iterable<A>) => B
 ): (it: Iterable<A>) => B {
   return function (it) {

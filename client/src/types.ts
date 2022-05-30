@@ -1,6 +1,6 @@
 export type Answer = {
   problem_id: number;
-  result: any;
+  result: Result;
 };
 
 export type UserAnswer = {

@@ -1,34 +1,31 @@
+import { Lazy } from "./utils";
 import * as gm from "./gm";
 
-class GMEntry<T extends NonNullable<any>> {
+class GMEntry<T> {
   private readonly _name: string;
-  private readonly _init?: T;
-  private inited: boolean = false;
-  private _cached?: T;
+  private _t: Lazy<T | undefined>;
 
   constructor(name: string, init?: T) {
     this._name = name;
-    this._init = init;
+    this._t = Lazy.from(() => {
+      const val = gm.getValue<T>(this._name);
+      if (val === undefined && init !== undefined) {
+        return gm.setValue<T>(this._name, init);
+      }
+      return val;
+    });
   }
 
   get(): T | undefined {
-    if (!this.inited) {
-      const val = gm.getValue(this._name);
-      if (val === undefined && this._init !== undefined) {
-        gm.setValue(this._name, this._init);
-      }
-      this._cached = val ?? this._init;
-      this.inited = true;
-    }
-    return this._cached;
+    return this._t.force();
   }
 
   set(val: T | undefined) {
     if (val === undefined) {
       return;
     }
-    gm.setValue(this._name, val);
-    this._cached = val;
+    gm.setValue<T>(this._name, val);
+    this._t = Lazy.from(() => val);
   }
 }
 

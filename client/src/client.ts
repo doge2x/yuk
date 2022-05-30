@@ -1,10 +1,10 @@
-import { AnswerContext, Problem, UserAnswer } from "./types";
+import { AnswerContext, Problem, Result, UserAnswer } from "./types";
 import { JSONRPCClient } from "json-rpc-2.0";
-import { devLog } from "./utils";
+import { devLog, Opt, Pipe } from "./utils";
 import { SERVER, USERNAME, SYNC_ANSWERS } from "./shared";
 
 type AnswerAndContext = {
-  result?: any;
+  result?: Result;
   context?: AnswerContext;
 };
 
@@ -36,7 +36,7 @@ class Client {
     }
   }
 
-  updateAnswer(id: number, result: any) {
+  updateAnswer(id: number, result: Result) {
     this.updateQueue(id, (v) => (v.result = result));
   }
 
@@ -86,7 +86,7 @@ class Client {
       return;
     }
     // Clear queue, we do this first to avoid a queue be sent multi times.
-    let answers = [...this.queue.entries()];
+    const answers = [...this.queue.entries()];
     this.queue.clear();
     // Create a new JSON RPC client.
     if (this.client === undefined) {
@@ -101,7 +101,12 @@ class Client {
             data: JSON.stringify(req),
             onload: (resp) => {
               if (resp.status === 200) {
-                client.receive(JSON.parse(resp.responseText!));
+                client.receive(
+                  Pipe.from(resp.responseText)
+                    .then(Opt.expect("empty response"))
+                    .then(JSON.parse)
+                    .unwrap()
+                );
                 ok();
               } else {
                 err(new Error(resp.statusText));
