@@ -466,16 +466,16 @@ var __publicField = (obj, key, value) => {
       return { value: op[0] ? op[1] : void 0, done: true };
     }
   };
-  var __spreadArray = commonjsGlobal && commonjsGlobal.__spreadArray || function(to, from, pack) {
+  var __spreadArray = commonjsGlobal && commonjsGlobal.__spreadArray || function(to, from2, pack) {
     if (pack || arguments.length === 2)
-      for (var i = 0, l = from.length, ar; i < l; i++) {
-        if (ar || !(i in from)) {
+      for (var i = 0, l = from2.length, ar; i < l; i++) {
+        if (ar || !(i in from2)) {
           if (!ar)
-            ar = Array.prototype.slice.call(from, 0, i);
-          ar[i] = from[i];
+            ar = Array.prototype.slice.call(from2, 0, i);
+          ar[i] = from2[i];
         }
       }
-    return to.concat(ar || Array.prototype.slice.call(from));
+    return to.concat(ar || Array.prototype.slice.call(from2));
   };
   Object.defineProperty(server, "__esModule", { value: true });
   server.JSONRPCServer = void 0;
@@ -874,9 +874,6 @@ var __publicField = (obj, key, value) => {
     __exportStar(serverAndClient, exports);
   })(dist);
   const sharedConfig = {};
-  function setHydrateContext(context) {
-    sharedConfig.context = context;
-  }
   const equalFn = (a, b) => a === b;
   const $TRACK = Symbol("solid-track");
   const $DEVCOMP = Symbol("solid-dev-component");
@@ -938,15 +935,13 @@ var __publicField = (obj, key, value) => {
     };
     return [readSignal.bind(s), setter];
   }
+  function createComputed(fn, value, options) {
+    const c = createComputation(fn, value, true, STALE, options);
+    updateComputation(c);
+  }
   function createRenderEffect(fn, value, options) {
     const c = createComputation(fn, value, false, STALE, options);
     updateComputation(c);
-  }
-  function createEffect(fn, value, options) {
-    runEffects = runUserEffects;
-    const c = createComputation(fn, value, false, STALE, options);
-    c.user = true;
-    Effects ? Effects.push(c) : updateComputation(c);
   }
   function createMemo(fn, value, options) {
     options = options ? Object.assign({}, signalOptions, options) : signalOptions;
@@ -1235,23 +1230,6 @@ var __publicField = (obj, key, value) => {
     for (let i = 0; i < queue.length; i++)
       runTop(queue[i]);
   }
-  function runUserEffects(queue) {
-    let i, userLength = 0;
-    for (i = 0; i < queue.length; i++) {
-      const e = queue[i];
-      if (!e.user)
-        runTop(e);
-      else
-        queue[userLength++] = e;
-    }
-    if (sharedConfig.context)
-      setHydrateContext();
-    const resume = queue.length;
-    for (i = 0; i < userLength; i++)
-      runTop(queue[i]);
-    for (i = resume; i < queue.length; i++)
-      runTop(queue[i]);
-  }
   function lookUpstream(node, ignore) {
     const runningTransition = Transition;
     node.state = 0;
@@ -1315,6 +1293,36 @@ var __publicField = (obj, key, value) => {
     for (var i = 0, h = 9; i < s.length; )
       h = Math.imul(h ^ s.charCodeAt(i++), 9 ** 9);
     return `${h ^ h >>> 9}`;
+  }
+  function getSymbol() {
+    const SymbolCopy = Symbol;
+    return SymbolCopy.observable || "@@observable";
+  }
+  function observable(input) {
+    const $$observable = getSymbol();
+    return {
+      subscribe(observer) {
+        if (!(observer instanceof Object) || observer == null) {
+          throw new TypeError("Expected the observer to be an object.");
+        }
+        const handler = "next" in observer ? observer.next.bind(observer) : observer;
+        let complete = false;
+        createComputed(() => {
+          if (complete)
+            return;
+          const v = input();
+          untrack(() => handler(v));
+        });
+        return {
+          unsubscribe() {
+            complete = true;
+          }
+        };
+      },
+      [$$observable]() {
+        return this;
+      }
+    };
   }
   const FALLBACK = Symbol("fallback");
   function dispose(d) {
@@ -1855,11 +1863,123 @@ ${html}. Is your HTML properly formed?`;
       parent.insertBefore(node, marker);
     return [node];
   }
-  var styleCss = "._mainBody_o6t0e_1 {\n  opacity: 0.5;\n}\n._mainBody_o6t0e_1 * {\n  font-size: 0.75rem;\n  margin: 0;\n}\n._mainBody_o6t0e_1 button {\n  cursor: pointer;\n}\n._clickable_o6t0e_11 {\n  cursor: pointer;\n}\n._stateWorkingOn_o6t0e_14 {\n  color: blue;\n}\n._stateSure_o6t0e_17 {\n  color: green;\n}\n._stateNotSure_o6t0e_20 {\n  color: red;\n}\n._answerMsg_o6t0e_23 {\n  border-style: groove;\n  border-width: thin;\n  opacity: 0.75;\n  margin-bottom: 0.5rem;\n}\n._answerMsg_o6t0e_23 ul {\n  padding-left: 1rem;\n}\n._answerMsgName_o6t0e_32 {\n  font-weight: bold;\n}\n._answerMark_o6t0e_35 {\n  display: flex;\n  justify-content: end;\n  align-items: center;\n  border-style: groove;\n  border-width: thin;\n  margin-bottom: 0.5rem;\n  opacity: 0.75;\n}\n._answerMark_o6t0e_35 button {\n  padding: 0;\n  margin-left: 0.5rem;\n  white-space: nowrap;\n}\n._answerMark_o6t0e_35 input {\n  height: max-content;\n  width: 100%;\n}\n._answerDetail_o6t0e_53 ._stateWorkingOn_o6t0e_14,\n._answerDetail_o6t0e_53 ._stateSure_o6t0e_17,\n._answerDetail_o6t0e_53 ._stateNotSure_o6t0e_20 {\n  font-weight: bold;\n}\n._answerDetail_o6t0e_53 ul {\n  padding-left: 1.5rem;\n}\n._answerDetail_o6t0e_53 img {\n  height: auto;\n  width: 80%;\n}\n._answerDetailShortAnswer_o6t0e_65 {\n  border-style: groove;\n  border-width: thin;\n  margin: 0.2rem;\n  padding: 0.2rem;\n}\n._answerDetailFill_o6t0e_71 {\n  white-space: pre;\n}\n._settings_o6t0e_74 {\n  border-style: groove;\n  border-width: thin;\n  display: flex;\n  flex-direction: column;\n  padding: 0.5rem;\n  margin-bottom: 0.5rem;\n}\n._settingsEntry_o6t0e_82 {\n  display: flex;\n  flex-direction: row;\n  margin-bottom: 0.5rem;\n  justify-content: space-between;\n  align-items: center;\n}\n._settingsEntry_o6t0e_82 label {\n  font-weight: bold;\n}\n._settingsEntry_o6t0e_82 input {\n  height: max-content;\n  text-align: right;\n}\n._settingsSubmit_o6t0e_96 {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: end;\n}\n._settingsSubmitTip_o6t0e_102 {\n  margin-right: 0.5rem;\n}\n._about_o6t0e_105 p {\n  margin-bottom: 0.25rem;\n}\n._about_o6t0e_105 ul {\n  padding-left: 1.5rem;\n  margin-bottom: 0.25rem;\n}\n._about_o6t0e_105 ul li {\n  margin-bottom: 0.25rem;\n}\n._uploadImg_o6t0e_115 {\n  display: flex;\n  flex-direction: column;\n}\n._uploadImg_o6t0e_115 img {\n  width: 100%;\n  height: auto;\n}\n._uploadImgImage_o6t0e_123 {\n  border-style: groove;\n  border-width: thin;\n  padding: 0.5rem;\n}\n._uploadImgConfirm_o6t0e_128 {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 0.5rem;\n}\n";
-  const _tmpl$$3 = /* @__PURE__ */ template(`<title> </title>`, 2), _tmpl$2$3 = /* @__PURE__ */ template(`<style></style>`, 2);
-  function assertNonNull(value, msg) {
-    assert(value !== void 0 && value !== null, msg != null ? msg : "null value");
+  function from(t) {
+    if (t === null) {
+      return;
+    }
+    return t;
   }
+  function expect(msg) {
+    return function(t) {
+      if (t === void 0) {
+        throw new Error(msg != null ? msg : "expect some value");
+      }
+      return t;
+    };
+  }
+  function map(op) {
+    return function* (it) {
+      for (const a of it) {
+        yield op(a);
+      }
+    };
+  }
+  function* enumerate(it) {
+    let i = 0;
+    for (const a of it) {
+      yield [i++, a];
+    }
+  }
+  function zip(b) {
+    return function* (a) {
+      const it1 = a[Symbol.iterator]();
+      const it2 = b[Symbol.iterator]();
+      while (true) {
+        const t1 = it1.next();
+        const t2 = it2.next();
+        if (t1.done !== true && t2.done !== true) {
+          yield [t1.value, t2.value];
+        } else {
+          return;
+        }
+      }
+    };
+  }
+  function sort(by) {
+    return function(it) {
+      return Array.from(it).sort(by);
+    };
+  }
+  function first(it) {
+    for (const t of it) {
+      return t;
+    }
+    return;
+  }
+  function fold(init, f) {
+    return function(it) {
+      let b = init;
+      for (const a of it) {
+        b = f(b, a);
+      }
+      return b;
+    };
+  }
+  function collectArray(it) {
+    return Array.from(it);
+  }
+  function forEach(f) {
+    return function(it) {
+      for (const t of it) {
+        f(t);
+      }
+    };
+  }
+  class Ref {
+    constructor(t) {
+      __publicField(this, "t");
+      this.t = t;
+    }
+    static from(t) {
+      return new Ref(t);
+    }
+    static unwrap(t) {
+      return t.t;
+    }
+  }
+  class Lazy {
+    constructor(init) {
+      __publicField(this, "_init");
+      __publicField(this, "_t");
+      this._init = init;
+    }
+    static from(init) {
+      return new Lazy(init);
+    }
+    force() {
+      if (this._t === void 0) {
+        this._t = Ref.from(this._init());
+      }
+      return this._t.t;
+    }
+  }
+  class Pipe {
+    constructor(t) {
+      __publicField(this, "_t");
+      this._t = t;
+    }
+    then(f) {
+      return new Pipe(f(this._t));
+    }
+    static from(t) {
+      return new Pipe(t);
+    }
+    unwrap() {
+      return this._t;
+    }
+  }
+  var styleCss = "._mainBody_1tr7e_1 {\n  opacity: 0.5;\n}\n._mainBody_1tr7e_1 * {\n  font-size: 0.75rem;\n  margin: 0;\n}\n._mainBody_1tr7e_1 button {\n  cursor: pointer;\n}\n._clickable_1tr7e_11 {\n  cursor: pointer;\n}\n._stateWorkingOn_1tr7e_14 {\n  color: blue;\n}\n._stateSure_1tr7e_17 {\n  color: green;\n}\n._stateNotSure_1tr7e_20 {\n  color: red;\n}\n._answerMsg_1tr7e_23 {\n  border-style: groove;\n  border-width: thin;\n  opacity: 0.75;\n  margin-bottom: 0.5rem;\n}\n._answerMsg_1tr7e_23 ul {\n  padding-left: 1rem;\n}\n._answerMsgName_1tr7e_32 {\n  font-weight: bold;\n}\n._answerMark_1tr7e_35 {\n  display: flex;\n  justify-content: end;\n  align-items: center;\n  border-style: groove;\n  border-width: thin;\n  margin-bottom: 0.5rem;\n  opacity: 0.75;\n}\n._answerMark_1tr7e_35 button {\n  padding: 0;\n  margin-left: 0.5rem;\n  white-space: nowrap;\n}\n._answerMark_1tr7e_35 input {\n  height: max-content;\n  width: 100%;\n}\n._answerDetail_1tr7e_53 ._stateWorkingOn_1tr7e_14,\n._answerDetail_1tr7e_53 ._stateSure_1tr7e_17,\n._answerDetail_1tr7e_53 ._stateNotSure_1tr7e_20 {\n  font-weight: bold;\n}\n._answerDetail_1tr7e_53 ul {\n  padding-left: 1.5rem;\n}\n._answerDetail_1tr7e_53 img {\n  height: auto;\n  width: 80%;\n}\n._answerDetailShortAnswer_1tr7e_65 {\n  border-style: groove;\n  border-width: thin;\n  margin: 0.2rem;\n  padding: 0.2rem;\n  min-width: min-content;\n}\n._answerDetailFill_1tr7e_72 {\n  white-space: pre;\n}\n._settings_1tr7e_75 {\n  border-style: groove;\n  border-width: thin;\n  display: flex;\n  flex-direction: column;\n  padding: 0.5rem;\n  margin-bottom: 0.5rem;\n}\n._settingsEntry_1tr7e_83 {\n  display: flex;\n  flex-direction: row;\n  margin-bottom: 0.5rem;\n  justify-content: space-between;\n  align-items: center;\n}\n._settingsEntry_1tr7e_83 label {\n  font-weight: bold;\n}\n._settingsEntry_1tr7e_83 input {\n  height: max-content;\n  text-align: right;\n}\n._settingsSubmit_1tr7e_97 {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: end;\n}\n._settingsSubmitTip_1tr7e_103 {\n  margin-right: 0.5rem;\n}\n._about_1tr7e_106 p {\n  margin-bottom: 0.25rem;\n}\n._about_1tr7e_106 ul {\n  padding-left: 1.5rem;\n  margin-bottom: 0.25rem;\n}\n._about_1tr7e_106 ul li {\n  margin-bottom: 0.25rem;\n}\n._uploadImg_1tr7e_116 {\n  display: flex;\n  flex-direction: column;\n}\n._uploadImg_1tr7e_116 img {\n  width: 100%;\n  height: auto;\n}\n._uploadImgImage_1tr7e_124 {\n  border-style: groove;\n  border-width: thin;\n  padding: 0.5rem;\n}\n._uploadImgConfirm_1tr7e_129 {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 0.5rem;\n}\n";
+  const _tmpl$$3 = /* @__PURE__ */ template(`<title> </title>`, 2), _tmpl$2$3 = /* @__PURE__ */ template(`<style></style>`, 2);
   function assertIs(ty, value, msg) {
     assert(value instanceof ty, msg != null ? msg : "not HTMLElement");
   }
@@ -1872,8 +1992,7 @@ ${html}. Is your HTML properly formed?`;
     return t;
   }
   function openWin(opts) {
-    const win = window.open("", "", Object.entries(opts).map(([k, v]) => `${k}=${v}`).join(","));
-    assertNonNull(win);
+    const win = Pipe.from(window.open("", "", Object.entries(opts).map(([k, v]) => `${k}=${v}`).join(","))).then(from).then(expect("cannot open windows")).unwrap();
     const close = () => win.close();
     window.addEventListener("unload", close);
     win.addEventListener("close", () => window.removeEventListener("unload", close));
@@ -1905,9 +2024,11 @@ ${html}. Is your HTML properly formed?`;
     if (val !== void 0) {
       return val.contents;
     }
+    return;
   }
   function setValue(key, val) {
     GM_setValue(key, { contents: val });
+    return val;
   }
   function migrate() {
     var _a;
@@ -1943,29 +2064,25 @@ ${html}. Is your HTML properly formed?`;
   class GMEntry {
     constructor(name, init) {
       __publicField(this, "_name");
-      __publicField(this, "_init");
-      __publicField(this, "inited", false);
-      __publicField(this, "_cached");
+      __publicField(this, "_t");
       this._name = name;
-      this._init = init;
+      this._t = Lazy.from(() => {
+        const val = getValue(this._name);
+        if (val === void 0 && init !== void 0) {
+          return setValue(this._name, init);
+        }
+        return val;
+      });
     }
     get() {
-      if (!this.inited) {
-        const val = getValue(this._name);
-        if (val === void 0 && this._init !== void 0) {
-          setValue(this._name, this._init);
-        }
-        this._cached = val != null ? val : this._init;
-        this.inited = true;
-      }
-      return this._cached;
+      return this._t.force();
     }
     set(val) {
       if (val === void 0) {
         return;
       }
       setValue(this._name, val);
-      this._cached = val;
+      this._t = Lazy.from(() => val);
     }
   }
   const USERNAME = new GMEntry("username");
@@ -2034,7 +2151,7 @@ ${html}. Is your HTML properly formed?`;
       if (syncAnswers !== true || this.queue.size < 1 || server2 === void 0 || username === void 0 || this.examId === void 0 || this.paper === void 0) {
         return;
       }
-      let answers = [...this.queue.entries()];
+      const answers = [...this.queue.entries()];
       this.queue.clear();
       if (this.client === void 0) {
         const client2 = new dist.JSONRPCClient((req) => {
@@ -2048,7 +2165,7 @@ ${html}. Is your HTML properly formed?`;
               data: JSON.stringify(req),
               onload: (resp) => {
                 if (resp.status === 200) {
-                  client2.receive(JSON.parse(resp.responseText));
+                  client2.receive(Pipe.from(resp.responseText).then(expect("empty response")).then(JSON.parse).unwrap());
                   ok();
                 } else {
                   err(new Error(resp.statusText));
@@ -2086,7 +2203,7 @@ ${html}. Is your HTML properly formed?`;
   const CLIENT = new Client();
   function hookXHR(cb) {
     const open = XMLHttpRequest.prototype.open;
-    XMLHttpRequest.prototype.open = function(_method, url) {
+    XMLHttpRequest.prototype.open = function(_, url) {
       const onSend = cb.call(this, newURL(url));
       const send = this.send;
       this.send = function(data) {
@@ -2118,25 +2235,25 @@ ${html}. Is your HTML properly formed?`;
     AnswerState2[AnswerState2["NotSure"] = 2] = "NotSure";
     return AnswerState2;
   })(AnswerState || {});
-  const mainBody = "_mainBody_o6t0e_1";
-  const clickable = "_clickable_o6t0e_11";
-  const stateWorkingOn = "_stateWorkingOn_o6t0e_14";
-  const stateSure = "_stateSure_o6t0e_17";
-  const stateNotSure = "_stateNotSure_o6t0e_20";
-  const answerMsg = "_answerMsg_o6t0e_23";
-  const answerMsgName = "_answerMsgName_o6t0e_32";
-  const answerMark = "_answerMark_o6t0e_35";
-  const answerDetail = "_answerDetail_o6t0e_53";
-  const answerDetailShortAnswer = "_answerDetailShortAnswer_o6t0e_65";
-  const answerDetailFill = "_answerDetailFill_o6t0e_71";
-  const settings = "_settings_o6t0e_74";
-  const settingsEntry = "_settingsEntry_o6t0e_82";
-  const settingsSubmit = "_settingsSubmit_o6t0e_96";
-  const settingsSubmitTip = "_settingsSubmitTip_o6t0e_102";
-  const about = "_about_o6t0e_105";
-  const uploadImg = "_uploadImg_o6t0e_115";
-  const uploadImgImage = "_uploadImgImage_o6t0e_123";
-  const uploadImgConfirm = "_uploadImgConfirm_o6t0e_128";
+  const mainBody = "_mainBody_1tr7e_1";
+  const clickable = "_clickable_1tr7e_11";
+  const stateWorkingOn = "_stateWorkingOn_1tr7e_14";
+  const stateSure = "_stateSure_1tr7e_17";
+  const stateNotSure = "_stateNotSure_1tr7e_20";
+  const answerMsg = "_answerMsg_1tr7e_23";
+  const answerMsgName = "_answerMsgName_1tr7e_32";
+  const answerMark = "_answerMark_1tr7e_35";
+  const answerDetail = "_answerDetail_1tr7e_53";
+  const answerDetailShortAnswer = "_answerDetailShortAnswer_1tr7e_65";
+  const answerDetailFill = "_answerDetailFill_1tr7e_72";
+  const settings = "_settings_1tr7e_75";
+  const settingsEntry = "_settingsEntry_1tr7e_83";
+  const settingsSubmit = "_settingsSubmit_1tr7e_97";
+  const settingsSubmitTip = "_settingsSubmitTip_1tr7e_103";
+  const about = "_about_1tr7e_106";
+  const uploadImg = "_uploadImg_1tr7e_116";
+  const uploadImgImage = "_uploadImgImage_1tr7e_124";
+  const uploadImgConfirm = "_uploadImgConfirm_1tr7e_129";
   var style = {
     mainBody,
     clickable,
@@ -2158,82 +2275,6 @@ ${html}. Is your HTML properly formed?`;
     uploadImgImage,
     uploadImgConfirm
   };
-  class Pipe {
-    constructor(lazy) {
-      __publicField(this, "_lazy");
-      this._lazy = lazy;
-    }
-    static from(t) {
-      return new Pipe(() => t);
-    }
-    then(f) {
-      return new Pipe(() => f(this.exec()));
-    }
-    exec() {
-      return this._lazy();
-    }
-  }
-  function pipe(t) {
-    return Pipe.from(t);
-  }
-  function map(op) {
-    return function* (it) {
-      for (const a of it) {
-        yield op(a);
-      }
-    };
-  }
-  function* enumerate(it) {
-    let i = 0;
-    for (const a of it) {
-      yield [i++, a];
-    }
-  }
-  function zip(b) {
-    return function* (a) {
-      const it1 = a[Symbol.iterator]();
-      const it2 = b[Symbol.iterator]();
-      while (true) {
-        const t1 = it1.next();
-        const t2 = it2.next();
-        if (t1.done !== true && t2.done !== true) {
-          yield [t1.value, t2.value];
-        } else {
-          return;
-        }
-      }
-    };
-  }
-  function sort(by) {
-    return function(it) {
-      return Array.from(it).sort(by);
-    };
-  }
-  function first(it) {
-    for (const t of it) {
-      return t;
-    }
-    return;
-  }
-  function fold(init, f) {
-    return function(it) {
-      let b = init;
-      for (const a of it) {
-        b = f(b, a);
-      }
-      return b;
-    };
-  }
-  function collectArray(it) {
-    return Array.from(it);
-  }
-  function forEach(f) {
-    return function(it) {
-      for (const t of it) {
-        f(t);
-      }
-    };
-  }
   const _tmpl$$2 = /* @__PURE__ */ template(`<div><fieldset><legend>\u6807\u8BB0</legend><input type="text" placeholder="\u7559\u8A00"><button type="button">\u6211\u6B63\u5728\u505A</button><button type="button">\u6211\u5F88\u786E\u5B9A</button><button type="button">\u6211\u4E0D\u786E\u5B9A</button></fieldset><div><fieldset><legend> \u7559\u8A00 </legend><ul></ul></fieldset><div></div></div></div>`, 23), _tmpl$2$2 = /* @__PURE__ */ template(`<li><span></span></li>`, 4), _tmpl$3$1 = /* @__PURE__ */ template(`<div><p><strong></strong></p><ul></ul></div>`, 8), _tmpl$4$1 = /* @__PURE__ */ template(`<li></li>`, 2), _tmpl$5 = /* @__PURE__ */ template(`<li><p></p><ul></ul></li>`, 6), _tmpl$6 = /* @__PURE__ */ template(`<div></div>`, 2), _tmpl$7 = /* @__PURE__ */ template(`<ul></ul>`, 2), _tmpl$8 = /* @__PURE__ */ template(`<li><a></a></li>`, 4), _tmpl$9 = /* @__PURE__ */ template(`<p><strong></strong></p>`, 4);
   function strCmp(a, b) {
     if (a === b) {
@@ -2302,11 +2343,11 @@ ${html}. Is your HTML properly formed?`;
         });
         const updateUI = () => setDetails(this._details);
         const DetailsRender = makeRender(details);
-        let itemType = subjectItem.querySelector(".item-type");
+        const itemType = subjectItem.querySelector(".item-type");
         assertIs(HTMLElement, itemType);
         itemType.classList.add(style.clickable);
         itemType.addEventListener("click", () => {
-          let rect = itemType == null ? void 0 : itemType.getBoundingClientRect();
+          const rect = itemType == null ? void 0 : itemType.getBoundingClientRect();
           const win = openWin({
             title: "\u8BE6\u7EC6\u7B54\u6848",
             height: 300,
@@ -2322,7 +2363,7 @@ ${html}. Is your HTML properly formed?`;
             _el$7.addEventListener("click", () => CLIENT.updateState(id, AnswerState.NotSure));
             insert(_el$11, createComponent(For, {
               get each() {
-                return pipe(details()).then(sort(cmpNameWithAnswerAndCtx)).then(collectArray).exec();
+                return Pipe.from(details()).then(sort(cmpNameWithAnswerAndCtx)).then(collectArray).unwrap();
               },
               children: ([user, {
                 context
@@ -2356,18 +2397,14 @@ ${html}. Is your HTML properly formed?`;
             }));
             insert(_el$12, createComponent(DetailsRender, {}));
             createRenderEffect((_p$) => {
-              const _v$ = style.mainBody, _v$2 = style.answerMark, _v$3 = style.stateWorkingOn, _v$4 = style.stateSure, _v$5 = style.stateNotSure, _v$6 = {
-                [style.answerMsg]: true
-              }, _v$7 = {
-                [style.answerDetail]: true
-              };
+              const _v$ = style.mainBody, _v$2 = style.answerMark, _v$3 = style.stateWorkingOn, _v$4 = style.stateSure, _v$5 = style.stateNotSure, _v$6 = style.answerMsg, _v$7 = style.answerDetail;
               _v$ !== _p$._v$ && className(_el$, _p$._v$ = _v$);
               _v$2 !== _p$._v$2 && className(_el$2, _p$._v$2 = _v$2);
               _v$3 !== _p$._v$3 && className(_el$5, _p$._v$3 = _v$3);
               _v$4 !== _p$._v$4 && className(_el$6, _p$._v$4 = _v$4);
               _v$5 !== _p$._v$5 && className(_el$7, _p$._v$5 = _v$5);
-              _p$._v$6 = classList(_el$9, _v$6, _p$._v$6);
-              _p$._v$7 = classList(_el$12, _v$7, _p$._v$7);
+              _v$6 !== _p$._v$6 && className(_el$9, _p$._v$6 = _v$6);
+              _v$7 !== _p$._v$7 && className(_el$12, _p$._v$7 = _v$7);
               return _p$;
             }, {
               _v$: void 0,
@@ -2398,9 +2435,9 @@ ${html}. Is your HTML properly formed?`;
   }
   class Choice extends Details {
     constructor(id, subjectItem, choiceMap) {
-      const tooltips = pipe(subjectItem.querySelectorAll(".item-body .checkboxInput, .item-body .radioInput")).then((t) => Array.from(t)).then(enumerate).then(fold(/* @__PURE__ */ new Map(), (tooltips2, [idx, ele]) => tooltips2.set(String.fromCharCode(idx + 65), new Tooltip(ele)))).exec();
+      const tooltips = Pipe.from(subjectItem.querySelectorAll(".item-body .checkboxInput, .item-body .radioInput")).then((t) => Array.from(t).entries()).then(fold(/* @__PURE__ */ new Map(), (tooltips2, [idx, ele]) => tooltips2.set(String.fromCharCode(idx + 65), new Tooltip(ele)))).unwrap();
       super(id, subjectItem, (details) => {
-        const choiceToUsers = createMemo(() => pipe(details()).then(fold(/* @__PURE__ */ new Map(), (choiceToUsers2, [user, {
+        const choiceToUsers = createMemo(() => Pipe.from(details()).then(fold(/* @__PURE__ */ new Map(), (choiceToUsers2, [user, {
           answer,
           context
         }]) => {
@@ -2414,13 +2451,11 @@ ${html}. Is your HTML properly formed?`;
             }
           }
           return choiceToUsers2;
-        })).then(sort(cmpByKey)).then(collectArray).exec());
-        createEffect(() => {
-          pipe(choiceToUsers()).then(forEach(([choice, users]) => {
-            var _a;
-            (_a = tooltips.get(choice)) == null ? void 0 : _a.setContent(percent(users.length, details().size));
-          }));
-        });
+        })).then(sort(cmpByKey)).then(collectArray).unwrap());
+        observable(choiceToUsers).subscribe((choiceToUsers2) => Pipe.from(choiceToUsers2).then(forEach(([choice, users]) => {
+          var _a;
+          (_a = tooltips.get(choice)) == null ? void 0 : _a.setContent(percent(users.length, details().size));
+        })));
         return () => createComponent(For, {
           get each() {
             return choiceToUsers();
@@ -2447,28 +2482,28 @@ ${html}. Is your HTML properly formed?`;
   }
   class Blank extends Details {
     constructor(id, subjectItem) {
-      const tooltips = pipe(subjectItem.querySelectorAll(".item-body .blank-item-dynamic")).then(Array.from).then(enumerate).then(fold(/* @__PURE__ */ new Map(), (tooltips2, [idx, ele]) => tooltips2.set(String.fromCharCode(idx + 49), new Tooltip(ele)))).exec();
+      const tooltips = Pipe.from(subjectItem.querySelectorAll(".item-body .blank-item-dynamic")).then(Array.from).then(enumerate).then(fold(/* @__PURE__ */ new Map(), (tooltips2, [idx, ele]) => tooltips2.set(String.fromCharCode(idx + 49), new Tooltip(ele)))).unwrap();
       super(id, subjectItem, (details) => {
-        const blankToFillToUsers = () => pipe(details()).then(fold(/* @__PURE__ */ new Map(), (blankToFillToUsers2, [user, {
+        const blankToFillToUsers = () => Pipe.from(details()).then(fold(/* @__PURE__ */ new Map(), (blankToFillToUsers2, [user, {
           answer,
           context
         }]) => {
           if (answer === void 0) {
             return blankToFillToUsers2;
           }
-          return pipe(answer).then(Object.entries).then(fold(blankToFillToUsers2, (blankToFillToUsers3, [blank, fill]) => {
+          return Pipe.from(answer).then(Object.entries).then(fold(blankToFillToUsers2, (blankToFillToUsers3, [blank, fill]) => {
             var _a, _b;
             fill = fill.trim();
             const fillToUsers = (_a = blankToFillToUsers3.get(blank)) != null ? _a : /* @__PURE__ */ new Map();
             const users = (_b = fillToUsers.get(fill)) != null ? _b : [];
             users.push([user, context]);
             return blankToFillToUsers3.set(blank, fillToUsers.set(fill, users));
-          })).exec();
-        })).then(map(([blank, fillToUsers]) => tuple(blank, pipe(fillToUsers).then(sort(cmpByKey)).then(collectArray).exec()))).then(sort(cmpByKey)).then(collectArray).exec();
-        createEffect(() => {
-          pipe(blankToFillToUsers()).then(forEach(([blank, fillToUsers]) => {
+          })).unwrap();
+        })).then(map(([blank, fillToUsers]) => tuple(blank, Pipe.from(fillToUsers).then(sort(cmpByKey)).then(collectArray).unwrap()))).then(sort(cmpByKey)).then(collectArray).unwrap();
+        observable(blankToFillToUsers).subscribe((blankToFillToUsers2) => {
+          Pipe.from(blankToFillToUsers2).then(forEach(([blank, fillToUsers]) => {
             var _a;
-            const most = pipe(fillToUsers).then(map(([fill, users]) => tuple(fill, users.length))).then(sort(([_1, a], [_2, b]) => b - a)).then(first).exec();
+            const most = Pipe.from(fillToUsers).then(map(([fill, users]) => tuple(fill, users.length))).then(sort(([, a], [, b]) => b - a)).then(first).unwrap();
             (_a = tooltips.get(blank)) == null ? void 0 : _a.setContent(most === void 0 ? "" : `(${percent(most[1], details().size)}) ${most[0]}`);
           }));
         });
@@ -2513,7 +2548,7 @@ ${html}. Is your HTML properly formed?`;
   class ShortAnswer extends Details {
     constructor(id, subjectItem) {
       super(id, subjectItem, (details) => {
-        const userToAnswers = createMemo(() => pipe(details()).then(sort(cmpNameWithAnswerAndCtx)).then(collectArray).exec());
+        const userToAnswers = createMemo(() => Pipe.from(details()).then(sort(cmpNameWithAnswerAndCtx)).then(collectArray).unwrap());
         return () => createComponent(For, {
           get each() {
             return userToAnswers();
@@ -2713,24 +2748,24 @@ ${html}. Is your HTML properly formed?`;
       assertIs(HTMLElement, header);
       header.classList.add(style.clickable);
       header.addEventListener("click", () => showSettings());
-      let subjectItems = Array.from(document.body.querySelectorAll(".exam-main--body .subject-item"));
+      const subjectItems = Array.from(document.body.querySelectorAll(".exam-main--body .subject-item"));
       assert(subjectItems.length === problems.length, "number subject items mismatches problems");
-      this._details = pipe(subjectItems).then(zip(problems)).then(fold(/* @__PURE__ */ new Map(), (details, [subjectItem, prob]) => {
+      this._details = Pipe.from(subjectItems).then(zip(problems)).then(fold(/* @__PURE__ */ new Map(), (details, [subjectItem, prob]) => {
         let detail;
         switch (prob.ProblemType) {
           case ProblemType.SingleChoice:
           case ProblemType.MultipleChoice:
           case ProblemType.Polling:
-          case ProblemType.Judgement:
-            assertNonNull(prob.Options, "null choices");
-            const choiceMap = prob.ProblemType === ProblemType.Judgement ? /* @__PURE__ */ new Map([["true", "\u6B63\u786E"], ["false", "\u9519\u8BEF"]]) : pipe(prob.Options).then(enumerate).then(fold(/* @__PURE__ */ new Map(), (choiceMap2, [idx, {
+          case ProblemType.Judgement: {
+            const choiceMap = prob.ProblemType === ProblemType.Judgement ? /* @__PURE__ */ new Map([["true", "\u6B63\u786E"], ["false", "\u9519\u8BEF"]]) : Pipe.from(prob.Options).then(expect("no Options")).then(enumerate).then(fold(/* @__PURE__ */ new Map(), (choiceMap2, [idx, {
               key
-            }]) => choiceMap2.set(key, String.fromCharCode(65 + idx)))).exec();
+            }]) => choiceMap2.set(key, String.fromCharCode(65 + idx)))).unwrap();
             detail = new Choice(prob.ProblemID, subjectItem, (s) => {
               var _a;
               return (_a = choiceMap.get(s)) != null ? _a : s;
             });
             break;
+          }
           case ProblemType.FillBlank:
             detail = new Blank(prob.ProblemID, subjectItem);
             break;
@@ -2739,7 +2774,7 @@ ${html}. Is your HTML properly formed?`;
             break;
         }
         return details.set(prob.ProblemID, detail);
-      })).exec();
+      })).unwrap();
     }
     updateAnswer({
       username,
@@ -2863,7 +2898,7 @@ ${html}. Is your HTML properly formed?`;
               msg.forEach((res) => ui.updateAnswer(res));
               ui.updateUI();
             });
-            const examId = parseInt(url.searchParams.get("exam_id"));
+            const examId = parseInt(Pipe.from(url.searchParams.get("exam_id")).then(from).then(expect("cannot found exam_id")).unwrap());
             CLIENT.login(examId, { title: paper.data.title, problems });
             fetch(newURL("/exam_room/cache_results", {
               exam_id: examId.toString()

@@ -9,7 +9,7 @@ export function hookXHR(
   ) => ((body: XHRBody) => Promise<XHRBody>) | undefined
 ) {
   const open = XMLHttpRequest.prototype.open;
-  XMLHttpRequest.prototype.open = function (_method, url) {
+  XMLHttpRequest.prototype.open = function (_, url) {
     const onSend = cb.call(this, newURL(url));
     // Modify post data.
     const send = this.send;
@@ -26,6 +26,7 @@ export function hookXHR(
         this.send = send;
       }
     };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, prefer-rest-params
     open.apply(this, arguments as any);
   };
 }

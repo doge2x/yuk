@@ -1,6 +1,6 @@
 import { devLog } from "./utils";
 
-interface XHRResponse {
+interface XHRResponse<T> {
   status: number;
   statusText: string;
   readyState: number;
@@ -8,16 +8,16 @@ interface XHRResponse {
   repsonse: string | Blob | ArrayBuffer | Document | object | null;
   responseText: string | undefined;
   finalUrl: string;
-  context: any;
+  context: T;
 }
 
-type XHRCallback = (resp: XHRResponse) => void;
+type XHRCallback<T> = (resp: XHRResponse<T>) => void;
 
 interface XHRControl {
   abort(): void;
 }
 
-interface XHRDetail {
+interface XHRDetail<T> {
   url: string;
   method?: string;
   user?: string;
@@ -28,37 +28,39 @@ interface XHRDetail {
   timeout?: number;
   data?: string | FormData | Blob;
   binary?: boolean;
-  context?: any;
+  context?: T;
   anonymous?: boolean;
-  onabort?: XHRCallback;
-  onerror?: XHRCallback;
-  onload?: XHRCallback;
-  onloadend?: XHRCallback;
-  onloadstart?: XHRCallback;
-  onprogress?: XHRCallback;
-  onreadystatechange?: XHRCallback;
-  ontimeout?: XHRCallback;
+  onabort?: XHRCallback<T>;
+  onerror?: XHRCallback<T>;
+  onload?: XHRCallback<T>;
+  onloadend?: XHRCallback<T>;
+  onloadstart?: XHRCallback<T>;
+  onprogress?: XHRCallback<T>;
+  onreadystatechange?: XHRCallback<T>;
+  ontimeout?: XHRCallback<T>;
 }
 
 declare global {
-  function GM_getValue(key: string): any;
+  function GM_getValue<T>(key: string): T | undefined;
 
-  function GM_setValue(key: string, val: any): void;
+  function GM_setValue<T>(key: string, val: T | undefined): void;
 
-  namespace GM {
-    function xmlHttpRequest(details: XHRDetail): XHRControl;
-  }
+  const GM: {
+    xmlHttpRequest<T = undefined>(details: XHRDetail<T>): XHRControl;
+  };
 }
 
-export function getValue(key: string): any {
-  const val = GM_getValue(key);
+export function getValue<T>(key: string): T | undefined {
+  const val = GM_getValue<{ contents: T }>(key);
   if (val !== undefined) {
     return val.contents;
   }
+  return;
 }
 
-export function setValue(key: string, val: any) {
+export function setValue<T>(key: string, val: T): T {
   GM_setValue(key, { contents: val });
+  return val;
 }
 
 export function migrate() {

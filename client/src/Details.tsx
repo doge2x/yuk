@@ -1,11 +1,11 @@
 import {
   Accessor,
-  createEffect,
   createMemo,
   createRoot,
   createSignal,
   For,
   JSX,
+  observable,
 } from "solid-js";
 import style from "./style.module.less";
 import {
@@ -18,7 +18,7 @@ import {
 import { assertIs, openWin, tuple } from "./utils";
 import { render } from "solid-js/web";
 import { CLIENT } from "./client";
-import * as It from "./itertools";
+import { It, Pipe } from "./utils";
 
 export interface AnswerAndContext<A> {
   context?: AnswerContext;
@@ -121,11 +121,11 @@ export class Details<A> {
       const DetailsRender = makeRender(details);
 
       // Click problem title to show detail of answers.
-      let itemType = subjectItem.querySelector(".item-type");
+      const itemType = subjectItem.querySelector(".item-type");
       assertIs(HTMLElement, itemType);
       itemType.classList.add(style.clickable);
       itemType.addEventListener("click", () => {
-        let rect = itemType?.getBoundingClientRect();
+        const rect = itemType?.getBoundingClientRect();
         const win = openWin({
           title: "详细答案",
           height: 300,
@@ -168,14 +168,14 @@ export class Details<A> {
                 </button>
               </fieldset>
               <div>
-                <fieldset classList={{ [style.answerMsg]: true }}>
+                <fieldset class={style.answerMsg}>
                   <legend> 留言 </legend>
                   <ul>
                     <For
-                      each={It.pipe(details())
+                      each={Pipe.from(details())
                         .then(It.sort(cmpNameWithAnswerAndCtx))
                         .then(It.collectArray)
-                        .exec()}
+                        .unwrap()}
                     >
                       {([user, { context }]) => {
                         if (context === undefined) {
@@ -200,7 +200,7 @@ export class Details<A> {
                     </For>
                   </ul>
                 </fieldset>
-                <div classList={{ [style.answerDetail]: true }}>
+                <div class={style.answerDetail}>
                   <DetailsRender />
                 </div>
               </div>
@@ -239,24 +239,24 @@ export class Choice extends Details<ChoiceResult> {
     subjectItem: Element,
     choiceMap: (s: string) => string
   ) {
-    const tooltips = It.pipe(
+    const tooltips = Pipe.from(
       subjectItem.querySelectorAll(
         ".item-body .checkboxInput, .item-body .radioInput"
       )
     )
-      .then((t) => Array.from(t))
-      .then(It.enumerate)
+      .then((t) => Array.from(t).entries())
       .then(
+        // FIXME: show for Judgement
         It.fold(new Map<string, Tooltip>(), (tooltips, [idx, ele]) =>
           tooltips.set(String.fromCharCode(idx + 65), new Tooltip(ele))
         )
       )
-      .exec();
+      .unwrap();
 
     super(id, subjectItem, (details) => {
       // (choice, (user, context?)[])[]
       const choiceToUsers = createMemo(() =>
-        It.pipe(details())
+        Pipe.from(details())
           .then(
             It.fold(
               new Map<string, Users>(),
@@ -276,19 +276,19 @@ export class Choice extends Details<ChoiceResult> {
           // Sort by choice.
           .then(It.sort(cmpByKey))
           .then(It.collectArray)
-          .exec()
+          .unwrap()
       );
 
       // Update tooltips to show how many users select the choices.
-      createEffect(() => {
-        It.pipe(choiceToUsers()).then(
+      observable(choiceToUsers).subscribe((choiceToUsers) =>
+        Pipe.from(choiceToUsers).then(
           It.forEach(([choice, users]) => {
             tooltips
               .get(choice)
               ?.setContent(percent(users.length, details().size));
           })
-        );
-      });
+        )
+      );
 
       return () => (
         // choice
@@ -316,7 +316,7 @@ export class Choice extends Details<ChoiceResult> {
 
 export class Blank extends Details<BlankResult> {
   constructor(id: number, subjectItem: Element) {
-    const tooltips = It.pipe(
+    const tooltips = Pipe.from(
       subjectItem.querySelectorAll(".item-body .blank-item-dynamic")
     )
       .then<Element[]>(Array.from)
@@ -326,12 +326,12 @@ export class Blank extends Details<BlankResult> {
           tooltips.set(String.fromCharCode(idx + 49), new Tooltip(ele))
         )
       )
-      .exec();
+      .unwrap();
 
     super(id, subjectItem, (details) => {
       // (blank, (fill, Users)[])[]
       const blankToFillToUsers = () =>
-        It.pipe(details())
+        Pipe.from(details())
           .then(
             It.fold(
               new Map<
@@ -342,7 +342,7 @@ export class Blank extends Details<BlankResult> {
                 if (answer === undefined) {
                   return blankToFillToUsers;
                 }
-                return It.pipe(answer)
+                return Pipe.from(answer)
                   .then(Object.entries)
                   .then(
                     It.fold(
@@ -361,7 +361,7 @@ export class Blank extends Details<BlankResult> {
                       }
                     )
                   )
-                  .exec();
+                  .unwrap();
               }
             )
           )
@@ -370,27 +370,27 @@ export class Blank extends Details<BlankResult> {
               tuple(
                 blank,
                 // Sory by filled text.
-                It.pipe(fillToUsers)
+                Pipe.from(fillToUsers)
                   .then(It.sort(cmpByKey))
                   .then(It.collectArray)
-                  .exec()
+                  .unwrap()
               )
             )
           )
           // Sort by blank ID.
           .then(It.sort(cmpByKey))
           .then(It.collectArray)
-          .exec();
+          .unwrap();
 
       // Update tooltips to show the most popular answers.
-      createEffect(() => {
-        It.pipe(blankToFillToUsers()).then(
+      observable(blankToFillToUsers).subscribe((blankToFillToUsers) => {
+        Pipe.from(blankToFillToUsers).then(
           It.forEach(([blank, fillToUsers]) => {
-            const most = It.pipe(fillToUsers)
+            const most = Pipe.from(fillToUsers)
               .then(It.map(([fill, users]) => tuple(fill, users.length)))
-              .then(It.sort(([_1, a], [_2, b]) => b - a))
+              .then(It.sort(([, a], [, b]) => b - a))
               .then(It.first)
-              .exec();
+              .unwrap();
             tooltips
               .get(blank)
               ?.setContent(
@@ -445,10 +445,10 @@ export class ShortAnswer extends Details<ShortResult> {
   constructor(id: number, subjectItem: Element) {
     super(id, subjectItem, (details) => {
       const userToAnswers = createMemo(() =>
-        It.pipe(details())
+        Pipe.from(details())
           .then(It.sort(cmpNameWithAnswerAndCtx))
           .then(It.collectArray)
-          .exec()
+          .unwrap()
       );
       return () => (
         // user

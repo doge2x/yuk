@@ -1,20 +1,20 @@
+export * as Opt from "./utils/Opt";
+export * as It from "./utils/It";
+export { Lazy } from "./utils/Lazy";
+export { Pipe } from "./utils/Pipe";
+
 import styleCss from "./style.module.less?inline";
 import { render } from "solid-js/web";
-
-export function assertNonNull<T>(
-  value: T,
-  msg?: string
-): asserts value is NonNullable<T> {
-  assert(value !== undefined && value !== null, msg ?? "null value");
-}
+import { Pipe } from "./utils/Pipe";
+import * as Opt from "./utils/Opt";
 
 export type KeyOfType<T, V> = keyof {
-  [P in keyof T as T[P] extends V ? P : never]: any;
+  [P in keyof T as T[P] extends V ? P : never]: unknown;
 };
 
 export function assertIs<T>(
   ty: { new (): T },
-  value: any,
+  value: unknown,
   msg?: string
 ): asserts value is T {
   assert(value instanceof ty, msg ?? "not HTMLElement");
@@ -30,7 +30,7 @@ export function isDevMode(): boolean {
   return import.meta.env.DEV;
 }
 
-export function tuple<T extends ReadonlyArray<any>>(...t: T): T {
+export function tuple<T extends ReadonlyArray<unknown>>(...t: T): T {
   return t;
 }
 
@@ -41,14 +41,18 @@ export function openWin(opts: {
   left?: number;
   top?: number;
 }) {
-  const win = window.open(
-    "",
-    "",
-    Object.entries(opts)
-      .map(([k, v]) => `${k}=${v}`)
-      .join(",")
-  );
-  assertNonNull(win);
+  const win = Pipe.from(
+    window.open(
+      "",
+      "",
+      Object.entries(opts)
+        .map(([k, v]) => `${k}=${v}`)
+        .join(",")
+    )
+  )
+    .then(Opt.from)
+    .then(Opt.expect("cannot open windows"))
+    .unwrap();
   const close = () => win.close();
   window.addEventListener("unload", close);
   win.addEventListener("close", () =>
@@ -64,7 +68,7 @@ export function openWin(opts: {
   return win;
 }
 
-export function devLog(msg?: any, ...params: any[]) {
+export function devLog(msg?: unknown, ...params: unknown[]) {
   if (isDevMode()) {
     console.log(msg, ...params);
   }

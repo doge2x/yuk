@@ -1,10 +1,10 @@
 import { Problem, ProblemType, Result, UserAnswer } from "./types";
 import style from "./style.module.less";
 import styleCss from "./style.module.less?inline";
-import { assert, assertIs, assertNonNull, openWin } from "./utils";
+import { assert, assertIs, openWin, Opt } from "./utils";
 import { render } from "solid-js/web";
 import { Details, Choice, Blank, ShortAnswer } from "./Details";
-import * as It from "./itertools";
+import { It, Pipe } from "./utils";
 import { showSettings } from "./Settings";
 
 export class UI {
@@ -21,14 +21,14 @@ export class UI {
     header.addEventListener("click", () => showSettings());
 
     // Inject answer details.
-    let subjectItems = Array.from(
+    const subjectItems = Array.from(
       document.body.querySelectorAll(".exam-main--body .subject-item")
     );
     assert(
       subjectItems.length === problems.length,
       "number subject items mismatches problems"
     );
-    this._details = It.pipe(subjectItems)
+    this._details = Pipe.from(subjectItems)
       .then(It.zip(problems))
       .then(
         It.fold(
@@ -39,8 +39,7 @@ export class UI {
               case ProblemType.SingleChoice:
               case ProblemType.MultipleChoice:
               case ProblemType.Polling:
-              case ProblemType.Judgement:
-                assertNonNull(prob.Options, "null choices");
+              case ProblemType.Judgement: {
                 // Map answers to what user sees.
                 const choiceMap =
                   prob.ProblemType === ProblemType.Judgement
@@ -48,7 +47,8 @@ export class UI {
                         ["true", "正确"],
                         ["false", "错误"],
                       ])
-                    : It.pipe(prob.Options)
+                    : Pipe.from(prob.Options)
+                        .then(Opt.expect("no Options"))
                         .then(It.enumerate)
                         .then(
                           It.fold(
@@ -57,13 +57,14 @@ export class UI {
                               choiceMap.set(key, String.fromCharCode(65 + idx))
                           )
                         )
-                        .exec();
+                        .unwrap();
                 detail = new Choice(
                   prob.ProblemID,
                   subjectItem,
                   (s) => choiceMap.get(s) ?? s
                 );
                 break;
+              }
               case ProblemType.FillBlank:
                 detail = new Blank(prob.ProblemID, subjectItem);
                 break;
@@ -71,11 +72,11 @@ export class UI {
                 detail = new ShortAnswer(prob.ProblemID, subjectItem);
                 break;
             }
-            return details.set(prob.ProblemID, detail as any);
+            return details.set(prob.ProblemID, detail);
           }
         )
       )
-      .exec();
+      .unwrap();
   }
 
   updateAnswer({ username, problem_id, result, context }: UserAnswer) {
