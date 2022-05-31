@@ -1,3 +1,6 @@
 # Node
 dist
 node_modules
+
+# Rust
+target
