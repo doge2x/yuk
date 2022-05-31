@@ -7,13 +7,17 @@ use jsonrpsee::{
 };
 use log::info;
 use mongodb::{bson::doc, Client};
+use once_cell::sync::Lazy;
+use regex::Regex;
 use serde_json::Value as Json;
-use server::{GetPaper, ListPaper, PostAnswer, PostPaper, Server, UserAnswer};
+use server::{AnswerContext, GetPaper, ListPaper, PostAnswer, PostPaper, Server, UserAnswer};
 use std::{env, net::SocketAddr};
 use tokio::signal::{
     ctrl_c,
     unix::{signal, SignalKind},
 };
+
+shadow_rs::shadow!(shadow);
 
 #[rpc(server)]
 trait YukRpc {
@@ -23,6 +27,7 @@ trait YukRpc {
         username: String,
         exam_id: i64,
         paper: Option<PostPaper>,
+        version: Option<String>,
     ) -> RpcResult<String>;
 
     #[method(name = "answer_problem")]
@@ -48,11 +53,34 @@ impl YukRpcServer for YukServer {
         username: String,
         exam_id: i64,
         paper: Option<PostPaper>,
+        version: Option<String>,
     ) -> RpcResult<String> {
+        static USERNAME_RE: Lazy<Regex> = Lazy::new(|| Regex::new(r"^[a-z][a-z0-9_]*$").unwrap());
+
+        info!(
+            "login: {}, {}, {}",
+            username,
+            exam_id,
+            version.as_ref().map(String::as_str).unwrap_or("no_version")
+        );
+
+        if !USERNAME_RE.is_match(&username) {
+            return Err(jsonrpsee::core::Error::Custom(format!("invalid username")));
+        }
+
         if let Some(paper) = paper {
             self.server.update_paper(exam_id, paper).await?;
         }
-        let token = self.server.login(username, exam_id).await?;
+
+        let msg = if matches!(
+            version.as_ref().map(String::as_str),
+            Some(shadow::PKG_VERSION)
+        ) {
+            None
+        } else {
+            Some(format!("[系统通知] 请更新至 v{}", shadow::PKG_VERSION))
+        };
+        let token = self.server.login(username, exam_id, msg).await?;
         Ok(token.to_string())
     }
 
@@ -61,8 +89,26 @@ impl YukRpcServer for YukServer {
         token: String,
         answers: Vec<PostAnswer>,
     ) -> RpcResult<Vec<UserAnswer>> {
-        let (exam_id, last_post) = self.server.update_answer(token.parse()?, answers).await?;
-        Ok(self.server.fetch_answers(exam_id, last_post).await?)
+        let (exam_id, last_post, msg) = self.server.update_answer(token.parse()?, answers).await?;
+        let mut answers = self.server.fetch_answers(exam_id, last_post).await?;
+        // Inject messages.
+        if let Some(msg) = msg {
+            answers.extend(
+                answers
+                    .iter()
+                    .map(|&UserAnswer { problem_id, .. }| UserAnswer {
+                        username: "_".to_owned(),
+                        problem_id,
+                        result: None,
+                        context: Some(AnswerContext {
+                            state: Some(2),
+                            msg: Some(msg.clone()),
+                        }),
+                    })
+                    .collect::<Vec<_>>(),
+            );
+        }
+        Ok(answers)
     }
 
     async fn list_papers(&self) -> RpcResult<Vec<ListPaper>> {

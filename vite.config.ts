@@ -20,20 +20,21 @@ const BANNER = `\
 `;
 
 export default defineConfig(({ mode }) => {
-  let minify = false;
-  let suffix = "";
+  let minify = true;
+  let suffix = ".min";
+  let devMode = false;
 
-  switch (mode) {
-    case "production":
-      minify = true;
-      suffix = ".min";
-      break;
-    case "development":
-      suffix = ".dev";
-      break;
+  if (mode === "development") {
+    minify = false;
+    suffix = ".dev";
+    devMode = true;
   }
 
   return {
+    define: {
+      __DEV_MODE: JSON.stringify(devMode),
+      __VERSION: JSON.stringify(VERSION),
+    },
     build: {
       emptyOutDir: false,
       minify,

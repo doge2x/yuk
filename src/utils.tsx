@@ -26,10 +26,6 @@ export function assert(value: boolean, msg?: string) {
   }
 }
 
-export function isDevMode(): boolean {
-  return import.meta.env.DEV;
-}
-
 export function tuple<T extends ReadonlyArray<unknown>>(...t: T): T {
   return t;
 }
@@ -69,7 +65,7 @@ export function openWin(opts: {
 }
 
 export function devLog(msg?: unknown, ...params: unknown[]) {
-  if (isDevMode()) {
+  if (__DEV_MODE) {
     console.log(msg, ...params);
   }
 }

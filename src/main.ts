@@ -10,7 +10,7 @@ import {
   PostAnswer,
 } from "./types";
 import { UI, showConfirmUpload } from "./UI";
-import { devLog, isDevMode, newURL, Opt, Pipe } from "./utils";
+import { devLog, newURL, Opt, Pipe } from "./utils";
 import { NO_LEAVE_CHECK, SORT_PROBLEMS } from "./shared";
 import { migrate } from "./gm";
 
@@ -176,10 +176,10 @@ async function main(): Promise<void> {
         return;
     }
   });
-  await CLIENT.watch(isDevMode() ? 0 : 1e4);
+  await CLIENT.watch(__DEV_MODE ? 0 : 1e4);
 }
 
-if (isDevMode()) {
+if (__DEV_MODE) {
   console.warn("IN DEV_MODE");
 }
 main().catch(console.error);

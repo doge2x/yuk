@@ -3,7 +3,6 @@ mod migration;
 use crate::Json;
 use anyhow::anyhow;
 use futures::prelude::*;
-use log::info;
 use mongodb::{
     bson::{self, doc, oid::ObjectId, Bson, DateTime},
     options::{FindOneAndUpdateOptions, ReturnDocument},
@@ -20,6 +19,7 @@ struct Session {
     username: String,
     exam_id: i64,
     last_post: DateTime,
+    msg: Option<String>,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -159,8 +159,18 @@ impl Server {
         migration::migrate(self).await
     }
 
-    pub async fn login(&self, username: String, exam_id: i64) -> anyhow::Result<UserToken> {
-        info!("login: {}, {}", username, exam_id);
+    pub async fn login(
+        &self,
+        username: String,
+        exam_id: i64,
+        msg: Option<String>,
+    ) -> anyhow::Result<UserToken> {
+        #[derive(Debug, Serialize)]
+        struct Session2 {
+            last_post: DateTime,
+            msg: Option<String>,
+        }
+
         let Session { id, .. } = self
             .sessions
             .find_one_and_update(
@@ -168,7 +178,12 @@ impl Server {
                     "username": &username,
                     "exam_id": exam_id,
                 },
-                doc! { "$set": { "last_post": DateTime::MIN } },
+                doc! {
+                    "$set": bson::to_document(&Session2 {
+                        last_post: DateTime::MIN,
+                        msg,
+                    }).unwrap()
+                },
                 FindOneAndUpdateOptions::builder()
                     .return_document(ReturnDocument::After)
                     .upsert(true)
@@ -285,12 +300,13 @@ impl Server {
         &self,
         token: UserToken,
         answers: Vec<PostAnswer>,
-    ) -> anyhow::Result<(i64, DateTime)> {
+    ) -> anyhow::Result<(i64, DateTime, Option<String>)> {
         let new_post = DateTime::now();
         let Session {
             id: session_id,
             exam_id,
             last_post,
+            msg,
             ..
         } = self
             .sessions
@@ -301,7 +317,6 @@ impl Server {
             )
             .await?
             .ok_or_else(|| anyhow!("undefined token"))?;
-        info!("update: {}, {} => {}", token, last_post, new_post);
         if !answers.is_empty() {
             // FIXME: [bulk_update](https://jira.mongodb.org/browse/RUST-531)
             let updates = answers
@@ -357,7 +372,7 @@ impl Server {
             };
             self.db.run_command(command, None).await?;
         }
-        Ok((exam_id, last_post))
+        Ok((exam_id, last_post, msg))
     }
 
     pub async fn fetch_answers(

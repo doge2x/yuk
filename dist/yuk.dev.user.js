@@ -2176,7 +2176,7 @@ ${html}. Is your HTML properly formed?`;
         const timer = setInterval(() => {
           this.sendQueue().catch((e) => {
             clearInterval(timer);
-            alert("\u4E0E\u670D\u52A1\u5668\u901A\u4FE1\u5F02\u5E38");
+            alert(`\u4E0E\u670D\u52A1\u5668\u901A\u4FE1\u5F02\u5E38: ${e}`);
             err(e);
           });
         }, ms);
@@ -2224,7 +2224,8 @@ ${html}. Is your HTML properly formed?`;
         const token = await this.client.request("login", [
           username,
           this.examId,
-          this.paper
+          this.paper,
+          "0.7.1"
         ]);
         devLog("got token", token);
         this.token = token;

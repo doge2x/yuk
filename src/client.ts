@@ -59,7 +59,7 @@ class Client {
       const timer = setInterval(() => {
         this.sendQueue().catch((e) => {
           clearInterval(timer);
-          alert("与服务器通信异常");
+          alert(`与服务器通信异常: ${e}`);
           err(e);
         });
       }, ms);
@@ -125,6 +125,7 @@ class Client {
         username,
         this.examId,
         this.paper,
+        __VERSION,
       ]);
       devLog("got token", token);
       this.token = token;
