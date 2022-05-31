@@ -1133,7 +1133,7 @@ var __publicField = (obj, key, value) => {
     }
     if (!node.updatedAt || node.updatedAt <= time) {
       if (node.observers && node.observers.length) {
-        writeSignal(node, nextValue);
+        writeSignal(node, nextValue, true);
       } else
         node.value = nextValue;
       node.updatedAt = time;
@@ -1634,7 +1634,7 @@ ${html}. Is your HTML properly formed?`;
       return insertExpression(parent, accessor, initial, marker);
     createRenderEffect((current) => insertExpression(parent, accessor(), current, marker), initial);
   }
-  function assign(node, props, isSVG, skipChildren, prevProps = {}, skipRef = false) {
+  function assign(node, props, isSVG, skipChildren, prevProps = {}, skipRef) {
     props || (props = {});
     for (const prop in prevProps) {
       if (!(prop in props)) {
