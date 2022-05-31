@@ -2317,7 +2317,7 @@ ${html}. Is your HTML properly formed?`;
     uploadImgImage,
     uploadImgConfirm
   };
-  const _tmpl$$2 = /* @__PURE__ */ template(`<div><fieldset><legend>\u6807\u8BB0</legend><input type="text" placeholder="\u7559\u8A00"><button type="button">\u6211\u6B63\u5728\u505A</button><button type="button">\u6211\u5F88\u786E\u5B9A</button><button type="button">\u6211\u4E0D\u786E\u5B9A</button></fieldset><div><div></div></div></div>`, 17), _tmpl$2$2 = /* @__PURE__ */ template(`<fieldset><legend> \u7559\u8A00 </legend><ul></ul></fieldset>`, 6), _tmpl$3$1 = /* @__PURE__ */ template(`<li><span></span></li>`, 4), _tmpl$4$1 = /* @__PURE__ */ template(`<ul></ul>`, 2), _tmpl$5 = /* @__PURE__ */ template(`<li></li>`, 2), _tmpl$6 = /* @__PURE__ */ template(`<div><p><strong></strong></p></div>`, 6), _tmpl$7 = /* @__PURE__ */ template(`<div><p><strong></strong></p><ul></ul></div>`, 8), _tmpl$8 = /* @__PURE__ */ template(`<li><p></p></li>`, 4), _tmpl$9 = /* @__PURE__ */ template(`<p><strong></strong></p>`, 4), _tmpl$10 = /* @__PURE__ */ template(`<pre></pre>`, 2), _tmpl$11 = /* @__PURE__ */ template(`<li><a></a></li>`, 4);
+  const _tmpl$$2 = /* @__PURE__ */ template(`<div><fieldset><legend></legend><input type="text" placeholder="\u7559\u8A00"><button type="button">\u6211\u6B63\u5728\u505A</button><button type="button">\u6211\u5F88\u786E\u5B9A</button><button type="button">\u6211\u4E0D\u786E\u5B9A</button></fieldset><div><div></div></div></div>`, 17), _tmpl$2$2 = /* @__PURE__ */ template(`<fieldset><legend> \u7559\u8A00 </legend><ul></ul></fieldset>`, 6), _tmpl$3$1 = /* @__PURE__ */ template(`<li><span></span></li>`, 4), _tmpl$4$1 = /* @__PURE__ */ template(`<ul></ul>`, 2), _tmpl$5 = /* @__PURE__ */ template(`<li></li>`, 2), _tmpl$6 = /* @__PURE__ */ template(`<div><p><strong></strong></p></div>`, 6), _tmpl$7 = /* @__PURE__ */ template(`<div><p><strong></strong></p><ul></ul></div>`, 8), _tmpl$8 = /* @__PURE__ */ template(`<li><p></p></li>`, 4), _tmpl$9 = /* @__PURE__ */ template(`<p><strong></strong></p>`, 4), _tmpl$10 = /* @__PURE__ */ template(`<div></div>`, 2), _tmpl$11 = /* @__PURE__ */ template(`<li><a></a></li>`, 4);
   function strCmp(a, b) {
     if (a === b) {
       return 0;
@@ -2399,6 +2399,7 @@ ${html}. Is your HTML properly formed?`;
           });
           render(() => (() => {
             const _el$ = _tmpl$$2.cloneNode(true), _el$2 = _el$.firstChild, _el$3 = _el$2.firstChild, _el$4 = _el$3.nextSibling, _el$5 = _el$4.nextSibling, _el$6 = _el$5.nextSibling, _el$7 = _el$6.nextSibling, _el$8 = _el$2.nextSibling, _el$9 = _el$8.firstChild;
+            insert(_el$3, () => `\u5728\u7EBF\u4EBA\u6570: ${totalUser(details())}`);
             _el$4.addEventListener("change", (ev) => CLIENT.updateMsg(id, ev.currentTarget.value));
             _el$5.addEventListener("click", () => CLIENT.updateState(id, AnswerState.WorkingOn));
             _el$6.addEventListener("click", () => CLIENT.updateState(id, AnswerState.Sure));

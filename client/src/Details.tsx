@@ -138,7 +138,7 @@ export class Details<A> {
           () => (
             <div class={style.mainBody}>
               <fieldset class={style.answerMark}>
-                <legend>标记</legend>
+                <legend>{`注册人数: ${totalUser(details())}`}</legend>
                 <input
                   type="text"
                   placeholder="留言"
@@ -498,7 +498,7 @@ export class ShortAnswer extends Details<ShortResult> {
               </p>
               <Show when={content}>
                 {(content) => (
-                  <pre
+                  <div
                     class={style.answerDetailShortAnswer}
                     innerHTML={content}
                   />
