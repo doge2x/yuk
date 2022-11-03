@@ -10,24 +10,7 @@
 // @run-at       document-start
 // ==/UserScript==
 var __defProp = Object.defineProperty;
-var __defProps = Object.defineProperties;
-var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols = Object.getOwnPropertySymbols;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __propIsEnum = Object.prototype.propertyIsEnumerable;
 var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues = (a, b) => {
-  for (var prop in b || (b = {}))
-    if (__hasOwnProp.call(b, prop))
-      __defNormalProp(a, prop, b[prop]);
-  if (__getOwnPropSymbols)
-    for (var prop of __getOwnPropSymbols(b)) {
-      if (__propIsEnum.call(b, prop))
-        __defNormalProp(a, prop, b[prop]);
-    }
-  return a;
-};
-var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
 var __publicField = (obj, key, value) => {
   __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
   return value;
@@ -572,20 +555,10 @@ var __publicField = (obj, key, value) => {
                 return [3, 1];
               return [2, createInvalidRequestResponse(request)];
             case 1:
-              if (!method)
-                return [3, 3];
               return [4, this.callMethod(method, request, serverParams)];
             case 2:
               response = _a.sent();
               return [2, mapResponse(request, response)];
-            case 3:
-              if (request.id !== void 0) {
-                return [2, createMethodNotFoundResponse(request.id)];
-              } else {
-                return [2, null];
-              }
-            case 4:
-              return [2];
           }
         });
       });
@@ -620,7 +593,13 @@ var __publicField = (obj, key, value) => {
     JSONRPCServer2.prototype.callMethod = function(method, request, serverParams) {
       var _this = this;
       var callMethod = function(request2, serverParams2) {
-        return method(request2, serverParams2);
+        if (method) {
+          return method(request2, serverParams2);
+        } else if (request2.id !== void 0) {
+          return Promise.resolve(createMethodNotFoundResponse(request2.id));
+        } else {
+          return Promise.resolve(null);
+        }
       };
       var onError = function(error) {
         _this.errorListener('An unexpected error occurred while executing "'.concat(request.method, '" JSON-RPC method:'), error);
@@ -854,9 +833,13 @@ var __publicField = (obj, key, value) => {
     var __createBinding = commonjsGlobal && commonjsGlobal.__createBinding || (Object.create ? function(o, m, k, k2) {
       if (k2 === void 0)
         k2 = k;
-      Object.defineProperty(o, k2, { enumerable: true, get: function() {
-        return m[k];
-      } });
+      var desc = Object.getOwnPropertyDescriptor(m, k);
+      if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+        desc = { enumerable: true, get: function() {
+          return m[k];
+        } };
+      }
+      Object.defineProperty(o, k2, desc);
     } : function(o, m, k, k2) {
       if (k2 === void 0)
         k2 = k;
@@ -902,18 +885,23 @@ var __publicField = (obj, key, value) => {
   let ExecCount = 0;
   let rootCount = 0;
   function createRoot(fn, detachedOwner) {
-    const listener = Listener, owner = Owner, root = fn.length === 0 && false ? UNOWNED : {
+    const listener = Listener, owner = Owner, unowned = fn.length === 0, root = unowned && false ? UNOWNED : {
       owned: null,
       cleanups: null,
       context: null,
       owner: detachedOwner || owner
-    };
-    if (owner)
-      root.name = `${owner.name}-r${rootCount++}`;
+    }, updateFn = unowned ? () => fn(() => {
+      throw new Error("Dispose method must be an explicit argument to createRoot function");
+    }) : () => fn(() => cleanNode(root));
+    {
+      if (owner)
+        root.name = `${owner.name}-r${rootCount++}`;
+      globalThis._$afterCreateRoot && globalThis._$afterCreateRoot(root);
+    }
     Owner = root;
     Listener = null;
     try {
-      return runUpdates(() => fn(() => cleanNode(root)), true);
+      return runUpdates(updateFn, true);
     } finally {
       Listener = listener;
       Owner = owner;
@@ -1133,7 +1121,7 @@ var __publicField = (obj, key, value) => {
     }
     if (!node.updatedAt || node.updatedAt <= time) {
       if (node.observers && node.observers.length) {
-        writeSignal(node, nextValue, true);
+        writeSignal(node, nextValue);
       } else
         node.value = nextValue;
       node.updatedAt = time;
@@ -1207,11 +1195,9 @@ var __publicField = (obj, key, value) => {
       completeUpdates(wait);
       return res;
     } catch (err) {
-      handleError(err);
-    } finally {
-      Updates = null;
-      if (!wait)
+      if (!Updates)
         Effects = null;
+      handleError(err);
     }
   }
   function completeUpdates(wait) {
@@ -1307,6 +1293,7 @@ var __publicField = (obj, key, value) => {
     }
     node.state = 0;
     node.context = null;
+    delete node.sourceMap;
   }
   function handleError(err) {
     throw err;
@@ -1577,7 +1564,8 @@ ${html}. Is your HTML properly formed?`;
       } else
         node[`$$${name}`] = handler;
     } else if (Array.isArray(handler)) {
-      node.addEventListener(name, (e) => handler[0](handler[1], e));
+      const handlerFn = handler[0];
+      node.addEventListener(name, handler[0] = (e) => handlerFn.call(node, handler[1], e));
     } else
       node.addEventListener(name, handler);
   }
@@ -1634,7 +1622,7 @@ ${html}. Is your HTML properly formed?`;
       return insertExpression(parent, accessor, initial, marker);
     createRenderEffect((current) => insertExpression(parent, accessor(), current, marker), initial);
   }
-  function assign(node, props, isSVG, skipChildren, prevProps = {}, skipRef) {
+  function assign(node, props, isSVG, skipChildren, prevProps = {}, skipRef = false) {
     props || (props = {});
     for (const prop in prevProps) {
       if (!(prop in props)) {
@@ -1674,14 +1662,24 @@ ${html}. Is your HTML properly formed?`;
         value(node);
       }
     } else if (prop.slice(0, 3) === "on:") {
-      node.addEventListener(prop.slice(3), value);
+      const e = prop.slice(3);
+      prev && node.removeEventListener(e, prev);
+      value && node.addEventListener(e, value);
     } else if (prop.slice(0, 10) === "oncapture:") {
-      node.addEventListener(prop.slice(10), value, true);
+      const e = prop.slice(10);
+      prev && node.removeEventListener(e, prev, true);
+      value && node.addEventListener(e, value, true);
     } else if (prop.slice(0, 2) === "on") {
       const name = prop.slice(2).toLowerCase();
       const delegate = DelegatedEvents.has(name);
-      addEventListener(node, name, value, delegate);
-      delegate && delegateEvents([name]);
+      if (!delegate && prev) {
+        const h = Array.isArray(prev) ? prev[0] : prev;
+        node.removeEventListener(name, h);
+      }
+      if (delegate || value) {
+        addEventListener(node, name, value, delegate);
+        delegate && delegateEvents([name]);
+      }
     } else if ((isChildProp = ChildProperties.has(prop)) || !isSVG && (PropAliases[prop] || (isProp = Properties.has(prop))) || (isCE = node.nodeName.includes("-"))) {
       if (prop === "class" || prop === "className")
         className(node, value);
@@ -1721,7 +1719,7 @@ ${html}. Is your HTML properly formed?`;
       const handler = node[key];
       if (handler && !node.disabled) {
         const data = node[`${key}Data`];
-        data !== void 0 ? handler(data, e) : handler(e);
+        data !== void 0 ? handler.call(node, data, e) : handler.call(node, e);
         if (e.cancelBubble)
           return;
       }
@@ -1778,7 +1776,8 @@ ${html}. Is your HTML properly formed?`;
       return () => current;
     } else if (Array.isArray(value)) {
       const array = [];
-      if (normalizeIncomingArray(array, value, unwrapArray)) {
+      const currentArray = current && Array.isArray(current);
+      if (normalizeIncomingArray(array, value, current, unwrapArray)) {
         createRenderEffect(() => current = insertExpression(parent, array, current, marker, true));
         return () => current;
       }
@@ -1792,7 +1791,7 @@ ${html}. Is your HTML properly formed?`;
         current = cleanChildren(parent, current, marker);
         if (multi)
           return current;
-      } else if (Array.isArray(current)) {
+      } else if (currentArray) {
         if (current.length === 0) {
           appendNodes(parent, array, marker);
         } else
@@ -1818,29 +1817,32 @@ ${html}. Is your HTML properly formed?`;
       console.warn(`Unrecognized value. Skipped inserting`, value);
     return current;
   }
-  function normalizeIncomingArray(normalized, array, unwrap) {
+  function normalizeIncomingArray(normalized, array, current, unwrap) {
     let dynamic = false;
     for (let i = 0, len = array.length; i < len; i++) {
-      let item = array[i], t;
+      let item = array[i], prev = current && current[i];
       if (item instanceof Node) {
         normalized.push(item);
       } else if (item == null || item === true || item === false)
         ;
       else if (Array.isArray(item)) {
-        dynamic = normalizeIncomingArray(normalized, item) || dynamic;
-      } else if ((t = typeof item) === "string") {
-        normalized.push(document.createTextNode(item));
-      } else if (t === "function") {
+        dynamic = normalizeIncomingArray(normalized, item, prev) || dynamic;
+      } else if (typeof item === "function") {
         if (unwrap) {
           while (typeof item === "function")
             item = item();
-          dynamic = normalizeIncomingArray(normalized, Array.isArray(item) ? item : [item]) || dynamic;
+          dynamic = normalizeIncomingArray(normalized, Array.isArray(item) ? item : [item], prev) || dynamic;
         } else {
           normalized.push(item);
           dynamic = true;
         }
-      } else
-        normalized.push(document.createTextNode(item.toString()));
+      } else {
+        const value = String(item);
+        if (prev && prev.nodeType === 3 && prev.data === value) {
+          normalized.push(prev);
+        } else
+          normalized.push(document.createTextNode(value));
+      }
     }
     return dynamic;
   }
@@ -2101,7 +2103,10 @@ ${html}. Is your HTML properly formed?`;
       devLog(`apply migration: ${name}`);
       up();
     }
-    setValue("migrations", migrations.map((v, i) => ({ name: v.name, idx: i })));
+    setValue(
+      "migrations",
+      migrations.map((v, i) => ({ name: v.name, idx: i }))
+    );
   }
   class GMEntry {
     constructor(name, init) {
@@ -2207,7 +2212,9 @@ ${html}. Is your HTML properly formed?`;
               data: JSON.stringify(req),
               onload: (resp) => {
                 if (resp.status === 200) {
-                  client2.receive(Pipe.from(resp.responseText).then(expect("empty response")).then(JSON.parse).unwrap());
+                  client2.receive(
+                    Pipe.from(resp.responseText).then(expect("empty response")).then(JSON.parse).unwrap()
+                  );
                   ok();
                 } else {
                   err(new Error(resp.statusText));
@@ -2400,7 +2407,7 @@ ${html}. Is your HTML properly formed?`;
           });
           render(() => (() => {
             const _el$ = _tmpl$$2.cloneNode(true), _el$2 = _el$.firstChild, _el$3 = _el$2.firstChild, _el$4 = _el$3.nextSibling, _el$5 = _el$4.nextSibling, _el$6 = _el$5.nextSibling, _el$7 = _el$6.nextSibling, _el$8 = _el$2.nextSibling, _el$9 = _el$8.firstChild;
-            insert(_el$3, () => `\u5728\u7EBF\u4EBA\u6570: ${totalUser(details())}`);
+            insert(_el$3, () => `\u6CE8\u518C\u4EBA\u6570: ${totalUser(details())}`);
             _el$4.addEventListener("change", (ev) => CLIENT.updateMsg(id, ev.currentTarget.value));
             _el$5.addEventListener("click", () => CLIENT.updateState(id, AnswerState.WorkingOn));
             _el$6.addEventListener("click", () => CLIENT.updateState(id, AnswerState.Sure));
@@ -2563,7 +2570,10 @@ ${html}. Is your HTML properly formed?`;
             users.push([user, context]);
             return blankToFillToUsers3.set(blank, fillToUsers.set(fill, users));
           })).unwrap();
-        })).then(map(([blank, fillToUsers]) => tuple(blank, Pipe.from(fillToUsers).then(sort(cmpByKey)).then(collectArray).unwrap()))).then(sort(cmpByKey)).then(collectArray).unwrap();
+        })).then(map(([blank, fillToUsers]) => tuple(
+          blank,
+          Pipe.from(fillToUsers).then(sort(cmpByKey)).then(collectArray).unwrap()
+        ))).then(sort(cmpByKey)).then(collectArray).unwrap();
         createEffect(() => {
           const total = totalUser(details());
           clearTooltips(tooltips);
@@ -2653,9 +2663,10 @@ ${html}. Is your HTML properly formed?`;
   }
   const _tmpl$$1 = /* @__PURE__ */ template(`<div><label></label><input></div>`, 5), _tmpl$2$1 = /* @__PURE__ */ template(`<div><form><div><p><i> *\u66F4\u6539\u8BBE\u7F6E\u540E\u8BF7\u5237\u65B0\u9875\u9762 </i></p><button type="submit"> \u63D0\u4EA4 </button></div></form><div><p><strong> \u529F\u80FD\u7279\u6027\uFF1A </strong></p><ul></ul></div></div>`, 20), _tmpl$3 = /* @__PURE__ */ template(`<li><strong></strong></li>`, 4), _tmpl$4 = /* @__PURE__ */ template(`<div></div>`, 2);
   function Entry(props) {
-    const extra = __spreadProps(__spreadValues({}, props.extra), {
+    const extra = {
+      ...props.extra,
       name: props.name
-    });
+    };
     return (() => {
       const _el$ = _tmpl$$1.cloneNode(true), _el$2 = _el$.firstChild, _el$3 = _el$2.nextSibling;
       insert(_el$2, () => props.title);
@@ -2903,14 +2914,22 @@ ${html}. Is your HTML properly formed?`;
     return paper;
   }
   function removeVisibilityListener() {
-    document.addEventListener("visibilitychange", (e) => {
-      e.preventDefault();
-      e.stopImmediatePropagation();
-    }, true);
-    window.addEventListener("visibilitychange", (e) => {
-      e.preventDefault();
-      e.stopImmediatePropagation();
-    }, true);
+    document.addEventListener(
+      "visibilitychange",
+      (e) => {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+      },
+      true
+    );
+    window.addEventListener(
+      "visibilitychange",
+      (e) => {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+      },
+      true
+    );
   }
   async function main() {
     migrate();
@@ -2922,7 +2941,9 @@ ${html}. Is your HTML properly formed?`;
         case "/exam_room/show_paper":
           this.addEventListener("readystatechange", () => {
             if (this.readyState == XMLHttpRequest.DONE) {
-              const text = JSON.stringify(sortPaper(JSON.parse(this.responseText)));
+              const text = JSON.stringify(
+                sortPaper(JSON.parse(this.responseText))
+              );
               Object.defineProperties(this, {
                 responseText: {
                   get() {
@@ -2948,11 +2969,19 @@ ${html}. Is your HTML properly formed?`;
               msg.forEach((res) => ui.updateAnswer(res));
               ui.updateUI();
             });
-            const examId = parseInt(Pipe.from(url.searchParams.get("exam_id")).then(from).then(expect("cannot found exam_id")).unwrap());
+            const examId = parseInt(
+              Pipe.from(url.searchParams.get("exam_id")).then(from).then(expect("cannot found exam_id")).unwrap()
+            );
             CLIENT.login(examId, { title: paper.data.title, problems });
-            fetch(newURL("/exam_room/cache_results", {
-              exam_id: examId.toString()
-            }).toString()).then((res) => res.json()).then((cacheResults) => cacheResults.data.results.forEach(({ problem_id, result }) => CLIENT.updateAnswer(problem_id, result))).catch(devLog);
+            fetch(
+              newURL("/exam_room/cache_results", {
+                exam_id: examId.toString()
+              }).toString()
+            ).then((res) => res.json()).then(
+              (cacheResults) => cacheResults.data.results.forEach(
+                ({ problem_id, result }) => CLIENT.updateAnswer(problem_id, result)
+              )
+            ).catch(devLog);
           });
           return;
         case "/exam_room/answer_problem":
@@ -2971,7 +3000,9 @@ ${html}. Is your HTML properly formed?`;
                 }
               } else if ("results" in data) {
                 devLog("intercept answers", data);
-                (_a = data.results) == null ? void 0 : _a.forEach(({ problem_id, result }) => CLIENT.updateAnswer(problem_id, result));
+                (_a = data.results) == null ? void 0 : _a.forEach(
+                  ({ problem_id, result }) => CLIENT.updateAnswer(problem_id, result)
+                );
               }
             }
             return body;

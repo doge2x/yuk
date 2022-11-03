@@ -1,6 +1,7 @@
 # Node
 dist
 node_modules
+pnpm-lock.yaml
 
 # Rust
 target
