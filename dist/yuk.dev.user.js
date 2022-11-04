@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         yuk-client
-// @version      0.7.1
+// @version      0.8.0
 // @author       doge2x
 // @icon         https://www.yuketang.cn/static/images/favicon.ico
 // @match        https://examination.xuetangx.com/*
@@ -2232,7 +2232,7 @@ ${html}. Is your HTML properly formed?`;
           username,
           this.examId,
           this.paper,
-          "0.7.1"
+          "0.8.0"
         ]);
         devLog("got token", token);
         this.token = token;
