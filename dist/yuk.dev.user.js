@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         yuk-client
-// @version      0.8.0
+// @version      0.8.1
 // @author       doge2x
 // @icon         https://www.yuketang.cn/static/images/favicon.ico
 // @match        https://examination.xuetangx.com/*
@@ -2215,7 +2215,7 @@ var __publicField = (obj, key, value) => {
           username,
           this.examId,
           this.paper,
-          "0.8.0"
+          "0.8.1"
         ]);
         devLog("got token", token);
         this.token = token;
