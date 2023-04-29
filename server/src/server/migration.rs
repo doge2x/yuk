@@ -1,9 +1,9 @@
 use super::{JsonData, Server};
 use crate::{error, types::*};
 use futures::TryStreamExt;
-use log::info;
 use mongodb::bson::{self, doc, oid::ObjectId};
 use serde::{Deserialize, Serialize};
+use tracing::info;
 
 #[async_trait::async_trait]
 trait Migration {

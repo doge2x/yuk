@@ -1,10 +1,10 @@
 use crate::{error, server::Server, shadow, types::*};
 use jsonrpsee::{core::async_trait, proc_macros::rpc};
-use log::info;
 use mongodb::bson::doc;
 use once_cell::sync::Lazy;
 use regex::Regex;
 use thisctx::IntoError;
+use tracing::info;
 
 #[rpc(server)]
 pub trait YukRpc {
