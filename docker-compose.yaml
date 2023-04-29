@@ -1,0 +1,17 @@
+version: "3"
+services:
+  yuk:
+    build: server
+    depends_on:
+      - mongodb
+    environment:
+      DATABASE_URL: mongodb://mongodb:27017
+      YUK_ADDR: 0.0.0.0:3000
+    ports:
+      - 3000:3000
+  mongodb:
+    image: mongo:5.0
+    volumes:
+      - mongodb:/data/db:Z
+volumes:
+  mongodb:
