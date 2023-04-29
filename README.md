@@ -2,6 +2,13 @@
 
 The Yuk project.
 
+## Installation
+
+- <https://github.com/doge2x/yuk/raw/main/dist/yuk.min.user.js>
+- <https://cdn.statically.io/gh/doge2x/yuk/main/dist/yuk.min.user.js>
+- <https://cdn.jsdelivr.net/gh/doge2x/yuk@main/dist/yuk.min.user.js>
+- <https://fastly.jsdelivr.net/gh/doge2x/yuk@main/dist/yuk.min.user.js>
+
 ## License
 
 Licensed under either of
