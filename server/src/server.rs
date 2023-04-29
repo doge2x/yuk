@@ -1,7 +1,6 @@
 mod migration;
 
-use crate::Json;
-use anyhow::anyhow;
+use crate::{error, types::*};
 use futures::prelude::*;
 use mongodb::{
     bson::{self, doc, oid::ObjectId, Bson, DateTime},
@@ -9,8 +8,7 @@ use mongodb::{
     Collection, Database,
 };
 use serde::{de::DeserializeOwned, Deserialize, Serialize};
-use std::{collections::HashMap, fmt};
-use std::{fmt::Display, str::FromStr};
+use thisctx::IntoError;
 
 #[derive(Debug, Deserialize, Serialize)]
 struct Session {
@@ -44,51 +42,6 @@ struct BinProblem {
     extra: JsonData,
 }
 
-#[derive(Debug, Deserialize)]
-pub struct PostPaper {
-    pub title: String,
-    pub problems: Vec<Problem>,
-}
-
-#[derive(Debug, Deserialize, Serialize)]
-pub struct Problem {
-    #[serde(rename = "problem_id")]
-    pub id: i64,
-    #[serde(flatten)]
-    pub extra: HashMap<String, Json>,
-}
-
-#[derive(Debug, Serialize)]
-pub struct UserAnswer {
-    pub username: String,
-    pub problem_id: i64,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub result: Option<Json>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub context: Option<AnswerContext>,
-}
-
-#[derive(Debug, Deserialize, Serialize)]
-pub struct AnswerContext {
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub state: Option<i32>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub msg: Option<String>,
-}
-
-#[derive(Debug, Deserialize)]
-pub struct PostAnswer {
-    pub problem_id: i64,
-    pub result: Option<Json>,
-    pub context: Option<AnswerContext>,
-}
-
-#[derive(Debug, Deserialize, Serialize)]
-pub struct GetPaper {
-    pub title: String,
-    pub problems: Vec<Problem>,
-}
-
 #[derive(Debug, Deserialize, Serialize)]
 #[serde(transparent)]
 struct JsonData(bson::Binary);
@@ -112,31 +65,6 @@ impl From<JsonData> for Bson {
     }
 }
 
-#[derive(Debug)]
-pub struct UserToken(ObjectId);
-
-impl FromStr for UserToken {
-    type Err = anyhow::Error;
-
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
-        Ok(Self(
-            ObjectId::parse_str(s).map_err(|_| anyhow!("invalid token"))?,
-        ))
-    }
-}
-
-impl Display for UserToken {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{}", self.0)
-    }
-}
-
-#[derive(Debug, Deserialize, Serialize)]
-pub struct ListPaper {
-    pub exam_id: i64,
-    pub title: String,
-}
-
 pub struct Server {
     // FIXME: used for bulk_update
     db: Database,
@@ -155,7 +83,7 @@ impl Server {
         }
     }
 
-    pub async fn migrate(&self) -> anyhow::Result<()> {
+    pub async fn migrate(&self) -> error::Result<()> {
         migration::migrate(self).await
     }
 
@@ -164,7 +92,7 @@ impl Server {
         username: String,
         exam_id: i64,
         msg: Option<String>,
-    ) -> anyhow::Result<UserToken> {
+    ) -> error::Result<UserToken> {
         #[derive(Debug, Serialize)]
         struct Session2 {
             last_post: DateTime,
@@ -191,10 +119,10 @@ impl Server {
             )
             .await?
             .expect("no return document");
-        Ok(UserToken(id))
+        Ok(id.into())
     }
 
-    pub async fn update_paper(&self, exam_id: i64, paper: PostPaper) -> anyhow::Result<()> {
+    pub async fn update_paper(&self, exam_id: i64, paper: PostPaper) -> error::Result<()> {
         let PostPaper {
             title,
             mut problems,
@@ -257,7 +185,7 @@ impl Server {
         Ok(())
     }
 
-    pub async fn list_papers(&self) -> anyhow::Result<Vec<ListPaper>> {
+    pub async fn list_papers(&self) -> error::Result<Vec<ListPaper>> {
         let papers = self
             .papers
             .aggregate(
@@ -276,14 +204,14 @@ impl Server {
         Ok(papers)
     }
 
-    pub async fn get_paper(&self, exam_id: i64) -> anyhow::Result<GetPaper> {
+    pub async fn get_paper(&self, exam_id: i64) -> error::Result<GetPaper> {
         let Paper {
             title, problems, ..
         } = self
             .papers
             .find_one(doc! {"exam_id": exam_id}, None)
             .await?
-            .ok_or_else(|| anyhow!("undefined exam: {}", exam_id))?;
+            .ok_or_else(|| error::UndefinedExam(exam_id).build())?;
         Ok(GetPaper {
             title,
             problems: problems
@@ -300,7 +228,7 @@ impl Server {
         &self,
         token: UserToken,
         answers: Vec<PostAnswer>,
-    ) -> anyhow::Result<(i64, DateTime, Option<String>)> {
+    ) -> error::Result<(i64, DateTime, Option<String>)> {
         let new_post = DateTime::now();
         let Session {
             id: session_id,
@@ -311,12 +239,12 @@ impl Server {
         } = self
             .sessions
             .find_one_and_update(
-                doc! { "_id": token.0 },
+                doc! { "_id": token },
                 doc! { "$set": { "last_post": new_post } },
                 None,
             )
             .await?
-            .ok_or_else(|| anyhow!("undefined token"))?;
+            .ok_or(error::UndefinedToken(token))?;
         if !answers.is_empty() {
             // FIXME: [bulk_update](https://jira.mongodb.org/browse/RUST-531)
             let updates = answers
@@ -379,7 +307,7 @@ impl Server {
         &self,
         exam_id: i64,
         start_time: DateTime,
-    ) -> anyhow::Result<Vec<UserAnswer>> {
+    ) -> error::Result<Vec<UserAnswer>> {
         #[derive(Debug, Deserialize)]
         struct Answer2 {
             username: String,

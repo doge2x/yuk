@@ -1,5 +1,5 @@
 use super::{JsonData, Server};
-use crate::Json;
+use crate::{error, types::*};
 use futures::TryStreamExt;
 use log::info;
 use mongodb::bson::{self, doc, oid::ObjectId};
@@ -8,7 +8,7 @@ use serde::{Deserialize, Serialize};
 #[async_trait::async_trait]
 trait Migration {
     fn name(&self) -> &str;
-    async fn up(&self, server: &Server) -> anyhow::Result<()>;
+    async fn up(&self, server: &Server) -> error::Result<()>;
 }
 
 struct M202205231231;
@@ -19,7 +19,7 @@ impl Migration for M202205231231 {
         "m202205231231_bindata"
     }
 
-    async fn up(&self, server: &Server) -> anyhow::Result<()> {
+    async fn up(&self, server: &Server) -> error::Result<()> {
         #[derive(Debug, Deserialize)]
         struct Answer2 {
             session_id: ObjectId,
@@ -91,7 +91,7 @@ struct DbMigration {
     name: String,
 }
 
-pub async fn migrate(server: &Server) -> anyhow::Result<()> {
+pub async fn migrate(server: &Server) -> error::Result<()> {
     let migrations: &[Box<dyn Migration>] = &[Box::new(M202205231231)];
     let coll = server.db.collection::<DbMigration>("migrations");
     let mut db_migrations = coll
