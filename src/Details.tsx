@@ -500,14 +500,14 @@ export class ShortAnswer extends Details<ShortResult> {
                 {(content) => (
                   <div
                     class={style.answerDetailShortAnswer}
-                    innerHTML={content}
+                    innerHTML={content()}
                   />
                 )}
               </Show>
               <Show when={filelist}>
                 {(filelist) => (
                   <ul>
-                    <For each={filelist}>
+                    <For each={filelist()}>
                       {({ fileUrl, fileName }) => (
                         <li>
                           <a href={fileUrl}>{fileName}</a>

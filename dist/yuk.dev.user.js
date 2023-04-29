@@ -9,23 +9,44 @@
 // @grant        GM_setValue
 // @run-at       document-start
 // ==/UserScript==
-var __defProp = Object.defineProperty;
+(function(factory) {
+  typeof define === "function" && define.amd ? define(factory) : factory();
+})(function() {
+  "use strict";var __defProp = Object.defineProperty;
 var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
 var __publicField = (obj, key, value) => {
   __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
   return value;
 };
-(function(factory) {
-  typeof define === "function" && define.amd ? define(factory) : factory();
-})(function() {
-  "use strict";
+
   var commonjsGlobal = typeof globalThis !== "undefined" ? globalThis : typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : {};
   var dist = {};
   var client = {};
   var models = {};
   (function(exports) {
+    var __extends = commonjsGlobal && commonjsGlobal.__extends || function() {
+      var extendStatics = function(d, b) {
+        extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
+          d2.__proto__ = b2;
+        } || function(d2, b2) {
+          for (var p in b2)
+            if (Object.prototype.hasOwnProperty.call(b2, p))
+              d2[p] = b2[p];
+        };
+        return extendStatics(d, b);
+      };
+      return function(d, b) {
+        if (typeof b !== "function" && b !== null)
+          throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() {
+          this.constructor = d;
+        }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+      };
+    }();
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.createJSONRPCErrorResponse = exports.JSONRPCErrorCode = exports.isJSONRPCResponses = exports.isJSONRPCResponse = exports.isJSONRPCRequests = exports.isJSONRPCRequest = exports.isJSONRPCID = exports.JSONRPC = void 0;
+    exports.createJSONRPCNotification = exports.createJSONRPCRequest = exports.createJSONRPCSuccessResponse = exports.createJSONRPCErrorResponse = exports.JSONRPCErrorCode = exports.JSONRPCErrorException = exports.isJSONRPCResponses = exports.isJSONRPCResponse = exports.isJSONRPCRequests = exports.isJSONRPCRequest = exports.isJSONRPCID = exports.JSONRPC = void 0;
     exports.JSONRPC = "2.0";
     var isJSONRPCID = function(id) {
       return typeof id === "string" || typeof id === "number" || id === null;
@@ -47,6 +68,31 @@ var __publicField = (obj, key, value) => {
       return Array.isArray(payload) && payload.every(exports.isJSONRPCResponse);
     };
     exports.isJSONRPCResponses = isJSONRPCResponses;
+    var createJSONRPCError = function(code, message, data) {
+      var error = { code, message };
+      if (data != null) {
+        error.data = data;
+      }
+      return error;
+    };
+    var JSONRPCErrorException = (
+      /** @class */
+      function(_super) {
+        __extends(JSONRPCErrorException2, _super);
+        function JSONRPCErrorException2(message, code, data) {
+          var _this = _super.call(this, message) || this;
+          Object.setPrototypeOf(_this, JSONRPCErrorException2.prototype);
+          _this.code = code;
+          _this.data = data;
+          return _this;
+        }
+        JSONRPCErrorException2.prototype.toObject = function() {
+          return createJSONRPCError(this.code, this.message, this.data);
+        };
+        return JSONRPCErrorException2;
+      }(Error)
+    );
+    exports.JSONRPCErrorException = JSONRPCErrorException;
     (function(JSONRPCErrorCode) {
       JSONRPCErrorCode[JSONRPCErrorCode["ParseError"] = -32700] = "ParseError";
       JSONRPCErrorCode[JSONRPCErrorCode["InvalidRequest"] = -32600] = "InvalidRequest";
@@ -55,17 +101,38 @@ var __publicField = (obj, key, value) => {
       JSONRPCErrorCode[JSONRPCErrorCode["InternalError"] = -32603] = "InternalError";
     })(exports.JSONRPCErrorCode || (exports.JSONRPCErrorCode = {}));
     var createJSONRPCErrorResponse = function(id, code, message, data) {
-      var error = { code, message };
-      if (data) {
-        error.data = data;
-      }
       return {
         jsonrpc: exports.JSONRPC,
         id,
-        error
+        error: createJSONRPCError(code, message, data)
       };
     };
     exports.createJSONRPCErrorResponse = createJSONRPCErrorResponse;
+    var createJSONRPCSuccessResponse = function(id, result) {
+      return {
+        jsonrpc: exports.JSONRPC,
+        id,
+        result: result !== null && result !== void 0 ? result : null
+      };
+    };
+    exports.createJSONRPCSuccessResponse = createJSONRPCSuccessResponse;
+    var createJSONRPCRequest = function(id, method, params) {
+      return {
+        jsonrpc: exports.JSONRPC,
+        id,
+        method,
+        params
+      };
+    };
+    exports.createJSONRPCRequest = createJSONRPCRequest;
+    var createJSONRPCNotification = function(method, params) {
+      return {
+        jsonrpc: exports.JSONRPC,
+        method,
+        params
+      };
+    };
+    exports.createJSONRPCNotification = createJSONRPCNotification;
   })(models);
   var internal = {};
   Object.defineProperty(internal, "__esModule", { value: true });
@@ -115,7 +182,7 @@ var __publicField = (obj, key, value) => {
     function step(op) {
       if (f)
         throw new TypeError("Generator is already executing.");
-      while (_)
+      while (g && (g = 0, op[0] && (_ = 0)), _)
         try {
           if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done)
             return t;
@@ -178,161 +245,158 @@ var __publicField = (obj, key, value) => {
   client.JSONRPCClient = void 0;
   var models_1$2 = models;
   var internal_1$1 = internal;
-  var JSONRPCClient = function() {
-    function JSONRPCClient2(_send, createID) {
-      this._send = _send;
-      this.createID = createID;
-      this.idToResolveMap = /* @__PURE__ */ new Map();
-      this.id = 0;
-    }
-    JSONRPCClient2.prototype._createID = function() {
-      if (this.createID) {
-        return this.createID();
-      } else {
-        return ++this.id;
+  var JSONRPCClient = (
+    /** @class */
+    function() {
+      function JSONRPCClient2(_send, createID) {
+        this._send = _send;
+        this.createID = createID;
+        this.idToResolveMap = /* @__PURE__ */ new Map();
+        this.id = 0;
       }
-    };
-    JSONRPCClient2.prototype.timeout = function(delay, overrideCreateJSONRPCErrorResponse) {
-      var _this = this;
-      if (overrideCreateJSONRPCErrorResponse === void 0) {
-        overrideCreateJSONRPCErrorResponse = function(id) {
-          return (0, models_1$2.createJSONRPCErrorResponse)(id, internal_1$1.DefaultErrorCode, "Request timeout");
+      JSONRPCClient2.prototype._createID = function() {
+        if (this.createID) {
+          return this.createID();
+        } else {
+          return ++this.id;
+        }
+      };
+      JSONRPCClient2.prototype.timeout = function(delay, overrideCreateJSONRPCErrorResponse) {
+        var _this = this;
+        if (overrideCreateJSONRPCErrorResponse === void 0) {
+          overrideCreateJSONRPCErrorResponse = function(id) {
+            return (0, models_1$2.createJSONRPCErrorResponse)(id, internal_1$1.DefaultErrorCode, "Request timeout");
+          };
+        }
+        var timeoutRequest = function(ids, request) {
+          var timeoutID = setTimeout(function() {
+            ids.forEach(function(id) {
+              var resolve = _this.idToResolveMap.get(id);
+              if (resolve) {
+                _this.idToResolveMap.delete(id);
+                resolve(overrideCreateJSONRPCErrorResponse(id));
+              }
+            });
+          }, delay);
+          return request().then(function(result) {
+            clearTimeout(timeoutID);
+            return result;
+          }, function(error) {
+            clearTimeout(timeoutID);
+            return Promise.reject(error);
+          });
         };
-      }
-      var timeoutRequest = function(ids, request) {
-        var timeoutID = setTimeout(function() {
-          ids.forEach(function(id) {
-            var resolve = _this.idToResolveMap.get(id);
-            if (resolve) {
-              _this.idToResolveMap.delete(id);
-              resolve(overrideCreateJSONRPCErrorResponse(id));
+        var requestAdvanced = function(request, clientParams) {
+          var ids = (!Array.isArray(request) ? [request] : request).map(function(request2) {
+            return request2.id;
+          }).filter(isDefinedAndNonNull);
+          return timeoutRequest(ids, function() {
+            return _this.requestAdvanced(request, clientParams);
+          });
+        };
+        return {
+          request: function(method, params, clientParams) {
+            var id = _this._createID();
+            return timeoutRequest([id], function() {
+              return _this.requestWithID(method, params, clientParams, id);
+            });
+          },
+          requestAdvanced: function(request, clientParams) {
+            return requestAdvanced(request, clientParams);
+          }
+        };
+      };
+      JSONRPCClient2.prototype.request = function(method, params, clientParams) {
+        return this.requestWithID(method, params, clientParams, this._createID());
+      };
+      JSONRPCClient2.prototype.requestWithID = function(method, params, clientParams, id) {
+        return __awaiter$2(this, void 0, void 0, function() {
+          var request, response;
+          return __generator$2(this, function(_a) {
+            switch (_a.label) {
+              case 0:
+                request = (0, models_1$2.createJSONRPCRequest)(id, method, params);
+                return [4, this.requestAdvanced(request, clientParams)];
+              case 1:
+                response = _a.sent();
+                if (response.result !== void 0 && !response.error) {
+                  return [2, response.result];
+                } else if (response.result === void 0 && response.error) {
+                  return [2, Promise.reject(new models_1$2.JSONRPCErrorException(response.error.message, response.error.code, response.error.data))];
+                } else {
+                  return [2, Promise.reject(new Error("An unexpected error occurred"))];
+                }
             }
           });
-        }, delay);
-        return request().then(function(result) {
-          clearTimeout(timeoutID);
-          return result;
-        }, function(error) {
-          clearTimeout(timeoutID);
-          return Promise.reject(error);
         });
       };
-      var requestAdvanced = function(request, clientParams) {
-        var ids = (!Array.isArray(request) ? [request] : request).map(function(request2) {
-          return request2.id;
-        }).filter(isDefinedAndNonNull);
-        return timeoutRequest(ids, function() {
-          return _this.requestAdvanced(request, clientParams);
-        });
-      };
-      return {
-        request: function(method, params, clientParams) {
-          var id = _this._createID();
-          return timeoutRequest([id], function() {
-            return _this.requestWithID(method, params, clientParams, id);
-          });
-        },
-        requestAdvanced: function(request, clientParams) {
-          return requestAdvanced(request, clientParams);
+      JSONRPCClient2.prototype.requestAdvanced = function(requests, clientParams) {
+        var _this = this;
+        var areRequestsOriginallyArray = Array.isArray(requests);
+        if (!Array.isArray(requests)) {
+          requests = [requests];
         }
-      };
-    };
-    JSONRPCClient2.prototype.request = function(method, params, clientParams) {
-      return this.requestWithID(method, params, clientParams, this._createID());
-    };
-    JSONRPCClient2.prototype.requestWithID = function(method, params, clientParams, id) {
-      return __awaiter$2(this, void 0, void 0, function() {
-        var request, response;
-        return __generator$2(this, function(_a) {
-          switch (_a.label) {
-            case 0:
-              request = {
-                jsonrpc: models_1$2.JSONRPC,
-                method,
-                params,
-                id
-              };
-              return [4, this.requestAdvanced(request, clientParams)];
-            case 1:
-              response = _a.sent();
-              if (response.result !== void 0 && !response.error) {
-                return [2, response.result];
-              } else if (response.result === void 0 && response.error) {
-                return [2, Promise.reject(new Error(response.error.message))];
-              } else {
-                return [2, Promise.reject(new Error("An unexpected error occurred"))];
-              }
+        var requestsWithID = requests.filter(function(request) {
+          return isDefinedAndNonNull(request.id);
+        });
+        var promises = requestsWithID.map(function(request) {
+          return new Promise(function(resolve) {
+            return _this.idToResolveMap.set(request.id, resolve);
+          });
+        });
+        var promise = Promise.all(promises).then(function(responses) {
+          if (areRequestsOriginallyArray || !responses.length) {
+            return responses;
+          } else {
+            return responses[0];
           }
         });
-      });
-    };
-    JSONRPCClient2.prototype.requestAdvanced = function(requests, clientParams) {
-      var _this = this;
-      var areRequestsOriginallyArray = Array.isArray(requests);
-      if (!Array.isArray(requests)) {
-        requests = [requests];
-      }
-      var requestsWithID = requests.filter(function(request) {
-        return isDefinedAndNonNull(request.id);
-      });
-      var promises = requestsWithID.map(function(request) {
-        return new Promise(function(resolve) {
-          return _this.idToResolveMap.set(request.id, resolve);
+        return this.send(areRequestsOriginallyArray ? requests : requests[0], clientParams).then(function() {
+          return promise;
+        }, function(error) {
+          requestsWithID.forEach(function(request) {
+            _this.receive((0, models_1$2.createJSONRPCErrorResponse)(request.id, internal_1$1.DefaultErrorCode, error && error.message || "Failed to send a request"));
+          });
+          return promise;
         });
-      });
-      var promise = Promise.all(promises).then(function(responses) {
-        if (areRequestsOriginallyArray || !responses.length) {
-          return responses;
-        } else {
-          return responses[0];
-        }
-      });
-      return this.send(areRequestsOriginallyArray ? requests : requests[0], clientParams).then(function() {
-        return promise;
-      }, function(error) {
-        requestsWithID.forEach(function(request) {
-          _this.receive((0, models_1$2.createJSONRPCErrorResponse)(request.id, internal_1$1.DefaultErrorCode, error && error.message || "Failed to send a request"));
+      };
+      JSONRPCClient2.prototype.notify = function(method, params, clientParams) {
+        var request = (0, models_1$2.createJSONRPCNotification)(method, params);
+        this.send(request, clientParams).then(void 0, function() {
+          return void 0;
         });
-        return promise;
-      });
-    };
-    JSONRPCClient2.prototype.notify = function(method, params, clientParams) {
-      this.send({
-        jsonrpc: models_1$2.JSONRPC,
-        method,
-        params
-      }, clientParams).then(void 0, function() {
-        return void 0;
-      });
-    };
-    JSONRPCClient2.prototype.send = function(payload, clientParams) {
-      return this._send(payload, clientParams);
-    };
-    JSONRPCClient2.prototype.rejectAllPendingRequests = function(message) {
-      this.idToResolveMap.forEach(function(resolve, id) {
-        return resolve((0, models_1$2.createJSONRPCErrorResponse)(id, internal_1$1.DefaultErrorCode, message));
-      });
-      this.idToResolveMap.clear();
-    };
-    JSONRPCClient2.prototype.receive = function(responses) {
-      var _this = this;
-      if (!Array.isArray(responses)) {
-        responses = [responses];
-      }
-      responses.forEach(function(response) {
-        var resolve = _this.idToResolveMap.get(response.id);
-        if (resolve) {
-          _this.idToResolveMap.delete(response.id);
-          resolve(response);
+      };
+      JSONRPCClient2.prototype.send = function(payload, clientParams) {
+        return this._send(payload, clientParams);
+      };
+      JSONRPCClient2.prototype.rejectAllPendingRequests = function(message) {
+        this.idToResolveMap.forEach(function(resolve, id) {
+          return resolve((0, models_1$2.createJSONRPCErrorResponse)(id, internal_1$1.DefaultErrorCode, message));
+        });
+        this.idToResolveMap.clear();
+      };
+      JSONRPCClient2.prototype.receive = function(responses) {
+        var _this = this;
+        if (!Array.isArray(responses)) {
+          responses = [responses];
         }
-      });
-    };
-    return JSONRPCClient2;
-  }();
+        responses.forEach(function(response) {
+          var resolve = _this.idToResolveMap.get(response.id);
+          if (resolve) {
+            _this.idToResolveMap.delete(response.id);
+            resolve(response);
+          }
+        });
+      };
+      return JSONRPCClient2;
+    }()
+  );
   client.JSONRPCClient = JSONRPCClient;
   var isDefinedAndNonNull = function(value) {
     return value !== void 0 && value !== null;
   };
+  var interfaces = {};
+  Object.defineProperty(interfaces, "__esModule", { value: true });
   var server = {};
   var __assign = commonjsGlobal && commonjsGlobal.__assign || function() {
     __assign = Object.assign || function(t) {
@@ -390,7 +454,7 @@ var __publicField = (obj, key, value) => {
     function step(op) {
       if (f)
         throw new TypeError("Generator is already executing.");
-      while (_)
+      while (g && (g = 0, op[0] && (_ = 0)), _)
         try {
           if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done)
             return t;
@@ -473,153 +537,159 @@ var __publicField = (obj, key, value) => {
   var createMethodNotFoundResponse = function(id) {
     return (0, models_1$1.createJSONRPCErrorResponse)(id, models_1$1.JSONRPCErrorCode.MethodNotFound, "Method not found");
   };
-  var JSONRPCServer = function() {
-    function JSONRPCServer2(options) {
-      if (options === void 0) {
-        options = {};
+  var JSONRPCServer = (
+    /** @class */
+    function() {
+      function JSONRPCServer2(options) {
+        if (options === void 0) {
+          options = {};
+        }
+        var _a;
+        this.mapErrorToJSONRPCErrorResponse = defaultMapErrorToJSONRPCErrorResponse;
+        this.nameToMethodDictionary = {};
+        this.middleware = null;
+        this.errorListener = (_a = options.errorListener) !== null && _a !== void 0 ? _a : console.warn;
       }
-      var _a;
-      this.mapErrorToJSONRPCErrorResponse = defaultMapErrorToJSONRPCErrorResponse;
-      this.nameToMethodDictionary = {};
-      this.middleware = null;
-      this.errorListener = (_a = options.errorListener) !== null && _a !== void 0 ? _a : console.warn;
-    }
-    JSONRPCServer2.prototype.addMethod = function(name, method) {
-      this.addMethodAdvanced(name, this.toJSONRPCMethod(method));
-    };
-    JSONRPCServer2.prototype.toJSONRPCMethod = function(method) {
-      return function(request, serverParams) {
-        var response = method(request.params, serverParams);
-        return Promise.resolve(response).then(function(result) {
-          return mapResultToJSONRPCResponse(request.id, result);
-        });
+      JSONRPCServer2.prototype.hasMethod = function(name) {
+        return !!this.nameToMethodDictionary[name];
       };
-    };
-    JSONRPCServer2.prototype.addMethodAdvanced = function(name, method) {
-      var _a;
-      this.nameToMethodDictionary = __assign(__assign({}, this.nameToMethodDictionary), (_a = {}, _a[name] = method, _a));
-    };
-    JSONRPCServer2.prototype.receiveJSON = function(json, serverParams) {
-      var request = this.tryParseRequestJSON(json);
-      if (request) {
-        return this.receive(request, serverParams);
-      } else {
-        return Promise.resolve(createParseErrorResponse());
-      }
-    };
-    JSONRPCServer2.prototype.tryParseRequestJSON = function(json) {
-      try {
-        return JSON.parse(json);
-      } catch (_a) {
-        return null;
-      }
-    };
-    JSONRPCServer2.prototype.receive = function(request, serverParams) {
-      if (Array.isArray(request)) {
-        return this.receiveMultiple(request, serverParams);
-      } else {
-        return this.receiveSingle(request, serverParams);
-      }
-    };
-    JSONRPCServer2.prototype.receiveMultiple = function(requests, serverParams) {
-      return __awaiter$1(this, void 0, void 0, function() {
-        var responses;
-        var _this = this;
-        return __generator$1(this, function(_a) {
-          switch (_a.label) {
-            case 0:
-              return [4, Promise.all(requests.map(function(request) {
-                return _this.receiveSingle(request, serverParams);
-              }))];
-            case 1:
-              responses = _a.sent().filter(isNonNull);
-              if (responses.length === 1) {
-                return [2, responses[0]];
-              } else if (responses.length) {
-                return [2, responses];
-              } else {
-                return [2, null];
-              }
-          }
-        });
-      });
-    };
-    JSONRPCServer2.prototype.receiveSingle = function(request, serverParams) {
-      return __awaiter$1(this, void 0, void 0, function() {
-        var method, response;
-        return __generator$1(this, function(_a) {
-          switch (_a.label) {
-            case 0:
-              method = this.nameToMethodDictionary[request.method];
-              if (!!(0, models_1$1.isJSONRPCRequest)(request))
-                return [3, 1];
-              return [2, createInvalidRequestResponse(request)];
-            case 1:
-              return [4, this.callMethod(method, request, serverParams)];
-            case 2:
-              response = _a.sent();
-              return [2, mapResponse(request, response)];
-          }
-        });
-      });
-    };
-    JSONRPCServer2.prototype.applyMiddleware = function() {
-      var middlewares = [];
-      for (var _i = 0; _i < arguments.length; _i++) {
-        middlewares[_i] = arguments[_i];
-      }
-      if (this.middleware) {
-        this.middleware = this.combineMiddlewares(__spreadArray([
-          this.middleware
-        ], middlewares, true));
-      } else {
-        this.middleware = this.combineMiddlewares(middlewares);
-      }
-    };
-    JSONRPCServer2.prototype.combineMiddlewares = function(middlewares) {
-      if (!middlewares.length) {
-        return null;
-      } else {
-        return middlewares.reduce(this.middlewareReducer);
-      }
-    };
-    JSONRPCServer2.prototype.middlewareReducer = function(prevMiddleware, nextMiddleware) {
-      return function(next, request, serverParams) {
-        return prevMiddleware(function(request2, serverParams2) {
-          return nextMiddleware(next, request2, serverParams2);
-        }, request, serverParams);
+      JSONRPCServer2.prototype.addMethod = function(name, method) {
+        this.addMethodAdvanced(name, this.toJSONRPCMethod(method));
       };
-    };
-    JSONRPCServer2.prototype.callMethod = function(method, request, serverParams) {
-      var _this = this;
-      var callMethod = function(request2, serverParams2) {
-        if (method) {
-          return method(request2, serverParams2);
-        } else if (request2.id !== void 0) {
-          return Promise.resolve(createMethodNotFoundResponse(request2.id));
+      JSONRPCServer2.prototype.toJSONRPCMethod = function(method) {
+        return function(request, serverParams) {
+          var response = method(request.params, serverParams);
+          return Promise.resolve(response).then(function(result) {
+            return mapResultToJSONRPCResponse(request.id, result);
+          });
+        };
+      };
+      JSONRPCServer2.prototype.addMethodAdvanced = function(name, method) {
+        var _a;
+        this.nameToMethodDictionary = __assign(__assign({}, this.nameToMethodDictionary), (_a = {}, _a[name] = method, _a));
+      };
+      JSONRPCServer2.prototype.receiveJSON = function(json, serverParams) {
+        var request = this.tryParseRequestJSON(json);
+        if (request) {
+          return this.receive(request, serverParams);
         } else {
-          return Promise.resolve(null);
+          return Promise.resolve(createParseErrorResponse());
         }
       };
-      var onError = function(error) {
-        _this.errorListener('An unexpected error occurred while executing "'.concat(request.method, '" JSON-RPC method:'), error);
-        return Promise.resolve(_this.mapErrorToJSONRPCErrorResponseIfNecessary(request.id, error));
+      JSONRPCServer2.prototype.tryParseRequestJSON = function(json) {
+        try {
+          return JSON.parse(json);
+        } catch (_a) {
+          return null;
+        }
       };
-      try {
-        return (this.middleware || noopMiddleware)(callMethod, request, serverParams).then(void 0, onError);
-      } catch (error) {
-        return onError(error);
-      }
-    };
-    JSONRPCServer2.prototype.mapErrorToJSONRPCErrorResponseIfNecessary = function(id, error) {
-      if (id !== void 0) {
-        return this.mapErrorToJSONRPCErrorResponse(id, error);
-      } else {
-        return null;
-      }
-    };
-    return JSONRPCServer2;
-  }();
+      JSONRPCServer2.prototype.receive = function(request, serverParams) {
+        if (Array.isArray(request)) {
+          return this.receiveMultiple(request, serverParams);
+        } else {
+          return this.receiveSingle(request, serverParams);
+        }
+      };
+      JSONRPCServer2.prototype.receiveMultiple = function(requests, serverParams) {
+        return __awaiter$1(this, void 0, void 0, function() {
+          var responses;
+          var _this = this;
+          return __generator$1(this, function(_a) {
+            switch (_a.label) {
+              case 0:
+                return [4, Promise.all(requests.map(function(request) {
+                  return _this.receiveSingle(request, serverParams);
+                }))];
+              case 1:
+                responses = _a.sent().filter(isNonNull);
+                if (responses.length === 1) {
+                  return [2, responses[0]];
+                } else if (responses.length) {
+                  return [2, responses];
+                } else {
+                  return [2, null];
+                }
+            }
+          });
+        });
+      };
+      JSONRPCServer2.prototype.receiveSingle = function(request, serverParams) {
+        return __awaiter$1(this, void 0, void 0, function() {
+          var method, response;
+          return __generator$1(this, function(_a) {
+            switch (_a.label) {
+              case 0:
+                method = this.nameToMethodDictionary[request.method];
+                if (!!(0, models_1$1.isJSONRPCRequest)(request))
+                  return [3, 1];
+                return [2, createInvalidRequestResponse(request)];
+              case 1:
+                return [4, this.callMethod(method, request, serverParams)];
+              case 2:
+                response = _a.sent();
+                return [2, mapResponse(request, response)];
+            }
+          });
+        });
+      };
+      JSONRPCServer2.prototype.applyMiddleware = function() {
+        var middlewares = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+          middlewares[_i] = arguments[_i];
+        }
+        if (this.middleware) {
+          this.middleware = this.combineMiddlewares(__spreadArray([
+            this.middleware
+          ], middlewares, true));
+        } else {
+          this.middleware = this.combineMiddlewares(middlewares);
+        }
+      };
+      JSONRPCServer2.prototype.combineMiddlewares = function(middlewares) {
+        if (!middlewares.length) {
+          return null;
+        } else {
+          return middlewares.reduce(this.middlewareReducer);
+        }
+      };
+      JSONRPCServer2.prototype.middlewareReducer = function(prevMiddleware, nextMiddleware) {
+        return function(next, request, serverParams) {
+          return prevMiddleware(function(request2, serverParams2) {
+            return nextMiddleware(next, request2, serverParams2);
+          }, request, serverParams);
+        };
+      };
+      JSONRPCServer2.prototype.callMethod = function(method, request, serverParams) {
+        var _this = this;
+        var callMethod = function(request2, serverParams2) {
+          if (method) {
+            return method(request2, serverParams2);
+          } else if (request2.id !== void 0) {
+            return Promise.resolve(createMethodNotFoundResponse(request2.id));
+          } else {
+            return Promise.resolve(null);
+          }
+        };
+        var onError = function(error) {
+          _this.errorListener('An unexpected error occurred while executing "'.concat(request.method, '" JSON-RPC method:'), error);
+          return Promise.resolve(_this.mapErrorToJSONRPCErrorResponseIfNecessary(request.id, error));
+        };
+        try {
+          return (this.middleware || noopMiddleware)(callMethod, request, serverParams).then(void 0, onError);
+        } catch (error) {
+          return onError(error);
+        }
+      };
+      JSONRPCServer2.prototype.mapErrorToJSONRPCErrorResponseIfNecessary = function(id, error) {
+        if (id !== void 0) {
+          return this.mapErrorToJSONRPCErrorResponse(id, error);
+        } else {
+          return null;
+        }
+      };
+      return JSONRPCServer2;
+    }()
+  );
   server.JSONRPCServer = JSONRPCServer;
   var isNonNull = function(value) {
     return value !== null;
@@ -629,17 +699,21 @@ var __publicField = (obj, key, value) => {
   };
   var mapResultToJSONRPCResponse = function(id, result) {
     if (id !== void 0) {
-      return {
-        jsonrpc: models_1$1.JSONRPC,
-        id,
-        result: result === void 0 ? null : result
-      };
+      return (0, models_1$1.createJSONRPCSuccessResponse)(id, result);
     } else {
       return null;
     }
   };
   var defaultMapErrorToJSONRPCErrorResponse = function(id, error) {
-    return (0, models_1$1.createJSONRPCErrorResponse)(id, internal_1.DefaultErrorCode, error && error.message || "An unexpected error occurred");
+    var _a;
+    var message = (_a = error === null || error === void 0 ? void 0 : error.message) !== null && _a !== void 0 ? _a : "An unexpected error occurred";
+    var code = internal_1.DefaultErrorCode;
+    var data;
+    if (error instanceof models_1$1.JSONRPCErrorException) {
+      code = error.code;
+      data = error.data;
+    }
+    return (0, models_1$1.createJSONRPCErrorResponse)(id, code, message, data);
   };
   var mapResponse = function(request, response) {
     if (response) {
@@ -695,7 +769,7 @@ var __publicField = (obj, key, value) => {
     function step(op) {
       if (f)
         throw new TypeError("Generator is already executing.");
-      while (_)
+      while (g && (g = 0, op[0] && (_ = 0)), _)
         try {
           if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done)
             return t;
@@ -757,77 +831,86 @@ var __publicField = (obj, key, value) => {
   Object.defineProperty(serverAndClient, "__esModule", { value: true });
   serverAndClient.JSONRPCServerAndClient = void 0;
   var models_1 = models;
-  var JSONRPCServerAndClient = function() {
-    function JSONRPCServerAndClient2(server2, client2, options) {
-      if (options === void 0) {
-        options = {};
+  var JSONRPCServerAndClient = (
+    /** @class */
+    function() {
+      function JSONRPCServerAndClient2(server2, client2, options) {
+        if (options === void 0) {
+          options = {};
+        }
+        var _a;
+        this.server = server2;
+        this.client = client2;
+        this.errorListener = (_a = options.errorListener) !== null && _a !== void 0 ? _a : console.warn;
       }
-      var _a;
-      this.server = server2;
-      this.client = client2;
-      this.errorListener = (_a = options.errorListener) !== null && _a !== void 0 ? _a : console.warn;
-    }
-    JSONRPCServerAndClient2.prototype.applyServerMiddleware = function() {
-      var _a;
-      var middlewares = [];
-      for (var _i = 0; _i < arguments.length; _i++) {
-        middlewares[_i] = arguments[_i];
-      }
-      (_a = this.server).applyMiddleware.apply(_a, middlewares);
-    };
-    JSONRPCServerAndClient2.prototype.addMethod = function(name, method) {
-      this.server.addMethod(name, method);
-    };
-    JSONRPCServerAndClient2.prototype.addMethodAdvanced = function(name, method) {
-      this.server.addMethodAdvanced(name, method);
-    };
-    JSONRPCServerAndClient2.prototype.timeout = function(delay) {
-      return this.client.timeout(delay);
-    };
-    JSONRPCServerAndClient2.prototype.request = function(method, params, clientParams) {
-      return this.client.request(method, params, clientParams);
-    };
-    JSONRPCServerAndClient2.prototype.requestAdvanced = function(jsonRPCRequest, clientParams) {
-      return this.client.requestAdvanced(jsonRPCRequest, clientParams);
-    };
-    JSONRPCServerAndClient2.prototype.notify = function(method, params, clientParams) {
-      this.client.notify(method, params, clientParams);
-    };
-    JSONRPCServerAndClient2.prototype.rejectAllPendingRequests = function(message) {
-      this.client.rejectAllPendingRequests(message);
-    };
-    JSONRPCServerAndClient2.prototype.receiveAndSend = function(payload, serverParams, clientParams) {
-      return __awaiter(this, void 0, void 0, function() {
-        var response, message;
-        return __generator(this, function(_a) {
-          switch (_a.label) {
-            case 0:
-              if (!((0, models_1.isJSONRPCResponse)(payload) || (0, models_1.isJSONRPCResponses)(payload)))
-                return [3, 1];
-              this.client.receive(payload);
-              return [3, 4];
-            case 1:
-              if (!((0, models_1.isJSONRPCRequest)(payload) || (0, models_1.isJSONRPCRequests)(payload)))
-                return [3, 3];
-              return [4, this.server.receive(payload, serverParams)];
-            case 2:
-              response = _a.sent();
-              if (response) {
-                return [2, this.client.send(response, clientParams)];
-              }
-              return [3, 4];
-            case 3:
-              message = "Received an invalid JSON-RPC message";
-              this.errorListener(message, payload);
-              return [2, Promise.reject(new Error(message))];
-            case 4:
-              return [2];
-          }
+      JSONRPCServerAndClient2.prototype.applyServerMiddleware = function() {
+        var _a;
+        var middlewares = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+          middlewares[_i] = arguments[_i];
+        }
+        (_a = this.server).applyMiddleware.apply(_a, middlewares);
+      };
+      JSONRPCServerAndClient2.prototype.hasMethod = function(name) {
+        return this.server.hasMethod(name);
+      };
+      JSONRPCServerAndClient2.prototype.addMethod = function(name, method) {
+        this.server.addMethod(name, method);
+      };
+      JSONRPCServerAndClient2.prototype.addMethodAdvanced = function(name, method) {
+        this.server.addMethodAdvanced(name, method);
+      };
+      JSONRPCServerAndClient2.prototype.timeout = function(delay) {
+        return this.client.timeout(delay);
+      };
+      JSONRPCServerAndClient2.prototype.request = function(method, params, clientParams) {
+        return this.client.request(method, params, clientParams);
+      };
+      JSONRPCServerAndClient2.prototype.requestAdvanced = function(jsonRPCRequest, clientParams) {
+        return this.client.requestAdvanced(jsonRPCRequest, clientParams);
+      };
+      JSONRPCServerAndClient2.prototype.notify = function(method, params, clientParams) {
+        this.client.notify(method, params, clientParams);
+      };
+      JSONRPCServerAndClient2.prototype.rejectAllPendingRequests = function(message) {
+        this.client.rejectAllPendingRequests(message);
+      };
+      JSONRPCServerAndClient2.prototype.receiveAndSend = function(payload, serverParams, clientParams) {
+        return __awaiter(this, void 0, void 0, function() {
+          var response, message;
+          return __generator(this, function(_a) {
+            switch (_a.label) {
+              case 0:
+                if (!((0, models_1.isJSONRPCResponse)(payload) || (0, models_1.isJSONRPCResponses)(payload)))
+                  return [3, 1];
+                this.client.receive(payload);
+                return [3, 4];
+              case 1:
+                if (!((0, models_1.isJSONRPCRequest)(payload) || (0, models_1.isJSONRPCRequests)(payload)))
+                  return [3, 3];
+                return [4, this.server.receive(payload, serverParams)];
+              case 2:
+                response = _a.sent();
+                if (response) {
+                  return [2, this.client.send(response, clientParams)];
+                }
+                return [3, 4];
+              case 3:
+                message = "Received an invalid JSON-RPC message";
+                this.errorListener(message, payload);
+                return [2, Promise.reject(new Error(message))];
+              case 4:
+                return [
+                  2
+                  /*return*/
+                ];
+            }
+          });
         });
-      });
-    };
-    return JSONRPCServerAndClient2;
-  }();
+      };
+      return JSONRPCServerAndClient2;
+    }()
+  );
   serverAndClient.JSONRPCServerAndClient = JSONRPCServerAndClient;
   (function(exports) {
     var __createBinding = commonjsGlobal && commonjsGlobal.__createBinding || (Object.create ? function(o, m, k, k2) {
@@ -852,22 +935,17 @@ var __publicField = (obj, key, value) => {
     };
     Object.defineProperty(exports, "__esModule", { value: true });
     __exportStar(client, exports);
+    __exportStar(interfaces, exports);
     __exportStar(models, exports);
     __exportStar(server, exports);
     __exportStar(serverAndClient, exports);
   })(dist);
-  const sharedConfig = {};
-  function setHydrateContext(context) {
-    sharedConfig.context = context;
-  }
   const equalFn = (a, b) => a === b;
   const $TRACK = Symbol("solid-track");
-  const $DEVCOMP = Symbol("solid-dev-component");
   const signalOptions = {
     equals: equalFn
   };
   let runEffects = runQueue;
-  const NOTPENDING = {};
   const STALE = 1;
   const PENDING = 2;
   const UNOWNED = {
@@ -879,25 +957,16 @@ var __publicField = (obj, key, value) => {
   var Owner = null;
   let Transition = null;
   let Listener = null;
-  let Pending = null;
   let Updates = null;
   let Effects = null;
   let ExecCount = 0;
-  let rootCount = 0;
   function createRoot(fn, detachedOwner) {
-    const listener = Listener, owner = Owner, unowned = fn.length === 0, root = unowned && false ? UNOWNED : {
+    const listener = Listener, owner = Owner, unowned = fn.length === 0, root = unowned ? UNOWNED : {
       owned: null,
       cleanups: null,
       context: null,
-      owner: detachedOwner || owner
-    }, updateFn = unowned ? () => fn(() => {
-      throw new Error("Dispose method must be an explicit argument to createRoot function");
-    }) : () => fn(() => cleanNode(root));
-    {
-      if (owner)
-        root.name = `${owner.name}-r${rootCount++}`;
-      globalThis._$afterCreateRoot && globalThis._$afterCreateRoot(root);
-    }
+      owner: detachedOwner === void 0 ? owner : detachedOwner
+    }, updateFn = unowned ? fn : () => fn(() => untrack(() => cleanNode(root)));
     Owner = root;
     Listener = null;
     try {
@@ -913,133 +982,66 @@ var __publicField = (obj, key, value) => {
       value,
       observers: null,
       observerSlots: null,
-      pending: NOTPENDING,
       comparator: options.equals || void 0
     };
-    if (!options.internal)
-      s.name = registerGraph(options.name || hashValue(value), s);
     const setter = (value2) => {
       if (typeof value2 === "function") {
-        value2 = value2(s.pending !== NOTPENDING ? s.pending : s.value);
+        value2 = value2(s.value);
       }
       return writeSignal(s, value2);
     };
     return [readSignal.bind(s), setter];
   }
   function createRenderEffect(fn, value, options) {
-    const c = createComputation(fn, value, false, STALE, options);
+    const c = createComputation(fn, value, false, STALE);
     updateComputation(c);
   }
   function createEffect(fn, value, options) {
     runEffects = runUserEffects;
-    const c = createComputation(fn, value, false, STALE, options);
-    c.user = true;
+    const c = createComputation(fn, value, false, STALE);
+    if (!options || !options.render)
+      c.user = true;
     Effects ? Effects.push(c) : updateComputation(c);
   }
   function createMemo(fn, value, options) {
     options = options ? Object.assign({}, signalOptions, options) : signalOptions;
-    const c = createComputation(fn, value, true, 0, options);
-    c.pending = NOTPENDING;
+    const c = createComputation(fn, value, true, 0);
     c.observers = null;
     c.observerSlots = null;
     c.comparator = options.equals || void 0;
     updateComputation(c);
     return readSignal.bind(c);
   }
-  function batch(fn) {
-    if (Pending)
-      return fn();
-    let result;
-    const q = Pending = [];
-    try {
-      result = fn();
-    } finally {
-      Pending = null;
-    }
-    runUpdates(() => {
-      for (let i = 0; i < q.length; i += 1) {
-        const data = q[i];
-        if (data.pending !== NOTPENDING) {
-          const pending = data.pending;
-          data.pending = NOTPENDING;
-          writeSignal(data, pending);
-        }
-      }
-    }, false);
-    return result;
-  }
   function untrack(fn) {
-    let result, listener = Listener;
+    if (Listener === null)
+      return fn();
+    const listener = Listener;
     Listener = null;
-    result = fn();
-    Listener = listener;
-    return result;
+    try {
+      return fn();
+    } finally {
+      Listener = listener;
+    }
   }
   function onCleanup(fn) {
     if (Owner === null)
-      console.warn("cleanups created outside a `createRoot` or `render` will never be run");
+      ;
     else if (Owner.cleanups === null)
       Owner.cleanups = [fn];
     else
       Owner.cleanups.push(fn);
     return fn;
   }
-  function devComponent(Comp, props) {
-    const c = createComputation(() => untrack(() => {
-      Object.assign(Comp, {
-        [$DEVCOMP]: true
-      });
-      return Comp(props);
-    }), void 0, true);
-    c.pending = NOTPENDING;
-    c.observers = null;
-    c.observerSlots = null;
-    c.state = 0;
-    c.componentName = Comp.name;
-    updateComputation(c);
-    return c.tValue !== void 0 ? c.tValue : c.value;
-  }
-  function hashValue(v) {
-    const s = /* @__PURE__ */ new Set();
-    return `s${typeof v === "string" ? hash(v) : hash(JSON.stringify(v, (k, v2) => {
-      if (typeof v2 === "object" && v2 != null) {
-        if (s.has(v2))
-          return;
-        s.add(v2);
-        const keys = Object.keys(v2);
-        const desc = Object.getOwnPropertyDescriptors(v2);
-        const newDesc = keys.reduce((memo, key) => {
-          const value = desc[key];
-          if (!value.get)
-            memo[key] = value;
-          return memo;
-        }, {});
-        v2 = Object.create({}, newDesc);
-      }
-      if (typeof v2 === "bigint") {
-        return `${v2.toString()}n`;
-      }
-      return v2;
-    }) || "")}`;
-  }
-  function registerGraph(name, value) {
-    let tryName = name;
-    if (Owner) {
-      let i = 0;
-      Owner.sourceMap || (Owner.sourceMap = {});
-      while (Owner.sourceMap[tryName])
-        tryName = `${name}-${++i}`;
-      Owner.sourceMap[tryName] = value;
-    }
-    return tryName;
-  }
   function readSignal() {
-    const runningTransition = Transition;
-    if (this.sources && (this.state || runningTransition)) {
-      const updates = Updates;
-      Updates = null;
-      this.state === STALE || runningTransition ? updateComputation(this) : lookUpstream(this);
-      Updates = updates;
+    if (this.sources && this.state) {
+      if (this.state === STALE)
+        updateComputation(this);
+      else {
+        const updates = Updates;
+        Updates = null;
+        runUpdates(() => lookUpstream(this), false);
+        Updates = updates;
+      }
     }
     if (Listener) {
       const sSlot = this.observers ? this.observers.length : 0;
@@ -1061,44 +1063,35 @@ var __publicField = (obj, key, value) => {
     return this.value;
   }
   function writeSignal(node, value, isComp) {
-    if (Pending) {
-      if (node.pending === NOTPENDING)
-        Pending.push(node);
-      node.pending = value;
-      return value;
-    }
-    if (node.comparator) {
-      if (node.comparator(node.value, value))
-        return value;
-    }
-    let TransitionRunning = false;
-    node.value = value;
-    if (node.observers && node.observers.length) {
-      runUpdates(() => {
-        for (let i = 0; i < node.observers.length; i += 1) {
-          const o = node.observers[i];
-          if (TransitionRunning && Transition.disposed.has(o))
-            ;
-          if (TransitionRunning && !o.tState || !TransitionRunning && !o.state) {
-            if (o.pure)
-              Updates.push(o);
-            else
-              Effects.push(o);
-            if (o.observers)
-              markDownstream(o);
+    let current = node.value;
+    if (!node.comparator || !node.comparator(current, value)) {
+      node.value = value;
+      if (node.observers && node.observers.length) {
+        runUpdates(() => {
+          for (let i = 0; i < node.observers.length; i += 1) {
+            const o = node.observers[i];
+            const TransitionRunning = Transition && Transition.running;
+            if (TransitionRunning && Transition.disposed.has(o))
+              ;
+            if (TransitionRunning ? !o.tState : !o.state) {
+              if (o.pure)
+                Updates.push(o);
+              else
+                Effects.push(o);
+              if (o.observers)
+                markDownstream(o);
+            }
+            if (!TransitionRunning)
+              o.state = STALE;
           }
-          if (TransitionRunning)
-            ;
-          else
-            o.state = STALE;
-        }
-        if (Updates.length > 1e6) {
-          Updates = [];
-          if ("_SOLID_DEV_")
-            throw new Error("Potential Infinite Loop Detected.");
-          throw new Error();
-        }
-      }, false);
+          if (Updates.length > 1e6) {
+            Updates = [];
+            if (false)
+              ;
+            throw new Error();
+          }
+        }, false);
+      }
     }
     return value;
   }
@@ -1117,10 +1110,18 @@ var __publicField = (obj, key, value) => {
     try {
       nextValue = node.fn(value);
     } catch (err) {
-      handleError(err);
+      if (node.pure) {
+        {
+          node.state = STALE;
+          node.owned && node.owned.forEach(cleanNode);
+          node.owned = null;
+        }
+      }
+      node.updatedAt = time + 1;
+      return handleError(err);
     }
     if (!node.updatedAt || node.updatedAt <= time) {
-      if (node.observers && node.observers.length) {
+      if (node.updatedAt != null && "observers" in node) {
         writeSignal(node, nextValue);
       } else
         node.value = nextValue;
@@ -1142,7 +1143,7 @@ var __publicField = (obj, key, value) => {
       pure
     };
     if (Owner === null)
-      console.warn("computations created outside a `createRoot` or `render` will never be disposed");
+      ;
     else if (Owner !== UNOWNED) {
       {
         if (!Owner.owned)
@@ -1150,31 +1151,29 @@ var __publicField = (obj, key, value) => {
         else
           Owner.owned.push(c);
       }
-      c.name = options && options.name || `${Owner.name || "c"}-${(Owner.owned || Owner.tOwned).length}`;
     }
     return c;
   }
   function runTop(node) {
-    const runningTransition = Transition;
-    if (node.state === 0 || runningTransition)
+    if (node.state === 0)
       return;
-    if (node.state === PENDING || runningTransition)
+    if (node.state === PENDING)
       return lookUpstream(node);
     if (node.suspense && untrack(node.suspense.inFallback))
       return node.suspense.effects.push(node);
     const ancestors = [node];
     while ((node = node.owner) && (!node.updatedAt || node.updatedAt < ExecCount)) {
-      if (node.state || runningTransition)
+      if (node.state)
         ancestors.push(node);
     }
     for (let i = ancestors.length - 1; i >= 0; i--) {
       node = ancestors[i];
-      if (node.state === STALE || runningTransition) {
+      if (node.state === STALE) {
         updateComputation(node);
-      } else if (node.state === PENDING || runningTransition) {
+      } else if (node.state === PENDING) {
         const updates = Updates;
         Updates = null;
-        lookUpstream(node, ancestors[0]);
+        runUpdates(() => lookUpstream(node, ancestors[0]), false);
         Updates = updates;
       }
     }
@@ -1195,8 +1194,9 @@ var __publicField = (obj, key, value) => {
       completeUpdates(wait);
       return res;
     } catch (err) {
-      if (!Updates)
+      if (!wait)
         Effects = null;
+      Updates = null;
       handleError(err);
     }
   }
@@ -1207,15 +1207,10 @@ var __publicField = (obj, key, value) => {
     }
     if (wait)
       return;
-    if (Effects.length)
-      batch(() => {
-        runEffects(Effects);
-        Effects = null;
-      });
-    else {
-      Effects = null;
-      globalThis._$afterUpdate && globalThis._$afterUpdate();
-    }
+    const e = Effects;
+    Effects = null;
+    if (e.length)
+      runUpdates(() => runEffects(e), false);
   }
   function runQueue(queue) {
     for (let i = 0; i < queue.length; i++)
@@ -1230,33 +1225,27 @@ var __publicField = (obj, key, value) => {
       else
         queue[userLength++] = e;
     }
-    if (sharedConfig.context)
-      setHydrateContext();
-    const resume = queue.length;
     for (i = 0; i < userLength; i++)
-      runTop(queue[i]);
-    for (i = resume; i < queue.length; i++)
       runTop(queue[i]);
   }
   function lookUpstream(node, ignore) {
-    const runningTransition = Transition;
     node.state = 0;
     for (let i = 0; i < node.sources.length; i += 1) {
       const source = node.sources[i];
       if (source.sources) {
-        if (source.state === STALE || runningTransition) {
-          if (source !== ignore)
+        const state = source.state;
+        if (state === STALE) {
+          if (source !== ignore && (!source.updatedAt || source.updatedAt < ExecCount))
             runTop(source);
-        } else if (source.state === PENDING || runningTransition)
+        } else if (state === PENDING)
           lookUpstream(source, ignore);
       }
     }
   }
   function markDownstream(node) {
-    const runningTransition = Transition;
     for (let i = 0; i < node.observers.length; i += 1) {
       const o = node.observers[i];
-      if (!o.state || runningTransition) {
+      if (!o.state) {
         o.state = PENDING;
         if (o.pure)
           Updates.push(o);
@@ -1282,26 +1271,20 @@ var __publicField = (obj, key, value) => {
       }
     }
     if (node.owned) {
-      for (i = 0; i < node.owned.length; i++)
+      for (i = node.owned.length - 1; i >= 0; i--)
         cleanNode(node.owned[i]);
       node.owned = null;
     }
     if (node.cleanups) {
-      for (i = 0; i < node.cleanups.length; i++)
+      for (i = node.cleanups.length - 1; i >= 0; i--)
         node.cleanups[i]();
       node.cleanups = null;
     }
     node.state = 0;
     node.context = null;
-    delete node.sourceMap;
   }
   function handleError(err) {
     throw err;
-  }
-  function hash(s) {
-    for (var i = 0, h = 9; i < s.length; )
-      h = Math.imul(h ^ s.charCodeAt(i++), 9 ** 9);
-    return `${h ^ h >>> 9}`;
   }
   const FALLBACK = Symbol("fallback");
   function dispose(d) {
@@ -1399,49 +1382,70 @@ var __publicField = (obj, key, value) => {
     };
   }
   function createComponent(Comp, props) {
-    return devComponent(Comp, props || {});
+    return untrack(() => Comp(props || {}));
   }
+  const narrowedError = (name) => `Stale read from <${name}>.`;
   function For(props) {
     const fallback = "fallback" in props && {
       fallback: () => props.fallback
     };
-    return createMemo(mapArray(() => props.each, props.children, fallback ? fallback : void 0));
+    return createMemo(mapArray(() => props.each, props.children, fallback || void 0));
   }
   function Show(props) {
-    let strictEqual = false;
+    const keyed = props.keyed;
     const condition = createMemo(() => props.when, void 0, {
-      equals: (a, b) => strictEqual ? a === b : !a === !b
+      equals: (a, b) => keyed ? a === b : !a === !b
     });
     return createMemo(() => {
       const c = condition();
       if (c) {
         const child = props.children;
-        return (strictEqual = typeof child === "function" && child.length > 0) ? untrack(() => child(c)) : child;
+        const fn = typeof child === "function" && child.length > 0;
+        return fn ? untrack(() => child(keyed ? c : () => {
+          if (!untrack(condition))
+            throw narrowedError("Show");
+          return props.when;
+        })) : child;
       }
       return props.fallback;
-    });
-  }
-  if (globalThis) {
-    if (!globalThis.Solid$$)
-      globalThis.Solid$$ = true;
-    else
-      console.warn("You appear to have multiple instances of Solid. This can lead to unexpected behavior.");
+    }, void 0, void 0);
   }
   const booleans = ["allowfullscreen", "async", "autofocus", "autoplay", "checked", "controls", "default", "disabled", "formnovalidate", "hidden", "indeterminate", "ismap", "loop", "multiple", "muted", "nomodule", "novalidate", "open", "playsinline", "readonly", "required", "reversed", "seamless", "selected"];
   const Properties = /* @__PURE__ */ new Set(["className", "value", "readOnly", "formNoValidate", "isMap", "noModule", "playsInline", ...booleans]);
   const ChildProperties = /* @__PURE__ */ new Set(["innerHTML", "textContent", "innerText", "children"]);
-  const Aliases = {
+  const Aliases = /* @__PURE__ */ Object.assign(/* @__PURE__ */ Object.create(null), {
     className: "class",
     htmlFor: "for"
-  };
-  const PropAliases = {
+  });
+  const PropAliases = /* @__PURE__ */ Object.assign(/* @__PURE__ */ Object.create(null), {
     class: "className",
-    formnovalidate: "formNoValidate",
-    ismap: "isMap",
-    nomodule: "noModule",
-    playsinline: "playsInline",
-    readonly: "readOnly"
-  };
+    formnovalidate: {
+      $: "formNoValidate",
+      BUTTON: 1,
+      INPUT: 1
+    },
+    ismap: {
+      $: "isMap",
+      IMG: 1
+    },
+    nomodule: {
+      $: "noModule",
+      SCRIPT: 1
+    },
+    playsinline: {
+      $: "playsInline",
+      VIDEO: 1
+    },
+    readonly: {
+      $: "readOnly",
+      INPUT: 1,
+      TEXTAREA: 1
+    }
+  });
+  function getPropAlias(prop, tagName) {
+    const a = PropAliases[prop];
+    return typeof a === "object" ? a[tagName] ? a["$"] : void 0 : a;
+  }
   const DelegatedEvents = /* @__PURE__ */ new Set(["beforeinput", "click", "dblclick", "contextmenu", "focusin", "focusout", "input", "keydown", "keyup", "mousedown", "mousemove", "mouseout", "mouseover", "mouseup", "pointerdown", "pointermove", "pointerout", "pointerover", "pointerup", "touchend", "touchmove", "touchstart"]);
   const SVGNamespace = {
     xlink: "http://www.w3.org/1999/xlink",
@@ -1504,29 +1508,27 @@ var __publicField = (obj, key, value) => {
     }
   }
   const $$EVENTS = "_$DX_DELEGATE";
-  function render(code, element, init) {
+  function render(code, element, init, options = {}) {
     let disposer;
     createRoot((dispose2) => {
       disposer = dispose2;
       element === document ? code() : insert(element, code(), element.firstChild ? null : void 0, init);
-    });
+    }, options.owner);
     return () => {
       disposer();
       element.textContent = "";
     };
   }
-  function template(html, check, isSVG) {
-    const t = document.createElement("template");
-    t.innerHTML = html;
-    if (check && t.innerHTML.split("<").length - 1 !== check)
-      throw `The browser resolved template HTML does not match JSX input:
-${t.innerHTML}
-
-${html}. Is your HTML properly formed?`;
-    let node = t.content.firstChild;
-    if (isSVG)
-      node = node.firstChild;
-    return node;
+  function template(html, isCE, isSVG) {
+    let node;
+    const create = () => {
+      const t = document.createElement("template");
+      t.innerHTML = html;
+      return isSVG ? t.content.firstChild.firstChild : t.content.firstChild;
+    };
+    const fn = isCE ? () => (node || (node = create())).cloneNode(true) : () => untrack(() => document.importNode(node || (node = create()), true));
+    fn.cloneNode = fn;
+    return fn;
   }
   function delegateEvents(eventNames, document2 = window.document) {
     const e = document2[$$EVENTS] || (document2[$$EVENTS] = /* @__PURE__ */ new Set());
@@ -1588,12 +1590,14 @@ ${html}. Is your HTML properly formed?`;
     }
     return prev;
   }
-  function style$1(node, value, prev = {}) {
+  function style$1(node, value, prev) {
+    if (!value)
+      return prev ? setAttribute(node, "style") : value;
     const nodeStyle = node.style;
-    const prevString = typeof prev === "string";
-    if (value == null && prevString || typeof value === "string")
+    if (typeof value === "string")
       return nodeStyle.cssText = value;
-    prevString && (nodeStyle.cssText = void 0, prev = {});
+    typeof prev === "string" && (nodeStyle.cssText = prev = void 0);
+    prev || (prev = {});
     value || (value = {});
     let v, s;
     for (s in prev) {
@@ -1609,11 +1613,14 @@ ${html}. Is your HTML properly formed?`;
     }
     return prev;
   }
-  function spread(node, accessor, isSVG, skipChildren) {
-    if (typeof accessor === "function") {
-      createRenderEffect((current) => spreadExpression(node, accessor(), current, isSVG, skipChildren));
-    } else
-      spreadExpression(node, accessor, void 0, isSVG, skipChildren);
+  function spread(node, props = {}, isSVG, skipChildren) {
+    const prevProps = {};
+    if (!skipChildren) {
+      createRenderEffect(() => prevProps.children = insertExpression(node, props.children, prevProps.children));
+    }
+    createRenderEffect(() => props.ref && props.ref(node));
+    createRenderEffect(() => assign(node, props, isSVG, true, prevProps, true));
+    return prevProps;
   }
   function insert(parent, accessor, marker, initial) {
     if (marker !== void 0 && !initial)
@@ -1628,7 +1635,7 @@ ${html}. Is your HTML properly formed?`;
       if (!(prop in props)) {
         if (prop === "children")
           continue;
-        assignProp(node, prop, null, prevProps[prop], isSVG, skipRef);
+        prevProps[prop] = assignProp(node, prop, null, prevProps[prop], isSVG, skipRef);
       }
     }
     for (const prop in props) {
@@ -1650,7 +1657,7 @@ ${html}. Is your HTML properly formed?`;
       node.classList.toggle(classNames[i], value);
   }
   function assignProp(node, prop, value, prev, isSVG, skipRef) {
-    let isCE, isProp, isChildProp;
+    let isCE, isProp, isChildProp, propAlias, forceProp;
     if (prop === "style")
       return style$1(node, value, prev);
     if (prop === "classList")
@@ -1658,9 +1665,8 @@ ${html}. Is your HTML properly formed?`;
     if (value === prev)
       return prev;
     if (prop === "ref") {
-      if (!skipRef) {
+      if (!skipRef)
         value(node);
-      }
     } else if (prop.slice(0, 3) === "on:") {
       const e = prop.slice(3);
       prev && node.removeEventListener(e, prev);
@@ -1680,13 +1686,19 @@ ${html}. Is your HTML properly formed?`;
         addEventListener(node, name, value, delegate);
         delegate && delegateEvents([name]);
       }
-    } else if ((isChildProp = ChildProperties.has(prop)) || !isSVG && (PropAliases[prop] || (isProp = Properties.has(prop))) || (isCE = node.nodeName.includes("-"))) {
+    } else if (prop.slice(0, 5) === "attr:") {
+      setAttribute(node, prop.slice(5), value);
+    } else if ((forceProp = prop.slice(0, 5) === "prop:") || (isChildProp = ChildProperties.has(prop)) || !isSVG && ((propAlias = getPropAlias(prop, node.tagName)) || (isProp = Properties.has(prop))) || (isCE = node.nodeName.includes("-"))) {
+      if (forceProp) {
+        prop = prop.slice(5);
+        isProp = true;
+      }
       if (prop === "class" || prop === "className")
         className(node, value);
       else if (isCE && !isProp && !isChildProp)
         node[toPropertyName(prop)] = value;
       else
-        node[PropAliases[prop] || prop] = value;
+        node[propAlias || prop] = value;
     } else {
       const ns = isSVG && prop.indexOf(":") > -1 && SVGNamespace[prop.split(":")[0]];
       if (ns)
@@ -1711,11 +1723,7 @@ ${html}. Is your HTML properly formed?`;
         return node || document;
       }
     });
-    if (sharedConfig.registry && !sharedConfig.done) {
-      sharedConfig.done = true;
-      document.querySelectorAll("[id^=pl-]").forEach((elem) => elem.remove());
-    }
-    while (node !== null) {
+    while (node) {
       const handler = node[key];
       if (handler && !node.disabled) {
         const data = node[`${key}Data`];
@@ -1723,21 +1731,10 @@ ${html}. Is your HTML properly formed?`;
         if (e.cancelBubble)
           return;
       }
-      node = node.host && node.host !== node && node.host instanceof Node ? node.host : node.parentNode;
+      node = node._$host || node.parentNode || node.host;
     }
-  }
-  function spreadExpression(node, props, prevProps = {}, isSVG, skipChildren) {
-    props || (props = {});
-    if (!skipChildren && "children" in props) {
-      createRenderEffect(() => prevProps.children = insertExpression(node, props.children, prevProps.children));
-    }
-    props.ref && props.ref(node);
-    createRenderEffect(() => assign(node, props, isSVG, true, prevProps, true));
-    return prevProps;
   }
   function insertExpression(parent, value, current, marker, unwrapArray) {
-    if (sharedConfig.context && !current)
-      current = [...parent.childNodes];
     while (typeof current === "function")
       current = current();
     if (value === current)
@@ -1745,8 +1742,6 @@ ${html}. Is your HTML properly formed?`;
     const t = typeof value, multi = marker !== void 0;
     parent = multi && current[0] && current[0].parentNode || parent;
     if (t === "string" || t === "number") {
-      if (sharedConfig.context)
-        return current;
       if (t === "number")
         value = value.toString();
       if (multi) {
@@ -1763,8 +1758,6 @@ ${html}. Is your HTML properly formed?`;
           current = parent.textContent = value;
       }
     } else if (value == null || t === "boolean") {
-      if (sharedConfig.context)
-        return current;
       current = cleanChildren(parent, current, marker);
     } else if (t === "function") {
       createRenderEffect(() => {
@@ -1781,12 +1774,6 @@ ${html}. Is your HTML properly formed?`;
         createRenderEffect(() => current = insertExpression(parent, array, current, marker, true));
         return () => current;
       }
-      if (sharedConfig.context) {
-        for (let i = 0; i < array.length; i++) {
-          if (array[i].parentNode)
-            return current = array;
-        }
-      }
       if (array.length === 0) {
         current = cleanChildren(parent, current, marker);
         if (multi)
@@ -1802,8 +1789,6 @@ ${html}. Is your HTML properly formed?`;
       }
       current = array;
     } else if (value instanceof Node) {
-      if (sharedConfig.context && value.parentNode)
-        return current = multi ? [value] : value;
       if (Array.isArray(current)) {
         if (multi)
           return current = cleanChildren(parent, current, marker, value);
@@ -1831,14 +1816,15 @@ ${html}. Is your HTML properly formed?`;
         if (unwrap) {
           while (typeof item === "function")
             item = item();
-          dynamic = normalizeIncomingArray(normalized, Array.isArray(item) ? item : [item], prev) || dynamic;
+          dynamic = normalizeIncomingArray(normalized, Array.isArray(item) ? item : [item], Array.isArray(prev) ? prev : [prev]) || dynamic;
         } else {
           normalized.push(item);
           dynamic = true;
         }
       } else {
         const value = String(item);
-        if (prev && prev.nodeType === 3 && prev.data === value) {
+        if (prev && prev.nodeType === 3) {
+          prev.data = value;
           normalized.push(prev);
         } else
           normalized.push(document.createTextNode(value));
@@ -1846,7 +1832,7 @@ ${html}. Is your HTML properly formed?`;
     }
     return dynamic;
   }
-  function appendNodes(parent, array, marker) {
+  function appendNodes(parent, array, marker = null) {
     for (let i = 0, len = array.length; i < len; i++)
       parent.insertBefore(array[i], marker);
   }
@@ -1880,7 +1866,7 @@ ${html}. Is your HTML properly formed?`;
   function expect(msg) {
     return function(t) {
       if (t === void 0) {
-        throw new Error(msg != null ? msg : "expect some value");
+        throw new Error(msg ?? "expect some value");
       }
       return t;
     };
@@ -2022,14 +2008,14 @@ ${html}. Is your HTML properly formed?`;
       return this._t;
     }
   }
-  var styleCss = "._mainBody_bsm4g_1 {\n  opacity: 0.5;\n}\n._mainBody_bsm4g_1 * {\n  font-size: 0.75rem;\n  margin: 0;\n}\n._mainBody_bsm4g_1 button {\n  cursor: pointer;\n}\n._clickable_bsm4g_11 {\n  cursor: pointer;\n}\n._stateWorkingOn_bsm4g_14 {\n  color: blue;\n}\n._stateSure_bsm4g_17 {\n  color: green;\n}\n._stateNotSure_bsm4g_20 {\n  color: red;\n}\n._answerMsg_bsm4g_23 {\n  border-style: groove;\n  border-width: thin;\n  opacity: 0.75;\n  margin-bottom: 0.5rem;\n}\n._answerMsg_bsm4g_23 ul {\n  padding-left: 1rem;\n}\n._answerMsgName_bsm4g_32 {\n  font-weight: bold;\n}\n._answerMark_bsm4g_35 {\n  display: flex;\n  justify-content: end;\n  align-items: center;\n  border-style: groove;\n  border-width: thin;\n  margin-bottom: 0.5rem;\n  opacity: 0.75;\n}\n._answerMark_bsm4g_35 button {\n  padding: 0;\n  margin-left: 0.5rem;\n  white-space: nowrap;\n}\n._answerMark_bsm4g_35 input {\n  height: max-content;\n  width: 100%;\n}\n._answerDetail_bsm4g_53 ._stateWorkingOn_bsm4g_14,\n._answerDetail_bsm4g_53 ._stateSure_bsm4g_17,\n._answerDetail_bsm4g_53 ._stateNotSure_bsm4g_20 {\n  font-weight: bold;\n}\n._answerDetail_bsm4g_53 ul {\n  padding-left: 1.5rem;\n}\n._answerDetail_bsm4g_53 ul ul {\n  padding-left: 1rem;\n}\n._answerDetail_bsm4g_53 img {\n  height: auto;\n  width: 80%;\n}\n._answerDetailShortAnswer_bsm4g_68 {\n  border-style: groove;\n  border-width: thin;\n  margin: 0.2rem;\n  padding: 0.2rem;\n  min-width: min-content;\n}\n._answerDetailFill_bsm4g_75 {\n  white-space: pre;\n}\n._settings_bsm4g_78 {\n  border-style: groove;\n  border-width: thin;\n  display: flex;\n  flex-direction: column;\n  padding: 0.5rem;\n  margin-bottom: 0.5rem;\n}\n._settingsEntry_bsm4g_86 {\n  display: flex;\n  flex-direction: row;\n  margin-bottom: 0.5rem;\n  justify-content: space-between;\n  align-items: center;\n}\n._settingsEntry_bsm4g_86 label {\n  font-weight: bold;\n}\n._settingsEntry_bsm4g_86 input {\n  height: max-content;\n  text-align: right;\n}\n._settingsSubmit_bsm4g_100 {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: end;\n}\n._settingsSubmitTip_bsm4g_106 {\n  margin-right: 0.5rem;\n}\n._about_bsm4g_109 p {\n  margin-bottom: 0.25rem;\n}\n._about_bsm4g_109 ul {\n  padding-left: 1.5rem;\n  margin-bottom: 0.25rem;\n}\n._about_bsm4g_109 ul li {\n  margin-bottom: 0.25rem;\n}\n._uploadImg_bsm4g_119 {\n  display: flex;\n  flex-direction: column;\n}\n._uploadImg_bsm4g_119 img {\n  width: 100%;\n  height: auto;\n}\n._uploadImgImage_bsm4g_127 {\n  border-style: groove;\n  border-width: thin;\n  padding: 0.5rem;\n}\n._uploadImgConfirm_bsm4g_132 {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 0.5rem;\n}\n";
-  const _tmpl$$3 = /* @__PURE__ */ template(`<title> </title>`, 2), _tmpl$2$3 = /* @__PURE__ */ template(`<style></style>`, 2);
+  const styleCss = "._mainBody_bsm4g_1 {\n  opacity: 0.5;\n}\n._mainBody_bsm4g_1 * {\n  font-size: 0.75rem;\n  margin: 0;\n}\n._mainBody_bsm4g_1 button {\n  cursor: pointer;\n}\n._clickable_bsm4g_11 {\n  cursor: pointer;\n}\n._stateWorkingOn_bsm4g_14 {\n  color: blue;\n}\n._stateSure_bsm4g_17 {\n  color: green;\n}\n._stateNotSure_bsm4g_20 {\n  color: red;\n}\n._answerMsg_bsm4g_23 {\n  border-style: groove;\n  border-width: thin;\n  opacity: 0.75;\n  margin-bottom: 0.5rem;\n}\n._answerMsg_bsm4g_23 ul {\n  padding-left: 1rem;\n}\n._answerMsgName_bsm4g_32 {\n  font-weight: bold;\n}\n._answerMark_bsm4g_35 {\n  display: flex;\n  justify-content: end;\n  align-items: center;\n  border-style: groove;\n  border-width: thin;\n  margin-bottom: 0.5rem;\n  opacity: 0.75;\n}\n._answerMark_bsm4g_35 button {\n  padding: 0;\n  margin-left: 0.5rem;\n  white-space: nowrap;\n}\n._answerMark_bsm4g_35 input {\n  height: max-content;\n  width: 100%;\n}\n._answerDetail_bsm4g_53 ._stateWorkingOn_bsm4g_14,\n._answerDetail_bsm4g_53 ._stateSure_bsm4g_17,\n._answerDetail_bsm4g_53 ._stateNotSure_bsm4g_20 {\n  font-weight: bold;\n}\n._answerDetail_bsm4g_53 ul {\n  padding-left: 1.5rem;\n}\n._answerDetail_bsm4g_53 ul ul {\n  padding-left: 1rem;\n}\n._answerDetail_bsm4g_53 img {\n  height: auto;\n  width: 80%;\n}\n._answerDetailShortAnswer_bsm4g_68 {\n  border-style: groove;\n  border-width: thin;\n  margin: 0.2rem;\n  padding: 0.2rem;\n  min-width: min-content;\n}\n._answerDetailFill_bsm4g_75 {\n  white-space: pre;\n}\n._settings_bsm4g_78 {\n  border-style: groove;\n  border-width: thin;\n  display: flex;\n  flex-direction: column;\n  padding: 0.5rem;\n  margin-bottom: 0.5rem;\n}\n._settingsEntry_bsm4g_86 {\n  display: flex;\n  flex-direction: row;\n  margin-bottom: 0.5rem;\n  justify-content: space-between;\n  align-items: center;\n}\n._settingsEntry_bsm4g_86 label {\n  font-weight: bold;\n}\n._settingsEntry_bsm4g_86 input {\n  height: max-content;\n  text-align: right;\n}\n._settingsSubmit_bsm4g_100 {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: end;\n}\n._settingsSubmitTip_bsm4g_106 {\n  margin-right: 0.5rem;\n}\n._about_bsm4g_109 p {\n  margin-bottom: 0.25rem;\n}\n._about_bsm4g_109 ul {\n  padding-left: 1.5rem;\n  margin-bottom: 0.25rem;\n}\n._about_bsm4g_109 ul li {\n  margin-bottom: 0.25rem;\n}\n._uploadImg_bsm4g_119 {\n  display: flex;\n  flex-direction: column;\n}\n._uploadImg_bsm4g_119 img {\n  width: 100%;\n  height: auto;\n}\n._uploadImgImage_bsm4g_127 {\n  border-style: groove;\n  border-width: thin;\n  padding: 0.5rem;\n}\n._uploadImgConfirm_bsm4g_132 {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 0.5rem;\n}\n";
+  const _tmpl$$3 = /* @__PURE__ */ template(`<title> `), _tmpl$2$3 = /* @__PURE__ */ template(`<style>`);
   function assertIs(ty, value, msg) {
-    assert(value instanceof ty, msg != null ? msg : "not HTMLElement");
+    assert(value instanceof ty, msg ?? "not HTMLElement");
   }
   function assert(value, msg) {
     if (value !== true) {
-      throw Error(msg != null ? msg : "assertion failed");
+      throw Error(msg ?? "assertion failed");
     }
   }
   function tuple(...t) {
@@ -2041,11 +2027,11 @@ ${html}. Is your HTML properly formed?`;
     window.addEventListener("unload", close);
     win.addEventListener("close", () => window.removeEventListener("unload", close));
     render(() => [(() => {
-      const _el$ = _tmpl$$3.cloneNode(true), _el$2 = _el$.firstChild;
+      const _el$ = _tmpl$$3(), _el$2 = _el$.firstChild;
       createRenderEffect(() => _el$2.data = opts.title);
       return _el$;
     })(), (() => {
-      const _el$3 = _tmpl$2$3.cloneNode(true);
+      const _el$3 = _tmpl$2$3();
       _el$3.textContent = styleCss;
       return _el$3;
     })()], win.document.head);
@@ -2058,7 +2044,7 @@ ${html}. Is your HTML properly formed?`;
   }
   function newURL(url, params) {
     const url2 = new URL(url, self.location.origin);
-    for (const [k, v] of Object.entries(params != null ? params : {})) {
+    for (const [k, v] of Object.entries(params ?? {})) {
       url2.searchParams.set(k, v);
     }
     return url2;
@@ -2075,7 +2061,6 @@ ${html}. Is your HTML properly formed?`;
     return val;
   }
   function migrate() {
-    var _a;
     const migrations = [
       {
         name: "202205231915_gm_value",
@@ -2093,7 +2078,7 @@ ${html}. Is your HTML properly formed?`;
         }
       }
     ];
-    const db_migrations = (_a = getValue("migrations")) != null ? _a : [];
+    const db_migrations = getValue("migrations") ?? [];
     for (const { name, idx } of db_migrations) {
       if (!(name === migrations[idx].name)) {
         throw new Error("bad migrations");
@@ -2164,15 +2149,13 @@ ${html}. Is your HTML properly formed?`;
     }
     updateState(id, state) {
       this.updateQueue(id, (v) => {
-        var _a;
-        v.context = (_a = v.context) != null ? _a : {};
+        v.context = v.context ?? {};
         v.context.state = state;
       });
     }
     updateMsg(id, msg) {
       this.updateQueue(id, (v) => {
-        var _a;
-        v.context = (_a = v.context) != null ? _a : {};
+        v.context = v.context ?? {};
         v.context.msg = msg;
       });
     }
@@ -2181,7 +2164,7 @@ ${html}. Is your HTML properly formed?`;
         const timer = setInterval(() => {
           this.sendQueue().catch((e) => {
             clearInterval(timer);
-            alert(`\u4E0E\u670D\u52A1\u5668\u901A\u4FE1\u5F02\u5E38: ${e}`);
+            alert(`与服务器通信异常: ${e}`);
             err(e);
           });
         }, ms);
@@ -2304,7 +2287,7 @@ ${html}. Is your HTML properly formed?`;
   const uploadImg = "_uploadImg_bsm4g_119";
   const uploadImgImage = "_uploadImgImage_bsm4g_127";
   const uploadImgConfirm = "_uploadImgConfirm_bsm4g_132";
-  var style = {
+  const style = {
     mainBody,
     clickable,
     stateWorkingOn,
@@ -2325,7 +2308,7 @@ ${html}. Is your HTML properly formed?`;
     uploadImgImage,
     uploadImgConfirm
   };
-  const _tmpl$$2 = /* @__PURE__ */ template(`<div><fieldset><legend></legend><input type="text" placeholder="\u7559\u8A00"><button type="button">\u6211\u6B63\u5728\u505A</button><button type="button">\u6211\u5F88\u786E\u5B9A</button><button type="button">\u6211\u4E0D\u786E\u5B9A</button></fieldset><div><div></div></div></div>`, 17), _tmpl$2$2 = /* @__PURE__ */ template(`<fieldset><legend> \u7559\u8A00 </legend><ul></ul></fieldset>`, 6), _tmpl$3$1 = /* @__PURE__ */ template(`<li><span></span></li>`, 4), _tmpl$4$1 = /* @__PURE__ */ template(`<ul></ul>`, 2), _tmpl$5 = /* @__PURE__ */ template(`<li></li>`, 2), _tmpl$6 = /* @__PURE__ */ template(`<div><p><strong></strong></p></div>`, 6), _tmpl$7 = /* @__PURE__ */ template(`<div><p><strong></strong></p><ul></ul></div>`, 8), _tmpl$8 = /* @__PURE__ */ template(`<li><p></p></li>`, 4), _tmpl$9 = /* @__PURE__ */ template(`<p><strong></strong></p>`, 4), _tmpl$10 = /* @__PURE__ */ template(`<div></div>`, 2), _tmpl$11 = /* @__PURE__ */ template(`<li><a></a></li>`, 4);
+  const _tmpl$$2 = /* @__PURE__ */ template(`<div><fieldset><legend></legend><input type="text" placeholder="留言"><button type="button">我正在做</button><button type="button">我很确定</button><button type="button">我不确定</button></fieldset><div><div>`), _tmpl$2$2 = /* @__PURE__ */ template(`<fieldset><legend> 留言 </legend><ul>`), _tmpl$3$1 = /* @__PURE__ */ template(`<li><span>`), _tmpl$4$1 = /* @__PURE__ */ template(`<ul>`), _tmpl$5 = /* @__PURE__ */ template(`<li>`), _tmpl$6 = /* @__PURE__ */ template(`<div><p><strong>`), _tmpl$7 = /* @__PURE__ */ template(`<div><p><strong></strong></p><ul>`), _tmpl$8 = /* @__PURE__ */ template(`<li><p>`), _tmpl$9 = /* @__PURE__ */ template(`<p><strong>`), _tmpl$10 = /* @__PURE__ */ template(`<div>`), _tmpl$11 = /* @__PURE__ */ template(`<li><a>`);
   function strCmp(a, b) {
     if (a === b) {
       return 0;
@@ -2399,15 +2382,15 @@ ${html}. Is your HTML properly formed?`;
         itemType.addEventListener("click", () => {
           const rect = itemType == null ? void 0 : itemType.getBoundingClientRect();
           const win = openWin({
-            title: "\u8BE6\u7EC6\u7B54\u6848",
+            title: "详细答案",
             height: 300,
             width: 350,
             top: rect == null ? void 0 : rect.top,
             left: rect == null ? void 0 : rect.left
           });
           render(() => (() => {
-            const _el$ = _tmpl$$2.cloneNode(true), _el$2 = _el$.firstChild, _el$3 = _el$2.firstChild, _el$4 = _el$3.nextSibling, _el$5 = _el$4.nextSibling, _el$6 = _el$5.nextSibling, _el$7 = _el$6.nextSibling, _el$8 = _el$2.nextSibling, _el$9 = _el$8.firstChild;
-            insert(_el$3, () => `\u6CE8\u518C\u4EBA\u6570: ${totalUser(details())}`);
+            const _el$ = _tmpl$$2(), _el$2 = _el$.firstChild, _el$3 = _el$2.firstChild, _el$4 = _el$3.nextSibling, _el$5 = _el$4.nextSibling, _el$6 = _el$5.nextSibling, _el$7 = _el$6.nextSibling, _el$8 = _el$2.nextSibling, _el$9 = _el$8.firstChild;
+            insert(_el$3, () => `注册人数: ${totalUser(details())}`);
             _el$4.addEventListener("change", (ev) => CLIENT.updateMsg(id, ev.currentTarget.value));
             _el$5.addEventListener("click", () => CLIENT.updateState(id, AnswerState.WorkingOn));
             _el$6.addEventListener("click", () => CLIENT.updateState(id, AnswerState.Sure));
@@ -2415,7 +2398,7 @@ ${html}. Is your HTML properly formed?`;
             insert(_el$8, () => Pipe.from(details()).then(sort(cmpNameWithAnswerAndCtx)).then(filterMap(([user, {
               context
             }]) => Pipe.from(context == null ? void 0 : context.state).then(or2(context == null ? void 0 : context.msg)).then(map$1(([state, msg]) => {
-              const m = state === AnswerState.WorkingOn ? msg != null ? msg : "\u6211\u6B63\u5728\u505A" : msg;
+              const m = state === AnswerState.WorkingOn ? msg ?? "我正在做" : msg;
               return m === void 0 || m === "" ? void 0 : tuple(user, state, m);
             })).unwrap())).then(collectArray).then((messages) => createComponent(Show, {
               get when() {
@@ -2423,11 +2406,11 @@ ${html}. Is your HTML properly formed?`;
               },
               get children() {
                 return (() => {
-                  const _el$10 = _tmpl$2$2.cloneNode(true), _el$11 = _el$10.firstChild, _el$12 = _el$11.nextSibling;
+                  const _el$10 = _tmpl$2$2(), _el$11 = _el$10.firstChild, _el$12 = _el$11.nextSibling;
                   insert(_el$12, createComponent(For, {
                     each: messages,
                     children: ([user, state, msg]) => (() => {
-                      const _el$13 = _tmpl$3$1.cloneNode(true), _el$14 = _el$13.firstChild;
+                      const _el$13 = _tmpl$3$1(), _el$14 = _el$13.firstChild;
                       insert(_el$14, `${user}: `);
                       insert(_el$13, msg, null);
                       createRenderEffect((_p$) => {
@@ -2493,13 +2476,13 @@ ${html}. Is your HTML properly formed?`;
     children
   }) {
     return (() => {
-      const _el$15 = _tmpl$4$1.cloneNode(true);
+      const _el$15 = _tmpl$4$1();
       insert(_el$15, createComponent(For, {
         get each() {
           return children.sort(cmpNameWithCtx);
         },
         children: ([user, ctx]) => (() => {
-          const _el$16 = _tmpl$5.cloneNode(true);
+          const _el$16 = _tmpl$5();
           insert(_el$16, user);
           createRenderEffect(() => className(_el$16, stateToClass(ctx == null ? void 0 : ctx.state)));
           return _el$16;
@@ -2516,11 +2499,10 @@ ${html}. Is your HTML properly formed?`;
           answer,
           context
         }]) => {
-          var _a;
           if (answer !== void 0) {
             for (let choice of answer) {
               choice = choiceMap(choice);
-              const users = (_a = choiceToUsers2.get(choice)) != null ? _a : [];
+              const users = choiceToUsers2.get(choice) ?? [];
               users.push([user, context]);
               choiceToUsers2.set(choice, users);
             }
@@ -2535,19 +2517,23 @@ ${html}. Is your HTML properly formed?`;
             (_a = tooltips.get(choice)) == null ? void 0 : _a.setContent(percent(users.length, total));
           })).unwrap();
         });
-        return () => createComponent(For, {
-          get each() {
-            return choiceToUsers();
-          },
-          children: ([choice, users]) => (() => {
-            const _el$17 = _tmpl$6.cloneNode(true), _el$18 = _el$17.firstChild, _el$19 = _el$18.firstChild;
-            insert(_el$19, choice);
-            insert(_el$17, createComponent(Users, {
-              children: users
-            }), null);
-            return _el$17;
-          })()
-        });
+        return () => (
+          // choice
+          // - user
+          createComponent(For, {
+            get each() {
+              return choiceToUsers();
+            },
+            children: ([choice, users]) => (() => {
+              const _el$17 = _tmpl$6(), _el$18 = _el$17.firstChild, _el$19 = _el$18.firstChild;
+              insert(_el$19, choice);
+              insert(_el$17, createComponent(Users, {
+                children: users
+              }), null);
+              return _el$17;
+            })()
+          })
+        );
       });
     }
   }
@@ -2563,15 +2549,15 @@ ${html}. Is your HTML properly formed?`;
             return blankToFillToUsers2;
           }
           return Pipe.from(answer).then(Object.entries).then(fold(blankToFillToUsers2, (blankToFillToUsers3, [blank, fill]) => {
-            var _a, _b;
             fill = fill.trim();
-            const fillToUsers = (_a = blankToFillToUsers3.get(blank)) != null ? _a : /* @__PURE__ */ new Map();
-            const users = (_b = fillToUsers.get(fill)) != null ? _b : [];
+            const fillToUsers = blankToFillToUsers3.get(blank) ?? /* @__PURE__ */ new Map();
+            const users = fillToUsers.get(fill) ?? [];
             users.push([user, context]);
             return blankToFillToUsers3.set(blank, fillToUsers.set(fill, users));
           })).unwrap();
         })).then(map(([blank, fillToUsers]) => tuple(
           blank,
+          // Sory by filled text.
           Pipe.from(fillToUsers).then(sort(cmpByKey)).then(collectArray).unwrap()
         ))).then(sort(cmpByKey)).then(collectArray).unwrap();
         createEffect(() => {
@@ -2583,31 +2569,36 @@ ${html}. Is your HTML properly formed?`;
             (_a = tooltips.get(blank)) == null ? void 0 : _a.setContent(most === void 0 ? "" : `(${percent(most[1], total)}) ${most[0]}`);
           })).unwrap();
         });
-        return () => createComponent(For, {
-          get each() {
-            return blankToFillToUsers();
-          },
-          children: ([blank, fillToUsers]) => (() => {
-            const _el$20 = _tmpl$7.cloneNode(true), _el$21 = _el$20.firstChild, _el$22 = _el$21.firstChild, _el$23 = _el$21.nextSibling;
-            insert(_el$22, `#${blank}`);
-            insert(_el$23, createComponent(For, {
-              each: fillToUsers,
-              children: ([fill, users]) => createComponent(Show, {
-                when: fill !== "",
-                get children() {
-                  const _el$24 = _tmpl$8.cloneNode(true), _el$25 = _el$24.firstChild;
-                  insert(_el$25, fill);
-                  insert(_el$24, createComponent(Users, {
-                    children: users
-                  }), null);
-                  createRenderEffect(() => className(_el$25, style.answerDetailFill));
-                  return _el$24;
-                }
-              })
-            }));
-            return _el$20;
-          })()
-        });
+        return () => (
+          // #blank
+          // - fill
+          //   - user
+          createComponent(For, {
+            get each() {
+              return blankToFillToUsers();
+            },
+            children: ([blank, fillToUsers]) => (() => {
+              const _el$20 = _tmpl$7(), _el$21 = _el$20.firstChild, _el$22 = _el$21.firstChild, _el$23 = _el$21.nextSibling;
+              insert(_el$22, `#${blank}`);
+              insert(_el$23, createComponent(For, {
+                each: fillToUsers,
+                children: ([fill, users]) => createComponent(Show, {
+                  when: fill !== "",
+                  get children() {
+                    const _el$24 = _tmpl$8(), _el$25 = _el$24.firstChild;
+                    insert(_el$25, fill);
+                    insert(_el$24, createComponent(Users, {
+                      children: users
+                    }), null);
+                    createRenderEffect(() => className(_el$25, style.answerDetailFill));
+                    return _el$24;
+                  }
+                })
+              }));
+              return _el$20;
+            })()
+          })
+        );
       });
     }
   }
@@ -2615,60 +2606,74 @@ ${html}. Is your HTML properly formed?`;
     constructor(id, subjectItem) {
       super(id, subjectItem, (details) => {
         const userToAnswers = createMemo(() => Pipe.from(details()).then(sort(cmpNameWithAnswerAndCtx)).then(collectArray).unwrap());
-        return () => createComponent(For, {
-          get each() {
-            return Pipe.from(userToAnswers()).then(filterMap(([user, {
-              answer,
-              context
-            }]) => {
-              var _a;
-              return Pipe.from(answer == null ? void 0 : answer.content).then(or2((_a = answer == null ? void 0 : answer.attachments) == null ? void 0 : _a.filelist)).then(map$1(([c, f]) => tuple(user, c, f, context == null ? void 0 : context.state))).unwrap();
-            })).then(collectArray).unwrap();
-          },
-          children: ([user, content, filelist, state]) => [(() => {
-            const _el$26 = _tmpl$9.cloneNode(true), _el$27 = _el$26.firstChild;
-            insert(_el$27, user);
-            createRenderEffect(() => className(_el$26, stateToClass(state)));
-            return _el$26;
-          })(), createComponent(Show, {
-            when: content,
-            children: (content2) => (() => {
-              const _el$28 = _tmpl$10.cloneNode(true);
-              _el$28.innerHTML = content2;
-              createRenderEffect(() => className(_el$28, style.answerDetailShortAnswer));
-              return _el$28;
-            })()
-          }), createComponent(Show, {
-            when: filelist,
-            children: (filelist2) => (() => {
-              const _el$29 = _tmpl$4$1.cloneNode(true);
-              insert(_el$29, createComponent(For, {
-                each: filelist2,
-                children: ({
-                  fileUrl,
-                  fileName
-                }) => (() => {
-                  const _el$30 = _tmpl$11.cloneNode(true), _el$31 = _el$30.firstChild;
-                  setAttribute(_el$31, "href", fileUrl);
-                  insert(_el$31, fileName);
-                  return _el$30;
-                })()
-              }));
-              return _el$29;
-            })()
-          })]
-        });
+        return () => (
+          // user
+          // <content>
+          // - filelist
+          createComponent(For, {
+            get each() {
+              return Pipe.from(userToAnswers()).then(filterMap(([user, {
+                answer,
+                context
+              }]) => {
+                var _a;
+                return Pipe.from(answer == null ? void 0 : answer.content).then(or2((_a = answer == null ? void 0 : answer.attachments) == null ? void 0 : _a.filelist)).then(map$1(([c, f]) => tuple(user, c, f, context == null ? void 0 : context.state))).unwrap();
+              })).then(collectArray).unwrap();
+            },
+            children: ([user, content, filelist, state]) => [(() => {
+              const _el$26 = _tmpl$9(), _el$27 = _el$26.firstChild;
+              insert(_el$27, user);
+              createRenderEffect(() => className(_el$26, stateToClass(state)));
+              return _el$26;
+            })(), createComponent(Show, {
+              when: content,
+              children: (content2) => (() => {
+                const _el$28 = _tmpl$10();
+                createRenderEffect((_p$) => {
+                  const _v$9 = style.answerDetailShortAnswer, _v$10 = content2();
+                  _v$9 !== _p$._v$9 && className(_el$28, _p$._v$9 = _v$9);
+                  _v$10 !== _p$._v$10 && (_el$28.innerHTML = _p$._v$10 = _v$10);
+                  return _p$;
+                }, {
+                  _v$9: void 0,
+                  _v$10: void 0
+                });
+                return _el$28;
+              })()
+            }), createComponent(Show, {
+              when: filelist,
+              children: (filelist2) => (() => {
+                const _el$29 = _tmpl$4$1();
+                insert(_el$29, createComponent(For, {
+                  get each() {
+                    return filelist2();
+                  },
+                  children: ({
+                    fileUrl,
+                    fileName
+                  }) => (() => {
+                    const _el$30 = _tmpl$11(), _el$31 = _el$30.firstChild;
+                    setAttribute(_el$31, "href", fileUrl);
+                    insert(_el$31, fileName);
+                    return _el$30;
+                  })()
+                }));
+                return _el$29;
+              })()
+            })]
+          })
+        );
       });
     }
   }
-  const _tmpl$$1 = /* @__PURE__ */ template(`<div><label></label><input></div>`, 5), _tmpl$2$1 = /* @__PURE__ */ template(`<div><form><div><p><i> *\u66F4\u6539\u8BBE\u7F6E\u540E\u8BF7\u5237\u65B0\u9875\u9762 </i></p><button type="submit"> \u63D0\u4EA4 </button></div></form><div><p><strong> \u529F\u80FD\u7279\u6027\uFF1A </strong></p><ul></ul></div></div>`, 20), _tmpl$3 = /* @__PURE__ */ template(`<li><strong></strong></li>`, 4), _tmpl$4 = /* @__PURE__ */ template(`<div></div>`, 2);
+  const _tmpl$$1 = /* @__PURE__ */ template(`<div><label></label><input>`), _tmpl$2$1 = /* @__PURE__ */ template(`<div><form><div><p><i> *更改设置后请刷新页面 </i></p><button type="submit"> 提交 </button></div></form><div><p><strong> 功能特性： </strong></p><ul>`), _tmpl$3 = /* @__PURE__ */ template(`<li><strong>`), _tmpl$4 = /* @__PURE__ */ template(`<div>`);
   function Entry(props) {
     const extra = {
       ...props.extra,
       name: props.name
     };
     return (() => {
-      const _el$ = _tmpl$$1.cloneNode(true), _el$2 = _el$.firstChild, _el$3 = _el$2.nextSibling;
+      const _el$ = _tmpl$$1(), _el$2 = _el$.firstChild, _el$3 = _el$2.nextSibling;
       insert(_el$2, () => props.title);
       spread(_el$3, extra, false, false);
       createRenderEffect((_p$) => {
@@ -2692,7 +2697,7 @@ ${html}. Is your HTML properly formed?`;
       return (ev) => form[k] = ev.currentTarget.checked;
     }
     return (() => {
-      const _el$4 = _tmpl$2$1.cloneNode(true), _el$5 = _el$4.firstChild, _el$6 = _el$5.firstChild, _el$7 = _el$6.firstChild, _el$8 = _el$5.nextSibling, _el$9 = _el$8.firstChild, _el$10 = _el$9.nextSibling;
+      const _el$4 = _tmpl$2$1(), _el$5 = _el$4.firstChild, _el$6 = _el$5.firstChild, _el$7 = _el$6.firstChild, _el$8 = _el$5.nextSibling, _el$9 = _el$8.firstChild, _el$10 = _el$9.nextSibling;
       _el$5.addEventListener("submit", (ev) => {
         ev.preventDefault();
         USERNAME.set(form.username);
@@ -2704,12 +2709,12 @@ ${html}. Is your HTML properly formed?`;
       });
       insert(_el$5, createComponent(Entry, {
         name: "username",
-        title: "\u7528\u6237\u540D",
+        title: "用户名",
         get extra() {
           return {
             type: "text",
             pattern: "^[a-z][a-z0-9_]*$",
-            title: "\u5C0F\u5199\u5B57\u6BCD\u3001\u6570\u5B57\u3001\u4E0B\u5212\u7EBF",
+            title: "小写字母、数字、下划线",
             required: true,
             value: USERNAME.get(),
             onChange: setFormValue("username")
@@ -2718,7 +2723,7 @@ ${html}. Is your HTML properly formed?`;
       }), _el$6);
       insert(_el$5, createComponent(Entry, {
         name: "server",
-        title: "\u670D\u52A1\u5668",
+        title: "服务器",
         get extra() {
           return {
             type: "url",
@@ -2730,7 +2735,7 @@ ${html}. Is your HTML properly formed?`;
       }), _el$6);
       insert(_el$5, createComponent(Entry, {
         name: "sync_answers",
-        title: "\u540C\u6B65\u7B54\u6848",
+        title: "同步答案",
         get extra() {
           return {
             type: "checkbox",
@@ -2741,7 +2746,7 @@ ${html}. Is your HTML properly formed?`;
       }), _el$6);
       insert(_el$5, createComponent(Entry, {
         name: "sort_problems",
-        title: "\u6392\u5E8F\u9898\u76EE",
+        title: "排序题目",
         get extra() {
           return {
             type: "checkbox",
@@ -2752,7 +2757,7 @@ ${html}. Is your HTML properly formed?`;
       }), _el$6);
       insert(_el$5, createComponent(Entry, {
         name: "no_leave_check",
-        title: "\u62E6\u622A\u5207\u5C4F\u68C0\u6D4B",
+        title: "拦截切屏检测",
         get extra() {
           return {
             type: "checkbox",
@@ -2761,8 +2766,8 @@ ${html}. Is your HTML properly formed?`;
           };
         }
       }), _el$6);
-      insert(_el$10, () => [["\u540C\u6B65\u7B54\u6848\uFF1A", "\u70B9\u51FB\u9898\u76EE\u663E\u793A\u8BE6\u7EC6\u7B54\u6848\uFF0C\u5728\u9009\u9879/\u586B\u7A7A\u5904\u60AC\u505C\u663E\u793A\u7B80\u7565\u7B54\u6848"], ["\u6392\u5E8F\u9898\u76EE\uFF1A", "\u6839\u636E ID \u5BF9\u9898\u76EE\u548C\u9009\u9879\u8FDB\u884C\u91CD\u65B0\u6392\u5E8F"], ["\u62E6\u622A\u5207\u5C4F\u68C0\u6D4B\uFF1A", "\u968F\u610F\u5207\u6362\u9875\u9762\u3001\u7A97\u53E3\u4E0D\u4F1A\u88AB\u53D1\u73B0"], ["\u62E6\u622A\u4E0A\u4F20\u622A\u56FE\uFF1A", "\u4EC5\u5F53\u7528\u6237\u786E\u8BA4\u540E\uFF0C\u624D\u4F1A\u4E0A\u4F20\u622A\u56FE"], ["\u62E6\u622A\u5F02\u5E38\u72B6\u6001\uFF1A", "\u5373\u4F7F\u672C\u5730\u663E\u793A\u5F02\u5E38\u4E5F\u4E0D\u4F1A\u63A8\u9001\u5230\u670D\u52A1\u5668"]].map(([title, content]) => (() => {
-        const _el$11 = _tmpl$3.cloneNode(true), _el$12 = _el$11.firstChild;
+      insert(_el$10, () => [["同步答案：", "点击题目显示详细答案，在选项/填空处悬停显示简略答案"], ["排序题目：", "根据 ID 对题目和选项进行重新排序"], ["拦截切屏检测：", "随意切换页面、窗口不会被发现"], ["拦截上传截图：", "仅当用户确认后，才会上传截图"], ["拦截异常状态：", "即使本地显示异常也不会推送到服务器"]].map(([title, content]) => (() => {
+        const _el$11 = _tmpl$3(), _el$12 = _el$11.firstChild;
         insert(_el$12, title);
         insert(_el$11, content, null);
         return _el$11;
@@ -2783,12 +2788,12 @@ ${html}. Is your HTML properly formed?`;
   }
   function showSettings() {
     const win = openWin({
-      title: "\u8BBE\u7F6E",
+      title: "设置",
       width: 350,
       height: 300
     });
     render(() => (() => {
-      const _el$13 = _tmpl$4.cloneNode(true);
+      const _el$13 = _tmpl$4();
       insert(_el$13, createComponent(Settings, {
         onSubmit: () => win.close()
       }));
@@ -2796,11 +2801,11 @@ ${html}. Is your HTML properly formed?`;
       return _el$13;
     })(), win.document.body);
   }
-  const _tmpl$ = /* @__PURE__ */ template(`<style></style>`, 2), _tmpl$2 = /* @__PURE__ */ template(`<div><div><button type="button">\u786E\u8BA4\u4E0A\u4F20</button><span><i>*\u5173\u95ED\u7A97\u53E3\u4EE5\u53D6\u6D88\u4E0A\u4F20</i></span></div><div><img></div></div>`, 13);
+  const _tmpl$ = /* @__PURE__ */ template(`<style>`), _tmpl$2 = /* @__PURE__ */ template(`<div><div><button type="button">确认上传</button><span><i>*关闭窗口以取消上传</i></span></div><div><img>`);
   class UI {
     constructor(problems) {
       render(() => (() => {
-        const _el$ = _tmpl$.cloneNode(true);
+        const _el$ = _tmpl$();
         _el$.textContent = styleCss;
         return _el$;
       })(), document.head);
@@ -2817,14 +2822,11 @@ ${html}. Is your HTML properly formed?`;
           case ProblemType.MultipleChoice:
           case ProblemType.Polling:
           case ProblemType.Judgement: {
-            const index2choice = prob.ProblemType === ProblemType.Judgement ? (i) => ["\u6B63\u786E", "\u9519\u8BEF"][i] : (i) => String.fromCharCode(65 + i);
-            const choiceMap = prob.ProblemType === ProblemType.Judgement ? /* @__PURE__ */ new Map([["true", "\u6B63\u786E"], ["false", "\u9519\u8BEF"]]) : Pipe.from(prob.Options).then(expect("no Options")).then(enumerate).then(fold(/* @__PURE__ */ new Map(), (choiceMap2, [idx, {
+            const index2choice = prob.ProblemType === ProblemType.Judgement ? (i) => ["正确", "错误"][i] : (i) => String.fromCharCode(65 + i);
+            const choiceMap = prob.ProblemType === ProblemType.Judgement ? /* @__PURE__ */ new Map([["true", "正确"], ["false", "错误"]]) : Pipe.from(prob.Options).then(expect("no Options")).then(enumerate).then(fold(/* @__PURE__ */ new Map(), (choiceMap2, [idx, {
               key
             }]) => choiceMap2.set(key, String.fromCharCode(65 + idx)))).unwrap();
-            detail = new Choice(prob.ProblemID, subjectItem, index2choice, (s) => {
-              var _a;
-              return (_a = choiceMap.get(s)) != null ? _a : s;
-            });
+            detail = new Choice(prob.ProblemID, subjectItem, index2choice, (s) => choiceMap.get(s) ?? s);
             break;
           }
           case ProblemType.FillBlank:
@@ -2855,12 +2857,12 @@ ${html}. Is your HTML properly formed?`;
   }
   function showConfirmUpload(dataURL, cb) {
     const win = openWin({
-      title: "\u4E0A\u4F20\u56FE\u7247",
+      title: "上传图片",
       width: 400,
       height: 300
     });
     render(() => (() => {
-      const _el$2 = _tmpl$2.cloneNode(true), _el$3 = _el$2.firstChild, _el$4 = _el$3.firstChild, _el$5 = _el$3.nextSibling, _el$6 = _el$5.firstChild;
+      const _el$2 = _tmpl$2(), _el$3 = _el$2.firstChild, _el$4 = _el$3.firstChild, _el$5 = _el$3.nextSibling, _el$6 = _el$5.firstChild;
       _el$4.addEventListener("click", () => {
         win.close();
         cb();
