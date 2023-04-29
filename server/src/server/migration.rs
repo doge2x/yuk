@@ -115,7 +115,7 @@ pub async fn migrate(server: &Server) -> anyhow::Result<()> {
     // Insert applied migrations.
     coll.insert_many(
         migrations
-            .into_iter()
+            .iter()
             .enumerate()
             .skip(db_migrations.len())
             .map(|(idx, m)| DbMigration {

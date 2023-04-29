@@ -61,21 +61,20 @@ impl YukRpcServer for YukServer {
             "login: {}, {}, {}",
             username,
             exam_id,
-            version.as_ref().map(String::as_str).unwrap_or("no_version")
+            version.as_deref().unwrap_or("no_version")
         );
 
         if !USERNAME_RE.is_match(&username) {
-            return Err(jsonrpsee::core::Error::Custom(format!("invalid username")));
+            return Err(jsonrpsee::core::Error::Custom(
+                "invalid username".to_owned(),
+            ));
         }
 
         if let Some(paper) = paper {
             self.server.update_paper(exam_id, paper).await?;
         }
 
-        let msg = if matches!(
-            version.as_ref().map(String::as_str),
-            Some(shadow::PKG_VERSION)
-        ) {
+        let msg = if matches!(version.as_deref(), Some(shadow::PKG_VERSION)) {
             None
         } else {
             Some(format!("[系统通知] 请更新至 v{}", shadow::PKG_VERSION))
