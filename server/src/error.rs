@@ -22,6 +22,14 @@ pub enum Error {
 
 impl From<Error> for jsonrpsee::types::ErrorObjectOwned {
     fn from(value: Error) -> Self {
-        Self::owned(200, value.to_string(), None::<()>)
+        let code = match &value {
+            Error::InvalidName => 1001,
+            Error::InvalidToken => 1002,
+            Error::UndefinedExam(_) => 1002,
+            Error::UndefinedToken(_) => 1002,
+            Error::MongoDb(_) => 1003,
+            Error::AddrParse(_) => unreachable!(),
+        };
+        Self::owned(code, value.to_string(), None::<()>)
     }
 }
